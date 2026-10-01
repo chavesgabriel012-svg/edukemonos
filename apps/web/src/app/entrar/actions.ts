@@ -2,6 +2,7 @@
 
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import { requestOrigin } from "@/lib/origin";
 import { safeNext } from "@/lib/safe-next";
 import { createClient } from "@/lib/supabase/server";
 
@@ -10,8 +11,7 @@ export async function sendMagicLink(formData: FormData) {
   const next = safeNext(formData.get("next"));
   if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) redirect(`/entrar?error=correo&next=${encodeURIComponent(next)}`);
 
-  const h = await headers();
-  const origin = `${h.get("x-forwarded-proto") ?? "https"}://${h.get("x-forwarded-host") ?? h.get("host")}`;
+  const origin = requestOrigin(await headers());
   const supabase = await createClient();
   const { error } = await supabase.auth.signInWithOtp({
     email,

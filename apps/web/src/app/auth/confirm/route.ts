@@ -1,5 +1,6 @@
 import type { EmailOtpType } from "@supabase/supabase-js";
 import { type NextRequest, NextResponse } from "next/server";
+import { requestOrigin } from "@/lib/origin";
 import { safeNext } from "@/lib/safe-next";
 import { createClient } from "@/lib/supabase/server";
 
@@ -23,5 +24,5 @@ export async function GET(request: NextRequest) {
       : { error: new Error("missing code") };
 
   const target = error ? `/entrar?error=enlace&next=${encodeURIComponent(next)}` : next;
-  return NextResponse.redirect(new URL(target, url.origin));
+  return NextResponse.redirect(new URL(target, requestOrigin(request.headers)));
 }
