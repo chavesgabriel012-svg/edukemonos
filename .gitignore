@@ -18,3 +18,4 @@ playwright-report/
 test-results/
 supabase/.temp/
 scripts/ingest/.cache-e2e/
+sql-para-supabase/
