@@ -122,6 +122,7 @@ export async function loadExtraction(
         code: s.code,
         name: s.text,
         description: null,
+        source_page: s.page,
         sort_order: k,
       }));
       await db.insert("skills", skillRows, { returning: false });
