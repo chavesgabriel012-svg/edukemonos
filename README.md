@@ -42,6 +42,7 @@ Todas están documentadas en [`.env.example`](.env.example). Lo importante:
 | `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Cliente de Supabase en el navegador |
 | `SUPABASE_SERVICE_ROLE_KEY` | Solo servidor y scripts. Nunca en el navegador |
 | `AI_PROVIDER` | `anthropic` u `openai` |
+| `ANTHROPIC_API_KEY` | Clave de Anthropic. En sesiones de Claude Code en la nube use `EDUKEMONOS_ANTHROPIC_API_KEY`: la plataforma retira `ANTHROPIC_API_KEY` del entorno |
 | `MODEL_BULK`, `MODEL_TUTOR`, `MODEL_VERIFY` | Identificadores de modelo. **No están en el código**: tómelos de la documentación vigente del proveedor |
 | `AI_PRICES_JSON` | Precios por modelo para estimar costos en `ai_usage` |
 | `RETENTION_DAYS_CHAT` | Retención de transcripciones del tutor (pendiente de revisión legal) |

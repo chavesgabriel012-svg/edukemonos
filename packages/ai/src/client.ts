@@ -60,7 +60,10 @@ export interface DiagnosticRow {
 
 export function createAdapter(config: AIConfig, env: Record<string, string | undefined> = process.env): ProviderAdapter {
   if (config.provider === "anthropic") {
-    return new AnthropicAdapter({ apiKey: env.ANTHROPIC_API_KEY, fallbacks: config.anthropicFallbacks });
+    // Claude Code cloud sessions strip ANTHROPIC_API_KEY from the environment (it is reserved for
+    // the agent's own auth), so scripts run there read the key from EDUKEMONOS_ANTHROPIC_API_KEY.
+    const apiKey = env.ANTHROPIC_API_KEY || env.EDUKEMONOS_ANTHROPIC_API_KEY;
+    return new AnthropicAdapter({ apiKey, fallbacks: config.anthropicFallbacks });
   }
   return new OpenAIAdapter({ apiKey: env.OPENAI_API_KEY });
 }
