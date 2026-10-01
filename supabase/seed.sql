@@ -10,8 +10,8 @@ insert into public.grades (id, cycle_id, name, sort) values
 on conflict (id) do update set cycle_id = excluded.cycle_id, name = excluded.name, sort = excluded.sort;
 
 -- Order = SPEC §16 subject priority. `available` flips to true when content is published.
--- 'civica': the formal-education subject is "Educación Cívica"; DGEC (Educación Abierta)
--- calls it "Formación Ciudadana". Display name pending the founder's decision (PLAN.md Q2).
+-- III Ciclo: Estudios Sociales and Educación Cívica are separate subjects (confirmed by the
+-- founder 2026-10-01). In I/II Ciclo they are one combined program; add it as its own row then.
 insert into public.subjects (id, name, sort, available) values
   ('espanol', 'Español', 1, false),
   ('matematicas', 'Matemáticas', 2, false),
