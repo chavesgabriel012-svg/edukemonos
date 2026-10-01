@@ -2,7 +2,9 @@
   "name": "edukemonos",
   "private": true,
   "packageManager": "pnpm@10.28.0",
-  "engines": { "node": ">=20" },
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "dev": "pnpm --filter web dev",
     "build": "pnpm --filter web build",
@@ -11,5 +13,8 @@
     "test": "pnpm -r --if-present test",
     "test:rls": "pnpm --filter @edukemonos/db-tests test",
     "sources:verify": "pnpm --filter @edukemonos/ingest verify"
+  },
+  "devDependencies": {
+    "supabase": "2.119.0"
   }
 }
