@@ -7,7 +7,7 @@ const base = { AI_PROVIDER: "anthropic", MODEL_BULK: "m-bulk", MODEL_TUTOR: "m-t
 describe("loadAIConfig", () => {
   it("reads models only from env", () => {
     const c = loadAIConfig(base);
-    expect(c.models).toEqual({ bulk: "m-bulk", tutor: "m-tutor", verify: "m-verify" });
+    expect(c.models).toEqual({ bulk: ["m-bulk"], tutor: ["m-tutor"], verify: ["m-verify"] });
     expect(c.anthropicFallbacks).toBeNull();
   });
 

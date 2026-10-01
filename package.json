@@ -12,7 +12,8 @@
     "typecheck": "pnpm -r --if-present typecheck",
     "test": "pnpm -r --if-present test",
     "test:rls": "pnpm --filter @edukemonos/db-tests test",
-    "sources:verify": "pnpm --filter @edukemonos/ingest verify"
+    "sources:verify": "pnpm --filter @edukemonos/ingest verify",
+    "ai:diagnose": "pnpm --filter @edukemonos/ai diagnose"
   },
   "devDependencies": {
     "supabase": "2.119.0"

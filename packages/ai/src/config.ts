@@ -7,18 +7,28 @@ export interface ModelPrice {
   output: number;
 }
 
+export interface AIBudget {
+  /** USD per calendar day (Costa Rica time). null = no daily fuse. */
+  dailyUsd: number | null;
+  /** USD per calendar month (Costa Rica time). null = no monthly fuse. */
+  monthlyUsd: number | null;
+}
+
 export interface AIConfig {
   provider: ProviderName;
-  models: Record<ModelRole, string>;
+  /** Ordered model chain per role: the first that answers wins (Pulserival pattern). */
+  models: Record<ModelRole, string[]>;
   embedModel: string | null;
   effort: Partial<Record<ModelRole, Effort>>;
   /** Anthropic only: server-side refusal fallback mode ("default"), or null to disable. */
   anthropicFallbacks: "default" | null;
-  /** Prices for cost estimates, keyed by model id. Unknown models log cost as null. */
+  /** Prices for cost estimates, keyed by model id. */
   prices: Record<string, ModelPrice>;
+  budget: AIBudget;
 }
 
 const EFFORTS: readonly Effort[] = ["low", "medium", "high", "xhigh", "max"];
+const ROLES: readonly ModelRole[] = ["bulk", "tutor", "verify"];
 
 type Env = Record<string, string | undefined>;
 
@@ -28,6 +38,16 @@ function required(env: Env, key: string): string {
   return value;
 }
 
+/** "a, b" -> ["a", "b"]. Order matters: it is the fallback order. */
+function modelChain(env: Env, key: string): string[] {
+  const chain = required(env, key)
+    .split(",")
+    .map((m) => m.trim())
+    .filter(Boolean);
+  if (new Set(chain).size !== chain.length) throw new AIConfigError(`${key} lists a model twice`);
+  return chain;
+}
+
 function effortFrom(env: Env, key: string): Effort | undefined {
   const value = env[key]?.trim();
   if (!value) return undefined;
@@ -35,6 +55,14 @@ function effortFrom(env: Env, key: string): Effort | undefined {
     throw new AIConfigError(`${key} must be one of ${EFFORTS.join(", ")}`);
   }
   return value as Effort;
+}
+
+function usdFrom(env: Env, key: string): number | null {
+  const value = env[key]?.trim();
+  if (!value) return null;
+  const n = Number(value);
+  if (!Number.isFinite(n) || n <= 0) throw new AIConfigError(`${key} must be a positive number of USD`);
+  return n;
 }
 
 /**
@@ -61,12 +89,12 @@ export function loadAIConfig(env: Env = process.env): AIConfig {
     throw new AIConfigError(`ANTHROPIC_FALLBACKS must be "default" or "off"`);
   }
 
-  return {
+  const config: AIConfig = {
     provider,
     models: {
-      bulk: required(env, "MODEL_BULK"),
-      tutor: required(env, "MODEL_TUTOR"),
-      verify: required(env, "MODEL_VERIFY"),
+      bulk: modelChain(env, "MODEL_BULK"),
+      tutor: modelChain(env, "MODEL_TUTOR"),
+      verify: modelChain(env, "MODEL_VERIFY"),
     },
     embedModel: env.MODEL_EMBED?.trim() || null,
     effort: {
@@ -76,7 +104,29 @@ export function loadAIConfig(env: Env = process.env): AIConfig {
     },
     anthropicFallbacks: fallbacks === "default" ? "default" : null,
     prices,
+    budget: {
+      dailyUsd: usdFrom(env, "AI_BUDGET_DAILY_USD"),
+      monthlyUsd: usdFrom(env, "AI_BUDGET_MONTHLY_USD"),
+    },
   };
+  assertPricesCoverModels(config);
+  return config;
+}
+
+/**
+ * With a spend fuse configured, every model must have a price. A model without one would be
+ * logged at $0 and the fuse would never trip (lesson learned in Pulserival).
+ */
+export function assertPricesCoverModels(config: AIConfig): void {
+  if (config.budget.dailyUsd == null && config.budget.monthlyUsd == null) return;
+  const models = new Set(ROLES.flatMap((r) => config.models[r]));
+  if (config.embedModel) models.add(config.embedModel);
+  const missing = [...models].filter((m) => !config.prices[m]);
+  if (missing.length) {
+    throw new AIConfigError(
+      `AI_PRICES_JSON has no price for ${missing.join(", ")}; the spend fuse would be blind to them`,
+    );
+  }
 }
 
 export function estimateCostUsd(

@@ -313,6 +313,14 @@ describe("reports, analytics and quotas", () => {
     }
   });
 
+  it("AI spend totals are server-only", async () => {
+    await expectDenied(db, s1, `select * from public.ai_spend_usd_since(now() - interval '1 day')`, [], /permission denied/);
+    await expectDenied(db, t1, `select * from public.ai_spend_usd_since(now() - interval '1 day')`, [], /permission denied/);
+    const rows = await as<{ spent_usd: string; unpriced_calls: string }>(db, service, `select * from public.ai_spend_usd_since(now() - interval '1 day')`);
+    // The fixture's single ai_usage row has no cost: it is reported as an unpriced call.
+    expect(rows).toEqual([{ spent_usd: "0", unpriced_calls: "1" }]);
+  });
+
   it("retention purge is server-only", async () => {
     await expectDenied(db, s1, `select public.purge_expired_tutor_messages(30)`, [], /permission denied/);
     expect(await as(db, service, `select public.purge_expired_tutor_messages(30) as n`)).toEqual([{ n: 0 }]);

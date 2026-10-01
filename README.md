@@ -109,5 +109,8 @@ const { data } = await ai.generateStructured(
 ```
 
 - Cambiar de proveedor = cambiar `AI_PROVIDER` y los `MODEL_*`.
+- Cada `MODEL_*` acepta una **cadena de respaldo** (`MODEL_TUTOR=claude-haiku-4-5,claude-sonnet-5-5`): si un modelo falla, se usa el siguiente, salvo que haya **rechazado** el pedido (eso se respeta). Cada intento fallido queda en `ai_usage`.
+- **Fusible de gasto:** `AI_BUDGET_DAILY_USD` y `AI_BUDGET_MONTHLY_USD` (día y mes de Costa Rica). Antes de cada llamada se suma `ai_usage`; al llegar al tope no se llama a la IA. Si el gasto no se puede leer, la llamada se rechaza. Con tope configurado, todo modelo debe tener precio en `AI_PRICES_JSON` o la app no arranca.
+- **Diagnóstico:** `pnpm ai:diagnose` prueba cada modelo configurado con una llamada mínima y muestra el gasto de hoy y del mes.
 - Cada llamada registra tokens, costo estimado y latencia; nunca el texto ni nombres.
 - Los prompts viven en `packages/ai/src/prompts/` con id y versión, que se guardan junto al contenido generado.

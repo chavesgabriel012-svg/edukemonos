@@ -386,6 +386,14 @@ const PARAMS = {
       tutorThinkingMultiplier: 1, // ASSUMPTION
       note: "Solo referencia: los términos de la Gemini API prohíben apps para menores de 18",
     },
+    R: {
+      label: "R elegida (Haiku + Sonnet)",
+      tutor: "claude-haiku-4-5",
+      bulk: "claude-sonnet-5-5",
+      verify: "claude-sonnet-5-5",
+      tutorThinkingMultiplier: 0,
+      note: "Decisión del fundador (1 oct 2026): Haiku 4.5 tutor, Sonnet 5.5 genera y verifica",
+    },
     H: {
       label: "H Groq gpt-oss-120b",
       tutor: "groq/openai/gpt-oss-120b",
@@ -836,7 +844,8 @@ function main(p: Params): void {
   out.push(table(["Mezcla · uso", ...p.scaleStudents.flatMap((n) => [`${int(n)} / mes`, `${int(n)} / año`])], rows7));
 
   h("8. Costo único de generación de contenido (Español + Matemáticas 7.º–9.º, USD)");
-  for (const mk of ["A"]) {
+  for (const mk of ["A", "R"]) {
+    out.push(`\n**Mezcla ${mixes[mk].label}**\n`);
     const mix = mixes[mk];
     const std = oneOff(p, mix, L, false);
     const bat = oneOff(p, mix, L, true);

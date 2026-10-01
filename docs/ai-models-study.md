@@ -4,6 +4,8 @@
 > Los costos por estudiante usan los mismos **supuestos de uso** que [`docs/ai-costs.md`](ai-costs.md) (uso "típico": 8 días al mes, unos 80 mensajes al tutor, con caché de prompts). Son estimaciones, no mediciones.
 > Recalcular: `node scripts/cost/estimate.ts`.
 
+> **Decisión del fundador (1 oct 2026):** Haiku 4.5 como tutor y Sonnet 5.5 para generar y verificar; se arranca con US$10 prepagados y se ajusta con datos reales de `ai_usage`.
+
 ## 1. Resumen
 
 1. **El tutor es más del 90 % del costo**, así que la decisión importante es qué modelo atiende el chat. Generar y verificar contenido es un gasto único y pequeño (≈ US$150 para Español y Matemáticas 7.º–9.º).

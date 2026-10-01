@@ -14,6 +14,7 @@ export type Purpose =
   | "verify_item"
   | "teacher_summary"
   | "eval"
+  | "diagnostic"
   | "other";
 
 export type Effort = "low" | "medium" | "high" | "xhigh" | "max";
@@ -122,4 +123,24 @@ export class AIRefusalError extends Error {
 /** The model returned output that does not match the requested schema. */
 export class AIOutputError extends Error {
   override name = "AIOutputError";
+}
+
+/** Every model in the role's chain failed. Callers degrade gracefully (e.g. "pregúntale a tu docente"). */
+export class AIUnavailableError extends Error {
+  override name = "AIUnavailableError";
+  constructor(readonly attempts: { model: string; error: string }[]) {
+    super(`No model could answer: ${attempts.map((a) => `${a.model}: ${a.error}`).join(" | ")}`);
+  }
+}
+
+/** The daily or monthly spend fuse tripped. No AI call is made until the window resets. */
+export class AIBudgetExceededError extends Error {
+  override name = "AIBudgetExceededError";
+  constructor(
+    readonly window: "day" | "month",
+    readonly spentUsd: number,
+    readonly limitUsd: number,
+  ) {
+    super(`AI ${window} budget reached: $${spentUsd.toFixed(4)} of $${limitUsd.toFixed(2)}`);
+  }
 }
