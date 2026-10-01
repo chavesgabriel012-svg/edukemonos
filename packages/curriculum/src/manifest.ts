@@ -4,16 +4,21 @@ import { z } from "zod";
 export const SUBJECT_IDS = ["espanol", "matematicas", "ciencias", "estudios_sociales", "ingles", "civica"] as const;
 export type SubjectId = (typeof SUBJECT_IDS)[number];
 
-export const SOURCE_KINDS = ["program", "spec_table", "practice"] as const;
+/**
+ * Only official study programs (formal education) are curriculum sources. Educación Abierta
+ * (DGEC) specification tables and practice tests were dropped by the founder on 2026-10-01.
+ */
+export const SOURCE_KINDS = ["program"] as const;
 export type SourceKind = (typeof SOURCE_KINDS)[number];
 
 /** Manifest kinds use the Spanish names from the SPEC; DB enum uses English. */
-const manifestKind = z.enum(["programa", "tabla_especificaciones", "practica"]);
+const manifestKind = z.enum(["programa"]);
 export const KIND_TO_DB: Record<z.infer<typeof manifestKind>, SourceKind> = {
   programa: "program",
-  tabla_especificaciones: "spec_table",
-  practica: "practice",
 };
+
+/** The only host curriculum documents may come from. */
+export const OFFICIAL_SOURCE_HOST = "www.mep.go.cr";
 
 /** Inclusive 1-indexed PDF page range; `null` end = not mapped yet. */
 const pageRange = z.tuple([z.number().int().positive(), z.number().int().positive().nullable()]);
@@ -31,7 +36,9 @@ export const sourceEntrySchema = z.object({
   grades: z.array(z.number().int().min(1).max(12)).min(1),
   title: z.string().min(1),
   version: z.string(),
-  url: z.url(),
+  url: z.url().refine((u) => new URL(u).hostname === OFFICIAL_SOURCE_HOST, {
+    message: `sources must be hosted on ${OFFICIAL_SOURCE_HOST}`,
+  }),
   landingPage: z.url(),
   pdfPages: z.number().int().positive(),
   bytes: z.number().int().positive(),

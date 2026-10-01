@@ -14,7 +14,7 @@ Plataforma educativa abierta con IA para estudiantes de colegio público en Cost
 apps/web               Next.js 16 (App Router, TS), Tailwind v4 + shadcn/ui
 packages/ai            Capa de IA intercambiable (Anthropic / OpenAI), registro de uso, prompts versionados
 packages/curriculum    Tipos y esquema del manifiesto de fuentes
-scripts/ingest         Fuentes oficiales: manifiesto (sources.json), descarga respetuosa, verificación
+scripts/ingest         Programas de estudio oficiales del MEP: manifiesto (sources.json), descarga respetuosa, verificación
 supabase/migrations    Esquema, funciones y RLS
 supabase/tests         Pruebas de RLS contra Postgres (intentan romper cada política)
 config/                help-resources.json (lo completa el fundador con números verificados)
@@ -91,7 +91,7 @@ Variables de entorno: las de `.env.example` (las de Supabase e IA son necesarias
 ## Fuentes oficiales
 
 ```bash
-pnpm sources:verify   # comprueba que las 30 fuentes del manifiesto siguen disponibles
+pnpm sources:verify   # comprueba que los 6 programas del manifiesto siguen disponibles
 ```
 
 El cliente respeta `robots.txt`, se identifica y espera ~2,5 s entre peticiones al mismo dominio. La ingesta y publicación de contenido (Fase 1) se documentará aquí cuando exista.

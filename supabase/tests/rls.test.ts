@@ -229,6 +229,11 @@ describe("curriculum and content", () => {
     expect(count(await as(db, reviewer, `select id from public.curriculum_units`))).toBe(2);
   });
 
+  it("only accepts official MEP study programs as curriculum sources", async () => {
+    await expectDenied(db, service, `insert into public.curriculum_sources (source_key, kind, subject_id, cycle_id, title, url) values ('t1', 'spec_table', 'matematicas', 'III', 'x', 'https://www.mep.go.cr/x.pdf')`, [], /curriculum_sources_programs_only/);
+    await expectDenied(db, service, `insert into public.curriculum_sources (source_key, kind, subject_id, cycle_id, title, url) values ('t2', 'program', 'matematicas', 'III', 'x', 'https://dgec.mep.go.cr/x.pdf')`, [], /curriculum_sources_programs_only/);
+  });
+
   it("only admins delete units", async () => {
     expect(await as(db, reviewer, `delete from public.curriculum_units where id = $1 returning id`, [ids.unitDraft])).toEqual([]);
   });

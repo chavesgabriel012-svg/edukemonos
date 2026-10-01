@@ -32,7 +32,7 @@ describe("robots.txt handling", () => {
 
   it("only applies the * group and lets the longest match win", () => {
     const rules = parseRobots(other);
-    expect(isAllowed(rules, "/wp-content/uploads/2026/07/Practica.pdf")).toBe(true);
+    expect(isAllowed(rules, "/wp-content/uploads/2026/07/document.pdf")).toBe(true);
     expect(isAllowed(rules, "/wp-admin/options.php")).toBe(false);
     expect(isAllowed(rules, "/wp-admin/admin-ajax.php")).toBe(true);
   });

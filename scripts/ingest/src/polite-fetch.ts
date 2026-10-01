@@ -9,7 +9,7 @@ export interface RobotsRules {
   allow: string[];
 }
 
-/** Parses the `User-agent: *` group of a robots.txt (enough for the MEP/DGEC files). */
+/** Parses the `User-agent: *` group of a robots.txt (enough for the MEP files). */
 export function parseRobots(text: string): RobotsRules {
   const rules: RobotsRules = { disallow: [], allow: [] };
   let inStarGroup = false;

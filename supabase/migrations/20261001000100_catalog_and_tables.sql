@@ -210,7 +210,7 @@ create table public.items (
   prompt_id text,
   prompt_version text,
   created_at timestamptz not null default now(),
-  -- Default format: stem + four options, exactly one correct (MEP Educación Abierta 2026).
+  -- Default format: stem + four options, exactly one correct (product decision, SPEC §8).
   constraint single_choice_shape check (
     kind <> 'single_choice'
     or (cardinality(options) = 4 and correct_index between 0 and 3)
