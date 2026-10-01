@@ -51,6 +51,25 @@ describe("createAI", () => {
     expect(JSON.stringify(records[0])).not.toContain("secreto");
   });
 
+  it("prices a dated served model id with the configured model's price", async () => {
+    // Anthropic answers a "claude-haiku-4-5" request as "claude-haiku-4-5-20251001".
+    const records: UsageRecord[] = [];
+    const dated = fakeAdapter({
+      generateText: vi.fn(async () => ({ text: "ok", usage: { inputTokens: 1_000_000, outputTokens: 0 }, model: "m-tutor-20251001" })),
+      async *streamChat() {
+        yield { type: "done", usage: { inputTokens: 1_000_000, outputTokens: 0 }, model: "m-tutor-20251001", stopReason: "end_turn" };
+      },
+    });
+    const ai = createAI({ config, adapter: dated, sink: (r) => void records.push(r) });
+    await ai.generateText({ role: "tutor", purpose: "tutor" }, { messages: [] });
+    for await (const _ of ai.streamChat({ role: "tutor", purpose: "tutor" }, { messages: [] })) void _;
+    await ai.diagnose();
+    // generateText, streamChat and the tutor diagnostic, in that order: all priced as m-tutor.
+    expect(records.slice(0, 3).map((r) => [r.model, r.costUsdEstimate])).toEqual(Array(3).fill(["m-tutor-20251001", 1]));
+    // The bulk diagnostic asked for m-bulk, which has no price: still null, not borrowed from elsewhere.
+    expect(records[3]).toMatchObject({ purpose: "diagnostic", costUsdEstimate: null });
+  });
+
   it("logs failures and rethrows", async () => {
     const records: UsageRecord[] = [];
     const adapter = fakeAdapter({ generateText: vi.fn(async () => { throw new Error("boom"); }) });
