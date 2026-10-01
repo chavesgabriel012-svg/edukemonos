@@ -1,0 +1,15 @@
+{
+  "name": "edukemonos",
+  "private": true,
+  "packageManager": "pnpm@10.28.0",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "dev": "pnpm --filter web dev",
+    "build": "pnpm --filter web build",
+    "lint": "pnpm -r --if-present lint",
+    "typecheck": "pnpm -r --if-present typecheck",
+    "test": "pnpm -r --if-present test",
+    "test:rls": "pnpm --filter @edukemonos/db-tests test",
+    "sources:verify": "pnpm --filter @edukemonos/ingest verify"
+  }
+}
