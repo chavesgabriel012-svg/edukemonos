@@ -1,0 +1,11 @@
+{
+  "$comment": "Help resources the tutor may suggest when a student shows signs of serious distress or risk (SPEC §4.6). Only 911 is pre-filled. The founder adds the other entries with VERIFIED numbers; nothing else may be added without verification.",
+  "verified": false,
+  "emergency": {
+    "name": "Emergencias",
+    "phone": "911",
+    "description": "Si estás en peligro o alguien corre peligro ahora mismo."
+  },
+  "resources": [],
+  "trustedAdultMessage": "Habla con una persona adulta de confianza: alguien de tu familia, tu docente u orientador(a) del colegio."
+}
