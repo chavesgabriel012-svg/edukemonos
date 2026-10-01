@@ -96,7 +96,12 @@ export function createAI(options: CreateAIOptions = {}) {
   }
   const budget = options.budget ?? null;
 
-  async function log(ctx: CallContext, model: string, started: number, usage: Usage | null, error: unknown) {
+  /**
+   * `model` is what the provider says served the call (e.g. "claude-haiku-4-5-20251001"), which may
+   * not be a key of AI_PRICES_JSON; `requested` is the configured id, priced by config validation.
+   * Pricing falls back to it so a dated id never logs a null cost the spending fuse can't see.
+   */
+  async function log(ctx: CallContext, model: string, started: number, usage: Usage | null, error: unknown, requested = model) {
     if (!sink) return;
     const record: UsageRecord = {
       provider: adapter.name,
@@ -104,7 +109,10 @@ export function createAI(options: CreateAIOptions = {}) {
       purpose: ctx.purpose,
       inputTokens: usage?.inputTokens ?? null,
       outputTokens: usage?.outputTokens ?? null,
-      costUsdEstimate: usage ? estimateCostUsd(config.prices, model, usage.inputTokens, usage.outputTokens) : null,
+      costUsdEstimate: usage
+        ? (estimateCostUsd(config.prices, model, usage.inputTokens, usage.outputTokens) ??
+          estimateCostUsd(config.prices, requested, usage.inputTokens, usage.outputTokens))
+        : null,
       latencyMs: Math.round(performance.now() - started),
       success: error == null,
       error: error == null ? null : errorText(error),
@@ -145,7 +153,7 @@ export function createAI(options: CreateAIOptions = {}) {
       const started = performance.now();
       try {
         const result = await call(model);
-        await log(ctx, result.model, started, result.usage, null);
+        await log(ctx, result.model, started, result.usage, null, model);
         return result;
       } catch (error) {
         await log(ctx, model, started, null, error);
@@ -189,7 +197,7 @@ export function createAI(options: CreateAIOptions = {}) {
         try {
           const req = { ...request(ctx, input, model), tools: input.tools, maxToolRounds: input.maxToolRounds };
           for await (const event of adapter.streamChat(req)) {
-            if (event.type === "done") await log(ctx, event.model, started, event.usage, null);
+            if (event.type === "done") await log(ctx, event.model, started, event.usage, null, model);
             emitted = true;
             yield event;
           }
@@ -240,7 +248,7 @@ export function createAI(options: CreateAIOptions = {}) {
               messages: [{ role: "user", content: "Responde solo: ok" }],
               maxTokens: 64,
             });
-            await log({ role, purpose: "diagnostic" }, r.model, started, r.usage, null);
+            await log({ role, purpose: "diagnostic" }, r.model, started, r.usage, null, model);
             rows.push({ ...base, status: "ok", detail: `respondió (${r.usage.outputTokens} tokens de salida)` });
           } catch (error) {
             await log({ role, purpose: "diagnostic" }, model, started, null, error);
