@@ -59,7 +59,8 @@ function textOf(message: BetaMessage): string {
 
 function assertNotRefused(message: BetaMessage): void {
   if (message.stop_reason === "refusal") {
-    throw new AIRefusalError("The model declined this request.", message.stop_details?.category ?? null);
+    const category = message.stop_details?.category ?? null;
+    throw new AIRefusalError(`The model declined this request${category ? ` (${category})` : ""}.`, category);
   }
 }
 

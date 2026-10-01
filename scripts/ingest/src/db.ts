@@ -6,6 +6,7 @@ export interface Db {
   select<T>(table: string, query: string): Promise<T[]>;
   insert<T>(table: string, rows: object[], opts?: { upsertOn?: string; returning?: boolean }): Promise<T[]>;
   delete(table: string, query: string): Promise<number>;
+  update(table: string, query: string, patch: object): Promise<number>;
   upload(bucket: string, path: string, body: Buffer, contentType: string): Promise<void>;
 }
 
@@ -40,6 +41,17 @@ export function createDb(url: string, serviceRoleKey: string, fetchImpl: typeof 
       const res = await check(
         await fetchImpl(`${base}/rest/v1/${table}?${query}`, { method: "DELETE", headers: { ...auth, prefer: "return=representation" } }),
         `delete ${table}`,
+      );
+      return ((await res.json()) as unknown[]).length;
+    },
+    async update(table, query, patch) {
+      const res = await check(
+        await fetchImpl(`${base}/rest/v1/${table}?${query}`, {
+          method: "PATCH",
+          headers: { ...auth, "content-type": "application/json", prefer: "return=representation" },
+          body: JSON.stringify(patch),
+        }),
+        `update ${table}`,
       );
       return ((await res.json()) as unknown[]).length;
     },

@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
-import { appearsVerbatim, type ExtractedUnit, normalizeForMatch, verifyUnits } from "../src";
+import { appearsVerbatim, type ExtractedUnit, normalizeForMatch, skillsFromOutcomes, verifyUnits } from "../src";
 
 // Two pages of the official MEP Mathematics program (pp. 276–277, 7.º año, Números) as produced by
 // `pdftotext` in its default mode. Kept short and only for testing the verbatim checks.
@@ -57,5 +57,38 @@ describe("verifyUnits against real program pages", () => {
 
   it("rejects a term the document does not support", () => {
     expect(verifyUnits([unit({ term: 4 })], pages).map((i) => i.field)).toEqual(["term"]);
+  });
+});
+
+describe("skillsFromOutcomes", () => {
+  const pages = new Map([
+    [42, "1. Distinguir el uso de la tilde diacrítica en los monosílabos.\n2. Otro texto."],
+    [43, "3. Describir los usos de la “v” y “b”, así como los homófonos más utilizados."],
+  ]);
+  const unit = {
+    title: "Ortografía",
+    area: null,
+    term: null,
+    contents: [],
+    learning_outcomes: [
+      "Distinguir el uso de la tilde diacrítica en los monosílabos.",
+      "Describir los usos de la “v” y “b”, así como los homófonos más utilizados.",
+      "Un criterio que no está en el programa.",
+    ],
+    skills: [],
+    source_page: 42,
+    source_excerpt: "Distinguir el uso de la tilde",
+  };
+
+  it("turns verbatim criteria into skills with the page where each one appears, skipping the rest", () => {
+    expect(skillsFromOutcomes(unit, pages)).toEqual([
+      { code: null, text: unit.learning_outcomes[0], page: 42 },
+      { code: null, text: unit.learning_outcomes[1], page: 43 },
+    ]);
+  });
+
+  it("keeps the extracted skills when there are any", () => {
+    const skills = [{ code: "1", text: "Calcular", page: 42 }];
+    expect(skillsFromOutcomes({ ...unit, skills }, pages)).toBe(skills);
   });
 });

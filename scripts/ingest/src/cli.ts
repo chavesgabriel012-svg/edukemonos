@@ -16,16 +16,9 @@ import { randomUUID } from "node:crypto";
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { parseArgs } from "node:util";
-import {
-  createAI,
-  createBudgetGuard,
-  estimateCostUsd,
-  loadAIConfig,
-  supabaseRest,
-  supabaseSpendSource,
-  supabaseUsageSink,
-} from "@edukemonos/ai";
+import { estimateCostUsd, loadAIConfig } from "@edukemonos/ai";
 import { chunksForGrade, manifestSchema, pagesForGrade, type SourceEntry } from "@edukemonos/curriculum";
+import { scriptAI } from "./ai";
 import { pageCoverage } from "./coverage";
 import { dbFromEnv } from "./db";
 import { downloadSource } from "./download";
@@ -97,16 +90,7 @@ async function structure(entry: SourceEntry, g: number) {
     console.log("No se llamó a la IA. Repite con --yes para ejecutar.");
     return null;
   }
-  const db = dbFromEnv();
-  const config = loadAIConfig();
-  const hasFuse = config.budget.dailyUsd != null || config.budget.monthlyUsd != null;
-  if (hasFuse && !db) throw new Error("The spend fuse is configured but Supabase is not: refusing to spend blind.");
-  const rest = db ? supabaseRest(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!) : null;
-  const ai = createAI({
-    config,
-    sink: rest ? supabaseUsageSink(rest) : undefined,
-    budget: rest ? createBudgetGuard(config.budget, supabaseSpendSource(rest)) : null,
-  });
+  const ai = scriptAI(dbFromEnv());
   const result = await structureGrade(ai, entry, g, texts, {
     onChunk: (r) =>
       console.log(`  ${r.chunk.label} (págs. ${r.chunk.from}–${r.chunk.to}): ${r.units.length} unidades, ${r.issues.length} problemas de verificación`),
@@ -125,6 +109,7 @@ async function load(entry: SourceEntry, g: number) {
   const summary = await loadExtraction(db, entry, sourceDbId, readExtraction(entry.id, g), {
     runId: randomUUID(),
     allowAlongsideReviewed: values["alongside-reviewed"],
+    texts,
   });
   console.log(
     `Cargado como borrador: ${summary.units} unidades, ${summary.skills} habilidades ` +

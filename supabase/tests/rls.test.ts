@@ -222,6 +222,17 @@ describe("curriculum and content", () => {
     await expectDenied(db, s1, `select explanation from public.items`, [], /permission denied/);
   });
 
+  it("gives answer keys only to reviewers, through review_items()", async () => {
+    await expectDenied(db, s1, `select * from public.review_items($1)`, [ids.unitPublished], /only reviewers/);
+    await expectDenied(db, t1, `select * from public.review_items($1)`, [ids.unitPublished], /only reviewers/);
+    await expectDenied(db, anon, `select * from public.review_items($1)`, [ids.unitPublished], /permission denied/);
+    const rows = await as<{ id: string; correct_index: number }>(
+      db, reviewer, `select id, correct_index from public.review_items($1) order by id`, [ids.unitPublished],
+    );
+    expect(rows.map((r) => r.id)).toContain(ids.itemVerified);
+    expect(rows.every((r) => typeof r.correct_index === "number")).toBe(true);
+  });
+
   it("only reviewers/admins write curriculum content", async () => {
     expect(await as(db, t1, `update public.curriculum_units set status = 'published' where id = $1 returning id`, [ids.unitDraft])).toEqual([]);
     await expectDenied(db, s1, `insert into public.materials (unit_id, kind, content, status) values ($1, 'summary', 'falso', 'published')`, [ids.unitPublished], /row-level security/);
