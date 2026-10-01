@@ -72,6 +72,22 @@ Puntos de diseño:
 - Las respuestas correctas de los ítems **no son legibles por la API**; se califican en el servidor con `submit_attempt()`.
 - Los docentes ven el **tema** de las sesiones del tutor, nunca la transcripción.
 
+## Despliegue (Vercel)
+
+La app vive en `apps/web` dentro de un monorepo pnpm. En **Project Settings → Build and Deployment**:
+
+| Ajuste | Valor |
+|---|---|
+| Root Directory | `apps/web` |
+| Include files outside the root directory | Activado (por defecto) — necesario para el workspace |
+| Framework Preset | Next.js (se detecta solo con el Root Directory correcto) |
+| Install / Build / Output | Sin override |
+| Node.js Version | 22.x |
+
+Si Root Directory queda en la raíz del repo, Vercel no encuentra `next` en `package.json`, trata el proyecto como estático y falla con *"No Output Directory named \"public\" found"*.
+
+Variables de entorno: las de `.env.example` (las de Supabase e IA son necesarias a partir de la Fase 1; la página inicial no las usa).
+
 ## Fuentes oficiales
 
 ```bash

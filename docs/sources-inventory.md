@@ -4,18 +4,30 @@ Verificado el **1 de octubre de 2026**. Descargas con agente identificado, una p
 
 Versión legible por máquina: [`scripts/ingest/sources.json`](../scripts/ingest/sources.json) (incluye rangos de páginas por grado). Como no hubo bloqueos, **no fue necesario crear `docs/sources-manual.md`**.
 
-## 1. Qué contiene realmente cada enlace del Anexo A
+## 1. Listados oficiales de programas (enlaces corregidos el 1 de octubre de 2026)
 
-| URL | Qué es en realidad | ¿Útil para el MVP? |
+Cada listado tiene 3 páginas (`&page=0..2`). Mezcla programas propios del ciclo con otros compartidos (lenguas indígenas, religión, orientación), y algunas etiquetas del sitio son inexactas (p. ej. `matematica.pdf` aparece como "Educación Diversificada" en todos los ciclos porque es un solo PDF de 1.º a 11.º).
+
+| Ciclo | Listado | PDF | Programas de las materias del MVP |
+|---|---|---|---|
+| **III Ciclo (MVP)** | [`academico=8082`](https://www.mep.go.cr/programas-estudio?texto-programas-academicos=&academico=8082) | 20 | `espanol3ciclo_diversificada.pdf`, `matematica.pdf`, `ciencias3ciclo.pdf`, `esociales3ciclo_diversificada.pdf`, `ingles3ciclo_diversificada.pdf`, `civica3ciclo_diversificada.pdf` — **son exactamente los 6 del manifiesto** |
+| I Ciclo (futuro) | [`academico=8080`](https://www.mep.go.cr/programas-estudio?texto-programas-academicos=&academico=8080) | 22 | `espanol1ciclo.pdf`, `matematica.pdf`, `ciencias1y2ciclo2018.pdf`, `esocialesecivica1y2ciclo.pdf`, `ingles1ciclo.pdf` |
+| II Ciclo (futuro) | [`academico=8081`](https://www.mep.go.cr/programas-estudio?texto-programas-academicos=&academico=8081) | 21 | `espanol2ciclo.pdf`, `matematica.pdf`, `ciencias1y2ciclo2018.pdf`, `esocialesecivica1y2ciclo.pdf`, `ingles_2ciclo.pdf` |
+| Educación Diversificada (futuro) | [`academico=8083`](https://www.mep.go.cr/programas-estudio?texto-programas-academicos=&academico=8083) | 22 | Los mismos de III Ciclo (son PDF conjuntos) + Biología, Química, Física, Filosofía, Psicología |
+
+Hallazgos para cuando se sumen otros ciclos (no afectan el MVP):
+- En I y II Ciclo, **Estudios Sociales y Educación Cívica son un solo programa** (`esocialesecivica1y2ciclo.pdf`). El catálogo de materias deberá permitir una materia combinada en esos ciclos; el modelo de datos ya lo soporta (las materias son filas).
+- Ciencias de I y II Ciclo comparten un PDF (2018).
+- "Formación Ciudadana" no aparece como programa formal en ningún ciclo; es el nombre de Educación Abierta.
+
+### Otros enlaces revisados
+
+| URL | Qué es | ¿Útil? |
 |---|---|---|
-| `mep.go.cr/programas-estudio` | Buscador de programas con filtro por nivel (Preescolar, I Ciclo, II Ciclo, III Ciclo, Diversificada, Técnica, Talleres). La primera página muestra programas mezclados (religión, lenguas indígenas, psicología). | Sí, es la puerta a los programas. |
-| `mep.go.cr/programas-estudio-iii-ciclo` (enlazada desde la anterior, no estaba en el Anexo A) | Listado de III Ciclo, 3 páginas. **Aquí están los 6 programas que necesitamos.** | **Sí, fuente principal.** |
-| `mep.go.cr/programas-estudio?…academico=8083` | Listado de Educación Diversificada (3 páginas). Repite varios programas compartidos con III Ciclo. | Solo como referencia. |
-| `mep.go.cr/tercer-ciclo-educacion-diversificada` | Página informativa sobre la oferta (liceos rurales, colegios científicos). **No contiene programas.** | No. |
-| `dgec.mep.go.cr/iii-ciclo/` | Educación Abierta III Ciclo (EGBA): **tablas de especificaciones 02-2026**, **prácticas 2026** por grado y materia, calendarios e instructivos. Confirma: "A partir del año 2026, los ítems de selección única… enunciado seguido de cuatro opciones de respuesta, de las cuales solo una es correcta". | Sí: tablas (cobertura, ponderación) y prácticas (estilo/dificultad). |
-| `dgec.mep.go.cr/i-y-ii-ciclo/` | Equivalente para I y II Ciclo. | Fuera del MVP. |
-| `dgec.mep.go.cr/educacion-diversificada-a-distancia/` | Equivalente para Diversificada a distancia. | Fuera del MVP. |
-| `mep.go.cr/pruebas-bachillerato/edad` | Bachillerato por Madurez. | Fuera del MVP. |
+| `dgec.mep.go.cr/iii-ciclo/` | Educación Abierta III Ciclo: **tablas de especificaciones 02-2026**, **prácticas 2026**, calendarios. Confirma: "A partir del año 2026, los ítems de selección única… enunciado seguido de cuatro opciones de respuesta, de las cuales solo una es correcta". | Sí: cobertura, ponderación y estilo de ítems |
+| `dgec.mep.go.cr/i-y-ii-ciclo/`, `dgec.mep.go.cr/educacion-diversificada-a-distancia/` | Equivalentes de Educación Abierta para otros ciclos | Fuera del MVP |
+| `mep.go.cr/tercer-ciclo-educacion-diversificada` | Página informativa (liceos rurales, colegios científicos), sin programas | No |
+| `mep.go.cr/pruebas-bachillerato/edad` | Bachillerato por Madurez | Fuera del MVP |
 
 ## 2. Programas de estudio (educación formal)
 
