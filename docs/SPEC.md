@@ -251,14 +251,14 @@ Los estados de revisión (`generado` / `revisado`) deben verse en la interfaz. G
 
 ## 18. Anexo A — Fuentes del MEP
 
-**Enlaces entregados por el fundador (inventariar y verificar qué contienen realmente):**
-- https://www.mep.go.cr/programas-estudio
-- https://dgec.mep.go.cr/i-y-ii-ciclo/
-- https://dgec.mep.go.cr/iii-ciclo/
-- https://www.mep.go.cr/tercer-ciclo-educacion-diversificada
-- https://dgec.mep.go.cr/educacion-diversificada-a-distancia/
-- https://www.mep.go.cr/programas-estudio?texto-programas-academicos=&academico=8083
-- https://www.mep.go.cr/pruebas-bachillerato/edad
+**Listados oficiales de programas de estudio (corregidos por el fundador el 1 de octubre de 2026):**
+- I Ciclo: https://www.mep.go.cr/programas-estudio?texto-programas-academicos=&academico=8080
+- II Ciclo: https://www.mep.go.cr/programas-estudio?texto-programas-academicos=&academico=8081
+- III Ciclo: https://www.mep.go.cr/programas-estudio?texto-programas-academicos=&academico=8082
+- Educación Diversificada: https://www.mep.go.cr/programas-estudio?texto-programas-academicos=&academico=8083
+
+**Educación Abierta (DGEC), tablas de especificaciones y prácticas:**
+- https://dgec.mep.go.cr/iii-ciclo/ (y, fuera del MVP, https://dgec.mep.go.cr/i-y-ii-ciclo/ y https://dgec.mep.go.cr/educacion-diversificada-a-distancia/)
 
 **Nota importante (verificado el 30 de septiembre de 2026):** las páginas `dgec.mep.go.cr/i-y-ii-ciclo/` y `dgec.mep.go.cr/iii-ciclo/` publican **tablas de especificaciones y prácticas de las pruebas de Educación Abierta**, no los programas completos de la educación formal. Los programas formales deberían estar en `mep.go.cr/programas-estudio`, que **no se ha revisado todavía**. No se verificó que los programas vengan divididos por trimestre.
 
