@@ -67,7 +67,7 @@ La arquitectura debe quedar **dirigida por datos** para sumar después I y II Ci
 4. **Transparencia sobre la IA.** Todo material muestra su estado: "Generado con IA · pendiente de revisión" o "Generado con IA · revisado por docente". Botón "Reportar un error" en cada material, práctica y respuesta del tutor.
 5. **Datos de menores.** Recoger lo mínimo, no enviar nombres al modelo, aviso de privacidad visible y consentimiento básico al unirse a una sección, retención configurable. La política final debe revisarla alguien con formación legal (referencia: Ley 8968 de protección de datos personales).
 6. **Seguridad infantil.** El tutor no pide datos personales, no da consejo médico ni legal, y ante señales de malestar serio o riesgo responde con cuidado y orienta a un adulto de confianza o al docente. Los recursos de ayuda van en un archivo de configuración que completaré yo con números verificados (el 911 sí puede ir como emergencia).
-7. **Respeto a las fuentes.** Descargar documentos públicos con ritmo prudente y respetando `robots.txt`. Si algo está bloqueado, crea `docs/sources-manual.md` con las URLs para que yo las descargue a mano. No reproducir textualmente las prácticas oficiales del MEP en el material generado; usarlas para calibrar estilo y dificultad y enlazarlas como "Práctica oficial MEP".
+7. **Respeto a las fuentes.** Descargar documentos públicos con ritmo prudente y respetando `robots.txt`. Si algo está bloqueado, crea `docs/sources-manual.md` con las URLs para que yo las descargue a mano. Única fuente curricular: los programas de estudio oficiales publicados en `www.mep.go.cr` (las tablas y prácticas de Educación Abierta de la DGEC quedan excluidas; decisión del fundador, 1 oct 2026).
 
 ## 5. Arquitectura
 
@@ -98,7 +98,7 @@ La arquitectura debe quedar **dirigida por datos** para sumar después I y II Ci
 - `sections` (id, docente_id, nombre, grado, institución_texto, trimestre_actual, código único, activa).
 - `section_members` (section_id, student_id, display_name, consentimiento_at, joined_at).
 - `students` (id = usuario anónimo, grado_declarado).
-- `curriculum_sources` (documento, url, hash, fecha de descarga, tipo: `programa | tabla_especificaciones | practica`).
+- `curriculum_sources` (documento, url, hash, fecha de descarga, tipo: `programa`).
 - `curriculum_units` (ciclo, grado, materia, título, trimestre nullable, resultados de aprendizaje[], contenidos[], habilidades[], source_id, página, extracto, estado: `draft | reviewed | published`).
 - `skills` (id, materia, nombre, descripción, prerrequisitos[]).
 - `materials` (unit_id, tipo: resumen/explicación/ejemplos/glosario, contenido, versión, estado, revisor_id, revisado_at, modelo y prompt usados).
@@ -129,13 +129,13 @@ La arquitectura debe quedar **dirigida por datos** para sumar después I y II Ci
 6. **Trimestre.** No asumir que los documentos vienen por trimestre. Es una etiqueta opcional que un docente o revisor asigna a cada unidad.
 7. **Vista de revisión** (`/revisar`): lista de unidades por materia y grado con extracto fuente al lado, edición, aprobar y rechazar, y registro de quién revisó.
 
-Orden de prioridad de fuentes: (a) programas de estudio oficiales; (b) tablas de especificaciones de la DGEC (qué se evalúa); (c) prácticas oficiales (estilo y dificultad de ítems).
+Fuente única: los programas de estudio oficiales del MEP para la educación formal (actualizado el 1 oct 2026; antes incluía tablas y prácticas de Educación Abierta de la DGEC).
 
 ## 8. Material de estudio y banco de prácticas
 
 Para cada unidad `published`, generar en lote (offline, con `MODEL_BULK`) un paquete:
 - Resumen, explicación paso a paso, ejemplos resueltos, glosario.
-- Banco de ítems por habilidad y dificultad. **Formato por defecto: selección única con enunciado y cuatro opciones, una sola correcta**, igual que el formato 2026 de las pruebas de Educación Abierta del MEP. En Español, agregar ítems de respuesta abierta (escritura).
+- Banco de ítems por habilidad y dificultad. **Formato por defecto: selección única con enunciado y cuatro opciones, una sola correcta**. En Español, agregar ítems de respuesta abierta (escritura).
 - Cada ítem lleva habilidad, dificultad, respuesta correcta y explicación del *por qué* de cada distractor.
 
 **Control de calidad automático antes de publicar un ítem:**
@@ -257,22 +257,7 @@ Los estados de revisión (`generado` / `revisado`) deben verse en la interfaz. G
 - III Ciclo: https://www.mep.go.cr/programas-estudio?texto-programas-academicos=&academico=8082
 - Educación Diversificada: https://www.mep.go.cr/programas-estudio?texto-programas-academicos=&academico=8083
 
-**Educación Abierta (DGEC), tablas de especificaciones y prácticas:**
-- https://dgec.mep.go.cr/iii-ciclo/ (y, fuera del MVP, https://dgec.mep.go.cr/i-y-ii-ciclo/ y https://dgec.mep.go.cr/educacion-diversificada-a-distancia/)
-
-**Nota importante (verificado el 30 de septiembre de 2026):** las páginas `dgec.mep.go.cr/i-y-ii-ciclo/` y `dgec.mep.go.cr/iii-ciclo/` publican **tablas de especificaciones y prácticas de las pruebas de Educación Abierta**, no los programas completos de la educación formal. Los programas formales deberían estar en `mep.go.cr/programas-estudio`, que **no se ha revisado todavía**. No se verificó que los programas vengan divididos por trimestre.
-
-**Documentos de III Ciclo listados en `dgec.mep.go.cr/iii-ciclo/`:**
-- Tablas de especificaciones:
-  - Estudios Sociales: https://dgec.mep.go.cr/wp-content/uploads/2026/06/ESTUDIOS-SOCIALES-TABLA-ESPECIFICACIONES-III-CICLO-02-2026.pdf
-  - Ciencias: https://dgec.mep.go.cr/wp-content/uploads/2026/06/CIENCIAS-TABLA-ESPECIFICACIONES-III-CICLO-02-2026.pdf
-  - Inglés: https://dgec.mep.go.cr/wp-content/uploads/2026/06/INGLES-TABLA-ESPECIFICACIONES-III-CICLO-02-2026.pdf
-  - Formación Ciudadana: https://dgec.mep.go.cr/wp-content/uploads/2026/03/TABLA-DE-ESPECIFICACIONES-III-CICLO-Formacion-Ciudadana.pdf
-  - Matemáticas: https://dgec.mep.go.cr/wp-content/uploads/2026/06/MATEMATICAS-TABLA-ESPECIFICACIONES-III-CICLO-02-2026.pdf
-  - Español: https://dgec.mep.go.cr/wp-content/uploads/2026/03/TABLAS-DE-ESPECIFICACIONES-III-CICLO-ESPANOL.pdf
-- Prácticas (patrón de nombres listado en la página; verifica cada URL antes de descargar): `https://dgec.mep.go.cr/wp-content/uploads/2026/07/Practica-{Setimo|Octavo|Noveno}-{Espanol|Formacion-Ciudadana|Ingles|Ciencias|Estudios-Sociales|Matematicas}-02-2026.pdf`
-
-Los textos de la página indican que, desde 2026, los ítems de selección única de Educación Abierta tienen un enunciado y cuatro opciones con una sola correcta.
+Solo se usan los programas de estudio de estos listados. Las tablas de especificaciones y prácticas de Educación Abierta (`dgec.mep.go.cr`) quedaron fuera por decisión del fundador (1 oct 2026), para evitar confusiones y reducir las fuentes que usan los agentes. Inventario real en `docs/sources-inventory.md`.
 
 ## 19. Anexo B — Datos verificados para la página de inicio y el pitch
 

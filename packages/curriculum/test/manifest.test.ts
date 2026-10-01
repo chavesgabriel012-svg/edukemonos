@@ -13,15 +13,18 @@ describe("sources.json", () => {
     expect(new Set(ids).size).toBe(ids.length);
   });
 
-  it("covers the 6 programs, 6 spec tables and 18 practices of III Ciclo", () => {
-    const byKind = (k: string) => manifest.sources.filter((s) => s.kind === k).length;
-    expect([byKind("programa"), byKind("tabla_especificaciones"), byKind("practica")]).toEqual([6, 6, 18]);
+  it("contains exactly the 6 III Ciclo study programs and nothing else", () => {
+    expect(manifest.sources.every((s) => s.kind === "programa")).toBe(true);
+    expect(manifest.sources.map((s) => s.subject).sort()).toEqual(
+      ["ciencias", "civica", "espanol", "estudios_sociales", "ingles", "matematicas"],
+    );
   });
 
-  it("only points at official MEP domains", () => {
-    for (const s of manifest.sources) {
-      expect(new URL(s.url).hostname).toMatch(/(^|\.)mep\.go\.cr$/);
-    }
+  it("rejects sources outside www.mep.go.cr (e.g. Educación Abierta)", () => {
+    const dgec = { ...manifest.sources[0], url: "https://dgec.mep.go.cr/wp-content/uploads/x.pdf" };
+    expect(() => manifestSchema.parse({ ...manifest, sources: [dgec] })).toThrow(/www\.mep\.go\.cr/);
+    const practice = { ...manifest.sources[0], kind: "practica" };
+    expect(() => manifestSchema.parse({ ...manifest, sources: [practice] })).toThrow();
   });
 
   it("maps Matemáticas 7.º to the III Ciclo section of the program", () => {

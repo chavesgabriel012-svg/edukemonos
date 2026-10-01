@@ -73,7 +73,7 @@ export async function loadFixture(db: pg.Client): Promise<Fixture> {
 
   await db.query(
     `insert into public.curriculum_sources (id, source_key, kind, subject_id, cycle_id, title, url)
-     values ($1, 'test-source', 'program', 'matematicas', 'III', 'Fuente de prueba', 'https://example.test/x.pdf')`,
+     values ($1, 'test-source', 'program', 'matematicas', 'III', 'Fuente de prueba', 'https://www.mep.go.cr/sites/default/files/media/matematica.pdf')`,
     [ids.source],
   );
   await db.query(
