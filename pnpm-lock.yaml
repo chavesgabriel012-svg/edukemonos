@@ -110,6 +110,9 @@ importers:
 
   scripts/ingest:
     dependencies:
+      '@edukemonos/ai':
+        specifier: workspace:*
+        version: link:../../packages/ai
       '@edukemonos/curriculum':
         specifier: workspace:*
         version: link:../../packages/curriculum

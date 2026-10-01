@@ -234,6 +234,19 @@ describe("curriculum and content", () => {
     await expectDenied(db, service, `insert into public.curriculum_sources (source_key, kind, subject_id, cycle_id, title, url) values ('t2', 'program', 'matematicas', 'III', 'x', 'https://dgec.mep.go.cr/x.pdf')`, [], /curriculum_sources_programs_only/);
   });
 
+  it("page texts of the official documents are visible to reviewers only", async () => {
+    await db.query(`insert into public.curriculum_pages (source_id, page, text, extracted_with) values ($1, 10, 'texto', 'test')`, [ids.source]);
+    try {
+      await expectDenied(db, anon, `select * from public.curriculum_pages`, [], /permission denied/);
+      expect(await as(db, s1, `select page from public.curriculum_pages`)).toEqual([]);
+      expect(await as(db, t1, `select page from public.curriculum_pages`)).toEqual([]);
+      expect(await as(db, reviewer, `select page from public.curriculum_pages`)).toEqual([{ page: 10 }]);
+      await expectDenied(db, reviewer, `insert into public.curriculum_pages (source_id, page, text, extracted_with) values ($1, 11, 'x', 'x')`, [ids.source], /row-level security/);
+    } finally {
+      await db.query(`delete from public.curriculum_pages`);
+    }
+  });
+
   it("only admins delete units", async () => {
     expect(await as(db, reviewer, `delete from public.curriculum_units where id = $1 returning id`, [ids.unitDraft])).toEqual([]);
   });

@@ -13,7 +13,8 @@
     "test": "pnpm -r --if-present test",
     "test:rls": "pnpm --filter @edukemonos/db-tests test",
     "sources:verify": "pnpm --filter @edukemonos/ingest verify",
-    "ai:diagnose": "pnpm --filter @edukemonos/ai diagnose"
+    "ai:diagnose": "pnpm --filter @edukemonos/ai diagnose",
+    "ingest": "pnpm --filter @edukemonos/ingest ingest"
   },
   "devDependencies": {
     "supabase": "2.119.0"
