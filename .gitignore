@@ -17,3 +17,4 @@ reports/
 playwright-report/
 test-results/
 supabase/.temp/
+scripts/ingest/.cache-e2e/

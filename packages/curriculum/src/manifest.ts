@@ -23,10 +23,34 @@ export const OFFICIAL_SOURCE_HOST = "www.mep.go.cr";
 /** Inclusive 1-indexed PDF page range; `null` end = not mapped yet. */
 const pageRange = z.tuple([z.number().int().positive(), z.number().int().positive().nullable()]);
 
-const gradeRanges = z.object({
-  content: z.array(pageRange),
-  guidance: z.array(pageRange).optional(),
-});
+const gradeRanges = z
+  .object({
+    content: z.array(pageRange),
+    guidance: z.array(pageRange).optional(),
+    /** Optional section name for each `content` range (e.g. the Mathematics areas). */
+    labels: z.array(z.string()).optional(),
+  })
+  .refine((r) => !r.labels || r.labels.length === r.content.length, {
+    message: "labels must have one entry per content range",
+  });
+
+/** One contiguous block of pages to process together, with its section label. */
+export interface PageChunk {
+  label: string;
+  from: number;
+  to: number;
+}
+
+/** Content ranges for a grade as labelled chunks. Throws if a range is not fully mapped. */
+export function chunksForGrade(entry: SourceEntry, grade: number): PageChunk[] {
+  const ranges = entry.gradeRanges[String(grade)];
+  if (!ranges) throw new Error(`${entry.id}: no page ranges for grade ${grade}`);
+  return ranges.content.map(([from, to], i) => {
+    if (to === null) throw new Error(`${entry.id}: page range for grade ${grade} is not fully mapped`);
+    if (to < from || to > entry.pdfPages) throw new Error(`${entry.id}: invalid range ${from}-${to}`);
+    return { label: ranges.labels?.[i] ?? `Páginas ${from}–${to}`, from, to };
+  });
+}
 
 export const sourceEntrySchema = z.object({
   id: z.string().regex(/^[a-z0-9-]+$/),

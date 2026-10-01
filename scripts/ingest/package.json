@@ -5,9 +5,11 @@
   "scripts": {
     "verify": "tsx src/verify.ts",
     "test": "vitest run",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "ingest": "tsx src/cli.ts"
   },
   "dependencies": {
+    "@edukemonos/ai": "workspace:*",
     "@edukemonos/curriculum": "workspace:*"
   },
   "devDependencies": {

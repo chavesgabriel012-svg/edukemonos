@@ -1,0 +1,46 @@
+{
+  "sourceId": "mep-prog-matematicas",
+  "grade": 7,
+  "pdfSha256": "577b2bf471ff35a4",
+  "extractedWith": "pdftotext (e2e fixture)",
+  "prompt": { "system": "structure-curriculum-system@1", "user": "structure-curriculum-user@1" },
+  "createdAt": "2026-10-01T00:00:00.000Z",
+  "chunks": [
+    {
+      "chunk": { "label": "Números", "from": 276, "to": 277 },
+      "model": "e2e-fixture",
+      "notes": "",
+      "units": [
+        {
+          "title": "Números naturales: operaciones y combinación de operaciones",
+          "area": "Números",
+          "term": null,
+          "contents": ["Combinación de operaciones"],
+          "learning_outcomes": [],
+          "skills": [
+            { "code": "1", "text": "Calcular expresiones numéricas aplicando el concepto de potencia y la notación exponencial.", "page": 276 },
+            { "code": "2", "text": "Resolver una combinación de operaciones que involucre o no el uso de paréntesis.", "page": 276 }
+          ],
+          "source_page": 276,
+          "source_excerpt": "Es necesario retomar los algoritmos que permiten operar con números naturales."
+        },
+        {
+          "title": "Teoría de números",
+          "area": "Números",
+          "term": null,
+          "contents": ["Divisibilidad"],
+          "learning_outcomes": [],
+          "skills": [
+            { "code": "3", "text": "Aplicar el algoritmo de la división en la resolución de problemas.", "page": 277 },
+            { "code": "99", "text": "Dominar los números complejos en una semana.", "page": 277 }
+          ],
+          "source_page": 277,
+          "source_excerpt": "La combinación de operaciones no debe exceder de cuatro términos"
+        }
+      ],
+      "issues": [
+        { "unit": 1, "field": "skill", "value": "Dominar los números complejos en una semana.", "problem": "la habilidad no aparece en la página 277" }
+      ]
+    }
+  ]
+}

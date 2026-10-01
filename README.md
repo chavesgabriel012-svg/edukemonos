@@ -94,7 +94,29 @@ Variables de entorno: las de `.env.example` (las de Supabase e IA son necesarias
 pnpm sources:verify   # comprueba que los 6 programas del manifiesto siguen disponibles
 ```
 
-El cliente respeta `robots.txt`, se identifica y espera ~2,5 s entre peticiones al mismo dominio. La ingesta y publicación de contenido (Fase 1) se documentará aquí cuando exista.
+El cliente respeta `robots.txt`, se identifica y espera ~2,5 s entre peticiones al mismo dominio.
+
+## Ingesta del currículo (Fase 1)
+
+Requiere `pdftotext` (poppler-utils) y las variables de Supabase e IA. Lee `apps/web/.env.local` si existe.
+
+```bash
+pnpm ingest db-check                                              # ¿están las tablas?
+pnpm ingest structure --source mep-prog-matematicas --grade 7     # muestra el costo estimado, NO gasta
+pnpm ingest run       --source mep-prog-matematicas --grade 7 --yes   # descarga, extrae, estructura y carga
+```
+
+- **Extraer, no inventar:** cada habilidad, contenido y extracto que propone la IA se verifica textualmente contra la página citada. Lo que no aparece queda marcado "por verificar" y la unidad no se puede publicar hasta corregirlo.
+- Todo entra como **borrador**. Volver a correr reemplaza los borradores de ese programa y grado, pero nunca toca unidades revisadas o publicadas.
+- `pnpm ingest coverage …` lista las páginas del grado que ninguna unidad cita, para revisarlas.
+
+## Revisión (`/revisar`)
+
+1. Entra en `/entrar` con tu correo (enlace mágico).
+2. Un admin te da el rol: `update public.profiles set role = 'reviewer' where id = '<user id>';`
+3. En `/revisar` eliges materia y grado. En cada unidad ves el texto de la página oficial al lado, editas, guardas (se verifica de nuevo) y la marcas como revisada, la publicas o la rechazas. Todo queda en `review_log`.
+
+En Supabase → Authentication → URL Configuration, agrega la URL de Vercel en *Site URL* y `https://<tu-dominio>/auth/confirm` en *Redirect URLs*.
 
 ## Capa de IA
 
