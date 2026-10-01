@@ -10,7 +10,8 @@
 2. **Gemini (Google) queda descartado**: sus términos prohíben usar la API en apps dirigidas a menores de 18 años o que probablemente usen menores.
 3. **OpenAI es la opción más barata** (`gpt-6-luna`, ≈ US$0,16 por estudiante al mes), pero para menores de 13 (parte de 7.º año) exige **retención cero de datos**, que hay que solicitar a OpenAI, y según sus términos (no pude abrir el texto original) también **permiso del padre, madre o encargado** para menores de 18.
 4. **Dentro de Claude, Haiku 4.5 como tutor** baja el costo típico de US$2,25 a **≈ US$0,45 por estudiante al mes** (5 veces menos que Opus 5.5) sin cambiar de proveedor ni de reglas.
-5. **Recomendación:** empezar con **Haiku 4.5 como tutor**, Sonnet 5.5 para generar contenido y Opus 5.5 solo para verificar ítems (gasto único). En la Fase 4, comparar con las evals del tutor Haiku 4.5, Sonnet 5.5 sin razonamiento y `gpt-6-luna`, y quedarse con el más barato que pase. Cambiar de modelo es solo cambiar variables de entorno.
+5. **Groq con `gpt-oss-120b`** (lo que usa Pulserival) cuesta ≈ **US$0,25 por estudiante al mes**. Sus términos permiten apps usadas por menores, pero toda la responsabilidad legal y de seguridad queda en nosotros, y no hay datos de su calidad como tutor.
+6. **Recomendación:** empezar con **Haiku 4.5 como tutor**, Sonnet 5.5 para generar contenido y Opus 5.5 solo para verificar ítems (gasto único). En la Fase 4, comparar con las evals del tutor Haiku 4.5, Sonnet 5.5 sin razonamiento, Groq `gpt-oss-120b` y `gpt-6-luna`, y quedarse con el más barato que pase. Cambiar de modelo es solo cambiar variables de entorno.
 
 ## 2. Comparación
 
@@ -26,6 +27,8 @@ Costo por **estudiante activo**, uso típico, con caché. En todas las filas la 
 | D | OpenAI `gpt-6.1-sol` | Sí, con permiso parental y retención cero para menores de 13 | $1,09 | $10,92 | $7.673 |
 | E | OpenAI `gpt-6-luna` | Sí, con permiso parental y retención cero para menores de 13 | $0,16 | $1,63 | $1.143 |
 | G | Google Gemini 3.8 Flash | **No** (términos de la API) | $0,47 | $4,70 | $3.303 |
+| H | Groq `gpt-oss-120b` (modelo abierto) | Sí, pero el cumplimiento legal queda 100 % a cargo nuestro | $0,25 | $2,49 | $1.742 |
+| H2 | Groq `gpt-oss-20b` (modelo abierto, pequeño) | Igual que H | $0,18 | $1,80 | $1.260 |
 
 **Techo** (límites del tutor al máximo, 60 mensajes cada día lectivo): A $34/mes · C $6,52/mes · E $1,92/mes por estudiante. Bajar los límites del tutor reduce el techo en proporción.
 
@@ -40,6 +43,8 @@ Costo por **estudiante activo**, uso típico, con caché. En todas las filas la 
 | OpenAI gpt-6-luna | 0,10 | 0,01 | 0,50 |
 | Gemini 3.8 Flash (hasta 31/12/2026; se duplica desde el 1/1/2027) | 0,75 | 0,075 | 3,75 |
 | Gemini 3.5 Flash-Lite | 0,30 | 0,03 | 2,50 |
+| Groq gpt-oss-120b | 0,15 | sin descuento (supuesto) | 0,60 |
+| Groq gpt-oss-20b | 0,075 | sin descuento (supuesto) | 0,30 |
 
 Todos ofrecen 50 % de descuento en procesamiento por lotes (útil solo para generar contenido, no para el tutor).
 
@@ -50,7 +55,8 @@ Todos ofrecen 50 % de descuento en procesamiento por lotes (útil solo para gene
 | **Anthropic (Claude)** | Las organizaciones que permiten a menores interactuar con productos basados en su API deben implementar salvaguardas: verificación de edad, moderación y filtros, monitoreo y reporte, y recursos educativos; Anthropic puede proveer un *system prompt* de seguridad infantil. Cumplir la ley de protección de menores y datos aplicable. | Ya está en el SPEC (reglas 5 y 6, Fase 4). No pide permiso parental explícito ni un trámite previo. La revisión legal (Ley 8968) sigue pendiente. |
 | **OpenAI** | Verificado en su guía para menores de 18: no procesar datos personales de **menores de 13** sin **retención cero de datos** en la API; salvaguardas similares a Anthropic; usar sus modelos insignia más recientes. **Sin verificar en el texto original** (la página bloquea descargas automáticas; lo vi en resúmenes de búsqueda): usuarios de 13 años o más y **permiso del padre, madre o encargado** para menores de 18. | Hay que agregar un **consentimiento parental** al unirse a una sección (hoy el consentimiento lo da el estudiante) y **solicitar retención cero** a OpenAI, porque muchos estudiantes de 7.º tienen 12 años. |
 | **Google (Gemini API)** | "You must be 18 years of age or older to use the APIs. You also will not use the Services as part of a website, application, or other service … that is directed towards or is likely to be accessed by individuals under the age of 18." | **No se puede usar.** No verifiqué si los términos de Vertex AI (Google Cloud) son distintos; antes de considerarlo haría falta revisión legal. |
-| Modelos abiertos (Llama, Qwen, gpt-oss…) alojados por terceros | No verificado: cada empresa que los aloja tiene sus propios términos, y la calidad en español y el comportamiento seguro con menores dependen del modelo. | Fuera del MVP. No los recomiendo sin evals y revisión de términos. |
+| **Groq** (aloja modelos abiertos como `gpt-oss`) | Verificado en su Services Agreement: quien usa la cuenta debe tener 18+; si la app está dirigida a menores o es probable que los usen, "Customer will be solely responsible" de cumplir las leyes sobre su uso y sobre los datos personales de menores. Por defecto **no retiene** entradas ni salidas. No publica guías de seguridad infantil propias ni un *system prompt* de seguridad. | Permitido, pero sin red de seguridad del proveedor: todo el filtrado y la moderación los ponemos nosotros. El tier gratuito corta con error 429 a las pocas decenas de llamadas seguidas (Pulserival lo vivió), así que para un tutor en vivo hay que pagar el tier de desarrollador. |
+| Otros modelos abiertos y otros alojadores | No verificado. | Fuera del MVP. |
 
 ## 4. Recomendación
 
@@ -62,12 +68,26 @@ Todos ofrecen 50 % de descuento en procesamiento por lotes (útil solo para gene
 | Generación de contenido (`MODEL_BULK`) | Claude Sonnet 5.5 | Gasto único; la calidad del material importa y se revisa a mano. |
 | Verificación de ítems (`MODEL_VERIFY`) | Claude Opus 5.5 | Gasto único (≈ US$65, o la mitad con lotes); un ítem con la respuesta equivocada hace más daño que lo que cuesta verificarlo bien. |
 
-**Antes de lanzar a escala (Fase 4):** correr las evals del tutor (30 casos por materia) con Haiku 4.5, Sonnet 5.5 sin razonamiento y `gpt-6-luna`. Si Haiku 4.5 no pasa (por ejemplo, regala respuestas o falla en matemáticas), subir a Sonnet 5.5 sin razonamiento. OpenAI solo si el costo es decisivo y se resuelven el permiso parental y la retención cero.
+**Antes de lanzar a escala (Fase 4):** correr las evals del tutor (30 casos por materia) con Haiku 4.5, Sonnet 5.5 sin razonamiento, Groq `gpt-oss-120b` y `gpt-6-luna`. Si Haiku 4.5 no pasa (por ejemplo, regala respuestas o falla en matemáticas), subir a Sonnet 5.5 sin razonamiento. OpenAI solo si el costo es decisivo y se resuelven el permiso parental y la retención cero.
 
 **Palancas que aplican con cualquier modelo:**
 - Activar el caché de prompts (≈ 50 % menos; está en el plan de la Fase 4).
 - Ajustar los límites del tutor: 60 mensajes diarios es mucho para un estudiante; 20–30 recorta el techo en la misma proporción.
 - Fijar un límite de gasto mensual en la consola del proveedor.
+
+## 4b. Lo que aprendimos de Pulserival
+
+Pulserival (`config/modelos.yaml`) usa Groq y Gemini con buenas prácticas de control de gasto que conviene copiar, y una advertencia:
+
+**Copiar a Edukemonos:**
+1. **Lista de modelos por tarea con respaldo:** si el primero falla (sin clave, 429, caído), se usa el siguiente. Último recurso sin IA: el tutor diría "no puedo responder ahora, pregúntale a tu docente".
+2. **Fusible de gasto:** Pulserival corta la corrida si pasa de US$0,75. En Edukemonos el equivalente es un **tope diario y mensual global** guardado en la base de datos: si se alcanza, el tutor se pausa y avisa, en vez de seguir gastando.
+3. **Registrar cada intento fallido**, no solo los exitosos, y un comando de diagnóstico que prueba cada proveedor con una llamada mínima.
+4. **Pausa y reintento ante 429/503** con espera real.
+
+**Advertencias:**
+- **No sirve como está para menores.** La parte de Gemini queda descartada por sus términos, y además el tier gratuito de Gemini usa los datos para mejorar productos de Google, con revisión humana.
+- **Su tabla de precios subestima dos modelos** frente a la página oficial del 1 oct 2026. Gemini 3.1 Flash-Lite aparece a 0,10/0,40 cuando cuesta 0,25/1,50, y Gemini 3.6 Flash a 0,60/3,00 cuando cuesta 0,75/3,75. Con precios por debajo de lo real, el fusible de gasto de Pulserival se dispara tarde. Los de Groq están sobreestimados, lo cual es el lado seguro.
 
 ## 5. Lo que este estudio no sabe todavía
 
@@ -86,3 +106,6 @@ Todos ofrecen 50 % de descuento en procesamiento por lotes (útil solo para gene
 - OpenAI, guía para menores de 18: <https://developers.openai.com/api/docs/guides/safety-checks/under-18-api-guidance>
 - OpenAI, términos de uso: <https://openai.com/policies/row-terms-of-use/>
 - Términos adicionales de la Gemini API: <https://ai.google.dev/gemini-api/terms>
+- Precios de Groq: <https://console.groq.com/docs/models>
+- Groq Services Agreement: <https://console.groq.com/docs/legal/services-agreement>
+- Groq, datos retenidos: <https://console.groq.com/docs/your-data>
