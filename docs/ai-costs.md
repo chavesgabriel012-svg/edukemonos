@@ -4,6 +4,8 @@
 > Montos en dólares estadounidenses (USD), con punto decimal. Los colones usan un tipo de cambio **supuesto** de ₡500/USD (verificar el del BCCR).
 > Cálculo reproducible: `node scripts/cost/estimate.ts` (desde la raíz del repo; ver [cómo volver a correrlo](#cómo-volver-a-correr-el-cálculo)).
 
+> **Actualización (1 oct 2026):** la comparación con otros modelos y proveedores, y la recomendación vigente (Haiku 4.5 como tutor), están en [`docs/ai-models-study.md`](ai-models-study.md).
+
 ## 1. Resumen
 
 1. **Escenario recomendado** (tutor y verificación con Claude Opus 5.5, generación con Claude Sonnet 5.5) y **uso típico supuesto** (8 días al mes, unos 80 mensajes al tutor): **≈ US$2.25 por estudiante activo al mes**, **≈ US$22.50 por año lectivo** (≈ ₡1,100/mes, ≈ ₡11,000/año).

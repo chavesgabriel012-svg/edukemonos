@@ -16,7 +16,14 @@
  * Output: Markdown tables (Spanish headings) on stdout. See docs/ai-costs.md for the report.
  */
 
-type ModelId = "claude-opus-5-5" | "claude-sonnet-5-5" | "claude-haiku-4-5";
+type ModelId =
+  | "claude-opus-5-5"
+  | "claude-sonnet-5-5"
+  | "claude-haiku-4-5"
+  | "gpt-6.1-sol"
+  | "gpt-6-luna"
+  | "gemini-3.8-flash"
+  | "gemini-3.5-flash-lite";
 type Role = "tutor" | "bulk" | "verify";
 type Level = "low" | "typical" | "high";
 type ProfileName = "light" | "typical" | "heavy" | "cap";
@@ -76,8 +83,8 @@ interface Profile {
 const PARAMS = {
   prices: {
     source:
-      "Anthropic list prices (USD / 1M tokens) from the claude-api skill model table, cached 2026-09-25. " +
-      "Verify at https://claude.com/pricing before deciding.",
+      "Claude: Anthropic list prices (USD / 1M tokens), confirmed at https://www.claude.com/pricing on 2026-10-01. " +
+      "OpenAI and Gemini: official pricing pages read on 2026-10-01 (see docs/ai-models-study.md). Verify before deciding.",
     models: {
       "claude-opus-5-5": {
         label: "Claude Opus 5.5",
@@ -114,6 +121,57 @@ const PARAMS = {
         minCacheablePrefix: 4096,
         tokenizerFactor: 1.0, // older tokenizer = baseline
         thinksByDefault: false,
+      },
+      // --- Other providers (study docs/ai-models-study.md). Prices read from the official pages on
+      // 2026-10-01: developers.openai.com/api/docs/pricing (Standard, short context) and
+      // ai.google.dev/gemini-api/docs/pricing (paid tier). Verify before deciding.
+      "gpt-6.1-sol": {
+        label: "OpenAI gpt-6.1-sol",
+        input: 2.0,
+        output: 10.0,
+        cacheRead: 0.1,
+        cacheWrite5m: 2.5, // listed as "Cache writes"
+        cacheWrite1h: 2.5, // ASSUMPTION: no separate 1h tier listed
+        batchFactor: 0.5,
+        minCacheablePrefix: 1024, // ASSUMPTION
+        tokenizerFactor: 1.0, // ASSUMPTION
+        thinksByDefault: true, // ASSUMPTION: reasoning model, same thinking volume as Claude
+      },
+      "gpt-6-luna": {
+        label: "OpenAI gpt-6-luna",
+        input: 0.1,
+        output: 0.5,
+        cacheRead: 0.01,
+        cacheWrite5m: 0.125,
+        cacheWrite1h: 0.125, // ASSUMPTION
+        batchFactor: 0.5,
+        minCacheablePrefix: 1024, // ASSUMPTION
+        tokenizerFactor: 1.0, // ASSUMPTION
+        thinksByDefault: true, // ASSUMPTION
+      },
+      "gemini-3.8-flash": {
+        label: "Google Gemini 3.8 Flash (precio hasta 31/12/2026)",
+        input: 0.75,
+        output: 3.75, // includes thinking tokens
+        cacheRead: 0.075,
+        cacheWrite5m: 0.75, // ASSUMPTION: implicit caching, no write premium; storage fee ignored
+        cacheWrite1h: 0.75,
+        batchFactor: 0.5,
+        minCacheablePrefix: 1024, // ASSUMPTION
+        tokenizerFactor: 1.0, // ASSUMPTION
+        thinksByDefault: true,
+      },
+      "gemini-3.5-flash-lite": {
+        label: "Google Gemini 3.5 Flash-Lite",
+        input: 0.3,
+        output: 2.5, // includes thinking tokens
+        cacheRead: 0.03,
+        cacheWrite5m: 0.3, // ASSUMPTION: implicit caching, no write premium
+        cacheWrite1h: 0.3,
+        batchFactor: 0.5,
+        minCacheablePrefix: 1024, // ASSUMPTION
+        tokenizerFactor: 1.0, // ASSUMPTION
+        thinksByDefault: true,
       },
     } satisfies Record<ModelId, ModelInfo>,
   },
@@ -268,6 +326,38 @@ const PARAMS = {
       verify: "claude-opus-5-5",
       tutorThinkingMultiplier: 0, // Haiku 4.5 does not think unless enabled
       note: "Haiku 4.5, sin thinking; caché mínimo 4.096 tokens",
+    },
+    C2: {
+      label: "C2 todo económico",
+      tutor: "claude-haiku-4-5",
+      bulk: "claude-haiku-4-5",
+      verify: "claude-sonnet-5-5",
+      tutorThinkingMultiplier: 0,
+      note: "Haiku 4.5 para tutor y generación; Sonnet 5.5 verifica",
+    },
+    D: {
+      label: "D OpenAI sol",
+      tutor: "gpt-6.1-sol",
+      bulk: "claude-sonnet-5-5",
+      verify: "claude-opus-5-5",
+      tutorThinkingMultiplier: 1, // ASSUMPTION
+      note: "Tutor gpt-6.1-sol (OpenAI); requiere consentimiento parental y ZDR para menores de 13",
+    },
+    E: {
+      label: "E OpenAI luna",
+      tutor: "gpt-6-luna",
+      bulk: "claude-sonnet-5-5",
+      verify: "claude-opus-5-5",
+      tutorThinkingMultiplier: 1, // ASSUMPTION
+      note: "Tutor gpt-6-luna (OpenAI); mismas condiciones que D",
+    },
+    G: {
+      label: "G Gemini Flash (NO permitido)",
+      tutor: "gemini-3.8-flash",
+      bulk: "claude-sonnet-5-5",
+      verify: "claude-opus-5-5",
+      tutorThinkingMultiplier: 1, // ASSUMPTION
+      note: "Solo referencia: los términos de la Gemini API prohíben apps para menores de 18",
     },
   } satisfies Record<string, Mix>,
 
