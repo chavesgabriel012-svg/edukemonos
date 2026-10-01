@@ -6,11 +6,12 @@ import type { ProviderAdapter, UsageRecord } from "../src/types";
 
 const config: AIConfig = {
   provider: "anthropic",
-  models: { bulk: "m-bulk", tutor: "m-tutor", verify: "m-verify" },
+  models: { bulk: ["m-bulk"], tutor: ["m-tutor"], verify: ["m-verify"] },
   embedModel: null,
   effort: { tutor: "low" },
   anthropicFallbacks: null,
   prices: { "m-tutor": { input: 1, output: 5 } },
+  budget: { dailyUsd: null, monthlyUsd: null },
 };
 
 function fakeAdapter(overrides: Partial<ProviderAdapter> = {}): ProviderAdapter {

@@ -26,6 +26,7 @@ El archivo venía como `docs/SPEC.md.md`; lo renombré a `docs/SPEC.md`, que es 
 - **Capa de IA**: interfaz propia (`generateText`, `generateStructured`, `streamChat`, `embed`) con adaptadores Anthropic y OpenAI por `AI_PROVIDER`. Modelos solo por variables de entorno (`MODEL_BULK`, `MODEL_TUTOR`, `MODEL_VERIFY`); nada fijo en el código.
 - **Pruebas de RLS sin depender de la nube**: Postgres 16 local + *shim* mínimo del esquema `auth` de Supabase (`auth.uid()`, roles `anon`/`authenticated`/`service_role`). Las mismas migraciones corren luego en Supabase real.
 - **Límites de tasa** con contadores en Postgres (función `consume_quota`), no en memoria.
+- **IA (decisión del fundador, 1 oct):** tutor Claude Haiku 4.5; generación y verificación Claude Sonnet 5.5. Arranque con US$10 prepagados para medir. Control de gasto en tres capas: crédito prepagado en la consola, fusible diario/mensual en la app (`AI_BUDGET_*`) y límites por estudiante. Cadenas de respaldo por rol y `pnpm ai:diagnose` (ideas tomadas de Pulserival).
 - **PDFs oficiales en bucket privado**; al público solo se muestran extractos cortos + enlace a la URL oficial del MEP (hasta que confirmes condiciones de reutilización).
 - **Inventario reproducible**: manifiesto `scripts/ingest/sources.json` + script que lo verifica.
 

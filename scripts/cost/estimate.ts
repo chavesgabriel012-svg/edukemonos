@@ -23,7 +23,9 @@ type ModelId =
   | "gpt-6.1-sol"
   | "gpt-6-luna"
   | "gemini-3.8-flash"
-  | "gemini-3.5-flash-lite";
+  | "gemini-3.5-flash-lite"
+  | "groq/openai/gpt-oss-120b"
+  | "groq/openai/gpt-oss-20b";
 type Role = "tutor" | "bulk" | "verify";
 type Level = "low" | "typical" | "high";
 type ProfileName = "light" | "typical" | "heavy" | "cap";
@@ -172,6 +174,31 @@ const PARAMS = {
         minCacheablePrefix: 1024, // ASSUMPTION
         tokenizerFactor: 1.0, // ASSUMPTION
         thinksByDefault: true,
+      },
+      // Groq (open-weight gpt-oss). Prices from console.groq.com/docs/models, read 2026-10-01.
+      "groq/openai/gpt-oss-120b": {
+        label: "Groq gpt-oss-120b",
+        input: 0.15,
+        output: 0.6,
+        cacheRead: 0.15, // ASSUMPTION: no prompt-caching discount
+        cacheWrite5m: 0.15,
+        cacheWrite1h: 0.15,
+        batchFactor: 0.5, // ASSUMPTION
+        minCacheablePrefix: 1024,
+        tokenizerFactor: 1.0, // ASSUMPTION
+        thinksByDefault: true, // reasoning model
+      },
+      "groq/openai/gpt-oss-20b": {
+        label: "Groq gpt-oss-20b",
+        input: 0.075,
+        output: 0.3,
+        cacheRead: 0.075, // ASSUMPTION: no prompt-caching discount
+        cacheWrite5m: 0.075,
+        cacheWrite1h: 0.075,
+        batchFactor: 0.5, // ASSUMPTION
+        minCacheablePrefix: 1024,
+        tokenizerFactor: 1.0, // ASSUMPTION
+        thinksByDefault: true, // reasoning model
       },
     } satisfies Record<ModelId, ModelInfo>,
   },
@@ -358,6 +385,30 @@ const PARAMS = {
       verify: "claude-opus-5-5",
       tutorThinkingMultiplier: 1, // ASSUMPTION
       note: "Solo referencia: los términos de la Gemini API prohíben apps para menores de 18",
+    },
+    R: {
+      label: "R elegida (Haiku + Sonnet)",
+      tutor: "claude-haiku-4-5",
+      bulk: "claude-sonnet-5-5",
+      verify: "claude-sonnet-5-5",
+      tutorThinkingMultiplier: 0,
+      note: "Decisión del fundador (1 oct 2026): Haiku 4.5 tutor, Sonnet 5.5 genera y verifica",
+    },
+    H: {
+      label: "H Groq gpt-oss-120b",
+      tutor: "groq/openai/gpt-oss-120b",
+      bulk: "claude-sonnet-5-5",
+      verify: "claude-opus-5-5",
+      tutorThinkingMultiplier: 1, // ASSUMPTION
+      note: "Tutor gpt-oss-120b en Groq (como Pulserival); sin evals de calidad ni de seguridad",
+    },
+    H2: {
+      label: "H2 Groq gpt-oss-20b",
+      tutor: "groq/openai/gpt-oss-20b",
+      bulk: "claude-sonnet-5-5",
+      verify: "claude-opus-5-5",
+      tutorThinkingMultiplier: 1, // ASSUMPTION
+      note: "Tutor gpt-oss-20b en Groq; modelo pequeño",
     },
   } satisfies Record<string, Mix>,
 
@@ -793,7 +844,8 @@ function main(p: Params): void {
   out.push(table(["Mezcla · uso", ...p.scaleStudents.flatMap((n) => [`${int(n)} / mes`, `${int(n)} / año`])], rows7));
 
   h("8. Costo único de generación de contenido (Español + Matemáticas 7.º–9.º, USD)");
-  for (const mk of ["A"]) {
+  for (const mk of ["A", "R"]) {
+    out.push(`\n**Mezcla ${mixes[mk].label}**\n`);
     const mix = mixes[mk];
     const std = oneOff(p, mix, L, false);
     const bat = oneOff(p, mix, L, true);
