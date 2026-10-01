@@ -39,6 +39,8 @@ describe("optionValue", () => {
     ["√16", 4],
     ["2 × 3", 6],
     ["₡3 400", 3400],
+    ["−7 °C", -7],
+    ["12 °", 12],
     ["2 450 colones", 2450],
   ])("reads %s as %d", (text, value) => {
     expect(optionValue(text)).toBeCloseTo(value);
@@ -141,6 +143,9 @@ describe("verifyItem", () => {
   it("requires a calculation for numeric math answers when asked to", () => {
     const v = verifyItem(item({ calc: null }), 1, solved(0), { requireCalcForNumericAnswers: true });
     expect(v.reasons).toContain("respuesta numérica sin expresión de cálculo");
+    const classify = item({ calc: null, stem: "¿Cuál de los siguientes números es primo?", options: ["51", "57", "59", "91"], correct_index: 2,
+      distractor_explanations: ["3 × 17", "3 × 19", "", "7 × 13"] });
+    expect(verifyItem(classify, 1, solved(2), { requireCalcForNumericAnswers: true }).verified).toBe(true);
     const conceptual = item({
       calc: null,
       options: ["Agudo", "Recto", "Obtuso", "Llano"],

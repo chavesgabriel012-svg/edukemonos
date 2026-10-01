@@ -168,7 +168,7 @@ export function optionValue(option: string): number | null {
     .replace(/^₡\s*/, "") // colones: "₡3 400"
     .replace(/\s*colones$/i, "");
   // Drop a trailing unit before converting superscripts: "12 cm²" is 12, not 12 cm^2.
-  text = text.replace(/\s*(?:[a-záéíóúñ]+[²³]?|%|°)\s*$/i, "");
+  text = text.replace(/\s*(?:°\s*[a-z]*|[a-záéíóúñ]+[²³]?|%)\s*$/i, "");
   text = cleanMath(text).trim();
   if (!/\d/.test(text) || !/^[-+*/^().\d\s]+$/.test(text.replace(/sqrt/g, ""))) return null;
   try {
@@ -213,6 +213,12 @@ export interface ItemVerification {
 }
 
 /**
+ * Stems that ask for a computed number. Only these must come with a calculation: items that ask to
+ * classify ("¿cuál es primo?") or represent ("3 grados bajo cero") a number have nothing to compute.
+ */
+const ASKS_FOR_CALCULATION = /\b(calcula|resuelve|efect[uú]a|simplifica|cu[aá]nt[oa]s?|valor|resultado)\b/i;
+
+/**
  * Combines the three checks. `verified` requires: no structural issue, the independent solver chose
  * the keyed option without reporting problems, and the calculation (when there is one) matches.
  * Math items whose answer is a number must come with a calculation.
@@ -236,6 +242,7 @@ export function verifyItem(
   if (
     requireCalcForNumericAnswers &&
     math.status === "not_applicable" &&
+    ASKS_FOR_CALCULATION.test(item.stem) &&
     item.options.length === 4 &&
     item.options.every((o) => optionValue(o) !== null)
   ) {

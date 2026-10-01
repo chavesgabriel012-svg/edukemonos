@@ -251,6 +251,23 @@ export async function publishedUnits(db: Db, subject: string, grade: number): Pr
   return rows.map((r) => ({ ...r, skills: [...r.skills].sort((a, b) => a.sort_order - b.sort_order) }));
 }
 
+/**
+ * Recomputes every item's verification from what was generated and what the solver answered.
+ * Lets a fix in the checks apply to cached units without paying for generation again.
+ */
+export function reverify(u: ContentUnit, c: UnitContent): UnitContent {
+  const requireCalc = u.subject_id === "matematicas";
+  return {
+    ...c,
+    choice: c.choice.map(({ item, verification }, i) => {
+      const fixed = normalizeItem(item);
+      const s = verification.solver;
+      const solved = s ? { item: i + 1, chosen_index: s.chosen_index, problems: s.problems } : undefined;
+      return { item: fixed, verification: verifyItem(fixed, u.skills.length, solved, { requireCalcForNumericAnswers: requireCalc }) };
+    }),
+  };
+}
+
 export interface LoadContentSummary {
   materials: number;
   items: number;
@@ -263,7 +280,8 @@ export interface LoadContentSummary {
  * Writes one unit's generated content as drafts. Replaces earlier unreviewed drafts of that unit;
  * anything a reviewer touched (reviewer_id set) or already published is never deleted.
  */
-export async function loadUnitContent(db: Db, u: ContentUnit, c: UnitContent): Promise<LoadContentSummary> {
+export async function loadUnitContent(db: Db, u: ContentUnit, cached: UnitContent): Promise<LoadContentSummary> {
+  const c = reverify(u, cached);
   const unreviewedDraft = `unit_id=eq.${u.id}&status=eq.draft&reviewer_id=is.null`;
   const replaced = (await db.delete("materials", unreviewedDraft)) + (await db.delete("items", `${unreviewedDraft}&origin=eq.bulk`));
   const [mp, mv] = c.prompts.materials.split("@");
