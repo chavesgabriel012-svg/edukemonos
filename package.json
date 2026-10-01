@@ -15,7 +15,8 @@
     "sources:verify": "pnpm --filter @edukemonos/ingest verify",
     "ai:diagnose": "pnpm --filter @edukemonos/ai diagnose",
     "ingest": "pnpm --filter @edukemonos/ingest ingest",
-    "test:e2e": "playwright test -c e2e/playwright.config.ts"
+    "test:e2e": "playwright test -c e2e/playwright.config.ts",
+    "db:bundle": "bash supabase/bundle.sh"
   },
   "devDependencies": {
     "@playwright/test": "^1.63.0",
