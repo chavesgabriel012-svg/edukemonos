@@ -1,0 +1,19 @@
+node_modules/
+.pnpm-store/
+.env
+.env.*
+!.env.example
+.next/
+out/
+dist/
+coverage/
+*.tsbuildinfo
+.DS_Store
+.vercel
+# local ingest cache (official PDFs are re-downloadable; never commit them)
+scripts/ingest/.cache/
+# eval / test reports
+reports/
+playwright-report/
+test-results/
+supabase/.temp/
