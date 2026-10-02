@@ -143,6 +143,22 @@ Sin registro: el estudiante elige año → materia → unidad (`/estudiar/7/mate
 
 **Configuración necesaria en Supabase:** Authentication → Sign In / Providers → activar **Allow anonymous sign-ins**. Conviene subir el límite de inicios anónimos por IP (Authentication → Rate Limits) para que una clase entera, detrás de una sola IP, pueda guardar su avance.
 
+## Tutor (Fase 4)
+
+Pestaña **Preguntar al tutor** de cada unidad (`POST /api/tutor`, respuesta en streaming). Modelo: `MODEL_TUTOR`.
+
+- **Método socrático** con escalera de pistas; no resuelve ejercicios de práctica ni del diagnóstico. Prompt versionado en `packages/ai/src/prompts/tutor.ts`.
+- **Anclado a la unidad publicada** (programa del MEP + material publicado). Recibe el dominio estimado del estudiante, **nunca su nombre**.
+- **Calculadora** (`mathjs`) para toda operación en Matemáticas.
+- **Seguridad:** antes de llegar al modelo se borran teléfonos, correos, cédulas y direcciones; las señales de malestar o abuso muestran la tarjeta de ayuda (`config/help-resources.json`) y le indican al tutor responder con cuidado.
+- **Límites:** `TUTOR_MAX_MESSAGES_PER_SESSION` y `TUTOR_MAX_MESSAGES_PER_DAY` (contadores en Postgres), máximo de tokens por respuesta y el fusible de gasto.
+- **Caché de prompts:** instrucciones + contexto de la unidad son el mismo prefijo para todos los estudiantes de la unidad; `ai_usage` guarda los tokens de caché aparte y el costo usa la tarifa real.
+- **Escritura (Español):** retroalimentación con IA sobre el texto del estudiante; el texto no se guarda, solo los conteos por categoría de error (`writing_feedback`). Límite `WRITING_FEEDBACK_MAX_PER_DAY` (20).
+
+**Evaluaciones:** `pnpm eval:tutor` (sin `--yes` solo estima) corre 60 casos (`packages/ai/evals/tutor/cases.json`) y escribe el reporte en `docs/evals/`.
+
+**Variables necesarias en el servidor (Vercel):** `SUPABASE_SERVICE_ROLE_KEY`, `ANTHROPIC_API_KEY`, `AI_PROVIDER`, `MODEL_TUTOR`, `MODEL_BULK`, `MODEL_VERIFY`, `AI_PRICES_JSON`, `AI_BUDGET_DAILY_USD`, `AI_BUDGET_MONTHLY_USD`, `TUTOR_MAX_MESSAGES_PER_SESSION`, `TUTOR_MAX_MESSAGES_PER_DAY`.
+
 ## Revisión (`/revisar`)
 
 1. Entra en `/entrar` con tu correo (enlace mágico).

@@ -341,7 +341,8 @@ export async function writingFeedback(_prev: WritingState, form: FormData): Prom
   const screened = screenStudentMessage(text);
   try {
     const { data } = await serverAI().generateStructured(
-      { role: "tutor", purpose: "writing_feedback", actorId: userId },
+      // Writing feedback must be exact (it names specific errors): the generation model, not the chat one.
+      { role: "bulk", purpose: "writing_feedback", actorId: userId },
       {
         system: renderPrompt(writingFeedbackSystem, {}),
         messages: [
@@ -353,7 +354,11 @@ export async function writingFeedback(_prev: WritingState, form: FormData): Prom
       },
     );
     const counts = data.errors.filter((e) => e.count > 0).map((e) => ({ student_id: userId, unit_id: item.unit_id, category: e.category, count: Math.min(e.count, 100) }));
-    if (counts.length) await admin.from("writing_feedback").insert(counts);
+    if (counts.length) {
+      await admin.from("students").upsert({ id: userId }, { onConflict: "id", ignoreDuplicates: true });
+      const { error: insertError } = await admin.from("writing_feedback").insert(counts);
+      if (insertError) console.error("writing_feedback insert failed:", insertError.message);
+    }
     return { feedback: data.feedback };
   } catch (error) {
     console.error("writing feedback failed:", (error as Error).message);
