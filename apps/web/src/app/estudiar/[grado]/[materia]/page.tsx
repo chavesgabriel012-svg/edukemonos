@@ -2,6 +2,8 @@ import { levelMessage, STRONG, studyPath, WEAK } from "@edukemonos/curriculum";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { SubjectIcon } from "@/components/brand/subject-icon";
+import { subjectColor } from "@/lib/brand";
 import { currentUser, GRADE_LABEL, masteryMap, parseGrade, subjectName, unitsFor } from "@/lib/learn";
 
 export const metadata: Metadata = { title: "Temas" };
@@ -45,9 +47,12 @@ export default async function SubjectPage({ params }: PageProps<"/estudiar/[grad
 
   return (
     <section className="space-y-8">
-      <div className="space-y-1">
+      <div className="space-y-3">
         <Link href={`/estudiar/${grade}`} className="text-sm underline underline-offset-2">← Materias de {GRADE_LABEL[grade].toLowerCase()}</Link>
-        <h1 className="text-2xl font-bold">{name} · {grade}.º</h1>
+        <div style={{ background: subjectColor(materia) }} className="flex items-start justify-between gap-4 rounded-[22px] px-[22px] py-5 text-tinta">
+          <h1 className="text-3xl leading-none font-bold">{name} · {grade}.º</h1>
+          <SubjectIcon subject={materia} className="size-7" />
+        </div>
       </div>
 
       <div className="space-y-3 rounded-xl border bg-secondary/40 p-5">
