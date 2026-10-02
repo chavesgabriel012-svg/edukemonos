@@ -129,7 +129,9 @@ Por unidad se generan resumen, explicación paso a paso, ejemplos resueltos, glo
 - **Material:** una segunda pasada con `MODEL_VERIFY` busca errores conceptuales, de cálculo y contenido fuera de la unidad. Si encuentra uno, ese material no se publica.
 - **Ítems:** `MODEL_VERIFY` resuelve cada ítem **sin ver la respuesta**. Si la respuesta es un cálculo, además se recalcula con `mathjs`, y debe coincidir con la opción marcada y solo con ella. `verified = true` solo si todo coincide. Solo los ítems verificados entran al diagnóstico.
 - `publish` deja lo publicado como **"Generado con IA · pendiente de revisión"**. En `/revisar/<unidad>/contenido` un revisor lo aprueba (pasa a "revisado por docente"), lo edita o lo rechaza.
-- Cada paso de IA queda en caché por unidad y versión del prompt: un fallo o el fusible de gasto nunca hacen pagar dos veces lo ya generado. Costo medido: unos US$0,12 por unidad de Matemáticas con 6 ítems.
+- `pnpm content repair` corrige el material que la revisión retuvo: lo reescribe con los problemas señalados y lo vuelve a revisar antes de publicarlo.
+- Cada paso de IA queda en caché por unidad y versión del prompt, y `generate` salta las unidades que ya tienen material en Supabase: un fallo, el fusible de gasto o un contenedor reciclado nunca hacen pagar dos veces.
+- **Costo medido (2 oct 2026):** Español y Matemáticas 7.º–9.º (96 unidades) costaron US$17,70 en generación, revisión, verificación y reparación, unos **US$0,18 por unidad**.
 
 ## Revisión (`/revisar`)
 
