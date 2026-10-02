@@ -96,7 +96,12 @@ async function generate() {
     console.log(`No hay unidades publicadas de ${subject} ${grade}.º. Publícalas en /revisar primero.`);
     return;
   }
-  const pending = units.filter((u) => values.force || !readUnitContent(u.id));
+  // Skip units already generated: in the local cache, or (if the container lost it) already in Supabase.
+  const ids = units.map((u) => u.id).join(",");
+  const inDb = new Set(
+    ids ? (await db.select<{ unit_id: string }>("materials", `select=unit_id&unit_id=in.(${ids})`)).map((r) => r.unit_id) : [],
+  );
+  const pending = units.filter((u) => values.force || (!readUnitContent(u.id) && !inDb.has(u.id)));
   const config = loadAIConfig();
   const totals = pending.map(estimateUnit).reduce((a, b) => ({ input: a.input + b.input, output: a.output + b.output }), { input: 0, output: 0 });
   // Generation and verification may use different models: price each share with its own model.
@@ -104,7 +109,7 @@ async function generate() {
     (estimateCostUsd(config.prices, config.models.bulk[0], totals.input * 0.5, totals.output * 0.75) ?? 0) +
     (estimateCostUsd(config.prices, config.models.verify[0], totals.input * 0.5, totals.output * 0.25) ?? 0);
   console.log(
-    `${units.length} unidades publicadas; ${units.length - pending.length} ya generadas (en caché), ${pending.length} por generar ` +
+    `${units.length} unidades publicadas; ${units.length - pending.length} ya generadas, ${pending.length} por generar ` +
       `(${pending.length * 4} llamadas). Estimado: ~${totals.input.toLocaleString()} tokens de entrada y ` +
       `~${totals.output.toLocaleString()} de salida ≈ US$${usd.toFixed(2)}.`,
   );
