@@ -6,7 +6,11 @@ import { SubjectIcon } from "@/components/brand/subject-icon";
 import { subjectColor } from "@/lib/brand";
 import { currentUser, GRADE_LABEL, masteryMap, parseGrade, subjectName, unitsFor } from "@/lib/learn";
 
-export const metadata: Metadata = { title: "Temas" };
+export async function generateMetadata({ params }: PageProps<"/estudiar/[grado]/[materia]">): Promise<Metadata> {
+  const { grado, materia } = await params;
+  const name = await subjectName(materia);
+  return { title: name && parseGrade(grado) ? `${name} ${grado}.º` : "Temas" };
+}
 
 const STATUS = {
   reforzar: { label: "Conviene reforzar", cls: "bg-amber-100 text-amber-950" },

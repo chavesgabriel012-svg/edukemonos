@@ -1,4 +1,4 @@
-# Prompt para Claude Code — Edukemonos (MVP para #AIForImpact)
+# Prompt para Claude Code — Eduka, antes Edukemonos (MVP para #AIForImpact)
 
 > **Cómo usar este archivo**
 > 1. Crea el repo vacío y guarda este archivo como `docs/SPEC.md`.
@@ -63,7 +63,7 @@ La arquitectura debe quedar **dirigida por datos** para sumar después I y II Ci
 
 1. **Honestidad de datos.** No inventar cifras, fuentes ni contenido curricular. Cada unidad del mapa curricular guarda documento fuente, página y un extracto textual.
 2. **Anclaje al currículo.** El tutor y los generadores usan solo unidades con estado `published`. Si algo no está en el currículo cargado, el tutor lo dice en vez de improvisar.
-3. **No es una plataforma oficial del MEP.** Mostrar en el pie de toda página: "Edukemonos es una iniciativa independiente. No es una plataforma oficial del Ministerio de Educación Pública." Citar al MEP como fuente del currículo.
+3. **No es una plataforma oficial del MEP.** Mostrar en el pie de toda página: "Eduka es una iniciativa independiente. No es una plataforma oficial del Ministerio de Educación Pública." Citar al MEP como fuente del currículo.
 4. **Transparencia sobre la IA.** Todo material muestra su estado: "Generado con IA · pendiente de revisión" o "Generado con IA · revisado por docente". Botón "Reportar un error" en cada material, práctica y respuesta del tutor.
 5. **Datos de menores.** Recoger lo mínimo, no enviar nombres al modelo, aviso de privacidad visible y consentimiento básico al unirse a una sección, retención configurable. La política final debe revisarla alguien con formación legal (referencia: Ley 8968 de protección de datos personales).
 6. **Seguridad infantil.** El tutor no pide datos personales, no da consejo médico ni legal, y ante señales de malestar serio o riesgo responde con cuidado y orienta a un adulto de confianza o al docente. Los recursos de ayuda van en un archivo de configuración que completaré yo con números verificados (el 911 sí puede ir como emergencia).
@@ -203,8 +203,8 @@ Los estados de revisión (`generado` / `revisado`) deben verse en la interfaz. G
 
 - **Mobile-first**, ligera, instalable como PWA. Pensada para conexiones débiles y celulares modestos.
 - Accesibilidad WCAG AA: contraste, tamaño de texto ajustable, opción de fuente legible, navegación por teclado.
-- Flujo del estudiante: elegir grado → materia → (diagnóstico opcional) → lista de unidades con su dominio → unidad con pestañas **Aprender / Practicar / Preguntar al tutor**.
-- Visual amable y escolar, sin estridencias. Nombre: **Edukemonos**.
+- Flujo del estudiante: elegir grado → materia → (diagnóstico opcional) → lista de unidades con su dominio → unidad con pestañas **Aprender / Practicar / Preguntar a Kemo**.
+- Visual amable y escolar, sin estridencias. Nombre: **Eduka** (antes Edukemonos); identidad en [`docs/brand.md`](brand.md).
 
 ## 14. Calidad y pruebas
 

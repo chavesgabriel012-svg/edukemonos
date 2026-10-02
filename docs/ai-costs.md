@@ -1,4 +1,4 @@
-# Costos de IA de Edukemonos (estimación)
+# Costos de IA de Eduka (estimación)
 
 > **Fecha:** 1 de octubre de 2026 · **Estado:** estimación con **supuestos**, todavía sin datos reales de uso.
 > Montos en dólares estadounidenses (USD), con punto decimal. Los colones usan un tipo de cambio **supuesto** de ₡500/USD (verificar el del BCCR).

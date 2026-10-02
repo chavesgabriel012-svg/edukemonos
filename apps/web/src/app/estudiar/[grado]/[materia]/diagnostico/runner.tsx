@@ -3,6 +3,7 @@
 import { levelMessage } from "@edukemonos/curriculum";
 import Link from "next/link";
 import { useRef, useState, useTransition } from "react";
+import { Kemo } from "@/components/brand/logo";
 import { Markdown } from "@/components/learn/markdown";
 import {
   answerItem,
@@ -12,6 +13,7 @@ import {
   finishDiagnostic,
   startDiagnostic,
 } from "@/app/estudiar/actions";
+import { brand } from "@/lib/brand";
 
 /**
  * Adaptive diagnostic: no right/wrong feedback per question (that is what practice is for);
@@ -63,7 +65,8 @@ export function DiagnosticRunner({ subject, grade }: { subject: string; grade: n
 
   if (result) {
     return (
-      <div role="status" className="space-y-4 rounded-xl border p-6">
+      <div role="status" className="space-y-4 rounded-[22px] border bg-card p-6">
+        <Kemo size={64} mood={result.status === "completed" ? "happy" : "think"} background={brand.lima} />
         {result.status === "completed" && result.level !== undefined ? (
           <>
             <h2 className="text-xl font-semibold">Tu nivel estimado: {result.level.toFixed(1)} de 5</h2>
@@ -85,7 +88,8 @@ export function DiagnosticRunner({ subject, grade }: { subject: string; grade: n
 
   if (!step) {
     return (
-      <div className="space-y-4 rounded-xl border p-6">
+      <div className="space-y-4 rounded-[22px] border bg-card p-6">
+        <Kemo size={64} mood="down" background={brand.lima} />
         <p>Son unas 10 preguntas de selección única. Se adaptan a tus respuestas: si aciertas, la siguiente es un poco más difícil; si no, un poco más fácil.</p>
         <p className="text-sm text-muted-foreground">No es un examen y no tiene nota. Sirve para sugerirte por dónde empezar. Si no sabes una respuesta, elige la que te parezca más razonable.</p>
         {error && <p role="alert" className="text-sm text-destructive">{error}</p>}

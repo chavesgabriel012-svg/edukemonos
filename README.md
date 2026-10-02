@@ -1,8 +1,10 @@
-# Edukemonos
+# Eduka
 
 Plataforma educativa abierta con IA para estudiantes de colegio público en Costa Rica (MVP: III Ciclo — 7.º, 8.º y 9.º).
 
-> Edukemonos es una iniciativa independiente. No es una plataforma oficial del Ministerio de Educación Pública.
+> Antes se llamaba Edukemonos; la mascota y tutor, **Kemo**, conserva el nombre original. Guía de marca: [`docs/brand.md`](docs/brand.md).
+
+> Eduka es una iniciativa independiente. No es una plataforma oficial del Ministerio de Educación Pública.
 
 - Alcance y reglas: [`docs/SPEC.md`](docs/SPEC.md)
 - Plan por fases, riesgos y preguntas abiertas: [`PLAN.md`](PLAN.md)
