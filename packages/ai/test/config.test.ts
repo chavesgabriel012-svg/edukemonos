@@ -30,3 +30,12 @@ describe("estimateCostUsd", () => {
     expect(estimateCostUsd(prices, "b", 10, 10)).toBeNull();
   });
 });
+
+describe("estimateCostUsd with prompt caching", () => {
+  it("prices cache reads at 0.1× and cache writes at 1.25× of the input price", () => {
+    const prices = { m: { input: 1, output: 5 } };
+    // 10k input of which 8k read from cache and 1k written: 1k + 0.8k + 1.25k = 3.05k priced input tokens
+    expect(estimateCostUsd(prices, "m", 10_000, 1_000, { readTokens: 8_000, writeTokens: 1_000 })).toBeCloseTo((3_050 + 5_000) / 1e6, 10);
+    expect(estimateCostUsd(prices, "m", 10_000, 1_000)).toBeCloseTo((10_000 + 5_000) / 1e6, 10);
+  });
+});

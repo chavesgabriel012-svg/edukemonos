@@ -129,13 +129,22 @@ export function assertPricesCoverModels(config: AIConfig): void {
   }
 }
 
+/** Anthropic's prompt-cache multipliers on the input price (reads 0.1×, 5-minute writes 1.25×). */
+export const CACHE_READ_FACTOR = 0.1;
+export const CACHE_WRITE_FACTOR = 1.25;
+
 export function estimateCostUsd(
   prices: Record<string, ModelPrice>,
   model: string,
   inputTokens: number,
   outputTokens: number,
+  cache: { readTokens?: number; writeTokens?: number } = {},
 ): number | null {
   const price = prices[model];
   if (!price) return null;
-  return (inputTokens * price.input + outputTokens * price.output) / 1_000_000;
+  const read = cache.readTokens ?? 0;
+  const write = cache.writeTokens ?? 0;
+  const uncached = Math.max(0, inputTokens - read - write);
+  const input = uncached + read * CACHE_READ_FACTOR + write * CACHE_WRITE_FACTOR;
+  return (input * price.input + outputTokens * price.output) / 1_000_000;
 }

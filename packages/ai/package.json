@@ -4,17 +4,20 @@
   "type": "module",
   "exports": {
     ".": "./src/index.ts",
-    "./prompts": "./src/prompts/index.ts"
+    "./prompts": "./src/prompts/index.ts",
+    "./tutor": "./src/tutor/index.ts"
   },
   "scripts": {
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
-    "diagnose": "tsx src/cli/diagnose.ts"
+    "diagnose": "tsx src/cli/diagnose.ts",
+    "eval:tutor": "tsx src/cli/eval-tutor.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.131.0",
     "openai": "^7.25.0",
-    "zod": "^4.6.5"
+    "zod": "^4.6.5",
+    "@edukemonos/curriculum": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^26.6.3",

@@ -14,6 +14,7 @@
     "test:rls": "pnpm --filter @edukemonos/db-tests test",
     "sources:verify": "pnpm --filter @edukemonos/ingest verify",
     "ai:diagnose": "pnpm --filter @edukemonos/ai diagnose",
+    "eval:tutor": "pnpm --filter @edukemonos/ai eval:tutor",
     "ingest": "pnpm --filter @edukemonos/ingest ingest",
     "content": "pnpm --filter @edukemonos/ingest content",
     "test:e2e": "playwright test -c e2e/playwright.config.ts",

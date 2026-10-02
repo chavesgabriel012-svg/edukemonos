@@ -36,6 +36,8 @@ export interface CallInput {
   maxTokens?: number;
   /** Overrides the role's configured effort for this call (e.g. a verifier that must reason hard). */
   effort?: Effort;
+  /** Cache the system prompt as a stable prefix (tutor: instructions + unit context). */
+  cacheSystem?: boolean;
   signal?: AbortSignal;
 }
 
@@ -104,6 +106,8 @@ export function createAI(options: CreateAIOptions = {}) {
    * not be a key of AI_PRICES_JSON; `requested` is the configured id, priced by config validation.
    * Pricing falls back to it so a dated id never logs a null cost the spending fuse can't see.
    */
+  const cacheOf = (u: Usage) => ({ readTokens: u.cacheReadTokens, writeTokens: u.cacheWriteTokens });
+
   async function log(ctx: CallContext, model: string, started: number, usage: Usage | null, error: unknown, requested = model) {
     if (!sink) return;
     const record: UsageRecord = {
@@ -112,9 +116,11 @@ export function createAI(options: CreateAIOptions = {}) {
       purpose: ctx.purpose,
       inputTokens: usage?.inputTokens ?? null,
       outputTokens: usage?.outputTokens ?? null,
+      cacheReadTokens: usage?.cacheReadTokens ?? null,
+      cacheWriteTokens: usage?.cacheWriteTokens ?? null,
       costUsdEstimate: usage
-        ? (estimateCostUsd(config.prices, model, usage.inputTokens, usage.outputTokens) ??
-          estimateCostUsd(config.prices, requested, usage.inputTokens, usage.outputTokens))
+        ? (estimateCostUsd(config.prices, model, usage.inputTokens, usage.outputTokens, cacheOf(usage)) ??
+          estimateCostUsd(config.prices, requested, usage.inputTokens, usage.outputTokens, cacheOf(usage)))
         : null,
       latencyMs: Math.round(performance.now() - started),
       success: error == null,
@@ -137,6 +143,7 @@ export function createAI(options: CreateAIOptions = {}) {
       system: input.system,
       messages: input.messages,
       maxTokens: input.maxTokens,
+      cacheSystem: input.cacheSystem,
       signal: input.signal,
     };
   }

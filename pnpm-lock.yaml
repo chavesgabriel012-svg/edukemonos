@@ -26,6 +26,9 @@ importers:
       '@base-ui/react':
         specifier: ^1.8.0
         version: 1.8.0(@types/react@19.3.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+      '@edukemonos/ai':
+        specifier: workspace:*
+        version: link:../../packages/ai
       '@edukemonos/curriculum':
         specifier: workspace:*
         version: link:../../packages/curriculum
@@ -102,6 +105,9 @@ importers:
       '@anthropic-ai/sdk':
         specifier: ^0.131.0
         version: 0.131.0(zod@4.6.5)
+      '@edukemonos/curriculum':
+        specifier: workspace:*
+        version: link:../curriculum
       openai:
         specifier: ^7.25.0
         version: 7.25.0(undici@7.30.0)(zod@4.6.5)

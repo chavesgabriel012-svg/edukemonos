@@ -266,3 +266,102 @@ export async function reportError(_prev: ReportState, form: FormData): Promise<R
   }
   return { sent: true };
 }
+
+// ---------------------------------------------------------------------------
+// Tutor and writing feedback
+// ---------------------------------------------------------------------------
+
+export interface TutorMessage {
+  id: string;
+  role: "user" | "assistant";
+  content: string;
+  safety_flags: string[];
+}
+
+/**
+ * Makes sure the student has a session before the first tutor message, and returns their latest
+ * conversation for this unit (their own rows only: RLS).
+ */
+export async function openTutor(unitId: string): Promise<ActionResult<{ sessionId: string | null; messages: TutorMessage[] }>> {
+  if (!UUID.test(unitId)) return fail("Unidad inválida.");
+  const { supabase, userId, error } = await studentClient();
+  if (error || !userId) return fail(error ?? "No pudimos abrir tu sesión.");
+  const { data: session } = await supabase
+    .from("tutor_sessions")
+    .select("id")
+    .eq("student_id", userId)
+    .eq("unit_id", unitId)
+    .order("last_message_at", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+  if (!session) return { ok: true, data: { sessionId: null, messages: [] } };
+  const { data: messages } = await supabase
+    .from("tutor_messages")
+    .select("id, role, content, safety_flags")
+    .eq("session_id", session.id)
+    .in("role", ["user", "assistant"])
+    .order("created_at");
+  return { ok: true, data: { sessionId: session.id, messages: (messages ?? []) as TutorMessage[] } };
+}
+
+export interface WritingState {
+  feedback?: string;
+  error?: string;
+}
+
+/**
+ * Feedback on an open writing task (Español). The text goes to the model once and is not stored;
+ * only error counts per category are kept for the teacher (SPEC §6, §10).
+ */
+export async function writingFeedback(_prev: WritingState, form: FormData): Promise<WritingState> {
+  const itemId = String(form.get("item_id") ?? "");
+  const text = String(form.get("text") ?? "").trim();
+  if (!UUID.test(itemId)) return { error: "Consigna inválida." };
+  if (text.length < 20) return { error: "Escribe un poco más para poder darte retroalimentación." };
+  if (text.length > 4_000) return { error: "Tu texto es muy largo; intenta con uno más corto (máximo unas 600 palabras)." };
+  const { userId, error: sessionError } = await studentClient();
+  if (sessionError || !userId) return { error: sessionError ?? "No pudimos abrir tu sesión." };
+
+  const { adminClient } = await import("@/lib/supabase/admin");
+  const { consumeQuota, serverAI, TUTOR_LIMITS } = await import("@/lib/tutor-server");
+  const { screenStudentMessage, writingFeedbackSchema } = await import("@edukemonos/ai/tutor");
+  const { renderPrompt, writingFeedbackSystem } = await import("@edukemonos/ai/prompts");
+  const admin = adminClient();
+  const { data: item } = await admin
+    .from("items")
+    .select("id, unit_id, stem, explanation, kind, status")
+    .eq("id", itemId)
+    .eq("kind", "open_writing")
+    .eq("status", "published")
+    .maybeSingle();
+  if (!item) return { error: "Esta consigna no está disponible." };
+  if (!(await consumeQuota(`writing:day:${userId}`, TUTOR_LIMITS.writingPerDay, 86_400))) {
+    return { error: "Por hoy ya pediste todas las revisiones de escritura. Mañana puedes seguir." };
+  }
+  const screened = screenStudentMessage(text);
+  try {
+    const { data } = await serverAI().generateStructured(
+      // Writing feedback must be exact (it names specific errors): the generation model, not the chat one.
+      { role: "bulk", purpose: "writing_feedback", actorId: userId },
+      {
+        system: renderPrompt(writingFeedbackSystem, {}),
+        messages: [
+          { role: "user", content: `Consigna:\n${item.stem}\n\nCriterios:\n${item.explanation ?? ""}\n\nTexto del estudiante:\n${screened.text}` },
+        ],
+        schema: writingFeedbackSchema,
+        schemaName: "writing_feedback",
+        maxTokens: 2_000,
+      },
+    );
+    const counts = data.errors.filter((e) => e.count > 0).map((e) => ({ student_id: userId, unit_id: item.unit_id, category: e.category, count: Math.min(e.count, 100) }));
+    if (counts.length) {
+      await admin.from("students").upsert({ id: userId }, { onConflict: "id", ignoreDuplicates: true });
+      const { error: insertError } = await admin.from("writing_feedback").insert(counts);
+      if (insertError) console.error("writing_feedback insert failed:", insertError.message);
+    }
+    return { feedback: data.feedback };
+  } catch (error) {
+    console.error("writing feedback failed:", (error as Error).message);
+    return { error: "No pudimos revisar tu texto ahora. Intenta de nuevo en un rato." };
+  }
+}

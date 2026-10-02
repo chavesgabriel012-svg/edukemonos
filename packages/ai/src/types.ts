@@ -13,6 +13,7 @@ export type Purpose =
   | "bulk_items"
   | "verify_item"
   | "verify_material"
+  | "writing_feedback"
   | "teacher_summary"
   | "eval"
   | "diagnostic"
@@ -27,8 +28,12 @@ export interface ChatMessage {
 }
 
 export interface Usage {
+  /** All input tokens, cached or not. */
   inputTokens: number;
   outputTokens: number;
+  /** Of inputTokens: read from the prompt cache (≈0.1× input price) and written to it (≈1.25×). */
+  cacheReadTokens?: number;
+  cacheWriteTokens?: number;
 }
 
 /** A tool the model may call. Input is validated with the zod schema before `run` executes. */
@@ -45,6 +50,8 @@ export interface BaseRequest {
   messages: ChatMessage[];
   maxTokens?: number;
   effort?: Effort;
+  /** Marks the system prompt as a prompt-cache prefix (it must be identical across calls). */
+  cacheSystem?: boolean;
   signal?: AbortSignal;
 }
 
@@ -96,6 +103,8 @@ export interface UsageRecord {
   purpose: Purpose;
   inputTokens: number | null;
   outputTokens: number | null;
+  cacheReadTokens?: number | null;
+  cacheWriteTokens?: number | null;
   costUsdEstimate: number | null;
   latencyMs: number;
   success: boolean;
