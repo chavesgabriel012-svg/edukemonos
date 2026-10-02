@@ -6,6 +6,7 @@
  *   pnpm ingest structure --source mep-prog-matematicas --grade 7 [--yes]
  *   pnpm ingest load      --source mep-prog-matematicas --grade 7 [--alongside-reviewed]
  *   pnpm ingest coverage  --source mep-prog-matematicas --grade 7
+ *   pnpm ingest publish-units --source mep-prog-matematicas --grade 7 --yes   (drafts without issues → published)
  *   pnpm ingest run       --source mep-prog-matematicas --grade 7 --yes   (all of the above)
  *   pnpm ingest db-check
  *
@@ -23,7 +24,7 @@ import { pageCoverage } from "./coverage";
 import { dbFromEnv } from "./db";
 import { downloadSource } from "./download";
 import { extractPages, pageMap } from "./extract";
-import { loadExtraction, readExtraction, upsertPages, upsertSource } from "./load";
+import { loadExtraction, publishDraftUnits, readExtraction, upsertPages, upsertSource } from "./load";
 import { formatPages, structureGrade } from "./structure";
 
 const envFile = join(import.meta.dirname, "../../../apps/web/.env.local");
@@ -143,6 +144,21 @@ async function main() {
     case "run":
       if ((await structure(source(), grade())) && values.yes) await load(source(), grade());
       break;
+    case "publish-units": {
+      const e = source();
+      const g = grade();
+      const db = requireDb();
+      const [src] = await db.select<{ id: string }>("curriculum_sources", `select=id&source_key=eq.${e.id}`);
+      if (!src) throw new Error(`${e.id} is not loaded yet`);
+      if (!values.yes) {
+        console.log("Publica los borradores sin problemas de verificación y con habilidades. Repite con --yes para hacerlo.");
+        break;
+      }
+      const s = await publishDraftUnits(db, src.id, g);
+      console.log(`${e.id} ${g}.º: ${s.published} unidades publicadas.`);
+      for (const h of s.held) console.log(`  quedó en borrador: ${h.title} (${h.reason})`);
+      break;
+    }
     case "db-check": {
       const db = requireDb();
       const subjects = await db.select<{ id: string }>("subjects", "select=id");
@@ -151,7 +167,7 @@ async function main() {
       break;
     }
     default:
-      console.log("Comandos: download | extract | structure | load | coverage | run | db-check (ver encabezado de src/cli.ts)");
+      console.log("Comandos: download | extract | structure | load | coverage | run | publish-units | db-check (ver encabezado de src/cli.ts)");
       process.exitCode = 1;
   }
 }

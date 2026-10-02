@@ -140,6 +140,36 @@ export async function loadExtraction(
   return { deletedDrafts, units, skills, unitsWithIssues };
 }
 
+export interface PublishUnitsSummary {
+  published: number;
+  held: { title: string; reason: string }[];
+}
+
+/**
+ * Publishes the draft units of a source and grade that a reviewer would not be blocked on: no
+ * open verification issue and at least one skill (same rules as /revisar). Used when the founder
+ * authorizes publishing without a per-unit review. reviewed_by stays null, so it is visible that
+ * no person reviewed them one by one.
+ */
+export async function publishDraftUnits(db: Db, sourceDbId: string, grade: number): Promise<PublishUnitsSummary> {
+  const drafts = await db.select<{ id: string; title: string; extraction_meta: { issues?: unknown[] }; skills: { count: number }[] }>(
+    "curriculum_units",
+    `select=id,title,extraction_meta,skills(count)&source_id=eq.${sourceDbId}&grade_id=eq.${grade}&status=eq.draft`,
+  );
+  const held: PublishUnitsSummary["held"] = [];
+  const ok: string[] = [];
+  for (const u of drafts) {
+    const issues = u.extraction_meta.issues?.length ?? 0;
+    if (issues) held.push({ title: u.title, reason: `${issues} problema(s) de verificación` });
+    else if ((u.skills[0]?.count ?? 0) === 0) held.push({ title: u.title, reason: "sin habilidades" });
+    else ok.push(u.id);
+  }
+  const published = ok.length
+    ? await db.update("curriculum_units", `id=in.(${ok.join(",")})&status=eq.draft`, { status: "published", reviewed_at: new Date().toISOString() })
+    : 0;
+  return { published, held };
+}
+
 export function readExtraction(sourceId: string, grade: number): GradeExtraction {
   return JSON.parse(readFileSync(paths.extraction(sourceId, grade), "utf8")) as GradeExtraction;
 }
