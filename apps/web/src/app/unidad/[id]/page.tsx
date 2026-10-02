@@ -6,7 +6,10 @@ import { Markdown } from "@/components/learn/markdown";
 import { ReportButton } from "@/components/learn/report-button";
 import type { Material } from "@/lib/learn";
 import { createClient } from "@/lib/supabase/server";
+import { helpResources } from "@/lib/tutor-server";
 import { Practice } from "./practice";
+import { TutorChat } from "./tutor-chat";
+import { WritingTask } from "./writing-task";
 
 export const metadata: Metadata = { title: "Unidad" };
 
@@ -100,11 +103,12 @@ export default async function UnitPage({ params, searchParams }: PageProps<"/uni
           {(writing ?? []).length > 0 && (
             <section className="space-y-3">
               <h2 className="text-xl font-semibold">Para escribir</h2>
-              <p className="text-sm text-muted-foreground">Escríbelo en tu cuaderno. Pronto el tutor podrá darte retroalimentación.</p>
+              <p className="text-sm text-muted-foreground">Escribe tu respuesta y pide retroalimentación.</p>
               {(writing ?? []).map((w: { id: string; stem: string; reviewer_id: string | null }) => (
                 <div key={w.id} className="space-y-2 rounded-xl border p-4">
                   <ContentBadge reviewed={w.reviewer_id !== null} />
                   <Markdown>{w.stem}</Markdown>
+                  <WritingTask itemId={w.id} />
                   <ReportButton targetType="item" targetId={w.id} />
                 </div>
               ))}
@@ -113,15 +117,7 @@ export default async function UnitPage({ params, searchParams }: PageProps<"/uni
         </div>
       )}
 
-      {tab === "tutor" && (
-        <div className="rounded-xl border border-dashed p-6 text-muted-foreground">
-          <h2 className="text-lg font-semibold text-foreground">Tutor de IA: muy pronto</h2>
-          <p className="mt-2">
-            Aquí podrás conversar con un tutor que te guía paso a paso sobre esta unidad, sin darte las respuestas de una vez.
-            Mientras tanto, practica con los ejercicios: cada uno trae su explicación.
-          </p>
-        </div>
-      )}
+      {tab === "tutor" && <TutorChat unitId={id} help={helpResources} />}
     </article>
   );
 }

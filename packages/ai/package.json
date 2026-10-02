@@ -10,7 +10,8 @@
   "scripts": {
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
-    "diagnose": "tsx src/cli/diagnose.ts"
+    "diagnose": "tsx src/cli/diagnose.ts",
+    "eval:tutor": "tsx src/cli/eval-tutor.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.131.0",

@@ -178,3 +178,25 @@ describe("diagnose", () => {
     expect(rows.filter((r) => r.status === "no_price").map((r) => r.model).sort()).toEqual(["b1", "sonnet", "v1"]);
   });
 });
+
+describe("supabaseUsageSink and the cache columns", () => {
+  it("retries without the cache breakdown when the database does not have those columns yet", async () => {
+    const inserted: Record<string, unknown>[] = [];
+    const db = {
+      from: () => ({
+        insert: async (row: Record<string, unknown>) => {
+          if ("cache_read_tokens" in row) return { error: { message: "Could not find the 'cache_read_tokens' column" } };
+          inserted.push(row);
+          return { error: null };
+        },
+      }),
+      rpc: async () => ({ data: null, error: null }),
+    };
+    await supabaseUsageSink(db)({
+      provider: "anthropic", model: "haiku", purpose: "tutor", inputTokens: 5000, outputTokens: 200,
+      cacheReadTokens: 4000, cacheWriteTokens: 0, costUsdEstimate: 0.0024, latencyMs: 5, success: true, error: null, actorId: "a", sectionId: null,
+    });
+    expect(inserted).toHaveLength(1);
+    expect(inserted[0]).toMatchObject({ cost_usd_estimate: 0.0024, input_tokens: 5000 });
+  });
+});

@@ -13,24 +13,24 @@ export interface SupabaseLike {
 /** Writes one `ai_usage` row per call (or failed attempt). */
 export function supabaseUsageSink(db: SupabaseLike): UsageSink {
   return async (r: UsageRecord) => {
-    const { error } = await db.from("ai_usage").insert({
+    const row: Record<string, unknown> = {
       provider: r.provider,
       model: r.model,
       purpose: r.purpose,
       input_tokens: r.inputTokens,
       output_tokens: r.outputTokens,
-      // Only sent when there was cache traffic, so logging keeps working on databases where the
-      // 20261005000100 migration (cache columns) has not been applied yet.
-      ...(r.cacheReadTokens || r.cacheWriteTokens
-        ? { cache_read_tokens: r.cacheReadTokens ?? 0, cache_write_tokens: r.cacheWriteTokens ?? 0 }
-        : {}),
       cost_usd_estimate: r.costUsdEstimate,
       latency_ms: r.latencyMs,
       success: r.success,
       error: r.error,
       actor_id: r.actorId ?? null,
       section_id: r.sectionId ?? null,
-    });
+    };
+    const cache = r.cacheReadTokens || r.cacheWriteTokens ? { cache_read_tokens: r.cacheReadTokens ?? 0, cache_write_tokens: r.cacheWriteTokens ?? 0 } : null;
+    let { error } = await db.from("ai_usage").insert(cache ? { ...row, ...cache } : row);
+    // Databases without the cache columns yet (migration 20261005000100): keep the row, which is
+    // what the spend fuse reads, and drop only the breakdown.
+    if (error && cache && /cache_(read|write)_tokens/.test(error.message)) ({ error } = await db.from("ai_usage").insert(row));
     if (error) throw new Error(`ai_usage insert failed: ${error.message}`);
   };
 }
