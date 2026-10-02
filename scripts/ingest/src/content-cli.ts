@@ -4,6 +4,7 @@
  *   pnpm content generate --subject matematicas --grade 7 [--unit <id>] [--limit N] [--yes] [--force]
  *   pnpm content load     --subject matematicas --grade 7     (cached results → draft rows)
  *   pnpm content publish  --subject matematicas --grade 7     (only what passed every check)
+ *   pnpm content repair   --subject matematicas --grade 7 [--yes]  (fix material the review held back)
  *   pnpm content status   --subject matematicas --grade 7
  *
  * `generate` spends money: without --yes it only prints an estimate. Each unit is cached as soon as
@@ -18,12 +19,14 @@ import { AIBudgetExceededError, estimateCostUsd, loadAIConfig } from "@edukemono
 import { itemTarget } from "@edukemonos/curriculum";
 import { scriptAI } from "./ai";
 import {
+  applyRepairs,
   type ContentUnit,
   generateUnitContent,
   loadUnitContent,
   publishedUnits,
   publishVerified,
   readUnitContent,
+  repairUnitMaterials,
   saveUnitContent,
   writingCount,
 } from "./content";
@@ -116,6 +119,10 @@ async function generate() {
       const content = await generateUnitContent(ai, u, { log: (m) => console.log(`  ${label}: ${m}`) });
       saveUnitContent(content);
       const s = await loadUnitContent(db, u, content);
+      if (s.skipped) {
+        console.log(`✓ ${label}: generado y guardado en caché; la unidad ya tenía contenido publicado, así que no se cargó.`);
+        continue;
+      }
       const okMaterials = content.materials.filter((m) => m.check.ok).length;
       console.log(
         `✓ ${label}: material ${okMaterials}/${content.materials.length} aprobado por el revisor; ` +
@@ -138,8 +145,42 @@ async function load() {
     const content = readUnitContent(u.id);
     if (!content) continue;
     const s = await loadUnitContent(db, u, content);
+    if (s.skipped) {
+      console.log(`${u.title}: ya tiene contenido publicado o revisado; no se tocó (usa repair o /revisar).`);
+      continue;
+    }
     console.log(`${u.title}: ${s.materials} materiales, ${s.items} ítems (${s.verified} verificados), ${s.writing} consignas.`);
   }
+}
+
+async function repair() {
+  const { subject, grade } = args();
+  const db = requireDb();
+  const units = (await selectUnits(subject, grade)).flatMap((u) => {
+    const c = readUnitContent(u.id);
+    return c && c.materials.some((m) => !m.check.ok) ? [{ u, c }] : [];
+  });
+  const count = units.reduce((n, x) => n + x.c.materials.filter((m) => !m.check.ok).length, 0);
+  console.log(`${count} materiales retenidos por la revisión en ${units.length} unidades (2 llamadas cada uno, ~US$0,05).`);
+  if (!values.yes || count === 0) {
+    if (count) console.log("No se llamó a la IA. Repite con --yes para ejecutar.");
+    return;
+  }
+  const ai = scriptAI(db);
+  for (const { u, c } of units) {
+    try {
+      const { content, repaired } = await repairUnitMaterials(ai, u, c, { log: (m) => console.log(`  ${u.title}: ${m}`) });
+      saveUnitContent(content);
+      await applyRepairs(db, u, content, repaired);
+    } catch (error) {
+      if (error instanceof AIBudgetExceededError) {
+        console.log(`Se alcanzó el fusible de gasto (${error.message}).`);
+        return;
+      }
+      console.log(`✗ ${u.title}: ${(error as Error).message}`);
+    }
+  }
+  await publish();
 }
 
 async function publish() {
@@ -177,10 +218,12 @@ async function main() {
       return load();
     case "publish":
       return publish();
+    case "repair":
+      return repair();
     case "status":
       return status();
     default:
-      console.log("Comandos: generate | load | publish | status (ver encabezado de src/content-cli.ts)");
+      console.log("Comandos: generate | load | publish | repair | status (ver encabezado de src/content-cli.ts)");
       process.exitCode = 1;
   }
 }

@@ -7,7 +7,8 @@ process.env.INGEST_CACHE_DIR = mkdtempSync(join(tmpdir(), "content-test-"));
 
 const { createAI } = await import("@edukemonos/ai");
 const { createDb } = await import("../src/db");
-const { generateUnitContent, itemsBlock, loadUnitContent, publishVerified, unitBlock } = await import("../src/content");
+const { applyRepairs, generateUnitContent, itemsBlock, loadUnitContent, publishVerified, repairUnitMaterials, unitBlock } =
+  await import("../src/content");
 import type { ProviderAdapter } from "@edukemonos/ai";
 import type { ContentUnit } from "../src/content";
 
@@ -43,6 +44,7 @@ const outputs: Record<string, unknown> = {
     notes: "",
   },
   solved_items: { answers: [{ item: 1, chosen_index: 2, problems: "" }, { item: 2, chosen_index: 1, problems: "" }] },
+  repaired_material: { content: `${longText} (corregido)`, notes: "definición corregida" },
 };
 
 function fakeAI() {
@@ -67,12 +69,14 @@ function fakeAI() {
   return { ai, generateStructured };
 }
 
-function fakeDb() {
+function fakeDb({ settled = false }: { settled?: boolean } = {}) {
   const calls: { method: string; url: string; body?: unknown }[] = [];
   const fetchImpl = vi.fn(async (url: string, init?: RequestInit) => {
     const method = init?.method ?? "GET";
     calls.push({ method, url, body: init?.body ? JSON.parse(String(init.body)) : undefined });
-    if (method === "DELETE" || method === "PATCH") return new Response("[]", { status: 200 });
+    if (method === "GET") return new Response(settled ? '[{"id":"pub"}]' : "[]", { status: 200 });
+    if (method === "DELETE") return new Response("[]", { status: 200 });
+    if (method === "PATCH") return new Response('[{"id":"x"}]', { status: 200 });
     return new Response("", { status: 201 });
   }) as unknown as typeof fetch;
   return { db: createDb("https://example.supabase.co", "k", fetchImpl), calls };
@@ -121,5 +125,34 @@ describe("content generation", () => {
     expect(patches[0]).toContain("verification->>ok=eq.true");
     expect(patches[1]).toContain("verified=is.true");
     expect(patches.every((u) => u.includes("status=eq.draft"))).toBe(true);
+  });
+
+  it("never loads next to published or reviewed content (it would duplicate it)", async () => {
+    const { ai } = fakeAI();
+    const content = await generateUnitContent(ai, unit);
+    const { db, calls } = fakeDb({ settled: true });
+    expect((await loadUnitContent(db, unit, content)).skipped).toBe(true);
+    expect(calls.filter((c) => c.method !== "GET")).toEqual([]);
+  });
+
+  it("repairs held-back material, re-reviews it and updates only its own unreviewed draft", async () => {
+    const { ai, generateStructured } = fakeAI();
+    const content = await generateUnitContent(ai, unit);
+    generateStructured.mockClear();
+    outputs.material_review = { problems: [] }; // the second review finds nothing
+    const { content: fixed, repaired } = await repairUnitMaterials(ai, unit, content);
+    expect(repaired).toEqual(["glossary"]);
+    expect(generateStructured.mock.calls.map((c) => (c[0] as unknown as { schemaName: string }).schemaName)).toEqual([
+      "repaired_material",
+      "material_review",
+    ]);
+    const glossary = fixed.materials.find((m) => m.kind === "glossary")!;
+    expect(glossary.check.ok).toBe(true);
+    expect(glossary.repaired?.previousProblems[0].explanation).toBe("definición incorrecta");
+
+    const { db, calls } = fakeDb();
+    expect(await applyRepairs(db, unit, fixed, repaired)).toBe(1);
+    const patch = calls.find((c) => c.method === "PATCH")!;
+    expect(decodeURIComponent(patch.url)).toContain("kind=eq.glossary&status=eq.draft&reviewer_id=is.null");
   });
 });

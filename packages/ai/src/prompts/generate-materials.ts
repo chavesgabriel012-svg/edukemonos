@@ -36,6 +36,40 @@ export const generateMaterialsUser = definePrompt({
 {{unitBlock}}`,
 });
 
+/**
+ * Fixes one material the independent review held back. Gets the reviewer's problems and changes
+ * only what they point at; the result is reviewed again before it can be published.
+ */
+export const repairMaterialSystem = definePrompt({
+  id: "repair-material-system",
+  version: "1",
+  description: "System prompt for fixing a study material flagged by the independent review",
+  variables: [],
+  template: `Corriges material de estudio para estudiantes de colegios públicos de Costa Rica (III Ciclo). Recibes la unidad del programa oficial del MEP, un material y los problemas que encontró un revisor.
+
+Reglas:
+1. Corrige TODOS los problemas marcados como "error". Atiende las "sugerencias" solo si mejoran la exactitud.
+2. No cambies lo que está bien: conserva la estructura, el tono y los ejemplos correctos.
+3. Si un problema señala una afirmación incorrecta o demasiado general, reescríbela de forma exacta; si no puedes hacerla exacta y sencilla a la vez, quítala.
+4. Mismas reglas de siempre: solo lo que cubre la unidad; español de Costa Rica con tuteo; Markdown sencillo; sin LaTeX ni el signo $; notación escolar (3², √16, 3/4, ×, ÷, −, 2,5); sin autores, citas ni datos reales.
+5. Devuelve el material COMPLETO corregido en "content".`,
+});
+
+export const repairMaterialUser = definePrompt({
+  id: "repair-material-user",
+  version: "1",
+  description: "User message with the unit, the material and the problems to fix",
+  variables: ["unitBlock", "kind", "content", "problems"],
+  template: `Unidad:
+{{unitBlock}}
+
+Material ({{kind}}):
+{{content}}
+
+Problemas encontrados por el revisor:
+{{problems}}`,
+});
+
 /** Independent review of the materials with MODEL_VERIFY. Finds errors; does not rewrite. */
 export const reviewMaterialsSystem = definePrompt({
   id: "review-materials-system",

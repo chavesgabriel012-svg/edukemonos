@@ -2,5 +2,12 @@
 // (curriculum structuring in Phase 1, generators in Phase 2, tutor in Phase 4).
 export { definePrompt, renderPrompt, type PromptDefinition } from "./define";
 export { structureCurriculumSystem, structureCurriculumUser } from "./structure-curriculum";
-export { generateMaterialsSystem, generateMaterialsUser, reviewMaterialsSystem, reviewMaterialsUser } from "./generate-materials";
+export {
+  generateMaterialsSystem,
+  generateMaterialsUser,
+  repairMaterialSystem,
+  repairMaterialUser,
+  reviewMaterialsSystem,
+  reviewMaterialsUser,
+} from "./generate-materials";
 export { generateItemsSystem, generateItemsUser, solveItemsSystem, solveItemsUser } from "./generate-items";

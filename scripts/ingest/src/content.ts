@@ -6,6 +6,8 @@ import {
   generateMaterialsSystem,
   generateMaterialsUser,
   renderPrompt,
+  repairMaterialSystem,
+  repairMaterialUser,
   reviewMaterialsSystem,
   reviewMaterialsUser,
   solveItemsSystem,
@@ -24,6 +26,7 @@ import {
   type MaterialKind,
   materialReviewSchema,
   normalizeItem,
+  repairedMaterialSchema,
   solvedItemsSchema,
   verifyItem,
   writingIssues,
@@ -58,6 +61,8 @@ export interface MaterialResult {
   kind: MaterialKind;
   content: string;
   check: MaterialCheck;
+  /** Set when the material was fixed after the review held it back. */
+  repaired?: { previousProblems: MaterialCheck["problems"]; model: string; prompt: string; notes: string };
 }
 
 export interface ChoiceResult {
@@ -269,6 +274,8 @@ export function reverify(u: ContentUnit, c: UnitContent): UnitContent {
 }
 
 export interface LoadContentSummary {
+  /** The unit already has published or reviewed content: nothing was written, to avoid duplicates. */
+  skipped: boolean;
   materials: number;
   items: number;
   verified: number;
@@ -282,6 +289,11 @@ export interface LoadContentSummary {
  */
 export async function loadUnitContent(db: Db, u: ContentUnit, cached: UnitContent): Promise<LoadContentSummary> {
   const c = reverify(u, cached);
+  // Published or reviewed rows are never replaced, and inserting next to them would duplicate them.
+  const settled = `unit_id=eq.${u.id}&or=(status.neq.draft,reviewer_id.not.is.null)&select=id&limit=1`;
+  if ((await db.select("materials", settled)).length || (await db.select("items", settled)).length) {
+    return { skipped: true, materials: 0, items: 0, verified: 0, writing: 0, replaced: 0 };
+  }
   const unreviewedDraft = `unit_id=eq.${u.id}&status=eq.draft&reviewer_id=is.null`;
   const replaced = (await db.delete("materials", unreviewedDraft)) + (await db.delete("items", `${unreviewedDraft}&origin=eq.bulk`));
   const [mp, mv] = c.prompts.materials.split("@");
@@ -344,12 +356,85 @@ export async function loadUnitContent(db: Db, u: ContentUnit, cached: UnitConten
   }));
   await db.insert("items", [...storable, ...writingRows], { returning: false });
   return {
+    skipped: false,
     materials: c.materials.length,
     items: storable.length,
     verified: storable.filter((r) => r.verified).length,
     writing: writingRows.length,
     replaced,
   };
+}
+
+/**
+ * Fixes the materials the independent review held back: the generator rewrites each one with the
+ * review's problems in hand, and the reviewer checks it again. Returns the kinds that changed.
+ */
+export async function repairUnitMaterials(
+  ai: AI,
+  u: ContentUnit,
+  c: UnitContent,
+  { log }: { log?: (msg: string) => void } = {},
+): Promise<{ content: UnitContent; repaired: MaterialKind[] }> {
+  const block = unitBlock(u);
+  const repaired: MaterialKind[] = [];
+  const materials: MaterialResult[] = [];
+  for (const m of c.materials) {
+    if (m.check.ok) {
+      materials.push(m);
+      continue;
+    }
+    const problems = m.check.problems.map((p) => `- [${p.severity}] ${p.explanation}${p.quote ? ` (fragmento: «${p.quote}»)` : ""}`).join("\n");
+    const fixed = await ai.generateStructured(
+      { role: "bulk", purpose: "bulk_material" },
+      {
+        system: renderPrompt(repairMaterialSystem, {}),
+        messages: [{ role: "user", content: renderPrompt(repairMaterialUser, { unitBlock: block, kind: m.kind, content: m.content, problems }) }],
+        schema: repairedMaterialSchema,
+        schemaName: "repaired_material",
+        maxTokens: 16_000,
+      },
+    );
+    const review = await ai.generateStructured(
+      { role: "verify", purpose: "verify_material" },
+      {
+        system: renderPrompt(reviewMaterialsSystem, {}),
+        messages: [
+          { role: "user", content: renderPrompt(reviewMaterialsUser, { unitBlock: block, materialsBlock: `=== ${m.kind} ===\n${fixed.data.content}` }) },
+        ],
+        schema: materialReviewSchema,
+        schemaName: "material_review",
+        maxTokens: 8_000,
+      },
+    );
+    const check = checkMaterial(m.kind, fixed.data.content, review.data);
+    log?.(`${m.kind}: ${check.ok ? "corregido y aprobado" : "sigue con errores"}`);
+    materials.push({
+      kind: m.kind,
+      content: fixed.data.content,
+      check,
+      repaired: { previousProblems: m.check.problems, model: fixed.model, prompt: promptRef(repairMaterialSystem), notes: fixed.data.notes },
+    });
+    repaired.push(m.kind);
+  }
+  return { content: { ...c, materials }, repaired };
+}
+
+/** Writes repaired materials over their own unreviewed draft rows (never over published or reviewed ones). */
+export async function applyRepairs(db: Db, u: ContentUnit, c: UnitContent, kinds: MaterialKind[]): Promise<number> {
+  let updated = 0;
+  for (const m of c.materials.filter((x) => kinds.includes(x.kind))) {
+    updated += await db.update("materials", `unit_id=eq.${u.id}&kind=eq.${m.kind}&status=eq.draft&reviewer_id=is.null`, {
+      content: m.content,
+      verification: {
+        ok: m.check.ok,
+        problems: m.check.problems,
+        reviewed_with: c.models.review,
+        review_prompt: c.prompts.review,
+        repaired: m.repaired ?? null,
+      },
+    });
+  }
+  return updated;
 }
 
 export interface PublishSummary {
