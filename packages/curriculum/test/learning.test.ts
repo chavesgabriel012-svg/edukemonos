@@ -6,6 +6,8 @@ import {
   levelOf,
   nextDifficulty,
   pCorrect,
+  pickPracticeItem,
+  practiceTarget,
   pickDiagnosticItem,
   studyPath,
   updateMastery,
@@ -100,5 +102,36 @@ describe("studyPath", () => {
       ["u4", "por_explorar"],
       ["u1", "dominado"],
     ]);
+  });
+});
+
+describe("practice", () => {
+  const items = [
+    { id: "e1", difficulty: 1 },
+    { id: "m3", difficulty: 3 },
+    { id: "h5", difficulty: 5 },
+  ];
+  const at = (item_id: string, is_correct: boolean, minute: number) => ({ item_id, is_correct, created_at: `2026-10-02T10:${String(minute).padStart(2, "0")}:00Z` });
+
+  it("targets the grade level without data and follows mastery after", () => {
+    expect(practiceTarget(null)).toBe(3);
+    expect(practiceTarget(0.95)).toBe(5);
+    expect(practiceTarget(0.1)).toBe(1);
+  });
+
+  it("serves unseen items near the target first", () => {
+    expect(pickPracticeItem(items, [], 3)?.id).toBe("m3");
+    expect(pickPracticeItem(items, [at("m3", true, 1)], 4)?.id).toBe("h5");
+  });
+
+  it("once everything was seen, returns to the ones answered wrong, then the oldest", () => {
+    const history = [at("e1", true, 1), at("m3", false, 2), at("h5", true, 3)];
+    expect(pickPracticeItem(items, history, 3)?.id).toBe("m3");
+    expect(pickPracticeItem(items, [...history, at("m3", true, 4)], 3)?.id).toBe("e1");
+  });
+
+  it("does not repeat the item just answered when there is another", () => {
+    expect(pickPracticeItem(items, [], 3, "m3")?.id).not.toBe("m3");
+    expect(pickPracticeItem([items[0]], [], 3, "e1")?.id).toBe("e1");
   });
 });

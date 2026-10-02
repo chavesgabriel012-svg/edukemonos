@@ -37,6 +37,8 @@ const gradeRanges = z
 /** One contiguous block of pages to process together, with its section label. */
 export interface PageChunk {
   label: string;
+  /** The program's own name for the section (e.g. "Números"); null when the label is just a page range. */
+  area: string | null;
   from: number;
   to: number;
 }
@@ -48,7 +50,8 @@ export function chunksForGrade(entry: SourceEntry, grade: number): PageChunk[] {
   return ranges.content.map(([from, to], i) => {
     if (to === null) throw new Error(`${entry.id}: page range for grade ${grade} is not fully mapped`);
     if (to < from || to > entry.pdfPages) throw new Error(`${entry.id}: invalid range ${from}-${to}`);
-    return { label: ranges.labels?.[i] ?? `Páginas ${from}–${to}`, from, to };
+    const area = ranges.labels?.[i] ?? null;
+    return { label: area ?? `Páginas ${from}–${to}`, area, from, to };
   });
 }
 

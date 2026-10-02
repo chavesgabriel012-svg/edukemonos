@@ -214,3 +214,32 @@ revoke all on function public.start_diagnostic(text, smallint) from public, anon
 revoke all on function public.finish_diagnostic(uuid) from public, anon;
 grant execute on function public.start_diagnostic(text, smallint) to authenticated;
 grant execute on function public.finish_diagnostic(uuid) to authenticated;
+
+-- Practice without a session: grades one answer and stores nothing. The fallback when an
+-- anonymous session cannot be created (for example, Supabase's per-IP limit on anonymous
+-- sign-ins when a whole classroom shares one IP). Reveals no more than submit_attempt, which
+-- any anonymous session can call.
+create function public.check_answer(p_item_id uuid, p_answer_index smallint)
+returns jsonb
+language plpgsql stable security definer set search_path = ''
+as $$
+declare
+  it public.items;
+begin
+  select i.* into it from public.items i
+  where i.id = p_item_id
+    and i.status = 'published'
+    and i.kind = 'single_choice'
+    and private.unit_is_published(i.unit_id);
+  if not found then
+    raise exception 'item not available' using errcode = 'P0002';
+  end if;
+  return jsonb_build_object(
+    'is_correct', p_answer_index is not null and p_answer_index = it.correct_index,
+    'correct_index', it.correct_index,
+    'explanation', it.explanation,
+    'distractor_explanations', to_jsonb(it.distractor_explanations)
+  );
+end;
+$$;
+grant execute on function public.check_answer(uuid, smallint) to anon, authenticated;

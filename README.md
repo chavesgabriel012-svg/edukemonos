@@ -133,6 +133,16 @@ Por unidad se generan resumen, explicación paso a paso, ejemplos resueltos, glo
 - Cada paso de IA queda en caché por unidad y versión del prompt, y `generate` salta las unidades que ya tienen material en Supabase: un fallo, el fusible de gasto o un contenedor reciclado nunca hacen pagar dos veces.
 - **Costo medido (2 oct 2026):** Español y Matemáticas 7.º–9.º (96 unidades) costaron US$17,70 en generación, revisión, verificación y reparación, unos **US$0,18 por unidad**.
 
+## Estudiantes (Fase 3)
+
+Sin registro: el estudiante elige año → materia → unidad (`/estudiar/7/matematicas`, `/unidad/<id>`) con pestañas **Aprender**, **Practicar** y **Preguntar al tutor** (Fase 4). La primera vez que responde, recibe una **sesión anónima** de Supabase que guarda su avance en ese dispositivo.
+
+- **Práctica:** un ejercicio a la vez, cerca de su nivel; se califica en la base de datos (`submit_attempt`) y muestra por qué cada opción es correcta o no. Si no se puede abrir sesión (por ejemplo, el límite por IP de Supabase en un colegio), igual califica con `check_answer`, sin guardar, y lo avisa.
+- **Diagnóstico** (`/estudiar/<año>/<materia>/diagnostico`): 10 preguntas verificadas que se adaptan a las respuestas; nivel de 1 a 5 y ruta sugerida. Algoritmo y justificación: [`docs/diagnostic.md`](docs/diagnostic.md).
+- **Unirse a una sección** (`/unirme`): código + nombre + consentimiento. El nombre nunca va a la IA.
+
+**Configuración necesaria en Supabase:** Authentication → Sign In / Providers → activar **Allow anonymous sign-ins**. Conviene subir el límite de inicios anónimos por IP (Authentication → Rate Limits) para que una clase entera, detrás de una sola IP, pueda guardar su avance.
+
 ## Revisión (`/revisar`)
 
 1. Entra en `/entrar` con tu correo (enlace mágico).

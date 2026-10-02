@@ -350,6 +350,17 @@ describe("mastery and the adaptive diagnostic", () => {
     ).rejects.toThrow(/already answered/);
   });
 
+  it("check_answer grades without a session and stores nothing", async () => {
+    const before = (await db.query(`select count(*)::int as c from public.attempts`)).rows[0].c;
+    const [{ r }] = await as<{ r: { is_correct: boolean; correct_index: number } }>(
+      db, anon, `select public.check_answer($1, 2::smallint) as r`, [ids.itemVerified],
+    );
+    expect(r).toMatchObject({ is_correct: true, correct_index: 2 });
+    expect((await db.query(`select count(*)::int as c from public.attempts`)).rows[0].c).toBe(before);
+    await expectDenied(db, anon, `select public.check_answer($1, 0::smallint)`, [ids.itemDraft], /item not available/);
+    await expectDenied(db, anon, `select public.check_answer($1, 0::smallint)`, [ids.itemOnDraftUnit], /item not available/);
+  });
+
   it("never lets a student write mastery or close someone else's diagnostic", async () => {
     await expectDenied(db, s1, `insert into public.mastery (student_id, skill_id, score) values ($1, $2, 1)`, [ids.student1, ids.skillDraft], /permission denied/);
     await expectDenied(db, s1, `update public.mastery set score = 1 where student_id = $1`, [ids.student1], /permission denied/);

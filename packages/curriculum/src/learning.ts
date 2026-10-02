@@ -164,3 +164,47 @@ export function studyPath(units: PathUnit[], mastery: Map<string, number>): Path
   const rank = { reforzar: 0, por_explorar: 1, dominado: 2 } as const;
   return entries.sort((a, b) => rank[a.status] - rank[b.status] || a.unit.sort_order - b.unit.sort_order);
 }
+
+// ---------------------------------------------------------------------------
+// Practice
+// ---------------------------------------------------------------------------
+
+/** Practice difficulty that suits a mastery score: the grade level ± how far the student is from it. */
+export function practiceTarget(score: number | null): number {
+  return score === null ? DIAGNOSTIC_START_DIFFICULTY : Math.round(levelOf(thetaOf(score)));
+}
+
+export interface PracticeHistory {
+  item_id: string;
+  is_correct: boolean | null;
+  created_at: string;
+}
+
+/**
+ * Next practice item of a unit: first the ones never answered, closest to the target difficulty;
+ * once all were seen, the ones last answered wrong, then the least recently answered.
+ */
+export function pickPracticeItem<T extends { id: string; difficulty: number }>(
+  items: T[],
+  history: PracticeHistory[],
+  target: number,
+  excludeId: string | null = null,
+  random: () => number = Math.random,
+): T | null {
+  const pool = items.filter((i) => i.id !== excludeId);
+  if (pool.length === 0) return items[0] ?? null;
+  const last = new Map<string, PracticeHistory>();
+  for (const h of [...history].sort((a, b) => a.created_at.localeCompare(b.created_at))) last.set(h.item_id, h);
+  const unseen = pool.filter((i) => !last.has(i.id));
+  if (unseen.length) {
+    const best = Math.min(...unseen.map((i) => Math.abs(i.difficulty - target)));
+    const closest = unseen.filter((i) => Math.abs(i.difficulty - target) === best);
+    return closest[Math.floor(random() * closest.length)];
+  }
+  return [...pool].sort((a, b) => {
+    const ha = last.get(a.id)!;
+    const hb = last.get(b.id)!;
+    const wrong = Number(hb.is_correct === false) - Number(ha.is_correct === false);
+    return wrong || ha.created_at.localeCompare(hb.created_at);
+  })[0];
+}
