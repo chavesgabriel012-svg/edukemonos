@@ -38,6 +38,10 @@ describe("assumedGenderWords", () => {
   it("allows the form the student used for themselves", () => {
     expect(assumedGenderWords("Entiendo que estés cansada.", "Estoy cansada de esto")).toEqual([]);
   });
+  it("flags gendered phrases about the student, not lookalikes", () => {
+    expect(assumedGenderWords("Aunque no estés seguro, inténtalo tú mismo.", "")).toEqual(["estés seguro", "tú mismo"]);
+    expect(assumedGenderWords("Seguro que lo logras; es lo mismo que antes.", "")).toEqual([]);
+  });
   it("ignores nouns and adverbs that only look gendered", () => {
     expect(assumedGenderWords("Tu lista está completa; solo falta el 36.", "")).toEqual([]);
   });

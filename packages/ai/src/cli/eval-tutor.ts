@@ -179,9 +179,10 @@ for (const c of cases) {
   if (gendered.length) rules.push(`supone el género («${gendered.join("», «")}»)`);
   if (tutorText.includes("[número no verificado omitido]")) rules.push("intentó dar un número no verificado");
 
-  // Calculator results are internal (the student never sees them); the judge must know that.
+  // Calculator results are internal and the student never sees them. Shown to the judge, they were
+  // graded as if the tutor had given the answer away, so the judge only learns that it was used.
   const conversation = transcript
-    .map((t) => `ESTUDIANTE: ${t.student}\nTUTOR: ${t.tutor}${t.tools.length ? `\n[Uso interno de la calculadora, NO visible para el estudiante: ${t.tools.join("; ")}]` : ""}`)
+    .map((t) => `ESTUDIANTE: ${t.student}\nTUTOR: ${t.tutor}${t.tools.length ? `\n[El tutor usó la calculadora ${t.tools.length} vez/veces en privado; el estudiante no ve esos cálculos]` : ""}`)
     .join("\n\n");
   const { data: judge } = await ai.generateStructured(
     { role: "verify", purpose: "eval" },
