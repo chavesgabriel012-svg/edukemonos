@@ -132,7 +132,10 @@ export async function POST(request: Request) {
         send({ type: "done", messageId: saved?.id ?? null, flags: screened.flags });
       } catch (error) {
         let msg = "El tutor no pudo responder ahora. Intenta de nuevo en un momento.";
-        if (error instanceof AIBudgetExceededError) msg = "El tutor está descansando por hoy. Mientras tanto, repasa el material y practica con los ejercicios.";
+        if (error instanceof AIBudgetExceededError) {
+          msg = "El tutor está descansando por hoy. Mientras tanto, repasa el material y practica con los ejercicios.";
+          console.warn("tutor refused:", error.message);
+        }
         else if (error instanceof AIRefusalError) msg = "El tutor no puede ayudar con eso. Prueba a preguntar sobre el tema de la unidad.";
         else if (!(error instanceof AIUnavailableError)) console.error("tutor turn failed:", (error as Error).message);
         if (answer) {
