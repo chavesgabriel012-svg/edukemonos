@@ -50,30 +50,80 @@ export function stripUnverifiedPhones(text: string, allowed: string[]): string {
   return text.replace(PHONE, (m) => (ok.has(m.replace(/\D/g, "").replace(/^506/, "")) || ok.has(m.replace(/\D/g, "")) ? m : "[número no verificado omitido]"));
 }
 
+// The gendered phrases the model still slips into (evals of prompt v5 and v6), rewritten to a neutral
+// form that keeps the sentence grammatical. A doubled form ("seguro o segura") is rewritten whole.
+const NEUTRAL: [RegExp, (m: string) => string][] = [
+  [/(?<![\p{L}])(estés|estás) segur[oa](?:\/[oa]| o segur[oa])?(?![\p{L}])/giu, (m) => (/^est[eé]s/i.test(m) ? "tengas certeza" : "tienes certeza")],
+  [/(?<![\p{L}])sentirte segur[oa](?:\/[oa]| o segur[oa])?(?![\p{L}])/giu, () => "sentirte a salvo"],
+  [/(?<![\p{L}])tú mism[oa](?:\/[oa]| o mism[oa])?(?![\p{L}])/giu, () => "por tu cuenta"],
+  [/(?<![\p{L}])ti mism[oa](?:\/[oa]| o mism[oa])?(?![\p{L}])/giu, () => "ti"],
+  // Capitalized or after "¡" it opens a greeting: "¡Bienvenida a la unidad!".
+  [/(?:(?<=¡)bienvenid[oa]|(?<![\p{L}])Bienvenid[oa])(?:\/[oa]| o bienvenid[oa])?(?![\p{L}])/gu, () => "te doy la bienvenida"],
+];
+
+/** Rewrites the most common gendered phrases about the student into neutral ones. */
+export function toNeutral(text: string): string {
+  return NEUTRAL.reduce(
+    (t, [re, to]) => t.replace(re, (m: string) => matchCase(m, to(m))),
+    text,
+  );
+}
+
 export function filterTutorOutput(text: string, allowedPhones: string[]): string {
-  return stripUnverifiedPhones(toTuteo(text), allowedPhones);
+  return stripUnverifiedPhones(toNeutral(toTuteo(text)), allowedPhones);
 }
 
 /**
- * Streaming version: holds back the last two words so a voseo form, "con vos" or a phone number
- * split across chunks is still caught. `push` returns what is safe to send now; `flush` the rest.
+ * Streaming version. Each push filters the whole reply so far and sends only the part that can no
+ * longer change: everything but the last four words, so a phrase that is still arriving (a voseo
+ * form, "con vos", a phone number, "estés seguro o segura") is rewritten before any of it is sent.
+ * `push` returns what is safe to send now; `flush` the rest.
  */
+const HOLD_WORDS = 4;
+
 export function tutorOutputStream(allowedPhones: string[]) {
-  let pending = "";
+  let raw = "";
+  let sent = 0;
   return {
     push(delta: string): string {
-      pending += delta;
-      const spaces = [...pending.matchAll(/\s/g)].map((m) => m.index!);
-      if (spaces.length < 2) return "";
-      const cut = spaces[spaces.length - 2] + 1;
-      const ready = pending.slice(0, cut);
-      pending = pending.slice(cut);
-      return filterTutorOutput(ready, allowedPhones);
+      raw += delta;
+      const filtered = filterTutorOutput(raw, allowedPhones);
+      const spaces = [...filtered.matchAll(/\s/g)].map((m) => m.index!);
+      if (spaces.length < HOLD_WORDS) return "";
+      const cut = spaces[spaces.length - HOLD_WORDS] + 1;
+      if (cut <= sent) return "";
+      const out = filtered.slice(sent, cut);
+      sent = cut;
+      return out;
     },
     flush(): string {
-      const rest = filterTutorOutput(pending, allowedPhones);
-      pending = "";
-      return rest;
+      const out = filterTutorOutput(raw, allowedPhones).slice(sent);
+      raw = "";
+      sent = 0;
+      return out;
     },
   };
+}
+
+// Gendered words a tutor might use to address the student. "solo/a", "lista" and "seguro/a" are
+// left out: they are usually an adverb, a noun ("tu lista") or "seguro que…", not about the student.
+const GENDERED = /(?<![\p{L}])(tranquil[oa]|cansad[oa]|preocupad[oa]|confundid[oa]|frustrad[oa]|agobiad[oa]|estresad[oa]|perdid[oa]|bienvenid[oa]|listo|atent[oa]|respetad[oa]|nervios[oa]|desanimad[oa]|asustad[oa])(?![\p{L}])/giu;
+
+const DOUBLED = /(?<![\p{L}])(\p{L}+)[oa](?:\/[oa]| o \1[oa])(?![\p{L}])/giu;
+
+// Gendered forms that only refer to the student in context ("seguro que…" and "lo mismo" do not).
+const GENDERED_PHRASES = /(?<![\p{L}])(?:(?:estés|estás|sientas|sientes|sentirte|eres|seas|estar) segur[oa]|(?:tú|ti) mism[oa])(?![\p{L}])/giu;
+
+/**
+ * Gendered words the tutor used that the student did not use first: the tutor assumed a gender.
+ * Used by the evals; a student who writes "estoy cansada" may be answered with "cansada".
+ */
+export function assumedGenderWords(tutorText: string, studentText: string): string[] {
+  const found = (raw: string) => {
+    // "seguro o segura", "seguro/a" and the noun in "te doy la bienvenida" are already neutral.
+    const text = raw.replace(DOUBLED, "").replace(/(?<![\p{L}])la bienvenida(?![\p{L}])/giu, "");
+    return [...(text.match(GENDERED) ?? []), ...(text.match(GENDERED_PHRASES) ?? [])].map((w) => w.toLowerCase());
+  };
+  const student = new Set(found(studentText));
+  return [...new Set(found(tutorText))].filter((w) => !student.has(w));
 }
