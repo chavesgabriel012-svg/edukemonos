@@ -102,7 +102,8 @@ export async function structureGrade(
       { role: "bulk", purpose: "structure_curriculum" },
       { system, messages: [{ role: "user", content: user }], schema: extractionSchema, schemaName: "curriculum_units", maxTokens: 16_000 },
     );
-    const units = data.units.map((u) => ({ ...u, area: u.area ?? chunk.label }));
+    // Only a real section name becomes the area; "Páginas 70–100" is not one.
+    const units = data.units.map((u) => ({ ...u, area: u.area ?? chunk.area }));
     const chunkResult: ChunkResult = {
       chunk,
       model,

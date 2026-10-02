@@ -2,7 +2,7 @@ import { createServerClient } from "@supabase/ssr";
 import { type NextRequest, NextResponse } from "next/server";
 import { supabaseEnv } from "@/lib/supabase/env";
 
-/** Keeps the Supabase session cookie fresh on staff pages. Authorization happens in the pages. */
+/** Keeps the Supabase session cookie fresh (staff and anonymous students). Authorization happens in the pages. */
 export async function proxy(request: NextRequest) {
   let response = NextResponse.next({ request });
   const env = supabaseEnv();
@@ -22,5 +22,5 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/revisar/:path*", "/entrar", "/auth/:path*"],
+  matcher: ["/revisar/:path*", "/entrar", "/auth/:path*", "/estudiar/:path*", "/unidad/:path*", "/unirme"],
 };

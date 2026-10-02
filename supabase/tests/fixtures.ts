@@ -111,6 +111,7 @@ export async function loadFixture(db: pg.Client): Promise<Fixture> {
     ],
   );
 
+  await db.query(`update public.items set skill_ids = array[$1::uuid] where id = $2`, [ids.skillPublished, ids.itemVerified]);
   await db.query(
     `insert into public.attempts (student_id, item_id, is_correct) values ($1, $3, true), ($2, $3, false)`,
     [ids.student1, ids.student2, ids.itemVerified],

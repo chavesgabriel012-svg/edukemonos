@@ -8,6 +8,9 @@ export function SiteHeader() {
         <Link href="/" className="text-lg font-bold text-primary">
           {site.name}
         </Link>
+        <Link href="/unirme" className="text-sm underline underline-offset-2">
+          Únete a tu sección
+        </Link>
       </div>
     </header>
   );
