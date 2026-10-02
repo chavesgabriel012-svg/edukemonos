@@ -22,6 +22,13 @@ interface Shown {
 
 const RISK = ["distress", "abuse"];
 
+/** Ways to start that work for any unit; tapping one fills the box so the student can edit it. */
+const STARTERS = [
+  "No entiendo este tema, ¿por dónde empiezo?",
+  "¿Me explicas con un ejemplo?",
+  "Dame un ejercicio para practicar",
+];
+
 function HelpCard({ help }: { help: Help }) {
   return (
     <aside role="note" className="space-y-2 rounded-xl border border-sky-300 bg-sky-50 p-4 text-sm text-sky-950">
@@ -46,6 +53,7 @@ export function TutorChat({ unitId, help }: { unitId: string; help: Help }) {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const bottom = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
     openTutor(unitId).then((r) => {
@@ -112,18 +120,33 @@ export function TutorChat({ unitId, help }: { unitId: string; help: Help }) {
   return (
     <section aria-labelledby="tutor-title" className="space-y-4">
       <div className="space-y-1">
-        <h2 id="tutor-title" className="text-xl font-semibold">Pregúntale al tutor</h2>
+        <h2 id="tutor-title" className="text-xl font-semibold">Pregúntale a Kemo</h2>
         <p className="text-sm text-muted-foreground">
-          Te guía paso a paso sobre esta unidad, con pistas antes que respuestas. Es una inteligencia artificial: puede
-          equivocarse. No compartas datos personales.
+          Kemo te guía paso a paso sobre esta unidad, con pistas antes que respuestas. Es una inteligencia artificial:
+          puede equivocarse. No compartas datos personales.
         </p>
       </div>
       {showHelp && <HelpCard help={help} />}
       <div className="space-y-3" aria-live="polite">
         {ready && messages.length === 0 && (
-          <p className="rounded-xl border border-dashed p-4 text-sm text-muted-foreground">
-            Cuéntale qué parte no entiendes o qué intentaste. Por ejemplo: «No entiendo cuándo se usa la tilde en “él”» o «¿Por qué 2³ no es 6?».
-          </p>
+          <div className="flex items-start gap-3 rounded-[22px] border border-dashed p-4">
+            <Kemo size={48} mood="normal" background={brand.lima} />
+            <div className="space-y-3">
+              <p className="text-sm text-muted-foreground">
+                Cuéntale qué parte no entiendes o qué intentaste. También puedes empezar con una de estas:
+              </p>
+              <ul className="flex flex-wrap gap-2">
+                {STARTERS.map((q) => (
+                  <li key={q}>
+                    <button type="button" onClick={() => { setInput(q); inputRef.current?.focus(); }}
+                      className="rounded-full bg-secondary px-3.5 py-2 text-left text-sm font-medium transition hover:bg-lima focus-visible:outline-2">
+                      {q}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
         )}
         {messages.map((m, i) => (
           m.role === "assistant" ? (
@@ -146,11 +169,11 @@ export function TutorChat({ unitId, help }: { unitId: string; help: Help }) {
       <form onSubmit={send} className="flex items-end gap-2">
         <label className="flex-1">
           <span className="sr-only">Tu mensaje</span>
-          <textarea value={input} onChange={(e) => setInput(e.target.value)} rows={2} maxLength={2000} disabled={!ready}
+          <textarea ref={inputRef} value={input} onChange={(e) => setInput(e.target.value)} rows={2} maxLength={2000} disabled={!ready}
             onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); e.currentTarget.form?.requestSubmit(); } }}
-            placeholder="Escribe tu pregunta…" className="w-full rounded-md border bg-background px-3 py-2" />
+            placeholder="Escribe tu pregunta…" className="w-full rounded-[14px] border bg-card px-3.5 py-3" />
         </label>
-        <button disabled={busy || !input.trim() || !ready} className="rounded-md bg-primary px-4 py-2 font-medium text-primary-foreground disabled:opacity-50">
+        <button disabled={busy || !input.trim() || !ready} className="h-[52px] rounded-[14px] bg-primary px-5 font-semibold text-primary-foreground disabled:opacity-50">
           {busy ? "…" : "Enviar"}
         </button>
       </form>

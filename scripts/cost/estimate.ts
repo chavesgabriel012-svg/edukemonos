@@ -1,5 +1,5 @@
 /**
- * Edukemonos — Claude API cost estimate (per student, per section, one-off content generation).
+ * Eduka — Claude API cost estimate (per student, per section, one-off content generation).
  *
  * Run from the repo root (any of these):
  *   node scripts/cost/estimate.ts          # Node >= 22.18 runs TypeScript natively (repo requires 22.x/24.x)
@@ -718,7 +718,7 @@ function main(p: Params): void {
   const out: string[] = [];
   const h = (s: string) => out.push(`\n## ${s}\n`);
 
-  out.push("# Edukemonos — estimación de costo de IA (Claude API)");
+  out.push("# Eduka — estimación de costo de IA (Claude API)");
   out.push(`\nTodos los volúmenes de uso son SUPUESTOS (ver PARAMS en el script). Precios: ${p.prices.source}`);
   out.push(`Nivel de thinking en tablas principales: \`${L}\`. Año lectivo supuesto: ${p.calendar.schoolDaysPerYear} días lectivos ≈ ${months} meses.`);
 

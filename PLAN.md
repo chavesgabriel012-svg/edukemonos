@@ -1,4 +1,4 @@
-# PLAN — Edukemonos (MVP #AIForImpact)
+# PLAN — Eduka, antes Edukemonos (MVP #AIForImpact)
 
 > Fuente de verdad del alcance: [`docs/SPEC.md`](docs/SPEC.md). Este plan dice **cómo** y **en qué orden**.
 > Las fechas son simbólicas (orden y peso relativo, no compromisos de calendario).

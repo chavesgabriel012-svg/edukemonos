@@ -1,10 +1,12 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState, useTransition } from "react";
+import { Kemo } from "@/components/brand/logo";
 import { ContentBadge } from "@/components/learn/content-badge";
 import { Markdown } from "@/components/learn/markdown";
 import { ReportButton } from "@/components/learn/report-button";
 import { type AnswerFeedback, answerItem, nextPracticeItem } from "@/app/estudiar/actions";
+import { brand } from "@/lib/brand";
 import type { PublicItem } from "@/lib/learn";
 
 /** One exercise at a time: answer, get the explanation, go to the next. Graded in the database. */
@@ -80,7 +82,8 @@ export function Practice({ unitId }: { unitId: string }) {
           </button>
         ) : (
           <div role="status" className="space-y-3">
-            <p className={`font-semibold ${feedback.is_correct ? "text-emerald-700" : "text-amber-800"}`}>
+            <p className={`flex items-center gap-2.5 font-semibold ${feedback.is_correct ? "text-emerald-700" : "text-amber-800"}`}>
+              <Kemo size={36} mood={feedback.is_correct ? "happy" : "think"} background={feedback.is_correct ? brand.lima : brand.violeta} />
               {feedback.is_correct ? "¡Correcto!" : "Todavía no. Mira por qué:"}
             </p>
             {!feedback.is_correct && selected !== null && feedback.distractor_explanations?.[selected] && (

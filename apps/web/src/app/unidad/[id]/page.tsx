@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { SubjectIcon } from "@/components/brand/subject-icon";
 import { ContentBadge } from "@/components/learn/content-badge";
 import { Markdown } from "@/components/learn/markdown";
 import { ReportButton } from "@/components/learn/report-button";
+import { subjectColor } from "@/lib/brand";
 import type { Material } from "@/lib/learn";
 import { createClient } from "@/lib/supabase/server";
 import { helpResources } from "@/lib/tutor-server";
@@ -11,14 +13,18 @@ import { Practice } from "./practice";
 import { TutorChat } from "./tutor-chat";
 import { WritingTask } from "./writing-task";
 
-export const metadata: Metadata = { title: "Unidad" };
+export async function generateMetadata({ params }: PageProps<"/unidad/[id]">): Promise<Metadata> {
+  const supabase = await createClient();
+  const { data } = await supabase.from("curriculum_units").select("title").eq("id", (await params).id).eq("status", "published").maybeSingle();
+  return { title: data?.title ?? "Unidad" };
+}
 
 const MATERIAL_ORDER = ["summary", "explanation", "worked_examples", "glossary"] as const;
 const MATERIAL_LABEL = { summary: "Resumen", explanation: "Explicación paso a paso", worked_examples: "Ejemplos resueltos", glossary: "Glosario" };
 const TABS = [
   { id: "aprender", label: "Aprender" },
   { id: "practicar", label: "Practicar" },
-  { id: "tutor", label: "Preguntar al tutor" },
+  { id: "tutor", label: "Preguntar a Kemo" },
 ] as const;
 
 export default async function UnitPage({ params, searchParams }: PageProps<"/unidad/[id]">) {
@@ -53,12 +59,17 @@ export default async function UnitPage({ params, searchParams }: PageProps<"/uni
 
   return (
     <article className="space-y-6">
-      <header className="space-y-2">
+      <header className="space-y-3">
         <Link href={`/estudiar/${unit.grade_id}/${unit.subject_id}`} className="text-sm underline underline-offset-2">
-          ← {subject} · {unit.grade_id}.º
+          ← Temas de {subject} · {unit.grade_id}.º
         </Link>
-        <h1 className="text-2xl font-bold">{unit.title}</h1>
-        {unit.area && <p className="text-sm text-muted-foreground">{unit.area}</p>}
+        <div style={{ background: subjectColor(unit.subject_id) }} className="space-y-2 rounded-[22px] px-[22px] py-5 text-tinta">
+          <p className="flex items-center justify-between gap-3 font-mono text-xs uppercase">
+            <span>{subject} · {unit.grade_id}.º{unit.area ? ` · ${unit.area}` : ""}</span>
+            <SubjectIcon subject={unit.subject_id} className="size-6 shrink-0" />
+          </p>
+          <h1 className="text-2xl leading-tight font-bold sm:text-3xl">{unit.title}</h1>
+        </div>
       </header>
 
       <nav aria-label="Secciones de la unidad" className="flex gap-1 overflow-x-auto border-b">

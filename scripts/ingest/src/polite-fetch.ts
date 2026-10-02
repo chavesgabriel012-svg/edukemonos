@@ -2,7 +2,7 @@
  * Polite HTTP client for official sources (SPEC §4.7): identifies itself, waits between
  * requests to the same host, and refuses paths disallowed by robots.txt.
  */
-export const USER_AGENT = "EdukemonosIngestBot/0.1 (educational, non-commercial; +https://github.com/chavesgabriel012-svg/edukemonos)";
+export const USER_AGENT = "EdukaIngestBot/0.1 (educational, non-commercial; +https://github.com/chavesgabriel012-svg/edukemonos)";
 
 export interface RobotsRules {
   disallow: string[];

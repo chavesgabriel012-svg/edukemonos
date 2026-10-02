@@ -2,6 +2,12 @@ import { describe, expect, it } from "vitest";
 import { assumedGenderWords, stripUnverifiedPhones, toNeutral, toTuteo, tutorOutputStream } from "../src/tutor/output";
 
 describe("toTuteo", () => {
+  it("reads «sos una IA» from the tutor as «soy», not as voseo", () => {
+    expect(toTuteo("Sos una IA y no puedo acompañarte en persona. Vos sos valiente.")).toBe("Soy una IA y no puedo acompañarte en persona. Tú eres valiente.");
+  });
+  it("rewrites the brand manual's example", () => {
+    expect(toTuteo("Pensalo en una recta numérica: miralo con calma.")).toBe("Piénsalo en una recta numérica: míralo con calma.");
+  });
   it("rewrites voseo into tuteo, keeping case", () => {
     expect(toTuteo("Podés intentarlo. Fijate bien y contame qué entendés.")).toBe("Puedes intentarlo. Fíjate bien y cuéntame qué entiendes.");
     expect(toTuteo("Lo que sentís es importante, vos importás. Llamá al 911.")).toBe("Lo que sientes es importante, tú importas. Llama al 911.");
@@ -57,6 +63,7 @@ describe("toNeutral", () => {
       "Si no tienes certeza, confía en ti. Mereces sentirte a salvo.",
     );
     expect(toNeutral("¡Bienvenida! Bienvenido a la unidad.")).toBe("¡Te doy la bienvenida! Te doy la bienvenida a la unidad.");
+    expect(toNeutral("Muy bien. ¿Listo? Ahora el siguiente.")).toBe("Muy bien. ¿Seguimos? Ahora el siguiente.");
   });
   it("rewrites a doubled form whole", () => {
     expect(toNeutral("aunque no estés seguro o segura de la respuesta")).toBe("aunque no tengas certeza de la respuesta");
