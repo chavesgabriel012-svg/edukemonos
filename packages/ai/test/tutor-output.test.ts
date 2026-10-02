@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { stripUnverifiedPhones, toTuteo, tutorOutputStream } from "../src/tutor/output";
+import { assumedGenderWords, stripUnverifiedPhones, toTuteo, tutorOutputStream } from "../src/tutor/output";
 
 describe("toTuteo", () => {
   it("rewrites voseo into tuteo, keeping case", () => {
@@ -28,5 +28,17 @@ describe("tutorOutputStream", () => {
     const chunks = ["Si ", "que", "rés, habla con v", "os o llama al 25", "19-8700 ", "ya."];
     const out = chunks.map((c) => s.push(c)).join("") + s.flush();
     expect(out).toBe("Si quieres, habla contigo o llama al [número no verificado omitido] ya.");
+  });
+});
+
+describe("assumedGenderWords", () => {
+  it("flags gendered words the student did not use first", () => {
+    expect(assumedGenderWords("Tranquilo, ya llevas la mitad. ¿Listo?", "ya me cansé")).toEqual(["tranquilo", "listo"]);
+  });
+  it("allows the form the student used for themselves", () => {
+    expect(assumedGenderWords("Entiendo que estés cansada.", "Estoy cansada de esto")).toEqual([]);
+  });
+  it("ignores nouns and adverbs that only look gendered", () => {
+    expect(assumedGenderWords("Tu lista está completa; solo falta el 36.", "")).toEqual([]);
   });
 });

@@ -6,7 +6,7 @@ import { defineTool } from "../tools";
 import type { ChatMessage, ToolDefinition } from "../types";
 import { safetyNote, type SafetyFlag } from "./safety";
 
-export { filterTutorOutput, stripUnverifiedPhones, toTuteo, tutorOutputStream } from "./output";
+export { assumedGenderWords, filterTutorOutput, stripUnverifiedPhones, toTuteo, tutorOutputStream } from "./output";
 export { safetyNote, screenStudentMessage, type SafetyFlag, type ScreenedInput } from "./safety";
 
 /** Exact arithmetic for the tutor (SPEC §10): the model must not compute from memory. */

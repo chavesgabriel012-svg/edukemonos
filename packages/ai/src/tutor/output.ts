@@ -77,3 +77,16 @@ export function tutorOutputStream(allowedPhones: string[]) {
     },
   };
 }
+
+// Gendered words a tutor might use to address the student. "solo/a", "lista" and "seguro/a" are
+// left out: they are usually an adverb, a noun ("tu lista") or "seguro que…", not about the student.
+const GENDERED = /(?<![\p{L}])(tranquil[oa]|cansad[oa]|preocupad[oa]|confundid[oa]|frustrad[oa]|agobiad[oa]|estresad[oa]|perdid[oa]|bienvenid[oa]|listo|atent[oa]|nervios[oa]|desanimad[oa]|asustad[oa])(?![\p{L}])/giu;
+
+/**
+ * Gendered words the tutor used that the student did not use first: the tutor assumed a gender.
+ * Used by the evals; a student who writes "estoy cansada" may be answered with "cansada".
+ */
+export function assumedGenderWords(tutorText: string, studentText: string): string[] {
+  const student = new Set((studentText.match(GENDERED) ?? []).map((w) => w.toLowerCase()));
+  return [...new Set((tutorText.match(GENDERED) ?? []).map((w) => w.toLowerCase()))].filter((w) => !student.has(w));
+}
