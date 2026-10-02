@@ -6,6 +6,7 @@ import { defineTool } from "../tools";
 import type { ChatMessage, ToolDefinition } from "../types";
 import { safetyNote, type SafetyFlag } from "./safety";
 
+export { filterTutorOutput, stripUnverifiedPhones, toTuteo, tutorOutputStream } from "./output";
 export { safetyNote, screenStudentMessage, type SafetyFlag, type ScreenedInput } from "./safety";
 
 /** Exact arithmetic for the tutor (SPEC §10): the model must not compute from memory. */
@@ -40,6 +41,11 @@ export interface HelpResources {
   emergency: { name: string; phone: string; description: string };
   resources: { name: string; phone?: string; description?: string }[];
   trustedAdultMessage: string;
+}
+
+/** Phone numbers the tutor may give: only the verified help list. */
+export function allowedPhones(h: HelpResources): string[] {
+  return [h.emergency.phone, ...h.resources.flatMap((r) => (r.phone ? [r.phone] : []))];
 }
 
 export function helpResourcesText(h: HelpResources): string {

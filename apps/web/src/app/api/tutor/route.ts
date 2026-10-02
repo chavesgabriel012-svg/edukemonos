@@ -1,9 +1,11 @@
 import { AIBudgetExceededError, AIRefusalError, AIUnavailableError, type ChatMessage } from "@edukemonos/ai";
 import {
+  allowedPhones,
   calculatorTool,
   masterySummary,
   screenStudentMessage,
   tutorMessages,
+  tutorOutputStream,
   tutorSystemPrompt,
 } from "@edukemonos/ai/tutor";
 import { adminClient } from "@/lib/supabase/admin";
@@ -90,6 +92,13 @@ export async function POST(request: Request) {
       send({ type: "session", sessionId: sid, flags: screened.flags });
       let answer = "";
       let afterTool = false;
+      // Tuteo and verified phone numbers only, fixed in code before anything reaches the student.
+      const filter = tutorOutputStream(allowedPhones(helpResources));
+      const emit = (text: string) => {
+        if (!text) return;
+        answer += text;
+        send({ type: "delta", text });
+      };
       try {
         for await (const event of ai.streamChat(
           { role: "tutor", purpose: "tutor", actorId: user.id },
@@ -106,12 +115,13 @@ export async function POST(request: Request) {
             // Text after a calculator round starts a new paragraph instead of gluing onto the previous one.
             const delta = afterTool && answer && !answer.endsWith("\n") ? `\n\n${event.delta}` : event.delta;
             afterTool = false;
-            answer += delta;
-            send({ type: "delta", text: delta });
+            emit(filter.push(delta));
           } else if (event.type === "tool_result") {
+            emit(filter.flush());
             afterTool = true;
           }
         }
+        emit(filter.flush());
         const { data: saved } = await admin
           .from("tutor_messages")
           .insert({ session_id: sid, role: "assistant", content: answer, safety_flags: screened.flags })
