@@ -7,6 +7,9 @@ import { adminClient } from "@/lib/supabase/admin";
 export const helpResources = helpResourcesJson as HelpResources;
 
 /** Limits from the environment (SPEC §10, §15), with the defaults of .env.example. */
+/** Days a tutor transcript is kept before the daily purge deletes it (SPEC §12; pending legal review). */
+export const RETENTION_DAYS_CHAT = Math.max(1, Number(process.env.RETENTION_DAYS_CHAT ?? 30));
+
 export const TUTOR_LIMITS = {
   perSession: Number(process.env.TUTOR_MAX_MESSAGES_PER_SESSION ?? 30),
   perDay: Number(process.env.TUTOR_MAX_MESSAGES_PER_DAY ?? 60),

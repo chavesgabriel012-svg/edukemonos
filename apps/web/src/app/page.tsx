@@ -55,7 +55,10 @@ export default function HomePage() {
       </div>
 
       <div className="space-y-3">
-        <h2 className="font-heading text-2xl font-bold">Cómo funciona</h2>
+        <div className="flex flex-wrap items-baseline justify-between gap-2">
+          <h2 className="font-heading text-2xl font-bold">¿Cómo funciona?</h2>
+          <Link href="/como-funciona" className="text-sm font-medium underline underline-offset-2">Ver todas las preguntas</Link>
+        </div>
         <ol className="grid gap-3 sm:grid-cols-3">
           {STEPS.map(({ icon: Icon, title, text }, i) => (
             <li key={title} className="space-y-2 rounded-[22px] bg-card p-5">
