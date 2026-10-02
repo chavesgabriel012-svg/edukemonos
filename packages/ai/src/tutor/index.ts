@@ -12,8 +12,10 @@ export { safetyNote, screenStudentMessage, type SafetyFlag, type ScreenedInput }
 export const calculatorTool: ToolDefinition = defineTool({
   name: "calculadora",
   description:
-    "Calcula una expresión aritmética exacta. Úsala para cualquier operación antes de afirmar un resultado. " +
-    "Acepta números, + − × ÷ * / ^, paréntesis y sqrt(). Ejemplo: \"(5 + 7)^2\" o \"2,5 × 4\".",
+    "Calcula una expresión aritmética exacta. Úsala para cualquier operación antes de afirmar un resultado, " +
+    "también para comprobar el trabajo del estudiante. Acepta números, + − × ÷ * / ^, paréntesis, sqrt(), " +
+    "gcd(a, b) (máximo común divisor), lcm(a, b) (mínimo común múltiplo) y mod(a, b) (residuo; si es 0, b divide a a). " +
+    "Ejemplos: \"(5 + 7)^2\", \"2,5 × 4\", \"gcd(24, 36)\", \"mod(91, 7)\".",
   schema: z.object({ expression: z.string().max(200).describe("La expresión a calcular") }),
   run: async ({ expression }) => {
     const value = evaluateCalc(expression);

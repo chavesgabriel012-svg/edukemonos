@@ -25,6 +25,9 @@ const PERSONAL_DATA: RegExp[] = [
   /\b\d\s?-?\s?\d{4}\s?-?\s?\d{4}\b/g, // cédula 1-2345-6789
   /(\+?506[\s-]?)?\b[2-8]\d{3}[\s-]?\d{4}\b/g, // Costa Rican phone 8888-8888
   /\b(vivo|mi casa (es|esta|queda)|mi direccion es)\b[^.!?\n]{0,80}/gi, // "vivo en ..." / address
+  /\b(me llamo|mi nombre es)\s+\p{L}+(\s+\p{Lu}\p{L}+){0,3}/giu, // "me llamo Valeria Jiménez"
+  /\b[Ss]oy\s+\p{Lu}\p{L}+(\s+\p{Lu}\p{L}+){1,3}/gu, // "soy Andrés Mora" (two capitalised words)
+  /\b(estudio en|voy a|mi colegio es)\s+(el |la |al )?(liceo|colegio|escuela|ctp|instituto|unidad pedag)[^.,!?\n]{0,60}/giu, // school
 ];
 
 const fold = (s: string) => s.normalize("NFD").replace(/\p{M}/gu, "").toLowerCase();
@@ -32,7 +35,8 @@ const fold = (s: string) => s.normalize("NFD").replace(/\p{M}/gu, "").toLowerCas
 const DISTRESS = [
   "me quiero morir", "quiero morir", "quiero morirme", "no quiero vivir", "matarme", "me voy a matar", "suicid",
   "quitarme la vida", "hacerme dano", "me hago dano", "cortarme", "me corto", "autolesion", "no aguanto mas",
-  "no vale la pena vivir", "mejor desaparecer", "nadie me quiere",
+  "no vale la pena vivir", "mejor desaparecer", "nadie me quiere", "soy un estorbo", "soy una carga",
+  "no tengo ganas de nada", "me siento muy solo", "me siento muy sola", "me siento vacio", "me siento vacia",
 ];
 const ABUSE: RegExp[] = [
   /\b(me|nos) (pega|pegan|golpea|golpean|maltrata|maltratan|amenaza|amenazan)\b/,

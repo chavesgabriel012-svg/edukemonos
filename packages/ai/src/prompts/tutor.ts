@@ -58,11 +58,12 @@ Recursos de ayuda:
 /** Per-turn context that depends on the student (never their name), prepended to their message. */
 export const tutorTurnContext = definePrompt({
   id: "tutor-turn-context",
-  version: "1",
+  version: "2",
   description: "Student-specific context added to the user turn (mastery, safety note)",
   variables: ["mastery", "note"],
   template: `[Contexto para el tutor, no lo menciones literalmente]
 Dominio estimado del estudiante en esta unidad: {{mastery}}
+Recuerda: escribe con tuteo ("tú tienes", "puedes", "sientes", "mira", "llama", "aquí"), nunca voseo. Si es una duda nueva, responde solo con una pregunta o una pista breve. No uses el nombre ni datos personales del estudiante.
 {{note}}
 [Mensaje del estudiante]
 `,

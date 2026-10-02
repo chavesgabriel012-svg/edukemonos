@@ -27,3 +27,17 @@ describe("screenStudentMessage", () => {
     expect(safetyNote(["personal_data"])).toMatch(/no comparta datos personales/);
   });
 });
+
+describe("screenStudentMessage: names and schools", () => {
+  it("removes self-introductions and school names, but not ordinary capitalised words", () => {
+    const r = screenStudentMessage("Me llamo Valeria Jiménez y estudio en el Liceo de Heredia, ¿me ayudas?");
+    expect(r.text).not.toMatch(/Valeria|Jiménez|Heredia/);
+    expect(r.flags).toEqual(["personal_data"]);
+    expect(screenStudentMessage("Soy Andrés Mora").text).not.toMatch(/Andrés|Mora/);
+    expect(screenStudentMessage("Soy bueno en Matemáticas y en Español").flags).toEqual([]);
+  });
+
+  it("flags quieter signs of distress too", () => {
+    expect(screenStudentMessage("No tengo ganas de nada, siento que soy un estorbo").flags).toContain("distress");
+  });
+});
