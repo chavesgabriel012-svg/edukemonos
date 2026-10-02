@@ -1,12 +1,14 @@
 import type pg from "pg";
 import { afterAll, beforeAll, describe, expect, inject, it } from "vitest";
 import { type Fixture, ids, loadFixture } from "./fixtures";
-import { anon, as, connect, expectDenied, service, user } from "./helpers";
+import { estimateAbility, levelOf, updateMastery } from "@edukemonos/curriculum";
+import { anon, as, asSteps, connect, expectDenied, service, user } from "./helpers";
 
 let db: pg.Client;
 let fx: Fixture;
 
 const s1 = user(ids.student1);
+const s1b = user(ids.student1b);
 const s2 = user(ids.student2);
 const loner = user(ids.loner);
 const t1 = user(ids.teacher1);
@@ -293,6 +295,65 @@ describe("grading through submit_attempt", () => {
 
   it("is not callable without a session", async () => {
     await expectDenied(db, anon, submit, [ids.itemVerified, 2, "practice", null], /permission denied/);
+  });
+});
+
+describe("mastery and the adaptive diagnostic", () => {
+  const submit = `select public.submit_attempt($1, $2::smallint, null, 1000, 0::smallint, null, $3::public.attempt_context, $4) as r`;
+  const masteryOf = [`select score::float8 as score, attempts from public.mastery where skill_id = $1`, [ids.skillPublished]] as [string, unknown[]];
+
+  it("computes mastery exactly like the TypeScript reference", async () => {
+    const seq: [number, boolean][] = [[3, true], [4, true], [4, false], [2, true], [5, false]];
+    let ts: number | null = null;
+    let score: number | null = null;
+    for (const [n, [d, c]] of seq.entries()) {
+      const [{ v }] = (await db.query(`select private.mastery_after($1, $2, $3, $4)::float8 as v`, [score, n, d, c])).rows;
+      ts = updateMastery(ts, n, d, c);
+      expect(v).toBeCloseTo(ts, 10);
+      score = v;
+    }
+    const diffs = [3, 4, 3, 4, 5, 2];
+    const oks = [true, false, true, true, false, true];
+    const [{ t }] = (await db.query(`select private.estimate_ability($1, $2) as t`, [diffs, oks])).rows;
+    expect(t).toBeCloseTo(estimateAbility(diffs.map((difficulty, i) => ({ difficulty, correct: oks[i] }))), 8);
+  });
+
+  it("updates the student's mastery of the item's skills on each graded answer", async () => {
+    // student2 starts at 0.3 with 0 recorded attempts (fixture); a right answer at difficulty 3 raises it.
+    const [, rows] = await asSteps(db, s2, [[submit, [ids.itemVerified, 2, "practice", null]], masteryOf]);
+    expect(rows).toHaveLength(1);
+    expect(rows[0].score).toBeCloseTo(updateMastery(0.3, 0, 3, true), 6);
+    expect(rows[0].attempts).toBe(1);
+  });
+
+  it("starts a diagnostic, refuses a repeated item and closes it with a level and skill detail", async () => {
+    const [[{ id }]] = await asSteps(db, s1b, [[`select public.start_diagnostic('matematicas', 7::smallint) as id`]]);
+    expect(id).toBeTruthy();
+    const steps = await asSteps(db, s1b, [
+      [`select public.start_diagnostic('matematicas', 7::smallint) as id`],
+      [`select public.submit_attempt($1, 2::smallint, null, 1000, 0::smallint, null, 'diagnostic', (select id from public.diagnostics where status = 'in_progress' and student_id = $2)) as r`, [ids.itemVerified, ids.student1b]],
+      [`select public.finish_diagnostic((select id from public.diagnostics where status = 'in_progress' and student_id = $1)) as r`, [ids.student1b]],
+      [`select status, estimated_level::float8 as level, skill_detail from public.diagnostics where student_id = $1 and status = 'completed'`, [ids.student1b]],
+    ]);
+    const finished = steps[2][0].r as { status: string; level: number; answered: number; correct: number };
+    expect(finished).toMatchObject({ status: "completed", answered: 1, correct: 1 });
+    expect(finished.level).toBeCloseTo(levelOf(estimateAbility([{ difficulty: 3, correct: true }])), 1);
+    expect(Object.keys(steps[3][0].skill_detail)).toEqual([ids.skillPublished]);
+
+    await expect(
+      asSteps(db, s1b, [
+        [`select public.start_diagnostic('matematicas', 7::smallint) as id`],
+        [`select public.submit_attempt($1, 2::smallint, null, 1000, 0::smallint, null, 'diagnostic', (select id from public.diagnostics where status = 'in_progress' and student_id = $2))`, [ids.itemVerified, ids.student1b]],
+        [`select public.submit_attempt($1, 2::smallint, null, 1000, 0::smallint, null, 'diagnostic', (select id from public.diagnostics where status = 'in_progress' and student_id = $2))`, [ids.itemVerified, ids.student1b]],
+      ]),
+    ).rejects.toThrow(/already answered/);
+  });
+
+  it("never lets a student write mastery or close someone else's diagnostic", async () => {
+    await expectDenied(db, s1, `insert into public.mastery (student_id, skill_id, score) values ($1, $2, 1)`, [ids.student1, ids.skillDraft], /permission denied/);
+    await expectDenied(db, s1, `update public.mastery set score = 1 where student_id = $1`, [ids.student1], /permission denied/);
+    await expectDenied(db, s2, `select public.finish_diagnostic($1)`, [ids.diagnostic1], /invalid diagnostic/);
+    await expectDenied(db, anon, `select public.start_diagnostic('matematicas', 7::smallint)`, [], /permission denied/);
   });
 });
 
