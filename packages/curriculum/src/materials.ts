@@ -13,6 +13,13 @@ export const generatedMaterialsSchema = z.object({
 });
 export type GeneratedMaterials = z.infer<typeof generatedMaterialsSchema>;
 
+/** A material rewritten to fix the problems the independent review found. */
+export const repairedMaterialSchema = z.object({
+  content: z.string().describe("El material completo, corregido, en Markdown"),
+  notes: z.string().describe("Qué cambiaste; vacío si nada"),
+});
+export type RepairedMaterial = z.infer<typeof repairedMaterialSchema>;
+
 /** Independent review of the materials. An "error" keeps that material from students. */
 export const materialReviewSchema = z.object({
   problems: z.array(
