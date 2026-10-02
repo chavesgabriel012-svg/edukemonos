@@ -65,7 +65,7 @@ export function unitContext(u: TutorUnit): string {
     `Unidad: ${u.title}`,
     `Contenidos:\n${list(u.contents)}`,
     `Habilidades o criterios del programa:\n${list(u.skills)}`,
-    `Material publicado en Edukemonos:\n${material || "(todavía no hay material publicado)"}`,
+    `Material publicado en Eduka:\n${material || "(todavía no hay material publicado)"}`,
   ].join("\n\n");
 }
 

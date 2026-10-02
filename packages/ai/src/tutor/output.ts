@@ -21,6 +21,7 @@ const VOSEO: Record<string, string> = {
   completá: "completa", compará: "compara", elegí: "elige", sumá: "suma", restá: "resta", multiplicá: "multiplica",
   dividí: "divide", subrayá: "subraya", corregí: "corrige", leelo: "léelo", contale: "cuéntale", hablale: "háblale",
   decile: "dile", pedile: "pídele", buscalo: "búscalo", probalo: "pruébalo", intentalo: "inténtalo", hacelo: "hazlo",
+  pensalo: "piénsalo", miralo: "míralo", escribilo: "escríbelo", revisalo: "revísalo",
   acá: "aquí", allá: "allí",
 };
 const PRONOUN_AFTER_PREPOSITION: Record<string, string> = { para: "ti", a: "ti", de: "ti", por: "ti", en: "ti", sin: "ti" };
@@ -33,6 +34,8 @@ function matchCase(source: string, target: string): string {
 /** Rewrites voseo into tuteo on whole words. */
 export function toTuteo(text: string): string {
   return text
+    // "Sos una IA" from the tutor is a slip for "soy", not voseo: the tutor is talking about itself.
+    .replace(/(?<![\p{L}])sos(?= (?:una? )?(?:IA|inteligencia artificial|tutor|programa|Kemo)(?![\p{L}]))/giu, (m) => matchCase(m, "soy"))
     .replace(/\bcon vos\b/gi, (m) => matchCase(m, "contigo"))
     .replace(/\b(para|a|de|por|en|sin) vos\b/gi, (m, prep: string) => `${prep} ${PRONOUN_AFTER_PREPOSITION[prep.toLowerCase()]}`)
     .replace(/(?<![\p{L}])vos(?![\p{L}])/giu, (m) => matchCase(m, "tú"))
@@ -57,6 +60,7 @@ const NEUTRAL: [RegExp, (m: string) => string][] = [
   [/(?<![\p{L}])sentirte segur[oa](?:\/[oa]| o segur[oa])?(?![\p{L}])/giu, () => "sentirte a salvo"],
   [/(?<![\p{L}])tú mism[oa](?:\/[oa]| o mism[oa])?(?![\p{L}])/giu, () => "por tu cuenta"],
   [/(?<![\p{L}])ti mism[oa](?:\/[oa]| o mism[oa])?(?![\p{L}])/giu, () => "ti"],
+  [/¿list[oa](?:\/[oa]| o list[oa])?\?/giu, () => "¿Seguimos?"],
   // Capitalized or after "¡" it opens a greeting: "¡Bienvenida a la unidad!".
   [/(?:(?<=¡)bienvenid[oa]|(?<![\p{L}])Bienvenid[oa])(?:\/[oa]| o bienvenid[oa])?(?![\p{L}])/gu, () => "te doy la bienvenida"],
 ];
