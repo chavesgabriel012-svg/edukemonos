@@ -47,7 +47,8 @@ Todas están documentadas en [`.env.example`](.env.example). Lo importante:
 | `ANTHROPIC_API_KEY` | Clave de Anthropic. En sesiones de Claude Code en la nube use `EDUKEMONOS_ANTHROPIC_API_KEY`: la plataforma retira `ANTHROPIC_API_KEY` del entorno |
 | `MODEL_BULK`, `MODEL_TUTOR`, `MODEL_VERIFY` | Identificadores de modelo. **No están en el código**: tómelos de la documentación vigente del proveedor |
 | `AI_PRICES_JSON` | Precios por modelo para estimar costos en `ai_usage` |
-| `RETENTION_DAYS_CHAT` | Retención de transcripciones del tutor (pendiente de revisión legal) |
+| `RETENTION_DAYS_CHAT` | Días que se guardan las conversaciones con el tutor (30 por defecto; pendiente de revisión legal). Las borra cada día `/api/cron/purge` |
+| `CRON_SECRET` | Secreto de Vercel Cron para `/api/cron/purge`; sin él, la limpieza diaria no corre |
 
 ## Pruebas
 
@@ -159,7 +160,7 @@ Pestaña **Preguntar al tutor** de cada unidad (`POST /api/tutor`, respuesta en 
 
 **Evaluaciones:** `pnpm eval:tutor` (sin `--yes` solo estima) corre 60 casos (`packages/ai/evals/tutor/cases.json`) y escribe el reporte en `docs/evals/`.
 
-**Variables necesarias en el servidor (Vercel):** `SUPABASE_SERVICE_ROLE_KEY`, `ANTHROPIC_API_KEY`, `AI_PROVIDER`, `MODEL_TUTOR`, `MODEL_BULK`, `MODEL_VERIFY`, `AI_PRICES_JSON`, `AI_BUDGET_DAILY_USD`, `AI_BUDGET_MONTHLY_USD`, `TUTOR_MAX_MESSAGES_PER_SESSION`, `TUTOR_MAX_MESSAGES_PER_DAY`.
+**Variables necesarias en el servidor (Vercel):** `SUPABASE_SERVICE_ROLE_KEY`, `ANTHROPIC_API_KEY`, `AI_PROVIDER`, `MODEL_TUTOR`, `MODEL_BULK`, `MODEL_VERIFY`, `AI_PRICES_JSON`, `AI_BUDGET_DAILY_USD`, `AI_BUDGET_MONTHLY_USD`, `TUTOR_MAX_MESSAGES_PER_SESSION`, `TUTOR_MAX_MESSAGES_PER_DAY`, `CRON_SECRET` (limpieza diaria de conversaciones).
 
 ## Revisión (`/revisar`)
 

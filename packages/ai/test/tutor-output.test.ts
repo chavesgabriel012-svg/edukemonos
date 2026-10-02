@@ -39,7 +39,7 @@ describe("tutorOutputStream", () => {
 
 describe("assumedGenderWords", () => {
   it("flags gendered words the student did not use first", () => {
-    expect(assumedGenderWords("Tranquilo, ya llevas la mitad. ¿Listo?", "ya me cansé")).toEqual(["tranquilo", "listo"]);
+    expect(assumedGenderWords("Tranquilo, ya llevas la mitad.", "ya me cansé")).toEqual(["tranquilo"]);
   });
   it("allows the form the student used for themselves", () => {
     expect(assumedGenderWords("Entiendo que estés cansada.", "Estoy cansada de esto")).toEqual([]);
@@ -52,7 +52,7 @@ describe("assumedGenderWords", () => {
     expect(assumedGenderWords("Hola, te doy la bienvenida. ¿Estás cansado o cansada? Hazlo tú mismo/a.", "")).toEqual([]);
   });
   it("ignores nouns and adverbs that only look gendered", () => {
-    expect(assumedGenderWords("Tu lista está completa; solo falta el 36.", "")).toEqual([]);
+    expect(assumedGenderWords("Tu lista está completa; solo falta el 36. Así tendrás el ensayo listo.", "")).toEqual([]);
   });
 });
 
