@@ -19,6 +19,11 @@ export function supabaseUsageSink(db: SupabaseLike): UsageSink {
       purpose: r.purpose,
       input_tokens: r.inputTokens,
       output_tokens: r.outputTokens,
+      // Only sent when there was cache traffic, so logging keeps working on databases where the
+      // 20261005000100 migration (cache columns) has not been applied yet.
+      ...(r.cacheReadTokens || r.cacheWriteTokens
+        ? { cache_read_tokens: r.cacheReadTokens ?? 0, cache_write_tokens: r.cacheWriteTokens ?? 0 }
+        : {}),
       cost_usd_estimate: r.costUsdEstimate,
       latency_ms: r.latencyMs,
       success: r.success,

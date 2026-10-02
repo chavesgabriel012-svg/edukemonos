@@ -102,6 +102,9 @@ importers:
       '@anthropic-ai/sdk':
         specifier: ^0.131.0
         version: 0.131.0(zod@4.6.5)
+      '@edukemonos/curriculum':
+        specifier: workspace:*
+        version: link:../curriculum
       openai:
         specifier: ^7.25.0
         version: 7.25.0(undici@7.30.0)(zod@4.6.5)

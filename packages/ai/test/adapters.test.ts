@@ -62,7 +62,7 @@ describe("AnthropicAdapter", () => {
       { type: "tool_call", name: "calculate", input: { expression: "2^3" } },
       { type: "tool_result", name: "calculate", output: "8", isError: false },
       { type: "text", delta: "Da 8." },
-      { type: "done", usage: { inputTokens: 20, outputTokens: 6 }, model: "m", stopReason: "end_turn" },
+      { type: "done", usage: { inputTokens: 20, outputTokens: 6, cacheReadTokens: 0, cacheWriteTokens: 0 }, model: "m", stopReason: "end_turn" },
     ]);
     const second = calls[1].messages as { role: string; content: any }[];
     expect(second.at(-1)).toEqual({

@@ -37,17 +37,23 @@ export function toolInputSchema(schema: z.ZodType): Anthropic.Beta.BetaTool["inp
 }
 
 function usageOf(message: BetaMessage): Usage {
+  const cacheRead = message.usage.cache_read_input_tokens ?? 0;
+  const cacheWrite = message.usage.cache_creation_input_tokens ?? 0;
   return {
-    inputTokens:
-      message.usage.input_tokens +
-      (message.usage.cache_read_input_tokens ?? 0) +
-      (message.usage.cache_creation_input_tokens ?? 0),
+    inputTokens: message.usage.input_tokens + cacheRead + cacheWrite,
     outputTokens: message.usage.output_tokens,
+    cacheReadTokens: cacheRead,
+    cacheWriteTokens: cacheWrite,
   };
 }
 
 function addUsage(a: Usage, b: Usage): Usage {
-  return { inputTokens: a.inputTokens + b.inputTokens, outputTokens: a.outputTokens + b.outputTokens };
+  return {
+    inputTokens: a.inputTokens + b.inputTokens,
+    outputTokens: a.outputTokens + b.outputTokens,
+    cacheReadTokens: (a.cacheReadTokens ?? 0) + (b.cacheReadTokens ?? 0),
+    cacheWriteTokens: (a.cacheWriteTokens ?? 0) + (b.cacheWriteTokens ?? 0),
+  };
 }
 
 function textOf(message: BetaMessage): string {
@@ -79,7 +85,13 @@ export class AnthropicAdapter implements ProviderAdapter {
     return {
       model: req.model,
       max_tokens: req.maxTokens ?? DEFAULT_MAX_TOKENS,
-      ...(req.system ? { system: req.system } : {}),
+      ...(req.system
+        ? {
+            system: req.cacheSystem
+              ? [{ type: "text" as const, text: req.system, cache_control: { type: "ephemeral" as const } }]
+              : req.system,
+          }
+        : {}),
       ...(this.fallbacks ? { betas: [FALLBACK_BETA], fallbacks: this.fallbacks } : {}),
     };
   }
