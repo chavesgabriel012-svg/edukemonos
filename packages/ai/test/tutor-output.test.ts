@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { assumedGenderWords, stripUnverifiedPhones, toTuteo, tutorOutputStream } from "../src/tutor/output";
+import { assumedGenderWords, stripUnverifiedPhones, toNeutral, toTuteo, tutorOutputStream } from "../src/tutor/output";
 
 describe("toTuteo", () => {
   it("rewrites voseo into tuteo, keeping case", () => {
@@ -42,7 +42,35 @@ describe("assumedGenderWords", () => {
     expect(assumedGenderWords("Aunque no estés seguro, inténtalo tú mismo.", "")).toEqual(["estés seguro", "tú mismo"]);
     expect(assumedGenderWords("Seguro que lo logras; es lo mismo que antes.", "")).toEqual([]);
   });
+  it("accepts doubled forms and the noun «la bienvenida»", () => {
+    expect(assumedGenderWords("Hola, te doy la bienvenida. ¿Estás cansado o cansada? Hazlo tú mismo/a.", "")).toEqual([]);
+  });
   it("ignores nouns and adverbs that only look gendered", () => {
     expect(assumedGenderWords("Tu lista está completa; solo falta el 36.", "")).toEqual([]);
+  });
+});
+
+describe("toNeutral", () => {
+  it("rewrites the common gendered phrases about the student", () => {
+    expect(toNeutral("Aunque no estés seguro, inténtalo tú mismo.")).toBe("Aunque no tengas certeza, inténtalo por tu cuenta.");
+    expect(toNeutral("Si no estás segura, confía en ti misma. Mereces sentirte seguro.")).toBe(
+      "Si no tienes certeza, confía en ti. Mereces sentirte a salvo.",
+    );
+    expect(toNeutral("¡Bienvenida! Bienvenido a la unidad.")).toBe("¡Te doy la bienvenida! Te doy la bienvenida a la unidad.");
+  });
+  it("rewrites a doubled form whole", () => {
+    expect(toNeutral("aunque no estés seguro o segura de la respuesta")).toBe("aunque no tengas certeza de la respuesta");
+    expect(toNeutral("Hazlo tú mismo/a.")).toBe("Hazlo por tu cuenta.");
+  });
+  it("leaves lookalikes alone", () => {
+    expect(toNeutral("Seguro que lo logras; es lo mismo que antes.")).toBe("Seguro que lo logras; es lo mismo que antes.");
+  });
+  it("works across stream chunks", () => {
+    const s = tutorOutputStream([]);
+    const out = ["Aunque no ", "estés ", "seg", "uro, hazlo ", "tú ", "mis", "mo."].map((d) => s.push(d)).join("") + s.flush();
+    expect(out).toBe("Aunque no tengas certeza, hazlo por tu cuenta.");
+    const t = tutorOutputStream([]);
+    const doubled = ["Dime, aunque ", "no estés ", "seguro ", "o ", "segura ", "de la respuesta."].map((d) => t.push(d)).join("") + t.flush();
+    expect(doubled).toBe("Dime, aunque no tengas certeza de la respuesta.");
   });
 });
