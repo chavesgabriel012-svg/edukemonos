@@ -10,6 +10,7 @@ import {
   AIUnavailableError,
   type ChatEvent,
   type ChatMessage,
+  type Effort,
   type ModelRole,
   type ProviderAdapter,
   type Purpose,
@@ -33,6 +34,8 @@ export interface CallInput {
   system?: string;
   messages: ChatMessage[];
   maxTokens?: number;
+  /** Overrides the role's configured effort for this call (e.g. a verifier that must reason hard). */
+  effort?: Effort;
   signal?: AbortSignal;
 }
 
@@ -130,7 +133,7 @@ export function createAI(options: CreateAIOptions = {}) {
   function request(ctx: CallContext, input: CallInput, model: string) {
     return {
       model,
-      effort: config.effort[ctx.role],
+      effort: input.effort ?? config.effort[ctx.role],
       system: input.system,
       messages: input.messages,
       maxTokens: input.maxTokens,

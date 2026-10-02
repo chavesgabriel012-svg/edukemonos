@@ -35,6 +35,13 @@ describe("createAI", () => {
     expect(adapter.generateText).toHaveBeenCalledWith(expect.objectContaining({ model: "m-tutor", effort: "low" }));
   });
 
+  it("lets a call override the role's effort", async () => {
+    const adapter = fakeAdapter();
+    const ai = createAI({ config, adapter });
+    await ai.generateText({ role: "tutor", purpose: "tutor" }, { messages: [], effort: "xhigh" });
+    expect(adapter.generateText).toHaveBeenCalledWith(expect.objectContaining({ model: "m-tutor", effort: "xhigh" }));
+  });
+
   it("logs usage with cost estimate and without any message text", async () => {
     const records: UsageRecord[] = [];
     const ai = createAI({ config, adapter: fakeAdapter(), sink: (r) => void records.push(r) });

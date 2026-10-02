@@ -111,6 +111,26 @@ pnpm ingest run       --source mep-prog-matematicas --grade 7 --yes   # descarga
 - Todo entra como **borrador**. Volver a correr reemplaza los borradores de ese programa y grado, pero nunca toca unidades revisadas o publicadas.
 - `pnpm ingest coverage …` lista las páginas del grado que ninguna unidad cita, para revisarlas.
 
+- En Español el programa no trae habilidades específicas: sus **criterios de evaluación** se cargan como habilidades, cada uno con la página donde aparece textualmente.
+
+## Material de estudio e ítems (Fase 2)
+
+Solo para unidades **publicadas**. Requiere la migración `20261003000100_content_generation.sql`.
+
+```bash
+pnpm content generate --subject matematicas --grade 7          # muestra el costo estimado, NO gasta
+pnpm content generate --subject matematicas --grade 7 --yes    # genera, verifica y carga como borrador
+pnpm content publish  --subject matematicas --grade 7          # publica solo lo que pasó todas las verificaciones
+pnpm content status   --subject matematicas --grade 7
+```
+
+Por unidad se generan resumen, explicación paso a paso, ejemplos resueltos, glosario y unos 3 ítems por habilidad (entre 6 y 12). En Español se agregan ítems de lectura inferencial y crítica y 2 consignas de escritura.
+
+- **Material:** una segunda pasada con `MODEL_VERIFY` busca errores conceptuales, de cálculo y contenido fuera de la unidad. Si encuentra uno, ese material no se publica.
+- **Ítems:** `MODEL_VERIFY` resuelve cada ítem **sin ver la respuesta**. Si la respuesta es un cálculo, además se recalcula con `mathjs`, y debe coincidir con la opción marcada y solo con ella. `verified = true` solo si todo coincide. Solo los ítems verificados entran al diagnóstico.
+- `publish` deja lo publicado como **"Generado con IA · pendiente de revisión"**. En `/revisar/<unidad>/contenido` un revisor lo aprueba (pasa a "revisado por docente"), lo edita o lo rechaza.
+- Cada paso de IA queda en caché por unidad y versión del prompt: un fallo o el fusible de gasto nunca hacen pagar dos veces lo ya generado. Costo medido: unos US$0,12 por unidad de Matemáticas con 6 ítems.
+
 ## Revisión (`/revisar`)
 
 1. Entra en `/entrar` con tu correo (enlace mágico).

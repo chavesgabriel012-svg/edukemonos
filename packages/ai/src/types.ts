@@ -12,6 +12,7 @@ export type Purpose =
   | "bulk_material"
   | "bulk_items"
   | "verify_item"
+  | "verify_material"
   | "teacher_summary"
   | "eval"
   | "diagnostic"

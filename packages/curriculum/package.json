@@ -10,6 +10,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "mathjs": "^15.2.0",
     "zod": "^4.6.5"
   },
   "devDependencies": {

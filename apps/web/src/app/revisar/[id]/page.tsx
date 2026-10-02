@@ -49,6 +49,9 @@ export default async function ReviewUnitPage({ params, searchParams }: PageProps
           {unit.area ?? "Sin área"} · {unit.grade_id}.º · Estado: <strong>{STATUS_LABEL[unit.status]}</strong>
           {unit.extraction_meta.model ? ` · Extraída con IA (${unit.extraction_meta.model})` : ""}
         </p>
+        <Link href={`/revisar/${unit.id}/contenido`} className="inline-block text-sm font-medium underline underline-offset-2">
+          Material de estudio e ítems de práctica →
+        </Link>
       </header>
 
       {notice && <p role="alert" className="rounded-lg border border-amber-300 bg-amber-50 p-3 text-sm text-amber-950">{notice}</p>}

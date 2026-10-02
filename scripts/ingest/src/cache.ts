@@ -9,6 +9,8 @@ export const paths = {
   meta: (id: string) => join(CACHE_DIR, "meta", `${id}.json`),
   pages: (id: string) => join(CACHE_DIR, "text", `${id}.json`),
   extraction: (id: string, grade: number) => join(CACHE_DIR, "units", `${id}-g${grade}.json`),
+  content: (unitId: string) => join(CACHE_DIR, "content", `${unitId}.json`),
+  contentSteps: (unitId: string) => join(CACHE_DIR, "content", `${unitId}.steps.json`),
 };
 
 export function ensureDir(file: string): string {

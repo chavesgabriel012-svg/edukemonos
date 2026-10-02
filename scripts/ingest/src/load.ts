@@ -1,9 +1,9 @@
 import { readFileSync } from "node:fs";
-import { KIND_TO_DB, type SourceEntry } from "@edukemonos/curriculum";
+import { KIND_TO_DB, skillsFromOutcomes, type SourceEntry } from "@edukemonos/curriculum";
 import { paths } from "./cache";
 import type { Db } from "./db";
 import type { DownloadMeta } from "./download";
-import type { PageTexts } from "./extract";
+import { pageMap, type PageTexts } from "./extract";
 import type { GradeExtraction } from "./structure";
 
 export const BUCKET = "curriculum-sources";
@@ -62,7 +62,11 @@ export async function loadExtraction(
   entry: SourceEntry,
   sourceDbId: string,
   extraction: GradeExtraction,
-  { runId, allowAlongsideReviewed = false }: { runId: string; allowAlongsideReviewed?: boolean },
+  {
+    runId,
+    allowAlongsideReviewed = false,
+    texts,
+  }: { runId: string; allowAlongsideReviewed?: boolean; texts?: PageTexts },
 ): Promise<LoadSummary> {
   const reviewed = await db.select<{ id: string }>(
     "curriculum_units",
@@ -84,7 +88,11 @@ export async function loadExtraction(
   let unitsWithIssues = 0;
   let units = 0;
   for (const chunk of extraction.chunks) {
+    const pages = texts ? pageMap(texts, chunk.chunk.from, chunk.chunk.to) : null;
     for (const [i, u] of chunk.units.entries()) {
+      // Programs without a skills column: their evaluation criteria are the skills.
+      const unitSkills = pages ? skillsFromOutcomes(u, pages) : u.skills;
+      const derived = unitSkills !== u.skills;
       const issues = chunk.issues.filter((x) => x.unit === i);
       if (issues.length) unitsWithIssues++;
       const [row] = await db.insert<{ id: string }>("curriculum_units", [
@@ -115,13 +123,13 @@ export async function loadExtraction(
         },
       ]);
       units++;
-      const skillRows = u.skills.map((s, k) => ({
+      const skillRows = unitSkills.map((s, k) => ({
         unit_id: row.id,
         subject_id: entry.subject,
         grade_id: extraction.grade,
         code: s.code,
         name: s.text,
-        description: null,
+        description: derived ? "Criterio de evaluación del programa (el programa no trae habilidades específicas)" : null,
         source_page: s.page,
         sort_order: k,
       }));

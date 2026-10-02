@@ -68,3 +68,20 @@ export function verifyUnits(units: ExtractedUnit[], pages: Map<number, string>):
   });
   return issues;
 }
+
+/**
+ * Some programs (Español 2017) have no "habilidades específicas" column: what is assessed are the
+ * "criterios de evaluación", which the extraction stores as learning outcomes. For those units each
+ * outcome becomes a skill, with the page where it appears verbatim. Outcomes that cannot be found
+ * on any page are skipped, so nothing unverifiable becomes a skill.
+ */
+export function skillsFromOutcomes(unit: ExtractedUnit, pages: Map<number, string>): ExtractedUnit["skills"] {
+  if (unit.skills.length > 0) return unit.skills;
+  const order = [unit.source_page, ...[...pages.keys()].filter((p) => p !== unit.source_page).sort((a, b) => a - b)];
+  return unit.learning_outcomes.flatMap((text) => {
+    // Prefer the page that holds the whole criterion; fall back to one where it starts and continues.
+    const page =
+      order.find((p) => appearsVerbatim(text, pages.get(p) ?? "")) ?? order.find((p) => findOnPage(text, pages, p) !== null);
+    return page === undefined ? [] : [{ code: null, text, page }];
+  });
+}
