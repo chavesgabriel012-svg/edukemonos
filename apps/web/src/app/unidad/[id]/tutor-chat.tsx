@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { Kemo } from "@/components/brand/logo";
+import { brand } from "@/lib/brand";
 import { Markdown } from "@/components/learn/markdown";
 import { ReportButton } from "@/components/learn/report-button";
 import { openTutor, type TutorMessage } from "@/app/estudiar/actions";
@@ -124,16 +126,19 @@ export function TutorChat({ unitId, help }: { unitId: string; help: Help }) {
           </p>
         )}
         {messages.map((m, i) => (
-          <div key={i} className={m.role === "user" ? "ml-8 rounded-xl bg-secondary p-3" : "mr-4 space-y-2 rounded-xl border p-3"}>
-            {m.role === "assistant" ? (
-              <>
+          m.role === "assistant" ? (
+            <div key={i} className="mr-4 flex items-end gap-2.5">
+              <Kemo size={40} mood={m.content ? "normal" : "think"} background={brand.lima} />
+              <div className="min-w-0 flex-1 space-y-2 rounded-[20px_20px_20px_6px] border bg-card p-4">
                 {m.content ? <Markdown>{m.content}</Markdown> : <p className="text-sm text-muted-foreground">Pensando…</p>}
                 {m.id && <ReportButton targetType="tutor_message" targetId={m.id} />}
-              </>
-            ) : (
+              </div>
+            </div>
+          ) : (
+            <div key={i} className="ml-8 rounded-[20px_20px_6px_20px] bg-primary px-[18px] py-3.5 text-primary-foreground">
               <p className="whitespace-pre-wrap">{m.content}</p>
-            )}
-          </div>
+            </div>
+          )
         ))}
         <div ref={bottom} />
       </div>

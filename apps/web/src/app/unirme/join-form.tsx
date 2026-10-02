@@ -32,7 +32,7 @@ export function JoinForm() {
       <label className="flex items-start gap-2 text-sm">
         <input type="checkbox" name="consent" required className="mt-1" />
         <span>
-          Acepto que mi docente vea mi avance en Edukemonos (ejercicios, diagnóstico y temas consultados). Leí el{" "}
+          Acepto que mi docente vea mi avance en Eduka (ejercicios, diagnóstico y temas consultados). Leí el{" "}
           <Link href="/privacidad" className="underline underline-offset-2">aviso de privacidad</Link>.
         </span>
       </label>

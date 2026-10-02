@@ -19,7 +19,7 @@ export default function HomePage() {
           {GRADES.map((g) => (
             <li key={g}>
               <Link href={`/estudiar/${g}`}
-                className="flex h-full flex-col rounded-xl border p-5 transition hover:border-primary hover:bg-secondary focus-visible:outline-2">
+                className="flex h-full flex-col rounded-xl border bg-card p-5 transition hover:border-primary hover:bg-secondary focus-visible:outline-2">
                 <span className="text-3xl font-bold text-primary">{g}.º</span>
                 <span className="text-lg">{GRADE_LABEL[g]} año</span>
               </Link>
