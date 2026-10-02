@@ -39,7 +39,7 @@ const outputs: Record<string, unknown> = {
         explanation: "…", distractor_explanations: ["", "a", "b", "c"], calc: { expression: "3^2" },
       },
     ],
-    writing: [],
+    writing: [{ skill_index: 0, difficulty: 3, prompt: "Escribe un párrafo…", criteria: ["Usa conectores"] }],
     notes: "",
   },
   solved_items: { answers: [{ item: 1, chosen_index: 2, problems: "" }, { item: 2, chosen_index: 1, problems: "" }] },
@@ -105,12 +105,16 @@ describe("content generation", () => {
     const content = await generateUnitContent(ai, unit);
     const { db, calls } = fakeDb();
     const summary = await loadUnitContent(db, unit, content);
-    expect(summary).toMatchObject({ materials: 4, items: 2, verified: 1, writing: 0 });
+    expect(summary).toMatchObject({ materials: 4, items: 2, verified: 1, writing: 1 });
 
     const deletes = calls.filter((c) => c.method === "DELETE").map((c) => c.url);
     expect(deletes.every((u) => u.includes("status=eq.draft") && u.includes("reviewer_id=is.null"))).toBe(true);
     const items = calls.find((c) => c.method === "POST" && c.url.includes("/items"))!.body as Record<string, unknown>[];
     expect(items[0]).toMatchObject({ status: "draft", verified: true, skill_ids: ["skill-1"], correct_index: 2 });
+    // PostgREST bulk inserts need every row to carry the same keys.
+    const keys = items.map((r) => Object.keys(r).sort().join(","));
+    expect(new Set(keys).size).toBe(1);
+    expect(items.at(-1)).toMatchObject({ kind: "open_writing", options: null, correct_index: null, verified: false });
 
     await publishVerified(db, [unit.id]);
     const patches = calls.filter((c) => c.method === "PATCH").map((c) => decodeURIComponent(c.url));

@@ -327,6 +327,11 @@ export async function loadUnitContent(db: Db, u: ContentUnit, cached: UnitConten
     skill_ids: u.skills[item.skill_index] ? [u.skills[item.skill_index].id] : [],
     kind: "open_writing",
     stem: item.prompt,
+    // Same keys as the single-choice rows: PostgREST bulk inserts require it.
+    options: null,
+    correct_index: null,
+    distractor_explanations: null,
+    reading_level: null,
     explanation: item.criteria.map((x) => `- ${x}`).join("\n"),
     difficulty: Math.min(5, Math.max(1, Math.round(item.difficulty))),
     verified: false,
