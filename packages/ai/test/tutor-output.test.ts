@@ -6,6 +6,7 @@ describe("toTuteo", () => {
     expect(toTuteo("Podés intentarlo. Fijate bien y contame qué entendés.")).toBe("Puedes intentarlo. Fíjate bien y cuéntame qué entiendes.");
     expect(toTuteo("Lo que sentís es importante, vos importás. Llamá al 911.")).toBe("Lo que sientes es importante, tú importas. Llama al 911.");
     expect(toTuteo("Esto es para vos y quiero hablar con vos acá.")).toBe("Esto es para ti y quiero hablar contigo aquí.");
+    expect(toTuteo("Recordá: cuidate y contale a un adulto. Intentalo.")).toBe("Recuerda: cuídate y cuéntale a un adulto. Inténtalo.");
   });
 
   it("leaves tuteo and ordinary words alone", () => {

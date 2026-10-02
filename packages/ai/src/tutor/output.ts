@@ -16,6 +16,11 @@ const VOSEO: Record<string, string> = {
   acordate: "acuérdate", tomá: "toma", vení: "ven", esperá: "espera", revisá: "revisa", respirá: "respira",
   buscá: "busca", preguntá: "pregunta", contá: "cuenta", escuchá: "escucha", tratá: "trata", animate: "anímate",
   pasame: "pásame", explicame: "explícame", mostrame: "muéstrame", avisame: "avísame", escribime: "escríbeme",
+  recordá: "recuerda", cuidate: "cuídate", sentate: "siéntate", calmate: "cálmate", tranquilizate: "tranquilízate",
+  dejá: "deja", hacé: "haz", poné: "pon", decí: "di", tené: "ten", andá: "ve", fijá: "fija", agregá: "agrega",
+  completá: "completa", compará: "compara", elegí: "elige", sumá: "suma", restá: "resta", multiplicá: "multiplica",
+  dividí: "divide", subrayá: "subraya", corregí: "corrige", leelo: "léelo", contale: "cuéntale", hablale: "háblale",
+  decile: "dile", pedile: "pídele", buscalo: "búscalo", probalo: "pruébalo", intentalo: "inténtalo", hacelo: "hazlo",
   acá: "aquí", allá: "allí",
 };
 const PRONOUN_AFTER_PREPOSITION: Record<string, string> = { para: "ti", a: "ti", de: "ti", por: "ti", en: "ti", sin: "ti" };
