@@ -307,7 +307,8 @@ describe("mastery and the adaptive diagnostic", () => {
     let ts: number | null = null;
     let score: number | null = null;
     for (const [n, [d, c]] of seq.entries()) {
-      const [{ v }] = (await db.query(`select private.mastery_after($1, $2, $3, $4)::float8 as v`, [score, n, d, c])).rows;
+      const result: pg.QueryResult<{ v: number }> = await db.query(`select private.mastery_after($1, $2, $3, $4)::float8 as v`, [score, n, d, c]);
+      const v: number = result.rows[0].v;
       ts = updateMastery(ts, n, d, c);
       expect(v).toBeCloseTo(ts, 10);
       score = v;
