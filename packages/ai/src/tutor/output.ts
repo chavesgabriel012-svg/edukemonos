@@ -109,9 +109,9 @@ export function tutorOutputStream(allowedPhones: string[]) {
   };
 }
 
-// Gendered words a tutor might use to address the student. "solo/a", "lista" and "seguro/a" are
+// Gendered words a tutor might use to address the student. "solo/a", "listo/a" and "seguro/a" are
 // left out: they are usually an adverb, a noun ("tu lista") or "seguro que…", not about the student.
-const GENDERED = /(?<![\p{L}])(tranquil[oa]|cansad[oa]|preocupad[oa]|confundid[oa]|frustrad[oa]|agobiad[oa]|estresad[oa]|perdid[oa]|bienvenid[oa]|listo|atent[oa]|respetad[oa]|nervios[oa]|desanimad[oa]|asustad[oa])(?![\p{L}])/giu;
+const GENDERED = /(?<![\p{L}])(tranquil[oa]|cansad[oa]|preocupad[oa]|confundid[oa]|frustrad[oa]|agobiad[oa]|estresad[oa]|perdid[oa]|bienvenid[oa]|atent[oa]|respetad[oa]|nervios[oa]|desanimad[oa]|asustad[oa])(?![\p{L}])/giu;
 
 const DOUBLED = /(?<![\p{L}])(\p{L}+)[oa](?:\/[oa]| o \1[oa])(?![\p{L}])/giu;
 
