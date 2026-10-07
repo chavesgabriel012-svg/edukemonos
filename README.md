@@ -162,6 +162,26 @@ Pestaña **Preguntar al tutor** de cada unidad (`POST /api/tutor`, respuesta en 
 
 **Variables necesarias en el servidor (Vercel):** `SUPABASE_SERVICE_ROLE_KEY`, `ANTHROPIC_API_KEY`, `AI_PROVIDER`, `MODEL_TUTOR`, `MODEL_BULK`, `MODEL_VERIFY`, `AI_PRICES_JSON`, `AI_BUDGET_DAILY_USD`, `AI_BUDGET_MONTHLY_USD`, `TUTOR_MAX_MESSAGES_PER_SESSION`, `TUTOR_MAX_MESSAGES_PER_DAY`, `CRON_SECRET` (limpieza diaria de conversaciones).
 
+## Panel docente (Fase 5)
+
+- `/docente`: presentación del panel para quien no ha entrado; con sesión, las secciones del docente y el formulario
+  para crear una. Cualquier cuenta de correo (no anónima) es docente. Al entrar con el enlace del correo se llega aquí.
+- `/docente/demo`: **sección de demostración** sin necesidad de cuenta, con 26 estudiantes ficticios sobre los temas
+  reales de 7.º, etiquetada como tal. Los datos son deterministas (`buildDemoSection` en `packages/curriculum`) y el
+  dominio sale del mismo algoritmo que usa la práctica real.
+- `/docente/seccion/<id>`: código para dictar (copiar, cambiar, desactivar), indicadores, hallazgos con «¿Cómo se
+  calculó?», resumen con IA, estudiantes que podrían necesitar apoyo, mapa de calor estudiantes × temas, actividad,
+  diagnóstico, errores de escritura, temas consultados a Kemo, tabla de estudiantes y CSV. Registro de accesos al pie.
+- `/docente/seccion/<id>/estudiante/<id>`: detalle por estudiante (nivel por materia, dominio e intentos por tema,
+  errores de escritura, línea de tiempo) y la opción de sacarlo de la sección.
+- Los datos se leen con la sesión del docente: RLS solo deja ver sus secciones y la actividad de sus estudiantes, nunca
+  las conversaciones con el tutor. Cada vista, descarga, resumen y retiro queda en `teacher_audit_log`.
+- Las métricas son funciones puras (`computeSectionMetrics` en `packages/curriculum/src/teacher.ts`). El resumen con IA
+  recibe solo los hallazgos (conteos y títulos de temas, sin nombres), usa `MODEL_BULK` (prompt
+  `teacher-summary-system`), se guarda en `teacher_summaries` por hash de los hallazgos y tiene un límite de 10
+  generaciones por docente al día (6 para la demostración). Necesita la migración `20261007000100_teacher_panel.sql`;
+  sin ella el panel funciona, pero el resumen no se guarda.
+
 ## Revisión (`/revisar`)
 
 1. Entra en `/entrar` con tu correo (enlace mágico).

@@ -11,7 +11,7 @@ const ERRORS: Record<string, string> = {
 
 export default async function SignInPage({ searchParams }: PageProps<"/entrar">) {
   const params = await searchParams;
-  const next = typeof params.next === "string" ? params.next : "/revisar";
+  const next = typeof params.next === "string" ? params.next : "/docente";
   const error = typeof params.error === "string" ? ERRORS[params.error] : undefined;
   const sent = params.enviado === "1";
 

@@ -10,6 +10,7 @@ const LINKS = [
   { href: "/#grado", label: "Estudiar" },
   { href: "/como-funciona", label: "¿Cómo funciona?" },
   { href: "/ia", label: "Kemo y la IA" },
+  { href: "/docente", label: "Para docentes" },
 ] as const;
 
 /** Main menu: inline on wide screens, a toggled panel on phones. */
@@ -51,7 +52,6 @@ export function SiteNav() {
         <div id="menu-movil" className="absolute inset-x-0 top-full z-50 border-b bg-card px-4 pb-4 shadow-[0_12px_32px_-12px_rgba(23,19,42,0.25)] md:hidden">
           {LINKS.map((l) => link(l.href, l.label, true))}
           {link("/unirme", "Únete a tu sección", true)}
-          {link("/entrar", "Entrar como docente", true)}
         </div>
       )}
     </nav>

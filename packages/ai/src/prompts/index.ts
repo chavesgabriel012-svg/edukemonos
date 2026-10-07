@@ -12,3 +12,4 @@ export {
 } from "./generate-materials";
 export { generateItemsSystem, generateItemsUser, solveItemsSystem, solveItemsUser } from "./generate-items";
 export { tutorSystem, tutorTurnContext, writingFeedbackSystem } from "./tutor";
+export { teacherSummarySystem, teacherSummaryUser } from "./teacher";
