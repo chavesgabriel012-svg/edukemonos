@@ -132,7 +132,7 @@ export const WEAK = 0.5;
 /** Kind, non-labelling wording for a level (SPEC §9: avoid negative labels). */
 export function levelMessage(level: number): string {
   if (level >= 3.5) return "Vas muy bien: dominas lo que se espera en este grado y puedes ir por retos.";
-  if (level >= 2.5) return "Vas bien encaminado: tienes la base del grado y hay temas que puedes afianzar.";
+  if (level >= 2.5) return "Vas por buen camino: tienes la base del grado y hay temas que puedes afianzar.";
   return "Conviene repasar las bases: empieza por los temas sugeridos, paso a paso.";
 }
 

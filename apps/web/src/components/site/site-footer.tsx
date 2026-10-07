@@ -21,7 +21,7 @@ export function SiteFooter() {
           <Link className="underline underline-offset-2" href="/como-funciona">¿Cómo funciona?</Link>
           <Link className="underline underline-offset-2" href="/ia">Kemo y la IA</Link>
           <Link className="underline underline-offset-2" href="/privacidad">Aviso de privacidad</Link>
-          <Link className="underline underline-offset-2" href="/entrar">Entrar como docente</Link>
+          <Link className="underline underline-offset-2" href="/docente">Panel docente</Link>
         </nav>
       </div>
     </footer>

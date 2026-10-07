@@ -418,6 +418,14 @@ describe("reports, analytics and quotas", () => {
     expect(rows).toEqual([{ spent_usd: "0", unpriced_calls: "1" }]);
   });
 
+  it("teacher summaries are server-only", async () => {
+    const key = "a".repeat(64);
+    await expectDenied(db, t1, `select * from public.teacher_summaries`, [], /permission denied/);
+    await expectDenied(db, t1, `insert into public.teacher_summaries (key, section_id, summary) values ($1, $2, '{}')`, [key, ids.section1], /permission denied/);
+    await expectDenied(db, s1, `select * from public.teacher_summaries`, [], /permission denied/);
+    expect(count(await as(db, service, `insert into public.teacher_summaries (key, section_id, summary) values ($1, $2, '{}') returning key`, [key, ids.section1]))).toBe(1);
+  });
+
   it("retention purge is server-only", async () => {
     await expectDenied(db, s1, `select public.purge_expired_tutor_messages(30)`, [], /permission denied/);
     expect(await as(db, service, `select public.purge_expired_tutor_messages(30) as n`)).toEqual([{ n: 0 }]);
