@@ -33,7 +33,7 @@ export function Practice({ unitId }: { unitId: string }) {
     [unitId],
   );
 
-  useEffect(() => load(null), [load]);
+  useEffect(() => { load(null); }, [load]);
 
   function check() {
     if (!item || selected === null) return;
