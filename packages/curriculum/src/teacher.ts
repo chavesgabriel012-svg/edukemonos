@@ -390,7 +390,7 @@ function findingsOf(
       kind: "diagnostic",
       tone: g.level! >= 3 ? "positivo" : "atencion",
       title: `Nivel promedio en el diagnóstico de ${g.subjectName}: ${formatLevel(g.level!)} de 5`,
-      detail: g.level! >= 3 ? "En promedio, la sección está en lo esperado para el grado o arriba." : "En promedio, la sección está por debajo de lo esperado para el grado (nivel 3).",
+      detail: g.level! >= 3 ? "En promedio, la sección está en lo esperado para el grado o por encima." : "En promedio, la sección está por debajo de lo esperado para el grado (nivel 3).",
       evidence: `Promedio del último diagnóstico de ${g.count} estudiantes. El nivel se estima con unas 10 preguntas adaptativas; 3 es lo esperado en el grado.`,
     });
   }

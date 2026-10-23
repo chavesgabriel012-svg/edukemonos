@@ -9,7 +9,7 @@ export default function JoinPage() {
       <div className="space-y-2">
         <h1 className="text-2xl font-bold">Únete a tu sección</h1>
         <p className="text-muted-foreground">
-          Si tu docente te dio un código, escríbelo aquí junto con tu nombre. Así tu docente podrá ver tu avance y ayudarte mejor.
+          Si tu docente te dio un código, escríbelo aquí junto con tu nombre, así tu docente podrá ver tu avance y ayudarte mejor.
         </p>
       </div>
       <JoinForm />

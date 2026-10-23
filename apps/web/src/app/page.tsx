@@ -16,8 +16,8 @@ export default function HomePage() {
       <div className="relative overflow-hidden rounded-[28px] bg-violeta px-6 py-8 text-white sm:px-10 sm:py-12">
         <div className="relative z-10 max-w-xl space-y-4">
           <h1 className="font-heading text-[2.6rem] leading-[0.95] font-bold tracking-tight sm:text-6xl">
-            Estudia a tu ritmo.
-            <span className="block whitespace-nowrap text-lima">De 7.º a 9.º</span>
+            Estudia a tu ritmo,
+            <span className="block whitespace-nowrap text-lima">de 7.º a 9.º</span>
           </h1>
           <p className="text-lg text-white/85">
             Gratis, con los programas del MEP: material, ejercicios con explicación y un tutor que te guía sin darte la

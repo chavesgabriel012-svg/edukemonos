@@ -1,7 +1,15 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
-import { appearsVerbatim, type ExtractedUnit, normalizeForMatch, skillsFromOutcomes, verifyUnits } from "../src";
+import {
+  appearsVerbatim,
+  type ExtractedUnit,
+  normalizeForMatch,
+  normalizeUnitArea,
+  normalizeUnitTitle,
+  skillsFromOutcomes,
+  verifyUnits,
+} from "../src";
 
 // Two pages of the official MEP Mathematics program (pp. 276–277, 7.º año, Números) as produced by
 // `pdftotext` in its default mode. Kept short and only for testing the verbatim checks.
@@ -90,5 +98,23 @@ describe("skillsFromOutcomes", () => {
   it("keeps the extracted skills when there are any", () => {
     const skills = [{ code: "1", text: "Calcular", page: 42 }];
     expect(skillsFromOutcomes({ ...unit, skills }, pages)).toBe(skills);
+  });
+});
+
+describe("normalizeUnitTitle / normalizeUnitArea", () => {
+  it("drops the program's unit numbering", () => {
+    expect(normalizeUnitTitle("I. Monografía")).toBe("Monografía");
+    expect(normalizeUnitTitle("XIII. Extranjerismos, locuciones y citas en otras lenguas")).toBe("Extranjerismos, locuciones y citas en otras lenguas");
+    expect(normalizeUnitTitle("2) Ángulos")).toBe("Ángulos");
+    expect(normalizeUnitTitle("Números enteros: operaciones")).toBe("Números enteros: operaciones");
+    expect(normalizeUnitTitle("Isometrías")).toBe("Isometrías");
+  });
+
+  it("keeps short area names and drops sentences", () => {
+    expect(normalizeUnitArea("Relaciones y Álgebra")).toBe("Relaciones y Álgebra");
+    expect(normalizeUnitArea(" Competencia escrita ")).toBe("Competencia escrita");
+    expect(normalizeUnitArea("El ser humano se comunica de diversas formas y en contextos distintos como medio de convivencia")).toBeNull();
+    expect(normalizeUnitArea("")).toBeNull();
+    expect(normalizeUnitArea(null)).toBeNull();
   });
 });

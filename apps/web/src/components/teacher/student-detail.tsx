@@ -137,7 +137,7 @@ export function StudentDetail({ source, metrics, studentId, actions }: {
           <h2 className="font-heading text-2xl font-bold">Errores de escritura por tipo</h2>
           <BarList empty="Todavía no tiene tareas de escritura revisadas."
             rows={mine.writing.map((w) => ({ key: w.category, label: w.label, value: w.count }))} />
-          <p className="text-xs text-muted-foreground">Solo se guarda el conteo por tipo de error; sus textos no se guardan.</p>
+          <p className="text-xs text-muted-foreground">Solo se guarda el conteo por tipo de error, no sus textos.</p>
         </section>
       </div>
 
