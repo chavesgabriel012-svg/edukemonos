@@ -9,7 +9,7 @@ export function ReportButton({ targetType, targetId }: { targetType: "unit" | "m
   if (state.sent) return <p role="status" className="text-xs text-muted-foreground">Gracias, recibimos tu reporte.</p>;
   return (
     <details className="text-xs">
-      <summary className="cursor-pointer text-muted-foreground underline underline-offset-2">Reportar un error</summary>
+      <summary className="inline-block cursor-pointer py-2 text-muted-foreground underline underline-offset-2">Reportar un error</summary>
       <form action={action} className="mt-2 space-y-2">
         <input type="hidden" name="target_type" value={targetType} />
         <input type="hidden" name="target_id" value={targetId} />
@@ -18,7 +18,7 @@ export function ReportButton({ targetType, targetId }: { targetType: "unit" | "m
           <textarea name="comment" rows={3} maxLength={2000} required className="w-full rounded-md border bg-background px-2 py-1 text-sm" />
         </label>
         {state.error && <p role="alert" className="text-destructive">{state.error}</p>}
-        <button disabled={pending} className="rounded-md border px-3 py-1.5 disabled:opacity-50">
+        <button disabled={pending} className="min-h-10 rounded-md border px-3 py-2 disabled:opacity-50">
           {pending ? "Enviando…" : "Enviar reporte"}
         </button>
       </form>

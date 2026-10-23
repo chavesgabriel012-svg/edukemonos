@@ -14,6 +14,7 @@ export function Heatmap({ metrics, subjectId, base }: { metrics: SectionMetrics;
 
   return (
     <div className="space-y-4">
+      <p className="text-xs text-muted-foreground sm:hidden">Deslice la tabla hacia el lado para ver todos los temas.</p>
       <div className="overflow-x-auto rounded-[18px] border bg-card p-3">
         <table className="border-separate border-spacing-[2px] text-xs">
           <thead>
@@ -70,7 +71,7 @@ export function Heatmap({ metrics, subjectId, base }: { metrics: SectionMetrics;
         {units.map((u, i) => (
           <li key={u.unit.id} className="flex min-w-0 items-baseline gap-2">
             <span className="w-7 shrink-0 font-mono text-xs text-muted-foreground">T{i + 1}</span>
-            <Link href={`/unidad/${u.unit.id}`} className="min-w-0 flex-1 truncate hover:underline">{u.unit.title}</Link>
+            <Link href={`/unidad/${u.unit.id}`} className="min-w-0 flex-1 py-1 hover:underline sm:truncate">{u.unit.title}</Link>
             <span className="shrink-0 font-mono text-xs" title={`${u.studentsWithData} estudiantes con datos`}>
               {u.mastery === null ? "—" : pct(u.mastery)}
             </span>

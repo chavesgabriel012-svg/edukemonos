@@ -87,7 +87,7 @@ export function Findings({ target, findings, initial }: { target: string; findin
                   </p>
                 )}
                 <details className="group mt-auto text-sm">
-                  <summary className="cursor-pointer font-medium text-violeta underline-offset-2 hover:underline">¿Cómo se calculó?</summary>
+                  <summary className="inline-block cursor-pointer py-2 font-medium text-violeta underline-offset-2 hover:underline">¿Cómo se calculó?</summary>
                   <p className="mt-2 leading-relaxed text-muted-foreground">{f.evidence}</p>
                 </details>
               </li>

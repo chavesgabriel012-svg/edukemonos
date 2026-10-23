@@ -13,7 +13,7 @@ const STEPS = [
 export default function HomePage() {
   return (
     <section className="space-y-10">
-      <div className="relative overflow-hidden rounded-[28px] bg-violeta px-6 py-8 text-white sm:px-10 sm:py-12">
+      <div className="relative overflow-hidden rounded-[28px] bg-violeta px-6 pt-8 pb-16 text-white sm:px-10 sm:py-12">
         <div className="relative z-10 max-w-xl space-y-4">
           <h1 className="font-heading text-[2.6rem] leading-[0.95] font-bold tracking-tight sm:text-6xl">
             Estudia a tu ritmo,
@@ -29,7 +29,7 @@ export default function HomePage() {
           </Link>
         </div>
         <Kemo size={168} mood="normal" background={brand.lima}
-          className="pointer-events-none absolute -right-8 -bottom-10 rotate-[-8deg] opacity-95 sm:right-10 sm:bottom-8 sm:size-[200px]" />
+          className="pointer-events-none absolute -right-6 -bottom-8 size-[120px] rotate-[-8deg] opacity-95 sm:right-10 sm:bottom-8 sm:size-[200px]" />
       </div>
 
       <div id="grado" className="scroll-mt-6 space-y-3">
@@ -57,7 +57,7 @@ export default function HomePage() {
       <div className="space-y-3">
         <div className="flex flex-wrap items-baseline justify-between gap-2">
           <h2 className="font-heading text-2xl font-bold">¿Cómo funciona?</h2>
-          <Link href="/como-funciona" className="text-sm font-medium underline underline-offset-2">Ver todas las preguntas</Link>
+          <Link href="/como-funciona" className="inline-block py-2 text-sm font-medium underline underline-offset-2">Ver todas las preguntas</Link>
         </div>
         <ol className="grid gap-3 sm:grid-cols-3">
           {STEPS.map(({ icon: Icon, title, text }, i) => (

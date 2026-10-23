@@ -115,6 +115,7 @@ export function SectionOverview({ source, metrics, subjectId, summary }: {
             <Download aria-hidden className="size-4" /> Descargar CSV
           </a>
         </div>
+        <p className="text-xs text-muted-foreground sm:hidden">Deslice la tabla hacia el lado para ver todas las columnas.</p>
         <div className="overflow-x-auto">
           <table className="w-full min-w-[720px] text-sm">
             <thead className="text-left text-xs text-muted-foreground">
