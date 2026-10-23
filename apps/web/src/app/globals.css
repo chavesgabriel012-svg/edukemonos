@@ -165,3 +165,14 @@
     font-size: 125%;
   }
 }
+/*
+ * iOS zooms into any field under 16px when it gets focus. Unlayered, so it wins over the
+ * text-sm utilities on phones; from sm up the fields keep their own size.
+ */
+@media (max-width: 639.98px) {
+  input:not([type="checkbox"], [type="radio"]),
+  textarea,
+  select {
+    font-size: 16px;
+  }
+}

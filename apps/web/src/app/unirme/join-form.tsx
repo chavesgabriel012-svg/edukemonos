@@ -27,7 +27,7 @@ export function JoinForm() {
       <label className="block space-y-1">
         <span className="font-medium">Tu nombre</span>
         <input name="name" required maxLength={60} autoComplete="name" className={field} />
-        <span className="text-xs text-muted-foreground">Solo lo ve tu docente. Nunca se envía a la inteligencia artificial.</span>
+        <span className="text-xs text-muted-foreground">Solo lo ve tu docente y nunca se envía a la inteligencia artificial.</span>
       </label>
       <label className="flex items-start gap-2 text-sm">
         <input type="checkbox" name="consent" required className="mt-1" />

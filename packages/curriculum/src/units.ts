@@ -13,8 +13,8 @@ export const extractedSkillSchema = z.object({
 });
 
 export const extractedUnitSchema = z.object({
-  title: z.string().describe("Título corto de la unidad, tomado de los conocimientos del documento"),
-  area: z.string().nullable().describe("Área o eje del documento (p. ej. \"Números\"), o null si no hay"),
+  title: z.string().describe("Título corto de la unidad, tomado de los conocimientos del documento, sin numeración (ni \"I.\" ni \"1.\")"),
+  area: z.string().nullable().describe("Nombre corto del área del documento (p. ej. \"Números\"), o null si no hay; nunca una oración como el eje temático"),
   term: z.number().int().nullable().describe("Trimestre 1, 2 o 3 SOLO si el documento lo indica para esta unidad; si no, null"),
   contents: z.array(z.string()).describe("Conocimientos o contenidos copiados tal cual del documento"),
   learning_outcomes: z.array(z.string()).describe("Resultados de aprendizaje o criterios de evaluación copiados tal cual; vacío si no hay"),
@@ -29,6 +29,21 @@ export const extractionSchema = z.object({
 });
 
 export type ExtractedUnit = z.infer<typeof extractedUnitSchema>;
+
+/** Programs number their units ("I. Monografía"); the list shows them without it, like every other unit. */
+export function normalizeUnitTitle(title: string): string {
+  return title.replace(/^\s*(?:[IVXLC]+|\d+)[.)-]\s+/, "").trim();
+}
+
+/**
+ * An area is a short label shown under the title ("Números", "Competencia escrita"). A whole sentence
+ * (the Español "Eje temático" is shared by every unit) says nothing about the unit, so it is dropped.
+ */
+export function normalizeUnitArea(area: string | null): string | null {
+  const a = area?.trim();
+  if (!a) return null;
+  return a.length > 40 || a.split(/\s+/).length > 5 ? null : a;
+}
 export type Extraction = z.infer<typeof extractionSchema>;
 
 export interface VerificationIssue {

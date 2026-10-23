@@ -46,7 +46,7 @@ export function SectionOverview({ source, metrics, subjectId, summary }: {
       </Panel>
 
       <Panel id="apoyo" title="Estudiantes que podrían necesitar apoyo"
-        hint="Dominio promedio menor a 50 % o sin actividad en la última semana. Es una señal para conversar, no una etiqueta.">
+        hint="Aparece quien tiene un dominio promedio menor a 50 % o no tuvo actividad en la última semana. Es una señal para conversar, no una etiqueta.">
         {support.length === 0 ? (
           <p className="text-sm text-muted-foreground">Por ahora nadie cumple esas condiciones.</p>
         ) : (
@@ -66,7 +66,7 @@ export function SectionOverview({ source, metrics, subjectId, summary }: {
         )}
       </Panel>
 
-      <Panel id="mapa" title="Mapa de calor por tema" hint="Dominio estimado de cada estudiante en cada tema de la materia. Pasa el cursor por una celda para ver el detalle.">
+      <Panel id="mapa" title="Mapa de calor por tema" hint="Dominio estimado de cada estudiante en cada tema de la materia. Pase el cursor por una celda para ver el detalle.">
         <nav aria-label="Materia" className="flex flex-wrap gap-2">
           {metrics.subjects.map((s) => (
             <Link key={s.subjectId} href={`${base}?materia=${s.subjectId}#mapa`} aria-current={s.subjectId === subjectId ? "page" : undefined}
@@ -98,7 +98,7 @@ export function SectionOverview({ source, metrics, subjectId, summary }: {
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2">
-        <Panel title="Errores de escritura (Español)" hint="Conteo por tipo en las tareas de escritura. Los textos no se guardan.">
+        <Panel title="Errores de escritura (Español)" hint="Conteo por tipo de error en las tareas de escritura, sin guardar los textos.">
           <BarList unit="" empty="Todavía no hay tareas de escritura revisadas."
             rows={metrics.writing.map((w) => ({ key: w.category, label: w.label, value: w.count, note: `${w.students} est.` }))} />
           {writingTotal > 0 && <p className="text-xs text-muted-foreground">{writingTotal} errores en total.</p>}
@@ -109,12 +109,13 @@ export function SectionOverview({ source, metrics, subjectId, summary }: {
         </Panel>
       </div>
 
-      <Panel id="estudiantes" title="Todos los estudiantes" hint="Toca un nombre para ver su detalle.">
+      <Panel id="estudiantes" title="Todos los estudiantes" hint="Toque un nombre para ver su detalle.">
         <div className="flex justify-end">
           <a href={`${base}/csv`} className="inline-flex h-10 items-center gap-2 rounded-[12px] border px-4 text-sm font-medium transition hover:bg-secondary">
             <Download aria-hidden className="size-4" /> Descargar CSV
           </a>
         </div>
+        <p className="text-xs text-muted-foreground sm:hidden">Deslice la tabla hacia el lado para ver todas las columnas.</p>
         <div className="overflow-x-auto">
           <table className="w-full min-w-[720px] text-sm">
             <thead className="text-left text-xs text-muted-foreground">

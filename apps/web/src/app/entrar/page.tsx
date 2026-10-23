@@ -4,9 +4,9 @@ import { sendMagicLink } from "./actions";
 export const metadata: Metadata = { title: "Entrar" };
 
 const ERRORS: Record<string, string> = {
-  correo: "Revisa el correo: no parece una dirección válida.",
-  envio: "No pudimos enviar el enlace. Intenta de nuevo en unos minutos.",
-  enlace: "El enlace no es válido o ya venció. Pide uno nuevo.",
+  correo: "Revise el correo: no parece una dirección válida.",
+  envio: "No pudimos enviar el enlace. Intente de nuevo en unos minutos.",
+  enlace: "El enlace no es válido o ya venció. Pida uno nuevo.",
 };
 
 export default async function SignInPage({ searchParams }: PageProps<"/entrar">) {
@@ -20,12 +20,12 @@ export default async function SignInPage({ searchParams }: PageProps<"/entrar">)
       <div className="space-y-2">
         <h1 className="text-2xl font-bold">Entrar como docente o revisor</h1>
         <p className="text-sm text-muted-foreground">
-          Te enviamos un enlace a tu correo. Los estudiantes no necesitan cuenta.
+          Le enviaremos un enlace a su correo para entrar. Los estudiantes no necesitan cuenta.
         </p>
       </div>
       {sent ? (
         <p role="status" className="rounded-lg border border-primary/30 bg-secondary p-4 text-sm">
-          Listo. Abre el enlace que te enviamos al correo desde este mismo navegador.
+          Listo, abra el enlace que le enviamos al correo desde este mismo navegador.
         </p>
       ) : (
         <form action={sendMagicLink} className="space-y-4">

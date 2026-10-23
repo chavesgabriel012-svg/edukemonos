@@ -15,8 +15,8 @@ export async function createSection(_prev: { error?: string } | null, form: Form
   const grade = Number(form.get("grade"));
   const institution = String(form.get("institution") ?? "").trim();
   const term = Number(form.get("term"));
-  if (!name || name.length > 80) return { error: "Escribe un nombre para la sección (máximo 80 caracteres)." };
-  if (![7, 8, 9].includes(grade)) return { error: "Elige el año de la sección." };
+  if (!name || name.length > 80) return { error: "Escriba un nombre para la sección (máximo 80 caracteres)." };
+  if (![7, 8, 9].includes(grade)) return { error: "Elija el año de la sección." };
   const { data, error } = await supabase
     .from("sections")
     .insert({
@@ -31,7 +31,7 @@ export async function createSection(_prev: { error?: string } | null, form: Form
     .single();
   if (error || !data) {
     console.error("create section failed:", error?.message);
-    return { error: "No se pudo crear la sección. Intenta de nuevo." };
+    return { error: "No se pudo crear la sección. Intente de nuevo." };
   }
   redirect(`/docente/seccion/${data.id}`);
 }

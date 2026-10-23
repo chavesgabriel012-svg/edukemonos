@@ -90,8 +90,8 @@ export function DiagnosticRunner({ subject, grade }: { subject: string; grade: n
     return (
       <div className="space-y-4 rounded-[22px] border bg-card p-6">
         <Kemo size={64} mood="down" background={brand.lima} />
-        <p>Son unas 10 preguntas de selección única. Se adaptan a tus respuestas: si aciertas, la siguiente es un poco más difícil; si no, un poco más fácil.</p>
-        <p className="text-sm text-muted-foreground">No es un examen y no tiene nota. Sirve para sugerirte por dónde empezar. Si no sabes una respuesta, elige la que te parezca más razonable.</p>
+        <p>Son unas 10 preguntas de selección única que se adaptan a tus respuestas: si aciertas, la siguiente es un poco más difícil; si no, un poco más fácil.</p>
+        <p className="text-sm text-muted-foreground">No es un examen ni tiene nota, solo sirve para sugerirte por dónde empezar. Si no sabes una respuesta, elige la que te parezca más razonable.</p>
         {error && <p role="alert" className="text-sm text-destructive">{error}</p>}
         <button onClick={begin} disabled={pending} className="rounded-md bg-primary px-4 py-2 font-medium text-primary-foreground disabled:opacity-50">
           {pending ? "Preparando…" : "Empezar"}

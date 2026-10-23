@@ -68,7 +68,7 @@ export default async function SubjectPage({ params }: PageProps<"/estudiar/[grad
         ) : (
           <>
             <h2 className="text-lg font-semibold">¿Por dónde empiezo?</h2>
-            <p>Haz una prueba diagnóstica corta (10 preguntas). Se adapta a tus respuestas y te sugiere qué temas estudiar primero.</p>
+            <p>Haz una prueba diagnóstica corta, de 10 preguntas, que se adapta a tus respuestas y te sugiere qué temas estudiar primero.</p>
           </>
         )}
         <Link href={`/estudiar/${grade}/${materia}/diagnostico`}

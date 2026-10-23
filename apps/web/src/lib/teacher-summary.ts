@@ -75,6 +75,6 @@ export async function summarize(opts: {
   } catch (error) {
     if (error instanceof AIBudgetExceededError) return { ok: false, error: "El resumen con IA no está disponible por hoy. Los hallazgos de abajo siguen siendo válidos." };
     console.error("teacher summary failed:", (error as Error).message);
-    return { ok: false, error: "No se pudo generar el resumen ahora. Intenta de nuevo en un momento." };
+    return { ok: false, error: "No se pudo generar el resumen ahora. Intente de nuevo en un momento." };
   }
 }

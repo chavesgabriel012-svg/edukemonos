@@ -122,7 +122,7 @@ export function TutorChat({ unitId, help }: { unitId: string; help: Help }) {
       <div className="space-y-1">
         <h2 id="tutor-title" className="text-xl font-semibold">Pregúntale a Kemo</h2>
         <p className="text-sm text-muted-foreground">
-          Kemo te guía paso a paso sobre esta unidad, con pistas antes que respuestas. Es una inteligencia artificial:
+          Kemo te guía paso a paso en esta unidad, con pistas antes que respuestas. Kemo es una inteligencia artificial y
           puede equivocarse. No compartas datos personales.
         </p>
       </div>

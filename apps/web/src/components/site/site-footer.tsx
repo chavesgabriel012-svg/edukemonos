@@ -17,11 +17,11 @@ export function SiteFooter() {
             Ver programas en mep.go.cr
           </a>
         </p>
-        <nav aria-label="Más información" className="flex flex-wrap gap-x-4 gap-y-1">
-          <Link className="underline underline-offset-2" href="/como-funciona">¿Cómo funciona?</Link>
-          <Link className="underline underline-offset-2" href="/ia">Kemo y la IA</Link>
-          <Link className="underline underline-offset-2" href="/privacidad">Aviso de privacidad</Link>
-          <Link className="underline underline-offset-2" href="/docente">Panel docente</Link>
+        <nav aria-label="Más información" className="flex flex-wrap gap-x-4">
+          <Link className="inline-block py-2 underline underline-offset-2" href="/como-funciona">¿Cómo funciona?</Link>
+          <Link className="inline-block py-2 underline underline-offset-2" href="/ia">Kemo y la IA</Link>
+          <Link className="inline-block py-2 underline underline-offset-2" href="/privacidad">Aviso de privacidad</Link>
+          <Link className="inline-block py-2 underline underline-offset-2" href="/docente">Panel docente</Link>
         </nav>
       </div>
     </footer>

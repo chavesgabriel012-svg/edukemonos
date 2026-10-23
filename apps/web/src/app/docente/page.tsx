@@ -24,11 +24,11 @@ const FEATURES = [
 function Landing() {
   return (
     <div className="space-y-8">
-      <div className="relative overflow-hidden rounded-[28px] bg-violeta px-6 py-8 text-white sm:px-10 sm:py-12">
+      <div className="relative overflow-hidden rounded-[28px] bg-violeta px-6 pt-8 pb-24 text-white sm:px-10 sm:py-12">
         <div className="relative z-10 max-w-xl space-y-4">
           <h1 className="font-heading text-[2.4rem] leading-[0.95] font-bold sm:text-6xl">
-            Sepa qué necesita su sección.
-            <span className="block text-lima">Esta semana.</span>
+            Sepa qué necesita su sección
+            <span className="block text-lima">esta semana.</span>
           </h1>
           <p className="text-lg text-white/85">
             Cree una sección, comparta el código y vea cómo avanza cada estudiante en los temas del programa.
@@ -43,7 +43,7 @@ function Landing() {
           </div>
         </div>
         <Kemo size={168} mood="normal" background={brand.lima}
-          className="pointer-events-none absolute -right-8 -bottom-10 rotate-[8deg] sm:right-10 sm:bottom-8 sm:size-[190px]" />
+          className="pointer-events-none absolute -right-6 -bottom-8 size-[120px] rotate-[8deg] sm:right-10 sm:bottom-8 sm:size-[190px]" />
       </div>
       <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {FEATURES.map(({ icon: Icon, title, text }) => (

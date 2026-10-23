@@ -6,7 +6,7 @@ import { brand } from "@/lib/brand";
 
 export const metadata: Metadata = {
   title: "¿Cómo funciona?",
-  description: "Qué es Eduka, cómo empezar, cómo funciona el diagnóstico, de dónde sale el contenido y qué ve tu docente.",
+  description: "Te contamos qué es Eduka, cómo empezar, cómo funciona el diagnóstico, de dónde sale el contenido y qué ve tu docente.",
 };
 
 const ITEMS: FaqItem[] = [
@@ -16,7 +16,7 @@ const ITEMS: FaqItem[] = [
     a: (
       <>
         <p>
-          Una plataforma gratuita para estudiar los temas de sétimo, octavo y noveno año de los colegios públicos de Costa
+          Es una plataforma gratuita para estudiar los temas de sétimo, octavo y noveno año de los colegios públicos de Costa
           Rica. Tiene material basado en los programas oficiales del MEP, ejercicios con explicación, una prueba
           diagnóstica y un tutor con inteligencia artificial, Kemo.
         </p>
@@ -34,10 +34,10 @@ const ITEMS: FaqItem[] = [
     a: (
       <>
         <p>
-          No. Entras y estudias. Tu avance se guarda en este navegador, sin pedirte correo ni contraseña.
+          No, solo entras y estudias. Tu avance se guarda en este navegador, sin pedirte correo ni contraseña.
         </p>
         <p>
-          Si borras los datos del navegador o cambias de celular o computadora, empiezas de cero. Por eso conviene usar
+          Si borras los datos del navegador o cambias de celular o computadora, empiezas de cero, por eso conviene usar
           siempre el mismo dispositivo.
         </p>
       </>
@@ -64,7 +64,7 @@ const ITEMS: FaqItem[] = [
           si no, un poco más fácil. Al final te da un nivel de 1 a 5 (el 3 es lo esperado en el grado) y ordena los temas
           para que empieces por los que más te conviene reforzar.
         </p>
-        <p>No es un examen y no tiene nota. Es una estimación con pocas preguntas: practicar la va afinando.</p>
+        <p>No es un examen ni tiene nota, es una estimación con pocas preguntas que se afina a medida que practicas.</p>
       </>
     ),
   },
@@ -76,7 +76,7 @@ const ITEMS: FaqItem[] = [
         <li><strong>Aprender:</strong> un resumen, una explicación paso a paso, ejemplos resueltos y un glosario.</li>
         <li>
           <strong>Practicar:</strong> ejercicios uno por uno. Al responder ves si acertaste y por qué; si fallaste, también
-          por qué la opción que elegiste no era. En Español hay tareas de escritura con retroalimentación.
+          por qué la opción que elegiste no era la correcta. En Español hay tareas de escritura con retroalimentación.
         </li>
         <li><strong>Preguntar a Kemo:</strong> el tutor te guía con preguntas y pistas cuando algo no te queda claro.</li>
       </ul>
@@ -92,7 +92,7 @@ const ITEMS: FaqItem[] = [
           sube más que acertar uno fácil, y fallar uno fácil baja más que fallar uno difícil.
         </p>
         <p>
-          Con eso cada tema aparece como <strong>Vas muy bien</strong>, <strong>Conviene reforzar</strong> o{" "}
+          Con eso, cada tema aparece como <strong>Vas muy bien</strong>, <strong>Conviene reforzar</strong> o{" "}
           <strong>Por explorar</strong>, y la lista de temas se ordena para que sepas qué estudiar primero.
         </p>
       </>
@@ -104,7 +104,7 @@ const ITEMS: FaqItem[] = [
     a: (
       <>
         <p>
-          De los programas de estudio oficiales del MEP. A partir de ellos, una inteligencia artificial redacta el
+          Sale de los programas de estudio oficiales del MEP. A partir de ellos, una inteligencia artificial redacta el
           material y los ejercicios, y cada tema indica de qué página del programa sale.
         </p>
         <p>
@@ -113,7 +113,7 @@ const ITEMS: FaqItem[] = [
         </p>
         <p>
           Lo que todavía no revisó una persona lleva la etiqueta <strong>Generado con IA · pendiente de revisión</strong>.
-          Si ves un error, toca <strong>Reportar un error</strong>: lo revisamos.
+          Si ves un error, toca <strong>Reportar un error</strong> y lo revisamos.
         </p>
       </>
     ),
@@ -124,11 +124,11 @@ const ITEMS: FaqItem[] = [
     a: (
       <>
         <p>
-          Tu docente te da un código. Al unirte escribes tu nombre para que te reconozca, y tu docente podrá ver tu avance:
+          Tu docente te da un código. Al unirte, escribes tu nombre para que te reconozca y tu docente podrá ver tu avance:
           ejercicios, diagnóstico, temas consultados y cuántas veces usaste a Kemo.
         </p>
         <p>
-          <strong>No ve lo que le escribes a Kemo.</strong> Tu nombre nunca se envía a la inteligencia artificial.
+          <strong>Tu docente no ve lo que le escribes a Kemo.</strong> Tu nombre nunca se envía a la inteligencia artificial.
         </p>
         <p>
           <Link href="/unirme" className="font-medium underline underline-offset-2">Únete a tu sección</Link>
@@ -139,7 +139,7 @@ const ITEMS: FaqItem[] = [
   {
     id: "costo",
     q: "¿Cuánto cuesta?",
-    a: <p>Nada. Eduka es gratis para estudiantes y docentes.</p>,
+    a: <p>Nada, Eduka es gratis para estudiantes y docentes.</p>,
   },
 ];
 

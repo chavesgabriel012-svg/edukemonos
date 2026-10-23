@@ -1,5 +1,5 @@
 import { readFileSync } from "node:fs";
-import { KIND_TO_DB, skillsFromOutcomes, type SourceEntry } from "@edukemonos/curriculum";
+import { KIND_TO_DB, normalizeUnitArea, normalizeUnitTitle, skillsFromOutcomes, type SourceEntry } from "@edukemonos/curriculum";
 import { paths } from "./cache";
 import type { Db } from "./db";
 import type { DownloadMeta } from "./download";
@@ -100,8 +100,8 @@ export async function loadExtraction(
           cycle_id: entry.cycle,
           grade_id: extraction.grade,
           subject_id: entry.subject,
-          area: u.area,
-          title: u.title,
+          area: normalizeUnitArea(u.area),
+          title: normalizeUnitTitle(u.title),
           term: u.term,
           learning_outcomes: u.learning_outcomes,
           contents: u.contents,

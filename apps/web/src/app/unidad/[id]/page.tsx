@@ -72,10 +72,10 @@ export default async function UnitPage({ params, searchParams }: PageProps<"/uni
         </div>
       </header>
 
-      <nav aria-label="Secciones de la unidad" className="flex gap-1 overflow-x-auto border-b">
+      <nav aria-label="Secciones de la unidad" className="grid grid-cols-3 border-b">
         {TABS.map((t) => (
           <Link key={t.id} href={`/unidad/${id}?tab=${t.id}`} aria-current={t.id === tab ? "page" : undefined}
-            className={`whitespace-nowrap border-b-2 px-4 py-2 text-sm font-medium ${t.id === tab ? "border-primary text-primary" : "border-transparent text-muted-foreground"}`}>
+            className={`flex min-h-11 items-center justify-center border-b-2 px-1 py-2 text-center text-sm leading-tight font-medium ${t.id === tab ? "border-primary text-primary" : "border-transparent text-muted-foreground"}`}>
             {t.label}
           </Link>
         ))}

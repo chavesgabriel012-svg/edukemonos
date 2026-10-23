@@ -7,7 +7,7 @@ import { RETENTION_DAYS_CHAT, TUTOR_LIMITS } from "@/lib/tutor-server";
 
 export const metadata: Metadata = {
   title: "Kemo y la IA",
-  description: "Quién es Kemo, qué hace la inteligencia artificial en Eduka, qué datos ve y qué se guarda.",
+  description: "Te contamos quién es Kemo, qué hace la inteligencia artificial en Eduka, qué datos ve y qué se guarda.",
 };
 
 function items(): FaqItem[] {
@@ -18,22 +18,22 @@ function items(): FaqItem[] {
       a: (
         <>
           <p>
-            Kemo es el tutor de Eduka: una inteligencia artificial que te acompaña en cada tema, en la pestaña{" "}
-            <strong>Preguntar a Kemo</strong>. Conoce el tema que estás estudiando, el material publicado y cómo te ha ido
+            Kemo es el tutor de Eduka: una inteligencia artificial que te acompaña en cada tema en la pestaña{" "}
+            <strong>Preguntar a Kemo</strong>. Kemo conoce el tema que estás estudiando, el material publicado y cómo te ha ido
             en los ejercicios, para ayudarte justo donde te cuesta.
           </p>
-          <p>Kemo no es una persona ni un docente. Es una herramienta para practicar y entender mejor.</p>
+          <p>Kemo no es una persona ni un docente, es una herramienta para practicar y entender mejor.</p>
         </>
       ),
     },
     {
       id: "respuesta",
-      q: "¿Por qué Kemo no me da la respuesta de una vez?",
+      q: "¿Por qué Kemo no me da la respuesta directamente?",
       a: (
         <>
           <p>
-            Porque se aprende más cuando llegas tú. Kemo primero te pregunta qué entiendes o qué intentaste, luego te da
-            pistas, cada vez más concretas. Si después de las pistas sigues sin poder, o le pides la explicación completa,
+            Porque se aprende más cuando descubres la respuesta por tu cuenta. Kemo primero te pregunta qué entiendes o qué intentaste, luego te da
+            pistas, cada vez más concretas. Si después de las pistas todavía no lo logras, o si le pides la explicación completa,
             te la da paso a paso y termina con una pregunta para comprobar que quedó claro.
           </p>
           <p>Tampoco hace tareas ni ensayos por ti, pero te ayuda a planearlos y a revisarlos.</p>
@@ -58,7 +58,7 @@ function items(): FaqItem[] {
       a: (
         <>
           <p>
-            Sí. Como toda inteligencia artificial, a veces se equivoca. Para reducirlo, en Matemáticas Kemo usa una
+            Sí, como toda inteligencia artificial, a veces se equivoca. Para reducirlo, en Matemáticas Kemo usa una
             calculadora exacta en vez de calcular de memoria, se apoya en el material del tema y probamos su forma de
             responder con decenas de casos antes de cada cambio.
           </p>
@@ -81,10 +81,10 @@ function items(): FaqItem[] {
     },
     {
       id: "modelo",
-      q: "¿Qué inteligencia artificial usa?",
+      q: "¿Qué inteligencia artificial usa Eduka?",
       a: (
         <p>
-          Modelos Claude, de la empresa Anthropic. Eduka les envía solo lo necesario para responderte, sin tu nombre.
+          Eduka usa modelos Claude, de la empresa Anthropic, y solo les envía lo necesario para responderte, sin tu nombre.
         </p>
       ),
     },
@@ -94,13 +94,13 @@ function items(): FaqItem[] {
       a: (
         <>
           <p>
-            El mensaje que escribes, el tema que estudias y una estimación de cuánto dominas ese tema.{" "}
-            <strong>Nunca tu nombre.</strong>
+            La IA ve el mensaje que escribes, el tema que estudias y una estimación de cuánto dominas ese tema,{" "}
+            <strong>nunca tu nombre</strong>.
           </p>
           <p>
             Antes de enviar tu mensaje, Eduka quita datos personales que reconozca, como nombres, cédulas, teléfonos,
-            correos, direcciones o el nombre de tu colegio, y los cambia por «[dato personal omitido]». Igual, lo mejor es
-            no escribirlos.
+            correos, direcciones o el nombre de tu colegio, y los cambia por «[dato personal omitido]». De todos modos, lo
+            mejor es no escribirlos.
           </p>
         </>
       ),
@@ -116,7 +116,7 @@ function items(): FaqItem[] {
           </p>
           <p>
             Si te uniste a una sección, tu docente podrá ver cuántas veces usaste a Kemo y en qué temas, pero{" "}
-            <strong>no lee lo que escribes</strong>. De las tareas de escritura solo se guarda cuántos errores hubo de
+            <strong>no leer lo que escribes</strong>. De las tareas de escritura solo se guarda cuántos errores hubo de
             cada tipo, no tu texto.
           </p>
         </>
@@ -156,7 +156,7 @@ export default function AiPage() {
         <Kemo size={72} mood="think" background={brand.lima} className="hidden sm:block" />
         <div className="space-y-2">
           <h1 className="font-heading text-4xl leading-none font-bold sm:text-5xl">Kemo y la IA</h1>
-          <p className="text-papel/80">Cómo funciona el tutor, qué hace la inteligencia artificial y qué pasa con tus datos.</p>
+          <p className="text-papel/80">Te contamos cómo funciona el tutor, qué hace la inteligencia artificial y qué pasa con tus datos.</p>
         </div>
       </header>
       <Faq items={items()} />
