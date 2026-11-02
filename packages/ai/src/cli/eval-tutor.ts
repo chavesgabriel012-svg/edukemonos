@@ -162,11 +162,13 @@ const stopReasons: Record<string, number> = {};
 for (const c of cases) {
   currentCase = c.id;
   phase = "tutor";
-  const unit = await unitFor(c);
-  const system = tutorSystemPrompt(unit, help);
   const history: ChatMessage[] = [];
   const transcript: Result["transcript"] = [];
+  // A failed unit lookup (e.g. a renamed unit) fails this case only, not the whole paid run.
+  let unit: TutorUnit;
   try {
+    unit = await unitFor(c);
+    const system = tutorSystemPrompt(unit, help);
     for (const turn of c.turns) {
       const screened = screenStudentMessage(turn);
       const messages = tutorMessages(history, screened.text, "sin datos todavía.", screened.flags);
