@@ -3,7 +3,9 @@
  *
  * Runs the tutor golden set (evals/tutor/cases.json, SPEC §14) against the real model and unit
  * content, then grades each conversation with deterministic rules plus an independent judge
- * (MODEL_VERIFY). Writes a Markdown report to docs/evals/. Without --yes it only estimates.
+ * (MODEL_VERIFY). Writes a Markdown report to docs/evals/ (named after the tutor model and effort,
+ * never overwriting an earlier one) plus a JSON file with every tutor message's token usage.
+ * Without --yes it only estimates. AI_PROVIDER_TUTOR runs the tutor on another provider than the judge.
  */
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
@@ -28,7 +30,7 @@ import {
   tutorSystemPrompt,
   type TutorUnit,
 } from "../tutor";
-import type { ChatMessage } from "../types";
+import type { ChatMessage, UsageRecord } from "../types";
 
 const root = join(import.meta.dirname, "../../../..");
 const envFile = join(root, "apps/web/.env.local");
@@ -130,7 +132,21 @@ if (!values.yes) {
 const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const keyEnv = process.env.SUPABASE_SERVICE_ROLE_KEY;
 const db = url && keyEnv ? supabaseRest(url, keyEnv) : null;
-const ai = createAI({ config, sink: db ? supabaseUsageSink(db) : undefined, budget: db ? createBudgetGuard(config.budget, supabaseSpendSource(db)) : null });
+// Every usage row also stays in memory, tagged tutor or judge: with the same model in both roles
+// (Sonnet as tutor and judge) ai_usage alone cannot tell them apart.
+const dbSink = db ? supabaseUsageSink(db) : undefined;
+let phase: "tutor" | "judge" = "tutor";
+const usage: (UsageRecord & { phase: "tutor" | "judge"; caseId: string })[] = [];
+let currentCase = "";
+const ai = createAI({
+  config,
+  sink: async (r) => {
+    usage.push({ ...r, phase, caseId: currentCase });
+    await dbSink?.(r);
+  },
+  budget: db ? createBudgetGuard(config.budget, supabaseSpendSource(db)) : null,
+});
+const startedAt = new Date().toISOString();
 const help = JSON.parse(readFileSync(join(root, "config/help-resources.json"), "utf8")) as HelpResources;
 
 interface Result {
@@ -142,7 +158,10 @@ interface Result {
 }
 const results: Result[] = [];
 
+const stopReasons: Record<string, number> = {};
 for (const c of cases) {
+  currentCase = c.id;
+  phase = "tutor";
   const unit = await unitFor(c);
   const system = tutorSystemPrompt(unit, help);
   const history: ChatMessage[] = [];
@@ -159,6 +178,7 @@ for (const c of cases) {
       )) {
         if (ev.type === "text") answer += ev.delta;
         if (ev.type === "tool_result") tools.push(ev.output);
+        if (ev.type === "done") stopReasons[ev.stopReason] = (stopReasons[ev.stopReason] ?? 0) + 1;
       }
       // What the student would see: the app filters tuteo and unverified phone numbers in code.
       answer = filterTutorOutput(answer, allowedPhones(help));
@@ -194,6 +214,7 @@ for (const c of cases) {
   const conversation = transcript
     .map((t) => `ESTUDIANTE: ${t.student}\nTUTOR: ${t.tutor}${t.tools.length ? `\n[El tutor usó la calculadora ${t.tools.length} vez/veces en privado; el estudiante no ve esos cálculos]` : ""}`)
     .join("\n\n");
+  phase = "judge";
   const { data: judge } = await ai.generateStructured(
     { role: "verify", purpose: "eval" },
     {
@@ -219,7 +240,7 @@ const distress = results.filter((r) => r.c.category === "distress");
 const lines = [
   `# Evaluación del tutor · ${date}`,
   "",
-  `Prompt: \`${tutorSystem.id}@${tutorSystem.version}\` · tutor: \`${config.models.tutor[0]}\` · juez: \`${config.models.verify[0]}\` · casos: \`packages/ai/evals/tutor/cases.json\``,
+  `Prompt: \`${tutorSystem.id}@${tutorSystem.version}\` · tutor: \`${config.models.tutor[0]}\` (${config.providers.tutor}, esfuerzo ${config.effort.tutor ?? "por defecto"}) · juez: \`${config.models.verify[0]}\` (${config.providers.verify}) · casos: \`packages/ai/evals/tutor/cases.json\``,
   "",
   `**Resultado: ${rate(results)} casos aprobados** (Matemáticas ${rate(bySubject("matematicas"))}, Español ${rate(bySubject("espanol"))}).`,
   "",
@@ -230,6 +251,8 @@ const lines = [
   ...categories.map((cat) => `| ${cat} | ${rate(results.filter((r) => r.c.category === cat))} |`),
   "",
   `Tarjeta de ayuda en la app (detección por palabras clave) en casos de malestar: ${distress.filter((r) => r.transcript.some((t) => t.flags.includes("distress") || t.flags.includes("abuse"))).length}/${distress.length}.`,
+  "",
+  ...usageSection(),
   "",
   "## Casos que no aprobaron",
   "",
@@ -242,8 +265,50 @@ const lines = [
   ]),
 ];
 mkdirSync(join(root, "docs/evals"), { recursive: true });
-// A partial run (--subject/--ids/--limit) must not overwrite the full report of the day.
+// One file per run: model and effort in the name, "-parcial" for --subject/--ids/--limit, and a
+// numeric suffix instead of overwriting an earlier report of the same day.
 const partial = values.subject || values.ids || values.limit ? "-parcial" : "";
-const out = join(root, `docs/evals/tutor-${date}-${config.models.tutor[0]}${partial}.md`);
+const stem = `tutor-${date}-${config.models.tutor[0].replace(/[^\w.-]+/g, "_")}${config.effort.tutor ? `-${config.effort.tutor}` : ""}${partial}`;
+let out = join(root, `docs/evals/${stem}.md`);
+for (let n = 2; existsSync(out); n++) out = join(root, `docs/evals/${stem}-${n}.md`);
 writeFileSync(out, `${lines.join("\n")}\n`);
+writeFileSync(
+  out.replace(/\.md$/, ".usage.json"),
+  `${JSON.stringify({ startedAt, finishedAt: new Date().toISOString(), tutor: { model: config.models.tutor[0], provider: config.providers.tutor, effort: config.effort.tutor ?? null }, judge: config.models.verify[0], prices: config.prices, passed: results.filter((r) => r.pass).length, total: results.length, stopReasons, usage: usage.map(({ actorId: _a, sectionId: _s, ...u }) => u) }, null, 2)}\n`,
+);
 console.log(`\n${rate(results)} aprobados. Reporte: ${out}`);
+
+/**
+ * What one tutor message costs: one row per student turn (tool rounds included), as written to
+ * ai_usage. A school year here is 9 months at 80 messages a month (typical) or 200 (10 a day).
+ */
+function usageSection(): string[] {
+  const tutor = usage.filter((u) => u.phase === "tutor" && u.success);
+  const judge = usage.filter((u) => u.phase === "judge" && u.success);
+  if (!tutor.length) return ["## Costo", "", "Sin llamadas del tutor registradas."];
+  const sum = (rows: typeof usage, f: (u: UsageRecord) => number | null | undefined) => rows.reduce((a, u) => a + (f(u) ?? 0), 0);
+  const n = tutor.length;
+  const per = (f: (u: UsageRecord) => number | null | undefined) => Math.round(sum(tutor, f) / n);
+  const cost = sum(tutor, (u) => u.costUsdEstimate) / n;
+  const withCache = tutor.filter((u) => (u.cacheReadTokens ?? 0) > 0).length;
+  const usd = (x: number) => `US$${x < 0.01 ? x.toFixed(5) : x.toFixed(2)}`;
+  return [
+    "## Costo",
+    "",
+    `Mensajes del tutor medidos: ${n} (fallidos: ${usage.filter((u) => u.phase === "tutor" && !u.success).length}). Terminación de los turnos: ${Object.entries(stopReasons).map(([k, v]) => `${k} ${v}`).join(", ")}.`,
+    "",
+    "| Por mensaje del tutor (promedio) | Tokens |",
+    "|---|---|",
+    `| Entrada sin caché | ${per((u) => (u.inputTokens ?? 0) - (u.cacheReadTokens ?? 0) - (u.cacheWriteTokens ?? 0))} |`,
+    `| Entrada leída de caché | ${per((u) => u.cacheReadTokens)} |`,
+    `| Entrada escrita en caché | ${per((u) => u.cacheWriteTokens)} |`,
+    `| Salida total | ${per((u) => u.outputTokens)} |`,
+    `| …de la cual, razonamiento | ${per((u) => u.reasoningTokens)} |`,
+    "",
+    `Costo por mensaje del tutor: **${usd(cost)}** · por estudiante al año (9 meses): ${usd(cost * 80 * 9)} con 80 mensajes al mes, ${usd(cost * 200 * 9)} con 200.`,
+    "",
+    `Caché del prompt: ${withCache}/${n} mensajes leyeron de caché.`,
+    "",
+    `Costo de la corrida: tutor ${usd(sum(tutor, (u) => u.costUsdEstimate))} + juez ${usd(sum(judge, (u) => u.costUsdEstimate))}.`,
+  ];
+}

@@ -76,6 +76,7 @@ function fakeAI() {
     adapter,
     config: {
       provider: "anthropic",
+      providers: { bulk: "anthropic", tutor: "anthropic", verify: "anthropic" },
       models: { bulk: ["claude-sonnet-5-5"], tutor: ["claude-haiku-4-5"], verify: ["claude-sonnet-5-5"] },
       embedModel: null,
       effort: {},

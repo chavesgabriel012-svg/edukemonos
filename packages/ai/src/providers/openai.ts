@@ -23,8 +23,14 @@ const DEFAULT_MAX_TOOL_ROUNDS = 4;
 
 export interface OpenAIAdapterOptions {
   apiKey?: string;
+  /** OpenAI-compatible endpoint, e.g. Groq's https://api.groq.com/openai/v1. */
+  baseURL?: string;
+  /** What `ai_usage.provider` records ("groq" when pointed at Groq). */
+  name?: "openai" | "groq";
   client?: OpenAI;
 }
+
+export const GROQ_BASE_URL = "https://api.groq.com/openai/v1";
 
 function toMessages(req: BaseRequest): ChatParam[] {
   return [
@@ -40,16 +46,35 @@ function reasoningEffort(effort: Effort | undefined) {
   return { reasoning_effort: mapped as OpenAI.ReasoningEffort };
 }
 
+/**
+ * Cache writes are not mapped to `cacheWriteTokens`: OpenAI bills them as ordinary input, while
+ * that field is priced with Anthropic's 1.25× write surcharge.
+ */
 function usageOf(usage: OpenAI.CompletionUsage | null | undefined): Usage {
-  return { inputTokens: usage?.prompt_tokens ?? 0, outputTokens: usage?.completion_tokens ?? 0 };
+  return {
+    inputTokens: usage?.prompt_tokens ?? 0,
+    outputTokens: usage?.completion_tokens ?? 0,
+    cacheReadTokens: usage?.prompt_tokens_details?.cached_tokens ?? 0,
+    reasoningTokens: usage?.completion_tokens_details?.reasoning_tokens ?? 0,
+  };
+}
+
+function addUsage(a: Usage, b: Usage): Usage {
+  return {
+    inputTokens: a.inputTokens + b.inputTokens,
+    outputTokens: a.outputTokens + b.outputTokens,
+    cacheReadTokens: (a.cacheReadTokens ?? 0) + (b.cacheReadTokens ?? 0),
+    reasoningTokens: (a.reasoningTokens ?? 0) + (b.reasoningTokens ?? 0),
+  };
 }
 
 export class OpenAIAdapter implements ProviderAdapter {
-  readonly name = "openai" as const;
+  readonly name: "openai" | "groq";
   private readonly client: OpenAI;
 
   constructor(options: OpenAIAdapterOptions = {}) {
-    this.client = options.client ?? new OpenAI({ apiKey: options.apiKey });
+    this.name = options.name ?? "openai";
+    this.client = options.client ?? new OpenAI({ apiKey: options.apiKey, baseURL: options.baseURL });
   }
 
   async generateText(req: BaseRequest): Promise<TextResult> {
@@ -119,10 +144,7 @@ export class OpenAIAdapter implements ProviderAdapter {
       const calls: { id: string; name: string; args: string }[] = [];
       for await (const chunk of stream) {
         model = chunk.model || model;
-        if (chunk.usage) {
-          const u = usageOf(chunk.usage);
-          usage = { inputTokens: usage.inputTokens + u.inputTokens, outputTokens: usage.outputTokens + u.outputTokens };
-        }
+        if (chunk.usage) usage = addUsage(usage, usageOf(chunk.usage));
         const choice = chunk.choices[0];
         if (!choice) continue;
         if (choice.delta.content) {

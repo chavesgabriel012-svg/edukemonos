@@ -5,6 +5,11 @@ export interface ModelPrice {
   input: number;
   /** USD per 1M output tokens. */
   output: number;
+  /**
+   * Optional USD per 1M input tokens read from the prompt cache. Without it the Anthropic multiplier
+   * (CACHE_READ_FACTOR × input) is used, which other providers may not charge.
+   */
+  cacheRead?: number;
 }
 
 export interface AIBudget {
@@ -15,7 +20,10 @@ export interface AIBudget {
 }
 
 export interface AIConfig {
+  /** AI_PROVIDER: the default provider for every role. */
   provider: ProviderName;
+  /** Provider per role: AI_PROVIDER, except the tutor when AI_PROVIDER_TUTOR is set. */
+  providers: Record<ModelRole, ProviderName>;
   /** Ordered model chain per role: the first that answers wins (Pulserival pattern). */
   models: Record<ModelRole, string[]>;
   embedModel: string | null;
@@ -28,6 +36,7 @@ export interface AIConfig {
 }
 
 const EFFORTS: readonly Effort[] = ["low", "medium", "high", "xhigh", "max"];
+const PROVIDERS: readonly ProviderName[] = ["anthropic", "openai", "groq"];
 const ROLES: readonly ModelRole[] = ["bulk", "tutor", "verify"];
 
 type Env = Record<string, string | undefined>;
@@ -46,6 +55,15 @@ function modelChain(env: Env, key: string): string[] {
     .filter(Boolean);
   if (new Set(chain).size !== chain.length) throw new AIConfigError(`${key} lists a model twice`);
   return chain;
+}
+
+function providerFrom(env: Env, key: string): ProviderName | undefined {
+  const value = env[key]?.trim();
+  if (!value) return undefined;
+  if (!PROVIDERS.includes(value as ProviderName)) {
+    throw new AIConfigError(`${key} must be one of ${PROVIDERS.map((p) => `"${p}"`).join(", ")}, got "${value}"`);
+  }
+  return value as ProviderName;
 }
 
 function effortFrom(env: Env, key: string): Effort | undefined {
@@ -70,10 +88,10 @@ function usdFrom(env: Env, key: string): number | null {
  * hard-coded: set them from the providers' current documentation (see .env.example).
  */
 export function loadAIConfig(env: Env = process.env): AIConfig {
-  const provider = required(env, "AI_PROVIDER");
-  if (provider !== "anthropic" && provider !== "openai") {
-    throw new AIConfigError(`AI_PROVIDER must be "anthropic" or "openai", got "${provider}"`);
-  }
+  required(env, "AI_PROVIDER");
+  const provider = providerFrom(env, "AI_PROVIDER")!;
+  // Lets the tutor run on another provider than the judge and the content generators (evals).
+  const tutorProvider = providerFrom(env, "AI_PROVIDER_TUTOR") ?? provider;
 
   let prices: Record<string, ModelPrice> = {};
   if (env.AI_PRICES_JSON?.trim()) {
@@ -91,6 +109,7 @@ export function loadAIConfig(env: Env = process.env): AIConfig {
 
   const config: AIConfig = {
     provider,
+    providers: { bulk: provider, tutor: tutorProvider, verify: provider },
     models: {
       bulk: modelChain(env, "MODEL_BULK"),
       tutor: modelChain(env, "MODEL_TUTOR"),
@@ -145,6 +164,7 @@ export function estimateCostUsd(
   const read = cache.readTokens ?? 0;
   const write = cache.writeTokens ?? 0;
   const uncached = Math.max(0, inputTokens - read - write);
-  const input = uncached + read * CACHE_READ_FACTOR + write * CACHE_WRITE_FACTOR;
-  return (input * price.input + outputTokens * price.output) / 1_000_000;
+  const readPrice = price.cacheRead ?? price.input * CACHE_READ_FACTOR;
+  const input = uncached * price.input + read * readPrice + write * CACHE_WRITE_FACTOR * price.input;
+  return (input + outputTokens * price.output) / 1_000_000;
 }
