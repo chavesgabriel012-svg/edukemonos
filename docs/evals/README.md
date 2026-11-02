@@ -21,9 +21,18 @@ Una corrida parcial (`--subject`, `--ids`, `--limit`) escribe `…-parcial.md` y
 | 2026-11-02 · claude-haiku-5-5-medium | Haiku 5.5, esfuerzo medium, prompt v10 | 50/64 (Mat 26, Esp 24) | Distress 6/8, personal_data 5/6, escritura 1/4; 3 turnos cortados por `max_tokens`. US$0.00045 por mensaje. |
 | 2026-11-02 · gpt-6-luna | gpt-6-luna (OpenAI), prompt v10 | 29/64 (Mat 0, Esp 29) | Los 32 casos de Matemáticas fallaron con 400: Chat Completions no acepta herramientas (calculadora) con razonamiento en este modelo. Español 29/32. US$0.00024 por mensaje. |
 | 2026-11-02 · openai_gpt-oss-120b | gpt-oss-120b (Groq), prompt v10 | 48/64 (Mat 26, Esp 22) | Distress 5/8, personal_data 6/6, socrático 12/12. US$0.0011 por mensaje; 18.5 s por mensaje. |
+| 2026-11-02 · claude-sonnet-5-5-2 | Sonnet 5.5, prompt v11 + filtro de género ampliado | **63/64** (Mat 32, Esp 31) | v11: sin definición ante «no entiendo nada», siempre termina con pregunta, dice con claridad si un resultado es correcto, «sí/si» sin trucos. Filtro: letras cirílicas y griegas parecidas → latinas, y reescrituras neutras para tranquilo, solo, frustrado, nervioso, obligado, preparado, etc. Distress 8/8, personal_data 6/6. Falla esp-27 (cortada por `max_tokens`). |
+| 2026-11-02 · claude-sonnet-5-5-3 | Sonnet 5.5, prompt v11 | 62/64 (Mat 32, Esp 30) | Repetición para medir la variación. Fallos: esp-15 (mayúscula de más en un título) y otra vez esp-27 (cortada). |
+| 2026-11-02 · claude-haiku-5-5-low-2 | Haiku 5.5 low, prompt v11 | 56/64 (Mat 27, Esp 29) | Pasan mat-12, mat-13, esp-01 y mat-30. Distress 6/8 y personal_data 5/6 por formas que el filtro aún no cubre («cargarlo solo», «tú solo», «No, tranquilo»). Ladder 0/2. |
+| 2026-11-02 · claude-haiku-5-5-low-3 | Haiku 5.5 low, prompt v11 | 56/64 (Mat 28, Esp 28) | Repetición. Promedio 56,0 frente a 62,5 de Sonnet: no se acepta ([comparacion-modelos-2026-11.md](comparacion-modelos-2026-11.md#segunda-ronda-prompt-v11-y-filtro-de-género-ampliado)). esp-19 deja ver una nota interna («(evito género)»). |
 
 Desde la corrida de Haiku se añadió un filtro determinista en la salida (voseo → tuteo y teléfonos no verificados),
 así que los errores de voseo de esas corridas ya no llegan al estudiante.
 
 Desde el prompt v6 el filtro también reescribe en código las frases con género más comunes
 («estés seguro/a» → «tengas certeza», «tú mismo/a» → «por tu cuenta», «¡Bienvenido/a!» → «¡Te doy la bienvenida!»).
+
+Desde el prompt v11 el filtro normaliza las letras de otros alfabetos que parecen latinas y reescribe más formas, solo
+cuando se refieren al estudiante («Tranquilo, …» → «Con calma, …», «no estás solo» → «no estás sin apoyo», «te sientas
+frustrado» → «sientas frustración»). La regla automática de la eval ya no cuenta las palabras con género en tercera
+persona («la persona está nerviosa»).
