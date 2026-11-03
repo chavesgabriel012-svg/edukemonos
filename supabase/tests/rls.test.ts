@@ -2,7 +2,7 @@ import type pg from "pg";
 import { afterAll, beforeAll, describe, expect, inject, it } from "vitest";
 import { type Fixture, ids, loadFixture } from "./fixtures";
 import { estimateAbility, levelOf, updateMastery } from "@edukemonos/curriculum";
-import { anon, as, asSteps, connect, expectDenied, service, user } from "./helpers";
+import { anon, as, asActors, asSteps, connect, expectDenied, service, user } from "./helpers";
 
 let db: pg.Client;
 let fx: Fixture;
@@ -429,5 +429,120 @@ describe("reports, analytics and quotas", () => {
   it("retention purge is server-only", async () => {
     await expectDenied(db, s1, `select public.purge_expired_tutor_messages(30)`, [], /permission denied/);
     expect(await as(db, service, `select public.purge_expired_tutor_messages(30) as n`)).toEqual([{ n: 0 }]);
+  });
+});
+
+describe("recovery codes", () => {
+  const newDevice = user(ids.newDevice);
+  const create = `select public.create_recovery_code() as code`;
+  const redeem = `select public.redeem_recovery_code($1) as r`;
+
+  it("creates a readable 12-character code without lookalike characters", async () => {
+    const [{ code }] = await as<{ code: string }>(db, s2, create);
+    expect(code).toMatch(/^[2-9A-HJKMNP-Z]{4}-[2-9A-HJKMNP-Z]{4}-[2-9A-HJKMNP-Z]{4}$/);
+  });
+
+  it("keeps only a hash, which nobody reads through the API", async () => {
+    const [[{ code }], rows] = await asSteps(db, s2, [[create], [`select public.has_recovery_code() as has`]]);
+    expect(rows[0].has).toBe(true);
+    await expectDenied(db, s2, `select * from public.student_recovery_codes`, [], /permission denied/);
+    const stored = await asActors(db, [[s2, create], [service, `select code_hash from public.student_recovery_codes where student_id = $1`, [ids.student2]]]);
+    expect(stored[1][0]?.code_hash).toMatch(/^[0-9a-f]{64}$/);
+    expect(stored[1][0]?.code_hash).not.toContain(code.replace(/-/g, ""));
+  });
+
+  it("moves all progress to the session on the new device", async () => {
+    const codeOf = (prev: { code?: string }[][]) => [prev[0][0].code];
+    const [, [{ r }], attempts, mastery, sessions, writing, diagnostics, oldRow, events] = await asActors(db, [
+      [s2, create],
+      [newDevice, redeem, codeOf],
+      [newDevice, `select count(*)::int as n from public.attempts where student_id = $1`, [ids.newDevice]],
+      [newDevice, `select score from public.mastery where student_id = $1`, [ids.newDevice]],
+      [newDevice, `select topic from public.tutor_sessions where student_id = $1`, [ids.newDevice]],
+      [newDevice, `select count(*)::int as n from public.writing_feedback where student_id = $1`, [ids.newDevice]],
+      [newDevice, `select count(*)::int as n from public.diagnostics where student_id = $1`, [ids.newDevice]],
+      [service, `select count(*)::int as n from public.students where id = $1`, [ids.student2]],
+      [service, `select name, props from public.events where actor_id = $1 order by id`, [ids.newDevice]],
+    ]);
+    expect(r).toMatchObject({ ok: true, already_here: false });
+    expect(attempts[0].n).toBe(1);
+    expect(mastery.map((m) => Number(m.score))).toEqual([0.3]);
+    expect(sessions.map((t) => t.topic)).toEqual(["divisibilidad"]);
+    expect(writing[0].n).toBe(1);
+    expect(diagnostics[0].n).toBe(1);
+    expect(oldRow[0].n).toBe(0);
+    // Events carry counts only: no names, no answers.
+    expect(events.at(-1)).toMatchObject({ name: "recovery_code_redeemed", props: { moved: { attempts: 1, sections: 1 } } });
+  });
+
+  it("keeps the section membership, so the teacher still sees the student", async () => {
+    const [, [{ r }], members] = await asActors(db, [
+      [s2, create],
+      [newDevice, redeem, (prev) => [prev[0][0].code]],
+      [t2, `select student_id, display_name from public.section_members where section_id = $1`, [ids.section2]],
+    ]);
+    expect(r.ok).toBe(true);
+    expect(members).toEqual([{ student_id: ids.newDevice, display_name: "Estudiante Sintético Dos" }]);
+  });
+
+  it("keeps the record with more attempts when both devices practiced the same skill", async () => {
+    await db.query(`update public.mastery set attempts = 9 where student_id = $1`, [ids.student2]);
+    await db.query(`insert into public.students (id) values ($1)`, [ids.newDevice]);
+    await db.query(`insert into public.mastery (student_id, skill_id, score, attempts) values ($1, $2, 0.9, 2)`, [ids.newDevice, ids.skillPublished]);
+    try {
+      const [, [{ r }], mastery] = await asActors(db, [
+        [s2, create],
+        [newDevice, redeem, (prev) => [prev[0][0].code]],
+        [newDevice, `select score, attempts from public.mastery where student_id = $1`, [ids.newDevice]],
+      ]);
+      expect(r.ok).toBe(true);
+      expect(mastery.map((m) => [Number(m.score), m.attempts])).toEqual([[0.3, 9]]);
+    } finally {
+      await db.query(`delete from public.mastery where student_id = $1`, [ids.newDevice]);
+      await db.query(`delete from public.students where id = $1`, [ids.newDevice]);
+      await db.query(`update public.mastery set attempts = 0 where student_id = $1`, [ids.student2]);
+    }
+  });
+
+  it("can be used again from the new device, and an old code stops working when a new one is made", async () => {
+    const [, , [{ r: withFirst }], [{ r: withSecond }], [{ r: again }]] = await asActors(db, [
+      [s2, create],
+      [s2, create],
+      [newDevice, redeem, (prev) => [prev[0][0].code]],
+      [newDevice, redeem, (prev) => [String(prev[1][0].code).toLowerCase().replace(/-/g, " ")]],
+      [newDevice, redeem, (prev) => [prev[1][0].code]],
+    ]);
+    expect(withFirst).toEqual({ ok: false, error: "invalid_code" });
+    expect(withSecond).toMatchObject({ ok: true, already_here: false });
+    expect(again).toEqual({ ok: true, already_here: true });
+  });
+
+  it("limits guesses: failed attempts count, so a code cannot be brute-forced", async () => {
+    const guesses = Array.from({ length: 6 }, () => [newDevice, redeem, ["AAAA-BBBB-CCCC"]] as [typeof newDevice, string, unknown[]]);
+    const results = await asActors(db, guesses);
+    expect(results.slice(0, 5).map(([row]) => row.r.error)).toEqual(Array(5).fill("invalid_code"));
+    expect(results[5][0].r).toEqual({ ok: false, error: "rate_limited" });
+  });
+
+  it("is not available to visitors without a session or to staff", async () => {
+    await expectDenied(db, anon, create, [], /permission denied/);
+    await expectDenied(db, anon, redeem, ["AAAA-BBBB-CCCC"], /permission denied/);
+    await expectDenied(db, t1, create, [], /staff accounts/);
+    await expectDenied(db, t1, redeem, ["AAAA-BBBB-CCCC"], /staff accounts/);
+  });
+
+  it("covers every table that belongs to a student", async () => {
+    // A new table with a foreign key to students(id) must be added to redeem_recovery_code(), or
+    // recovering on another device would leave that progress behind.
+    const rows = await as<{ table: string }>(db, service, `
+      select distinct c.conrelid::regclass::text as table
+      from pg_constraint c
+      where c.contype = 'f' and c.confrelid = 'public.students'::regclass
+      order by 1`);
+    const handled = [
+      "attempts", "diagnostics", "mastery", "section_members", "student_recovery_codes",
+      "tutor_sessions", "writing_feedback",
+    ];
+    expect(rows.map((r) => r.table.replace(/^public\./, "")).sort()).toEqual(handled);
   });
 });

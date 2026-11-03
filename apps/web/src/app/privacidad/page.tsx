@@ -28,6 +28,10 @@ export default function PrivacyPage() {
           {RETENTION_DAYS_CHAT} días. Tu docente no puede leerlas.
         </li>
         <li>De las tareas de escritura solo guardamos cuántos errores hubo de cada tipo, no tu texto.</li>
+        <li>
+          Si creas un código de recuperación, guardamos solo una huella cifrada del código, nunca el código. Al usarlo en
+          otro dispositivo, tu progreso se traslada a ese dispositivo.
+        </li>
       </ul>
 
       <h2 className="text-xl font-semibold">¿Qué recibe la inteligencia artificial?</h2>
@@ -44,6 +48,10 @@ export default function PrivacyPage() {
       <ul>
         <li>No escribir datos personales en el tutor ni en las tareas.</li>
         <li>Borrar los datos del navegador para empezar de cero en este dispositivo.</li>
+        <li>
+          Crear un <Link href="/mi-codigo" className="underline underline-offset-2">código de recuperación</Link> para
+          llevar tu progreso a otro dispositivo.
+        </li>
       </ul>
 
       <p className="text-sm text-muted-foreground">

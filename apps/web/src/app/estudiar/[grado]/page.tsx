@@ -39,6 +39,10 @@ export default async function GradePage({ params }: PageProps<"/estudiar/[grado]
           </li>
         ))}
       </ul>
+      <p className="text-sm text-muted-foreground">
+        ¿Vas a cambiar de celular?{" "}
+        <Link href="/mi-codigo" className="font-medium underline underline-offset-2">Guarda tu progreso con un código</Link>.
+      </p>
     </section>
   );
 }

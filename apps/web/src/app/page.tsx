@@ -49,7 +49,9 @@ export default function HomePage() {
           ))}
         </ul>
         <p className="text-sm text-muted-foreground">
-          No necesitas cuenta: tu avance se guarda en este dispositivo. ¿Tu docente te dio un código?{" "}
+          No necesitas cuenta: tu avance se guarda en este dispositivo y puedes llevarlo a otro con tu{" "}
+          <Link href="/mi-codigo" className="font-medium underline underline-offset-2">código de recuperación</Link>.
+          ¿Tu docente te dio un código?{" "}
           <Link href="/unirme" className="font-medium underline underline-offset-2">Únete a tu sección</Link>.
         </p>
       </div>
