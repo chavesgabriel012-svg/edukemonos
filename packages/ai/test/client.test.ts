@@ -1,11 +1,12 @@
 import { describe, expect, it, vi } from "vitest";
 import { z } from "zod";
-import { createAI } from "../src/client";
+import { createAdapter, createAI } from "../src/client";
 import type { AIConfig } from "../src/config";
 import type { ProviderAdapter, UsageRecord } from "../src/types";
 
 const config: AIConfig = {
   provider: "anthropic",
+  providers: { bulk: "anthropic", tutor: "anthropic", verify: "anthropic" },
   models: { bulk: ["m-bulk"], tutor: ["m-tutor"], verify: ["m-verify"] },
   embedModel: null,
   effort: { tutor: "low" },
@@ -99,5 +100,30 @@ describe("createAI", () => {
   it("refuses embeddings when not configured", async () => {
     const ai = createAI({ config, adapter: fakeAdapter() });
     await expect(ai.embed({ purpose: "other" }, ["x"])).rejects.toThrow(/Embeddings/);
+  });
+});
+
+describe("per-role providers", () => {
+  const mixed: AIConfig = { ...config, providers: { bulk: "anthropic", tutor: "groq", verify: "anthropic" } };
+
+  it("sends the tutor to AI_PROVIDER_TUTOR and the judge to AI_PROVIDER, and logs who served each call", async () => {
+    const anthropic = fakeAdapter();
+    const groq = { ...fakeAdapter(), name: "groq" as const };
+    const records: UsageRecord[] = [];
+    const ai = createAI({ config: mixed, adapters: { anthropic, groq }, sink: (r) => void records.push(r) });
+    for await (const _ of ai.streamChat({ role: "tutor", purpose: "eval" }, { messages: [] }));
+    await ai.generateText({ role: "verify", purpose: "eval" }, { messages: [] });
+    expect(anthropic.generateText).toHaveBeenCalledWith(expect.objectContaining({ model: "m-verify" }));
+    expect(records.map((r) => [r.provider, r.model])).toEqual([["groq", "m-tutor"], ["anthropic", "m-verify"]]);
+  });
+
+  it("builds Groq on the OpenAI adapter with its key and base URL", () => {
+    const env = { GROQ_API_KEY: "test-key" };
+    const groq = createAdapter(mixed, env, "groq") as unknown as { name: string; client: { baseURL: string; apiKey: string } };
+    expect(groq.name).toBe("groq");
+    expect(groq.client.baseURL).toBe("https://api.groq.com/openai/v1");
+    expect(groq.client.apiKey).toBe("test-key");
+    const custom = createAdapter(mixed, { ...env, GROQ_BASE_URL: "https://proxy.example/v1" }, "groq") as unknown as { client: { baseURL: string } };
+    expect(custom.client.baseURL).toBe("https://proxy.example/v1");
   });
 });

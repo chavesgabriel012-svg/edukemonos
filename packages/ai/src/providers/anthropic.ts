@@ -44,6 +44,7 @@ function usageOf(message: BetaMessage): Usage {
     outputTokens: message.usage.output_tokens,
     cacheReadTokens: cacheRead,
     cacheWriteTokens: cacheWrite,
+    reasoningTokens: message.usage.output_tokens_details?.thinking_tokens ?? 0,
   };
 }
 
@@ -53,6 +54,7 @@ function addUsage(a: Usage, b: Usage): Usage {
     outputTokens: a.outputTokens + b.outputTokens,
     cacheReadTokens: (a.cacheReadTokens ?? 0) + (b.cacheReadTokens ?? 0),
     cacheWriteTokens: (a.cacheWriteTokens ?? 0) + (b.cacheWriteTokens ?? 0),
+    reasoningTokens: (a.reasoningTokens ?? 0) + (b.reasoningTokens ?? 0),
   };
 }
 

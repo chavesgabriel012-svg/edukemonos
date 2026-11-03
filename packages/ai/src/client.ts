@@ -2,7 +2,7 @@ import type { z } from "zod";
 import type { BudgetGuard } from "./budget";
 import { type AIConfig, estimateCostUsd, loadAIConfig } from "./config";
 import { AnthropicAdapter } from "./providers/anthropic";
-import { OpenAIAdapter } from "./providers/openai";
+import { GROQ_BASE_URL, OpenAIAdapter } from "./providers/openai";
 import {
   AIBudgetExceededError,
   AIConfigError,
@@ -13,6 +13,7 @@ import {
   type Effort,
   type ModelRole,
   type ProviderAdapter,
+  type ProviderName,
   type Purpose,
   type StructuredResult,
   type TextResult,
@@ -43,8 +44,10 @@ export interface CallInput {
 
 export interface CreateAIOptions {
   config?: AIConfig;
-  /** Override the adapter (tests, or a future provider). */
+  /** Override the adapter for every role (tests, or a future provider). */
   adapter?: ProviderAdapter;
+  /** Override the adapter of a given provider (tests of per-role providers). */
+  adapters?: Partial<Record<ProviderName, ProviderAdapter>>;
   /** Where usage rows go (the web app writes them to `ai_usage`). */
   sink?: UsageSink;
   /**
@@ -63,12 +66,20 @@ export interface DiagnosticRow {
   detail: string;
 }
 
-export function createAdapter(config: AIConfig, env: Record<string, string | undefined> = process.env): ProviderAdapter {
-  if (config.provider === "anthropic") {
+export function createAdapter(
+  config: AIConfig,
+  env: Record<string, string | undefined> = process.env,
+  provider: ProviderName = config.provider,
+): ProviderAdapter {
+  if (provider === "anthropic") {
     // Claude Code cloud sessions strip ANTHROPIC_API_KEY from the environment (it is reserved for
     // the agent's own auth), so scripts run there read the key from EDUKEMONOS_ANTHROPIC_API_KEY.
     const apiKey = env.ANTHROPIC_API_KEY || env.EDUKEMONOS_ANTHROPIC_API_KEY;
     return new AnthropicAdapter({ apiKey, fallbacks: config.anthropicFallbacks });
+  }
+  if (provider === "groq") {
+    // Groq serves an OpenAI-compatible API, so the OpenAI adapter talks to it.
+    return new OpenAIAdapter({ name: "groq", apiKey: env.GROQ_API_KEY, baseURL: env.GROQ_BASE_URL?.trim() || GROQ_BASE_URL });
   }
   return new OpenAIAdapter({ apiKey: env.OPENAI_API_KEY });
 }
@@ -91,7 +102,15 @@ const errorText = (error: unknown) => String((error as Error)?.message ?? error)
 
 export function createAI(options: CreateAIOptions = {}) {
   const config = options.config ?? loadAIConfig(options.env);
-  const adapter = options.adapter ?? createAdapter(config, options.env);
+  // One adapter per provider, created on first use: a provider no role uses needs no key.
+  const adapters = new Map<ProviderName, ProviderAdapter>();
+  const adapterFor = (role: ModelRole): ProviderAdapter => {
+    if (options.adapter) return options.adapter;
+    const provider = config.providers?.[role] ?? config.provider;
+    let adapter = options.adapters?.[provider] ?? adapters.get(provider);
+    if (!adapter) adapters.set(provider, (adapter = createAdapter(config, options.env, provider)));
+    return adapter;
+  };
   const sink = options.sink;
   const hasLimits = config.budget.dailyUsd != null || config.budget.monthlyUsd != null;
   if (hasLimits && options.budget === undefined) {
@@ -111,13 +130,14 @@ export function createAI(options: CreateAIOptions = {}) {
   async function log(ctx: CallContext, model: string, started: number, usage: Usage | null, error: unknown, requested = model) {
     if (!sink) return;
     const record: UsageRecord = {
-      provider: adapter.name,
+      provider: adapterFor(ctx.role).name,
       model,
       purpose: ctx.purpose,
       inputTokens: usage?.inputTokens ?? null,
       outputTokens: usage?.outputTokens ?? null,
       cacheReadTokens: usage?.cacheReadTokens ?? null,
       cacheWriteTokens: usage?.cacheWriteTokens ?? null,
+      reasoningTokens: usage?.reasoningTokens ?? null,
       costUsdEstimate: usage
         ? (estimateCostUsd(config.prices, model, usage.inputTokens, usage.outputTokens, cacheOf(usage)) ??
           estimateCostUsd(config.prices, requested, usage.inputTokens, usage.outputTokens, cacheOf(usage)))
@@ -176,10 +196,11 @@ export function createAI(options: CreateAIOptions = {}) {
 
   return {
     config,
-    provider: adapter.name,
+    /** The default provider (AI_PROVIDER); `config.providers` has the one each role uses. */
+    provider: options.adapter?.name ?? config.provider,
 
     generateText(ctx: CallContext, input: CallInput): Promise<TextResult> {
-      return withFallback(ctx, input.signal, (model) => adapter.generateText(request(ctx, input, model)));
+      return withFallback(ctx, input.signal, (model) => adapterFor(ctx.role).generateText(request(ctx, input, model)));
     },
 
     generateStructured<Schema extends z.ZodType>(
@@ -187,7 +208,7 @@ export function createAI(options: CreateAIOptions = {}) {
       input: CallInput & { schema: Schema; schemaName: string },
     ): Promise<StructuredResult<z.infer<Schema>>> {
       return withFallback(ctx, input.signal, (model) =>
-        adapter.generateStructured({ ...request(ctx, input, model), schema: input.schema, schemaName: input.schemaName }),
+        adapterFor(ctx.role).generateStructured({ ...request(ctx, input, model), schema: input.schema, schemaName: input.schemaName }),
       );
     },
 
@@ -206,7 +227,7 @@ export function createAI(options: CreateAIOptions = {}) {
         let emitted = false;
         try {
           const req = { ...request(ctx, input, model), tools: input.tools, maxToolRounds: input.maxToolRounds };
-          for await (const event of adapter.streamChat(req)) {
+          for await (const event of adapterFor(ctx.role).streamChat(req)) {
             if (event.type === "done") await log(ctx, event.model, started, event.usage, null, model);
             emitted = true;
             yield event;
@@ -222,6 +243,7 @@ export function createAI(options: CreateAIOptions = {}) {
     },
 
     async embed(ctx: Omit<CallContext, "role">, texts: string[]): Promise<number[][]> {
+      const adapter = adapterFor("bulk");
       if (!adapter.embed || !config.embedModel) {
         throw new AIConfigError(`Embeddings are not available for provider "${adapter.name}" or MODEL_EMBED is unset`);
       }
@@ -253,7 +275,7 @@ export function createAI(options: CreateAIOptions = {}) {
           }
           const started = performance.now();
           try {
-            const r = await adapter.generateText({
+            const r = await adapterFor(role).generateText({
               model,
               messages: [{ role: "user", content: "Responde solo: ok" }],
               maxTokens: 64,

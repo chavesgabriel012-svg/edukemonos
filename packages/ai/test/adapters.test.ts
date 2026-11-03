@@ -62,7 +62,7 @@ describe("AnthropicAdapter", () => {
       { type: "tool_call", name: "calculate", input: { expression: "2^3" } },
       { type: "tool_result", name: "calculate", output: "8", isError: false },
       { type: "text", delta: "Da 8." },
-      { type: "done", usage: { inputTokens: 20, outputTokens: 6, cacheReadTokens: 0, cacheWriteTokens: 0 }, model: "m", stopReason: "end_turn" },
+      { type: "done", usage: { inputTokens: 20, outputTokens: 6, cacheReadTokens: 0, cacheWriteTokens: 0, reasoningTokens: 0 }, model: "m", stopReason: "end_turn" },
     ]);
     const second = calls[1].messages as { role: string; content: any }[];
     expect(second.at(-1)).toEqual({
@@ -99,6 +99,19 @@ describe("AnthropicAdapter", () => {
       new AnthropicAdapter({ client: looping.client }).streamChat({ model: "m", messages: [], tools: [calculator], maxToolRounds: 1 }),
     );
     expect(loopEvents.at(-1)).toMatchObject({ type: "done", stopReason: "tool_round_limit" });
+  });
+
+  it("sends the configured effort to any Claude model, e.g. claude-haiku-5-5, and reports thinking tokens", async () => {
+    const { client, calls } = fakeAnthropic([
+      anthropicMessage([{ type: "text", text: "Hola" }], "end_turn", {
+        usage: { input_tokens: 10, output_tokens: 40, output_tokens_details: { thinking_tokens: 30 } },
+      }),
+    ]);
+    const events = await collect(
+      new AnthropicAdapter({ client }).streamChat({ model: "claude-haiku-5-5", messages: [{ role: "user", content: "?" }], effort: "low" }),
+    );
+    expect(calls[0]).toMatchObject({ model: "claude-haiku-5-5", output_config: { effort: "low" } });
+    expect(events.at(-1)).toMatchObject({ type: "done", usage: { outputTokens: 40, reasoningTokens: 30 } });
   });
 
   it("throws AIRefusalError on refused text generation", async () => {
@@ -157,12 +170,42 @@ describe("OpenAIAdapter", () => {
       { type: "tool_call", name: "calculate", input: { expression: "2^3" } },
       { type: "tool_result", name: "calculate", output: "8", isError: false },
       { type: "text", delta: "Da 8." },
-      { type: "done", usage: { inputTokens: 16, outputTokens: 5 }, model: "o", stopReason: "stop" },
+      { type: "done", usage: { inputTokens: 16, outputTokens: 5, cacheReadTokens: 0, reasoningTokens: 0 }, model: "o", stopReason: "stop" },
     ]);
     const msgs = calls[1].messages as any[];
     expect(msgs[0]).toEqual({ role: "system", content: "s" });
     expect(msgs.at(-1)).toEqual({ role: "tool", tool_call_id: "c1", content: "8" });
     expect(calls[0]).toMatchObject({ stream: true, stream_options: { include_usage: true } });
     expect(calls[0]).not.toHaveProperty("reasoning_effort");
+  });
+
+  it("reports cached and reasoning tokens (OpenAI and Groq both send them)", async () => {
+    const { client } = fakeOpenAI([
+      [
+        chunk({ content: "Hola" }, "stop"),
+        {
+          model: "o",
+          choices: [],
+          usage: {
+            prompt_tokens: 5_000,
+            completion_tokens: 300,
+            prompt_tokens_details: { cached_tokens: 4_096, cache_write_tokens: 0 },
+            completion_tokens_details: { reasoning_tokens: 200 },
+          },
+        },
+      ],
+    ]);
+    const events = await collect(new OpenAIAdapter({ client, name: "groq" }).streamChat({ model: "o", messages: [] }));
+    expect(events.at(-1)).toEqual({
+      type: "done",
+      usage: { inputTokens: 5_000, outputTokens: 300, cacheReadTokens: 4_096, reasoningTokens: 200 },
+      model: "o",
+      stopReason: "stop",
+    });
+  });
+
+  it("names itself after the provider it serves", () => {
+    expect(new OpenAIAdapter({ client: {} as OpenAI }).name).toBe("openai");
+    expect(new OpenAIAdapter({ client: {} as OpenAI, name: "groq" }).name).toBe("groq");
   });
 });

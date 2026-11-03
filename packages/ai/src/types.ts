@@ -1,6 +1,6 @@
 import type { z } from "zod";
 
-export type ProviderName = "anthropic" | "openai";
+export type ProviderName = "anthropic" | "openai" | "groq";
 
 /** Which configured model a call uses. IDs come only from env (MODEL_BULK, MODEL_TUTOR, MODEL_VERIFY). */
 export type ModelRole = "bulk" | "tutor" | "verify";
@@ -34,6 +34,8 @@ export interface Usage {
   /** Of inputTokens: read from the prompt cache (≈0.1× input price) and written to it (≈1.25×). */
   cacheReadTokens?: number;
   cacheWriteTokens?: number;
+  /** Of outputTokens: internal reasoning (thinking) the student never sees, when the provider reports it. */
+  reasoningTokens?: number;
 }
 
 /** A tool the model may call. Input is validated with the zod schema before `run` executes. */
@@ -105,6 +107,7 @@ export interface UsageRecord {
   outputTokens: number | null;
   cacheReadTokens?: number | null;
   cacheWriteTokens?: number | null;
+  reasoningTokens?: number | null;
   costUsdEstimate: number | null;
   latencyMs: number;
   success: boolean;

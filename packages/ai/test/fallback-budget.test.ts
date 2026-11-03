@@ -15,6 +15,7 @@ import {
 
 const base: AIConfig = {
   provider: "anthropic",
+  providers: { bulk: "anthropic", tutor: "anthropic", verify: "anthropic" },
   models: { bulk: ["b1"], tutor: ["haiku", "sonnet"], verify: ["v1"] },
   embedModel: null,
   effort: {},
