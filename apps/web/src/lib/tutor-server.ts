@@ -14,7 +14,8 @@ export const TUTOR_LIMITS = {
   perSession: Number(process.env.TUTOR_MAX_MESSAGES_PER_SESSION ?? 30),
   perDay: Number(process.env.TUTOR_MAX_MESSAGES_PER_DAY ?? 60),
   writingPerDay: Number(process.env.WRITING_FEEDBACK_MAX_PER_DAY ?? 20),
-  maxOutputTokens: 1_024,
+  // 2 048: with reasoning, 1 024 left some replies empty or cut (tutor evals of 2026-11-02).
+  maxOutputTokens: 2_048,
 };
 
 let cached: AI | null = null;

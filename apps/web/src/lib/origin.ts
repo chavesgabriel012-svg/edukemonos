@@ -7,3 +7,8 @@ export function requestOrigin(h: Headers): string {
   const proto = h.get("x-forwarded-proto") ?? (host?.startsWith("localhost") || host?.startsWith("127.") ? "http" : "https");
   return `${proto}://${host}`;
 }
+
+/** The visitor's IP for rate limits (first hop of x-forwarded-for on Vercel). Never stored with a name. */
+export function clientIp(h: Headers): string {
+  return h.get("x-forwarded-for")?.split(",")[0]?.trim() || h.get("x-real-ip") || "unknown";
+}
