@@ -26,7 +26,7 @@ const db = url && key ? supabaseRest(url, key) : null;
 
 console.log(`Proveedor: ${config.provider}`);
 for (const role of ["tutor", "bulk", "verify"] as const) {
-  console.log(`  ${role.padEnd(7)} ${config.models[role].join(" → ")}`);
+  console.log(`  ${role.padEnd(7)} ${config.providers[role].padEnd(9)} ${config.models[role].join(" → ")}`);
 }
 const { dailyUsd, monthlyUsd } = config.budget;
 console.log(`Fusible: diario ${dailyUsd ?? "sin tope"} USD · mensual ${monthlyUsd ?? "sin tope"} USD`);
