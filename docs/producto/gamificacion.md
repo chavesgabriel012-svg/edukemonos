@@ -356,19 +356,30 @@ genera código**: solo el contenido de cada pieza, que pasa las mismas verificac
 
 ### 6.3 Generación y verificación
 
-- `pnpm games generate|load|publish|status` (`scripts/ingest/src/games-cli.ts`). Sin `--yes` solo muestra la
-  estimación.
+- `pnpm games generate|load|publish|status|archive` (`scripts/ingest/src/games-cli.ts`). Sin `--yes` solo muestra
+  la estimación. `status`, `archive` y `load` vuelven a correr las verificaciones fijas (gratis), así que un ajuste
+  de las comprobaciones no obliga a pagar de nuevo. Lo generado queda versionado en
+  `scripts/ingest/generated/games/<unidad>.json`.
 - `MODEL_BULK` escribe, por unidad, hasta una pieza de cada mecánica por habilidad (solo las que encajan con la
   habilidad), con un esquema plano y comprobaciones de forma en código.
 - **Verificación**:
   - `MODEL_VERIFY` resuelve las piezas **barajadas y sin respuesta**, con esfuerzo `high`, y tiene que coincidir sin
     señalar problemas.
   - mathjs recalcula las piezas de «completar» con cálculo (`calc`), las parejas de operación y resultado, y los pasos
-    numéricos de «encuentra el error», incluidas las igualdades encadenadas y los superíndices.
+    numéricos de «encuentra el error». Lee la notación escolar: igualdades encadenadas, superíndices (también
+    `10⁻³`), `gcd(42,56)` con la coma como separador, fracciones alrededor de `÷` (`3/5 ÷ 3/10 = 2`) y raíces
+    redondeadas a las cifras que muestran (`√10 ≈ 3,16`). Un paso con unidades distintas a cada lado no se compara.
   - Lo que no pasa queda en borrador.
 - Solo se publica lo verificado, con «Generado con IA · pendiente de revisión».
 - **Alcance**: las 96 unidades publicadas de Español y Matemáticas de 7.º a 9.º (297 habilidades). Estimación
-  previa: US$6,39. Piloto de 2 unidades: US$0,105 (≈ US$0,05 por unidad).
+  previa: US$6,39. Piloto de 2 unidades: US$0,105.
+- **Resultado** (noviembre de 2026): 953 piezas, **803 verificadas (84 %)**. Por mecánica: parejas 201/223,
+  completar 294/331, encuentra el error 195/244, ordenar 113/155. Lo no verificado: el verificador señaló algo (116),
+  dio otra respuesta (25) u opciones repetidas (9). **Costo real: US$7,21** (192 llamadas, ninguna falló; la salida
+  fue más larga que lo estimado).
+- **Pendiente**: el verificador escribe comentarios en `problems` aun cuando no encuentra fallas («Sin problemas»,
+  «Solo la 3 es correcta»), y la política conservadora los cuenta como objeción. Una versión 2 del prompt de
+  resolución con un campo aparte para notas recuperaría parte de esas piezas (≈ US$1,10 por volver a resolver todo).
 
 ## 7. Fase 4 · Torneo de los viernes
 
