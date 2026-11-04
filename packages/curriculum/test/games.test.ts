@@ -52,6 +52,22 @@ describe("gameIssues", () => {
   });
 });
 
+describe("school notation in the math checks", () => {
+  it("does not compare steps whose parts carry different units", () => {
+    const steps = ["2 Mm = 2 × 10⁶ m = 2 000 000 m", "7 ms = 7 × 10⁻³ s = 0,007 s", "4 µg = 4 × 10⁻⁹ g = 0,000000004 g", "5 = 2 + 3"];
+    expect(checkErrorSteps(steps, 2).status).toBe("passed");
+  });
+  it("reads a superscript minus and fractions around ÷", () => {
+    expect(checkErrorSteps(["10⁻³ = 0,001", "3 − 1/2 ÷ 1/4 = 1", "2 × 3 = 5"], 2).status).toBe("passed");
+  });
+  it("accepts a root rounded to the places shown, and nothing looser", () => {
+    expect(checkNumericPairs([{ left: "√26", right: "5" }, { left: "√50", right: "7" }, { left: "√99", right: "10" }]).status).toBe("passed");
+    expect(checkNumericPairs([{ left: "√10", right: "3,16" }, { left: "3√2", right: "4,24" }]).status).toBe("passed");
+    expect(checkNumericPairs([{ left: "√10", right: "3,1" }, { left: "3√2", right: "4,24" }]).status).toBe("failed");
+    expect(checkNumericPairs([{ left: "1/3", right: "0" }, { left: "2", right: "2" }]).status).toBe("failed");
+  });
+});
+
 describe("checkErrorSteps", () => {
   it("evaluates numeric steps: the marked step must be the only false one", () => {
     expect(checkErrorSteps(findError.steps!, 1)).toEqual({ status: "passed" });

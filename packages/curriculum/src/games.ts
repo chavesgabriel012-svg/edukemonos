@@ -234,10 +234,17 @@ export function gamesBlock(games: GeneratedGame[], seed: (i: number) => string):
 const numeric = (x: string): number | null => optionValue(x.trim()) ?? evaluateCalc(x.trim());
 const same = (a: number, b: number) => Math.abs(a - b) <= 1e-9 * Math.max(1, Math.abs(a), Math.abs(b));
 
-/** Truth of a step written as `a = b` or `a = b = c` with only numbers; null when it cannot be evaluated. */
+/** Letters left after removing function names: the units of a part ("2 Mm" → "Mm"). */
+const unitsOf = (part: string) => (part.replace(/\b(sqrt|gcd|lcm|abs|max|min|round|mcd|mcm)\b/g, "").match(/[A-Za-zµΩ°%]+/g) ?? []).join(" ");
+
+/**
+ * Truth of a step written as `a = b` or `a = b = c` with only numbers; null when it cannot be
+ * evaluated, including when the parts carry different units ("2 Mm = 2 000 000 m").
+ */
 export function stepTruth(step: string): boolean | null {
   const parts = step.split("=");
   if (parts.length < 2) return null;
+  if (new Set(parts.map(unitsOf)).size > 1) return null;
   const values = parts.map(numeric);
   if (values.some((v) => v === null)) return null;
   return values.every((v) => same(v!, values[0]!));
@@ -258,6 +265,17 @@ export function checkErrorSteps(steps: string[], errorIndex: number): { status: 
 }
 
 /**
+ * An exact match, or, when the left side has a root (an irrational shown approximately), the right
+ * side as a decimal rounded to the places it shows: √10 ≈ 3,16; √26 ≈ 5 (nearest whole number).
+ */
+function pairValueMatches(leftText: string, l: number, rightText: string, r: number): boolean {
+  if (same(l, r)) return true;
+  if (!/√|sqrt/.test(leftText) || !/^\s*[−-]?\d+(?:[.,]\d+)?\s*$/.test(rightText)) return false;
+  const places = rightText.match(/[.,](\d+)/)?.[1].length ?? 0;
+  return Math.abs(l - r) <= 0.5 * 10 ** -places + 1e-9;
+}
+
+/**
  * Math check of a pairs piece of operations and results: when every left side and every right side
  * is a number or a numeric expression, each left must equal its own right and no other.
  */
@@ -266,8 +284,8 @@ export function checkNumericPairs(pairs: { left: string; right: string }[]): { s
   const right = pairs.map((p) => numeric(p.right));
   if (left.some((v) => v === null) || right.some((v) => v === null)) return { status: "not_applicable" };
   for (const [i, l] of left.entries()) {
-    if (!same(l!, right[i]!)) return { status: "failed", detail: `«${pairs[i].left}» no vale ${pairs[i].right}` };
-    const others = right.flatMap((r, k) => (k !== i && same(l!, r!) ? [k] : []));
+    if (!pairValueMatches(pairs[i].left, l!, pairs[i].right, right[i]!)) return { status: "failed", detail: `«${pairs[i].left}» no vale ${pairs[i].right}` };
+    const others = right.flatMap((r, k) => (k !== i && pairValueMatches(pairs[i].left, l!, pairs[k].right, r!) ? [k] : []));
     if (others.length) return { status: "failed", detail: `«${pairs[i].left}» también vale lo de otra pareja` };
   }
   return { status: "passed" };

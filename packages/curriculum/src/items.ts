@@ -146,8 +146,8 @@ function cleanMath(text: string): string {
   return nfc
     // With ÷ in the text, "/" is a fraction bar: 3/5 ÷ 3/10 is (3/5) ÷ (3/10), not ((3/5) ÷ 3)/10.
     .replace(nfc.includes("÷") ? /(?<![\d.,^])(\d+)\s*\/\s*(\d+)(?![\d.,^])/g : /$^/, "($1/$2)")
-    // Superscript exponents: 5² → 5^2, 2¹⁰ → 2^10.
-    .replace(/[⁰¹²³⁴⁵⁶⁷⁸⁹]+/g, (m) => `^${[...m].map((c) => "⁰¹²³⁴⁵⁶⁷⁸⁹".indexOf(c)).join("")}`)
+    // Superscript exponents: 5² → 5^2, 2¹⁰ → 2^10, 10⁻³ → 10^(-3).
+    .replace(/⁻?[⁰¹²³⁴⁵⁶⁷⁸⁹]+/g, (m) => `^${m.startsWith("⁻") ? "(-" : ""}${[...m.replace("⁻", "")].map((c) => "⁰¹²³⁴⁵⁶⁷⁸⁹".indexOf(c)).join("")}${m.startsWith("⁻") ? ")" : ""}`)
     .replace(/[−–—]/g, "-")
     .replace(/[×·]/g, "*")
     .replace(/÷/g, "/")
