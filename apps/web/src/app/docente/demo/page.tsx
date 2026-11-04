@@ -2,6 +2,7 @@ import { busiestSubject, computeSectionMetrics } from "@edukemonos/curriculum";
 import type { Metadata } from "next";
 import { SectionHeader } from "@/components/teacher/section-header";
 import { SectionOverview } from "@/components/teacher/section-overview";
+import { GoalPanel } from "@/components/teacher/goal-panel";
 import { StreakPanel } from "@/components/teacher/streak-panel";
 import { demoGamification } from "@/lib/gamification";
 import { createClient } from "@/lib/supabase/server";
@@ -14,12 +15,14 @@ export default async function DemoSectionPage({ searchParams }: PageProps<"/doce
   const source = await demoSource();
   const metrics = computeSectionMetrics(source.data);
   const materia = (await searchParams).materia;
+  const demo = await demoGamification(await createClient());
   const subjectId = metrics.subjects.find((s) => s.subjectId === materia)?.subjectId ?? busiestSubject(metrics);
   return (
     <div className="space-y-6">
       <SectionHeader source={source} />
       <SectionOverview source={source} metrics={metrics} subjectId={subjectId} summary={await cachedSummary(metrics.findings)} />
-      <StreakPanel sectionId="demo" data={await demoGamification(await createClient())} demo />
+      <GoalPanel data={demo} />
+      <StreakPanel sectionId="demo" data={demo} demo />
     </div>
   );
 }

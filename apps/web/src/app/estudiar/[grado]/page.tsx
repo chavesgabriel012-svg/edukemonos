@@ -21,6 +21,12 @@ export default async function GradePage({ params }: PageProps<"/estudiar/[grado]
         <h1 className="text-2xl font-bold">{GRADE_LABEL[grade]} año: elige una materia</h1>
       </div>
       <StreakCard status={streak} />
+      {streak && (
+        <p className="text-sm text-muted-foreground">
+          ¿Estás en una sección? Mira{" "}
+          <Link href="/mis-secciones" className="font-medium underline underline-offset-2">la meta de la semana de tu sección</Link>.
+        </p>
+      )}
       <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3">
         {subjects.map((s) => (
           <li key={s.id}>

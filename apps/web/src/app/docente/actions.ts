@@ -102,7 +102,14 @@ export async function saveSectionSettings(sectionId: string, _prev: SettingsStat
   if (!Number.isFinite(target) || target < 1 || target > 50) return { error: "La meta semanal debe estar entre 1 y 50 ejercicios." };
   const { error } = await supabase
     .from("section_settings")
-    .upsert({ section_id: sectionId, streak_enabled: form.get("streak_enabled") === "on", weekly_target: target, updated_at: new Date().toISOString() });
+    .upsert({
+      section_id: sectionId,
+      streak_enabled: form.get("streak_enabled") === "on",
+      weekly_target: target,
+      goal_enabled: form.get("goal_enabled") === "on",
+      leaderboard_enabled: form.get("leaderboard_enabled") === "on",
+      updated_at: new Date().toISOString(),
+    });
   if (error) {
     console.error("section settings failed:", error.message);
     return { error: "No se pudieron guardar los ajustes. Intente de nuevo." };
