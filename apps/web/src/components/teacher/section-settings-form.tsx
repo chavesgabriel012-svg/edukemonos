@@ -3,10 +3,12 @@
 import { useActionState } from "react";
 import { saveSectionSettings, type SettingsState } from "@/app/docente/actions";
 
-export function SectionSettingsForm({ sectionId, streakEnabled, weeklyTarget, institutionId, institutions, demo }: {
+export function SectionSettingsForm({ sectionId, streakEnabled, weeklyTarget, goalEnabled, leaderboardEnabled, institutionId, institutions, demo }: {
   sectionId: string;
   streakEnabled: boolean;
   weeklyTarget: number;
+  goalEnabled: boolean;
+  leaderboardEnabled: boolean;
   institutionId: string | null;
   institutions: { id: string; name: string }[];
   demo: boolean;
@@ -18,6 +20,14 @@ export function SectionSettingsForm({ sectionId, streakEnabled, weeklyTarget, in
         <label className="flex min-h-11 items-center gap-3">
           <input type="checkbox" name="streak_enabled" defaultChecked={streakEnabled} className="size-5" />
           <span>Mostrar la racha semanal a los estudiantes</span>
+        </label>
+        <label className="flex min-h-11 items-center gap-3">
+          <input type="checkbox" name="goal_enabled" defaultChecked={goalEnabled} className="size-5" />
+          <span>Mostrar la meta semanal de la sección</span>
+        </label>
+        <label className="flex min-h-11 items-center gap-3">
+          <input type="checkbox" name="leaderboard_enabled" defaultChecked={leaderboardEnabled} className="size-5" />
+          <span>Mostrar la tabla de mejora con apodos</span>
         </label>
         <label className="block space-y-1">
           <span className="block font-medium">Ejercicios bien resueltos por semana para cumplir la racha</span>

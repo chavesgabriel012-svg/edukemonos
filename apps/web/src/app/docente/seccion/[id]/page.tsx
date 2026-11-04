@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { SectionHeader } from "@/components/teacher/section-header";
 import { SectionOverview } from "@/components/teacher/section-overview";
+import { GoalPanel } from "@/components/teacher/goal-panel";
 import { StreakPanel } from "@/components/teacher/streak-panel";
 import { sectionGamification } from "@/lib/gamification";
 import { requireStaff } from "@/lib/staff";
@@ -46,6 +47,7 @@ export default async function SectionPage({ params, searchParams }: PageProps<"/
       ) : (
         <SectionOverview source={source} metrics={metrics} subjectId={subjectId} summary={await cachedSummary(metrics.findings)} />
       )}
+      <GoalPanel data={gamification} />
       <StreakPanel sectionId={id} data={gamification} demo={false} />
       <details className="rounded-[22px] border bg-card p-5 text-sm">
         <summary className="cursor-pointer font-medium">Registro de accesos</summary>

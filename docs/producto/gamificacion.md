@@ -7,7 +7,7 @@ ella con un PR. Nada pasa a `main` sin aprobación del fundador.
 |---|---|---|
 | 0 | `producto/fase-0-requisitos` | Este documento, código personal de recuperación, salida del tutor a 2 048 tokens, `.env.example` |
 | 1 | `fase-1` | Racha semanal de dominio, calendario escolar, comodín, aviso de descanso |
-| 2 | `producto/fase-2-meta-seccion` | Meta colectiva semanal y tabla con apodos |
+| 2 | `fase-2` | Meta colectiva semanal y tabla con apodos |
 | 3 | `producto/fase-3-minijuegos` | Mecánicas fijas con contenido generado y verificado |
 | 4 | `producto/fase-4-torneo` | Torneo automático de los viernes |
 | 5 | `producto/fase-5-reconocimiento` | Insignias, certificado de dominio y equipo destacado |
@@ -245,45 +245,64 @@ Se sugiere `TUTOR_MAX_MESSAGES_PER_DAY=5`. Es solo documentación: el valor de p
 - **Docente**: puede apagar la racha (`streak_enabled`) y cambiar la meta semanal. Apagada, el estudiante no ve la
   racha, salvo que esté en otra sección que la tenga encendida; el dominio sigue igual. En el panel ve solo datos
   agregados: cuántos cumplieron la meta, cuántos tienen racha y la racha más larga, sin decir de quién es.
+- **Corrección en la Fase 2**: `week_paused_for_section` daba «vacaciones» a toda sección en un año sin calendario
+  (2026), así que el panel docente decía «las rachas están en pausa». Ahora un año sin calendario no pausa, igual que
+  para cada estudiante (la racha de los estudiantes no estaba afectada).
 - **Eventos**: `streak_week_completed` (lo escribe un trigger al llegar a la meta, una vez por semana),
   `streak_repaired` y `rest_reminder_shown`. `streak_ended` no se registra: la racha se calcula al leerla, así que
   no hay un momento en que «se rompa».
 
 ## 5. Fase 2 · Meta colectiva y tabla con apodos
 
+**Qué cubre una sección.** Todo lo de esta fase (meta, tabla y mejora) cuenta solo las habilidades que «cubre» la
+sección, y eso sale de una sola función: `private.section_scope_skills(section)`. Hoy son todas las habilidades del
+grado de la sección. Con secciones por materia (§12) basta con cambiar esa función.
+
 ### 5.1 Meta semanal de la sección
 
-«Entre todos dominamos **X** habilidades esta semana». Se calcula sola cada lunes y queda fija para la semana:
+«Entre todos: **X** habilidades dominadas esta semana». Se calcula la primera vez que alguien la pide en la semana
+(estudiante o docente, sin cron) y queda fija hasta el domingo:
 
+- **Habilidad dominada en la semana**: un estudiante de la sección pasa una habilidad de la sección de menos de 0,70
+  a 0,70 o más (`mastery_weekly`, §2.3). Cuenta una vez por estudiante y habilidad.
 - `activos` = estudiantes de la sección con al menos un intento en las últimas 4 semanas (mínimo 1).
-- `histórico` = mediana semanal de habilidades dominadas por la sección en las últimas 4 semanas sin vacaciones.
-- Sin historia: `X = max(3, ceil(0,5 × activos))`. Con historia: `X = max(3, ceil(1,1 × histórico))`. La meta queda
-  un poco por encima de lo que la sección ya logra, así que se ajusta sola al tamaño y al nivel de la sección.
-- Se guarda en `section_goals(section_id, week_start, target, created_at)`, y el progreso se calcula desde
-  `mastery_weekly`.
+- `histórico` = habilidades dominadas por la sección en cada una de las últimas 4 semanas de clases (sin vacaciones,
+  mirando hasta 12 semanas atrás).
+- Si el histórico es todo cero: `X = max(3, ceil(0,5 × activos))`. Si no: `X = max(3, ceil(1,1 × mediana))`. La meta
+  queda un poco por encima de lo que la sección ya logra, así que se ajusta sola a su tamaño y su nivel.
+- Se guarda en `section_goals(section_id, week_start, target, active_students, history)`. El panel docente lo explica
+  en «Cómo se calculó». La misma regla está en `goalTarget()` de `@edukemonos/curriculum`, y una prueba compara las dos.
 
 ### 5.2 Apodos
 
-- Lista segura y fija en el código: un sustantivo de la fauna o flora de Costa Rica más un adjetivo invariable, que
-  no tiene género («Tucán Azul», «Ceiba Valiente», «Colibrí Veloz», «Perezoso Alegre»). Unas 40 × 15 = 600
-  combinaciones, revisadas por personas, sin palabras que se presten a burla.
-- El estudiante elige entre 6 opciones al azar. El apodo es único dentro de la sección y se guarda en
-  `section_members.nickname` (con `nickname` + `section_id` único).
-- `section_members.leaderboard_hidden boolean default false`: puede ocultarse cuando quiera.
+- **Uno por estudiante para todo Eduka, no uno por sección.** Si en el futuro un estudiante está en varias secciones
+  (una por materia, §12), elige su apodo una sola vez.
+- **Formato**: sustantivo de la naturaleza de Costa Rica + adjetivo sin género + número de 10 a 99 («Tucán Azul 27»).
+  Son 40 × 18 × 90 = 64 800 apodos, únicos en todo Eduka. Las listas son fijas y revisadas, sin palabras que se
+  presten a burla (por eso no hay «Perezoso» ni «Mono»). Están en SQL y en TypeScript, y una prueba verifica que
+  coinciden.
+- El estudiante elige entre 6 opciones libres al azar (`nickname_options()`), y `choose_nickname()` rechaza todo lo
+  que no esté en la lista. Un `check` de la tabla también lo impide. Nadie escribe la columna directamente: el
+  `insert` en `students` quedó limitado a `id` y `declared_grade_id`.
+- `students.leaderboard_hidden`: el estudiante puede ocultarse cuando quiera, en todas sus secciones.
+- El docente puede leer el apodo de sus estudiantes (la tabla `students` ya era visible para él). La clase solo ve
+  apodos.
 
 ### 5.3 Tabla de la semana
 
-- Ordena por **mejora personal de la semana** (Σ de `score_end` − `score_start`), no por puntaje absoluto: alguien
-  que empieza abajo puede estar arriba.
+- Ordena por **mejora personal de la semana** (Σ de `score_end` − `score_start` en las habilidades de la sección), no
+  por puntaje absoluto: alguien que empieza abajo puede estar arriba. Se muestra en puntos (× 100).
 - Cada estudiante ve **su fila, hasta 2 compañeros arriba y hasta 2 abajo**, sin números de posición y sin la lista
   completa.
-- Para no señalar a nadie como último, quedan fuera de la tabla el último lugar y los estudiantes sin mejora o con
-  mejora negativa. Si el propio estudiante es el último, solo ve su fila y los de arriba, sin ninguna marca de
-  posición.
-- Se sirve con una función `security definer` que devuelve solo apodo, mejora redondeada y si es la fila propia.
-  Nunca devuelve `display_name` ni `student_id`.
-- **Docente**: ve el progreso de la meta y cuántos estudiantes participan. Puede apagar la tabla y la meta por
-  separado.
+- Quedan fuera los estudiantes sin apodo, ocultos o sin mejora. **El último lugar nunca se muestra a otros.** Si el
+  propio estudiante es el último, ve su fila y los de arriba, sin ninguna marca de posición.
+- **Con menos de 4 estudiantes en la tabla no se muestra nada**, para que nadie quede identificado.
+- `section_leaderboard()` devuelve solo apodo, puntos y si es la fila propia: nunca `display_name` ni `student_id`.
+  Solo la pueden pedir los estudiantes de la sección. La misma regla está en `leaderboardWindow()`, y una prueba
+  compara las dos.
+- **Docente**: ve el avance de la meta, «Cómo se calculó» y cuántos eligieron apodo o se ocultaron, nunca el orden.
+  Puede apagar la meta y la tabla por separado.
+- **Eventos**: `nickname_chosen` (sin el apodo) y `leaderboard_hidden` (`{hidden}`).
 
 ## 6. Fase 3 · Minijuegos con contenido verificado
 
@@ -378,3 +397,61 @@ Resueltas el 3 de noviembre de 2026:
 2. **Calendario de la institución**: cada institución tiene un id en la base de datos y su propio calendario (§2.6).
 3. **Aviso de descanso**: después de 1 hora.
 4. **Ítems sin verificar en la racha**: cuentan, igual que en la práctica de hoy.
+
+## 12. Propuesta: una sección por materia
+
+Idea del fundador (4 nov): que el estudiante tenga una sección por materia, para que cada docente tenga control sobre
+sus estudiantes en su materia. Es lo que más complica la infraestructura, pero es como funciona el colegio y le da
+mucho valor al producto.
+
+### Cómo está hoy
+
+- La sección tiene grado, pero no materia. El panel muestra todas las materias del grado.
+- Un estudiante ya puede estar en varias secciones: el modelo lo permite.
+- **El problema es la privacidad.** `private.teaches_student(student)` le da al docente acceso a **todo** lo del
+  estudiante: intentos, dominio, diagnósticos, temas del tutor y escritura de todas las materias. Con secciones por
+  materia, el docente de Matemáticas vería también Español.
+
+### Propuesta
+
+1. **`sections.subject_id`**, opcional. Con materia, la sección es de esa materia. Sin materia, es una «sección guía»
+   (profesor guía), que se comporta como hoy y ve todas las materias. Las secciones existentes quedan sin materia, así
+   que nada cambia para ellas.
+2. **Privacidad por materia (la parte difícil).** Las políticas de `attempts`, `mastery`, `mastery_weekly`,
+   `diagnostics`, `tutor_sessions` y `writing_feedback` pasan de «enseña a este estudiante» a «enseña a este estudiante
+   **en esta materia**», con `private.teaches_student_subject(student, subject)`. Para que sea rápido, la materia se
+   guarda en cada fila: `attempts.subject_id` (la llena `submit_attempt`), `mastery.subject_id` y los datos anteriores
+   se completan en la migración. Las pruebas de RLS cubren que el docente de Matemáticas no lea nada de Español.
+3. **Lo que ya está hecho se ajusta solo**:
+   - `section_scope_skills()` filtra por materia, y con eso la meta y la tabla pasan a ser por materia.
+   - El panel docente filtra unidades, mapa de calor, diagnósticos y temas del tutor por la materia de la sección.
+   - La racha sigue siendo del estudiante: cuenta todas sus materias.
+4. **Grupo, para no pedir 6 códigos.** El estudiante de 7-3 tiene 6 o 7 materias. Pedirle un código por docente es
+   mucha fricción. Propongo el **grupo**: un «7-3» de la institución que reúne las secciones por materia.
+   - El estudiante se une **una vez** con el código del grupo y queda en todas sus secciones.
+   - El consentimiento nombra a cada docente y materia.
+   - Quien administra la institución (o el profesor guía) crea el grupo, y cada docente crea su sección de materia
+     dentro de él.
+   - Sin institución, el docente puede seguir creando una sección suelta con su propio código, como hoy.
+5. **Dónde lo nota el estudiante.** En «Mis secciones» ve una tarjeta por materia (meta y tabla de cada una), con un
+   solo apodo para todas.
+
+### Costo y riesgo
+
+- Una migración grande, que reescribe 6 políticas de RLS y agrega la materia a 2 tablas grandes, más sus pruebas.
+- Cambios en el panel docente, en el flujo de unirse y en la creación de secciones.
+- Estimo que es tan grande como una fase. El riesgo principal es dejar un hueco de privacidad, y por eso las pruebas
+  de RLS van primero.
+
+### Orden recomendado
+
+Antes de la Fase 3. Los minijuegos («juegos de la sección»), el torneo («temas que la sección trabajó», equipos) y el
+reconocimiento dependen de qué es una sección. Hacerlo después obligaría a rehacer partes de esas fases.
+
+### Decisiones pendientes del fundador
+
+1. ¿Grupo con un solo código (recomendado) o un código por cada docente de materia?
+2. ¿El profesor guía (sección sin materia) ve todas las materias de su grupo?
+3. ¿Quién crea el grupo: quien administra la institución, el profesor guía o cualquier docente de la institución?
+4. ¿Se hace antes de la Fase 3?
+

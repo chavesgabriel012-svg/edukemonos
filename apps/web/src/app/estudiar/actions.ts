@@ -7,6 +7,7 @@ import {
   pickPracticeItem,
   practiceTarget,
 } from "@edukemonos/curriculum";
+import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { studentClient } from "@/lib/student-session";
 import type { PublicItem } from "@/lib/learn";
@@ -377,4 +378,43 @@ export async function logRestReminder(minutes: number): Promise<void> {
   const m = Math.min(600, Math.max(0, Math.round(Number(minutes) || 0)));
   const { error } = await supabase.from("events").insert({ actor_id: auth.user.id, name: "rest_reminder_shown", props: { minutes: m } });
   if (error) console.error("rest reminder event failed:", error.message);
+}
+
+// ---------------------------------------------------------------------------
+// Nickname and the week's table (docs/producto/gamificacion.md §5)
+// ---------------------------------------------------------------------------
+
+export interface NicknameState {
+  error?: string;
+  saved?: boolean;
+}
+
+export async function chooseNickname(_prev: NicknameState, form: FormData): Promise<NicknameState> {
+  const nickname = String(form.get("nickname") ?? "");
+  if (!nickname) return { error: "Elige uno de los apodos." };
+  const supabase = await createClient();
+  const { data: auth } = await supabase.auth.getUser();
+  if (!auth.user?.is_anonymous) return { error: "Primero resuelve un ejercicio o únete a tu sección." };
+  const { data, error } = await supabase.rpc("choose_nickname", { p_nickname: nickname });
+  if (error) {
+    console.error("choose_nickname failed:", error.message);
+    return { error: "No pudimos guardar tu apodo. Intenta de nuevo." };
+  }
+  const r = data as { ok: boolean; error?: string };
+  if (!r.ok) return { error: r.error === "taken" ? "Alguien acaba de elegir ese apodo. Elige otro." : "Elige uno de los apodos de la lista." };
+  revalidatePath("/mis-secciones");
+  return { saved: true };
+}
+
+export async function setLeaderboardHidden(hidden: boolean): Promise<ActionResult<null>> {
+  const supabase = await createClient();
+  const { data: auth } = await supabase.auth.getUser();
+  if (!auth.user?.is_anonymous) return fail("Primero únete a tu sección.");
+  const { error } = await supabase.rpc("set_leaderboard_hidden", { p_hidden: hidden });
+  if (error) {
+    console.error("set_leaderboard_hidden failed:", error.message);
+    return fail("No pudimos guardar el cambio. Intenta de nuevo.");
+  }
+  revalidatePath("/mis-secciones");
+  return { ok: true, data: null };
 }

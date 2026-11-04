@@ -1,7 +1,7 @@
 import type pg from "pg";
 import { afterAll, beforeAll, describe, expect, inject, it } from "vitest";
 import { type Fixture, ids, loadFixture } from "./fixtures";
-import { addWeeks, classDays, computeStreak, estimateAbility, levelOf, MEP_2027, updateMastery, weekStartCR } from "@edukemonos/curriculum";
+import { addWeeks, classDays, computeStreak, estimateAbility, goalTarget, isSafeNickname, leaderboardWindow, levelOf, MEP_2027, NICKNAME_ADJECTIVES, NICKNAME_NOUNS, updateMastery, weekStartCR } from "@edukemonos/curriculum";
 import { anon, as, asActors, asSteps, connect, expectDenied, service, user } from "./helpers";
 
 let db: pg.Client;
@@ -540,7 +540,7 @@ describe("recovery codes", () => {
       where c.contype = 'f' and c.confrelid = 'public.students'::regclass
       order by 1`);
     const handled = [
-      "attempts", "diagnostics", "mastery", "section_members", "streak_repairs", "student_recovery_codes",
+      "attempts", "diagnostics", "mastery", "mastery_weekly", "section_members", "streak_repairs", "student_recovery_codes",
       "tutor_sessions", "writing_feedback",
     ];
     expect(rows.map((r) => r.table.replace(/^public\./, "")).sort()).toEqual(handled);
@@ -771,5 +771,235 @@ describe("institutions and school calendars", () => {
     expect(rows).toEqual([{ name: "MEP 2027" }]);
     await expectDenied(db, t1, `insert into public.school_calendars (name, school_year, classes_start, classes_end) values ('x', 2028, '2028-03-01', '2028-11-30')`, [], /permission denied/);
     await expectDenied(db, t1, `delete from public.school_calendar_breaks`, [], /permission denied/);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Fase 2: weekly mastery changes, the section's goal and the nickname table
+// ---------------------------------------------------------------------------
+type Q = (sql: string, params?: unknown[]) => Promise<pg.QueryResultRow[]>;
+
+/** Adds `n` synthetic anonymous students to section 1 (inside a scenario). Returns their ids. */
+async function classmates(q: Q, n: number): Promise<string[]> {
+  const out: string[] = [];
+  for (let k = 0; k < n; k++) {
+    const id = `00000000-0000-4000-9000-${String(k + 1).padStart(12, "0")}`;
+    await q(`insert into auth.users (id, email, is_anonymous) values ($1, null, true)`, [id]);
+    await q(`insert into public.students (id, declared_grade_id) values ($1, 7)`, [id]);
+    await q(`insert into public.section_members (section_id, student_id, display_name, consent_at) values ($1, $2, $3, now())`, [ids.section1, id, `Sintético ${k + 1}`]);
+    out.push(id);
+  }
+  return out;
+}
+
+const thisWeek = () => weekStartCR(new Date());
+
+describe("weekly mastery changes", () => {
+  it("submit_attempt records where each skill started and ended the week", async () => {
+    const out = await scenario(async (q, act) => {
+      await act(user(ids.loner));
+      await q(`select public.submit_attempt($1, 2::smallint)`, [ids.itemVerified]);
+      await q(`select public.submit_attempt($1, 0::smallint)`, [ids.itemVerified]);
+      const own = await q(`select score_start, score_end, attempts, week_start::text from public.mastery_weekly where student_id = $1`, [ids.loner]);
+      const [m] = await q(`select score from public.mastery where student_id = $1`, [ids.loner]);
+      await act(user(ids.student2));
+      const other = await q(`select * from public.mastery_weekly where student_id = $1`, [ids.loner]);
+      return { own, m, other };
+    });
+    expect(out.own).toHaveLength(1);
+    expect(Number(out.own[0].score_start)).toBe(0.5);
+    expect(Number(out.own[0].score_end)).toBe(Number(out.m.score));
+    expect(out.own[0]).toMatchObject({ attempts: 2, week_start: thisWeek() });
+    expect(out.other).toEqual([]);
+    await expectDenied(db, loner, `insert into public.mastery_weekly (student_id, skill_id, week_start, score_start, score_end) values ($1, $2, '2027-03-01', 0.1, 0.9)`, [ids.loner, ids.skillPublished], /permission denied/);
+  });
+});
+
+describe("section weekly goal", () => {
+  it("is computed once a week like goalTarget(), with the progress of the section's students", async () => {
+    const out = await scenario(async (q, act) => {
+      const mates = await classmates(q, 4);
+      // History: skills mastered in the last 4 weeks by the section (4, 6, 5, 7) → median 5.5 → 7.
+      const hist = [4, 6, 5, 7];
+      for (let k = 0; k < hist.length; k++) {
+        const week = addWeeks(thisWeek(), -(k + 1));
+        for (let j = 0; j < hist[k]; j++) {
+          await q(`insert into public.skills (unit_id, subject_id, grade_id, name) values ($1, 'matematicas', 7, $2) returning id`, [ids.unitPublished, `h${k}-${j}`]).then(([r]) =>
+            q(`insert into public.mastery_weekly (student_id, skill_id, week_start, score_start, score_end) values ($1, $2, $3, 0.5, 0.75)`, [mates[j % 4], r.id, week]));
+        }
+      }
+      // This week: two skills crossed 0.7, one did not, one is of another grade (not in scope).
+      await q(`insert into public.mastery_weekly (student_id, skill_id, week_start, score_start, score_end) values ($1, $2, $3, 0.6, 0.8), ($4, $2, $3, 0.65, 0.71), ($5, $2, $3, 0.5, 0.69)`, [mates[0], ids.skillPublished, thisWeek(), mates[1], mates[2]]);
+      const [{ g8 }] = await q(`insert into public.skills (unit_id, subject_id, grade_id, name) values ($1, 'matematicas', 8, 'octavo') returning id as g8`, [ids.unitDraft]);
+      await q(`insert into public.mastery_weekly (student_id, skill_id, week_start, score_start, score_end) values ($1, $2, $3, 0.5, 0.9)`, [mates[3], g8, thisWeek()]);
+      await act(user(ids.student1));
+      const [{ goal }] = await q(`select public.section_goal($1) as goal`, [ids.section1]);
+      // More history does not change this week's goal: it is fixed on its first computation.
+      await act(null);
+      await q(`delete from public.mastery_weekly where week_start < $1`, [thisWeek()]);
+      await act(user(ids.teacher1));
+      const [{ again }] = await q(`select public.section_goal($1) as again`, [ids.section1]);
+      return { goal, again };
+    });
+    // Progress 3: the two skills above plus the fixture's student1, whose mastery reached 0.8 this week.
+    expect(out.goal).toMatchObject({ enabled: true, paused: false, target: goalTarget(1, [4, 6, 5, 7]), progress: 3, history: [4, 6, 5, 7] });
+    expect(out.goal.target).toBe(7);
+    expect(out.again.target).toBe(7);
+  });
+
+  it("without history: half a skill per active student, at least 3; turned off by the teacher", async () => {
+    const out = await scenario(async (q, act) => {
+      await act(user(ids.student1));
+      const [{ goal }] = await q(`select public.section_goal($1) as goal`, [ids.section1]);
+      await act(user(ids.teacher1));
+      await q(`insert into public.section_settings (section_id, goal_enabled) values ($1, false)`, [ids.section1]);
+      await act(user(ids.student1));
+      const [{ off }] = await q(`select public.section_goal($1) as off`, [ids.section1]);
+      return { goal, off };
+    });
+    expect(out.goal).toMatchObject({ enabled: true, target: 3, history: [0, 0, 0, 0] });
+    expect(out.off).toEqual({ enabled: false });
+  });
+
+  it("only the section's students and teacher can see it", async () => {
+    await expectDenied(db, s2, `select public.section_goal($1)`, [ids.section1], /not your section/);
+    await expectDenied(db, t2, `select public.section_goal($1)`, [ids.section1], /not your section/);
+    await expectDenied(db, anon, `select public.section_goal($1)`, [ids.section1], /permission denied/);
+    await expectDenied(db, s1, `insert into public.section_goals (section_id, week_start, target, active_students) values ($1, '2027-03-01', 1, 1)`, [ids.section1], /permission denied/);
+  });
+});
+
+describe("nicknames", () => {
+  it("the SQL lists are the same as the TypeScript ones", async () => {
+    const [r] = await as<{ nouns: string[]; adjectives: string[] }>(db, service, `select private.nickname_nouns() as nouns, private.nickname_adjectives() as adjectives`).catch(async () =>
+      (await db.query(`select private.nickname_nouns() as nouns, private.nickname_adjectives() as adjectives`)).rows as { nouns: string[]; adjectives: string[] }[]);
+    expect(r.nouns).toEqual([...NICKNAME_NOUNS]);
+    expect(r.adjectives).toEqual([...NICKNAME_ADJECTIVES]);
+  });
+
+  it("are chosen from the safe list, are unique and cannot be written directly", async () => {
+    const out = await scenario(async (q, act) => {
+      await act(user(ids.loner));
+      const options = (await q(`select public.nickname_options() as n`)).map((r) => r.n as string);
+      const [{ ok }] = await q(`select public.choose_nickname('Tucán Azul 27') as ok`);
+      const [{ bad }] = await q(`select public.choose_nickname('Juan Pérez 27') as bad`);
+      await act(user(ids.student1));
+      const [{ taken }] = await q(`select public.choose_nickname('Tucán Azul 27') as taken`);
+      return { options, ok, bad, taken };
+    });
+    expect(out.options).toHaveLength(6);
+    expect(out.options.every(isSafeNickname)).toBe(true);
+    expect(out.ok).toEqual({ ok: true });
+    expect(out.bad).toEqual({ ok: false, error: "not_in_list" });
+    expect(out.taken).toEqual({ ok: false, error: "taken" });
+    await expectDenied(db, s1, `update public.students set nickname = 'Juan Pérez' where id = $1`, [ids.student1], /permission denied/);
+    await expectDenied(db, user(ids.newDevice), `insert into public.students (id, nickname) values ($1, 'Juan Pérez')`, [ids.newDevice], /permission denied/);
+    await expectDenied(db, t1, `select public.choose_nickname('Tucán Azul 27')`, [], /staff accounts/);
+  });
+});
+
+describe("the week's table with nicknames", () => {
+  /** 8 classmates with nicknames and improvements 0.80, 0.70 … 0.10; returns their ids. */
+  async function table(q: Q) {
+    const mates = await classmates(q, 8);
+    for (let k = 0; k < mates.length; k++) {
+      await q(`update public.students set nickname = $2 where id = $1`, [mates[k], `Ceiba Feliz ${11 + k}`]);
+      await q(`insert into public.mastery_weekly (student_id, skill_id, week_start, score_start, score_end) values ($1, $2, $3, 0.1, $4)`, [mates[k], ids.skillPublished, thisWeek(), 0.1 + (8 - k) / 10]);
+    }
+    return mates;
+  }
+
+  it("matches leaderboardWindow(): own row, up to 2 above and 2 below, no last place, no ids", async () => {
+    const out = await scenario(async (q, act) => {
+      const mates = await table(q);
+      const views: Record<string, unknown> = {};
+      for (const k of [0, 3, 6, 7]) {
+        await act(user(mates[k]));
+        views[k] = (await q(`select public.section_leaderboard($1) as t`, [ids.section1]))[0].t;
+        await act(null);
+      }
+      return { mates, views };
+    });
+    const entries = out.mates.map((id, k) => ({ id, nickname: `Ceiba Feliz ${11 + k}`, hidden: false, improvement: (8 - k) / 10 }));
+    for (const k of [0, 3, 6, 7]) {
+      const view = out.views[k] as { rows: { nickname: string; points: number; me: boolean }[]; enough: boolean };
+      expect(view.enough).toBe(true);
+      expect(view.rows).toEqual(leaderboardWindow(entries, out.mates[k]));
+      for (const row of view.rows) expect(Object.keys(row).sort()).toEqual(["me", "nickname", "points"]);
+    }
+    // The last place (Ceiba Feliz 18) is only visible to that student.
+    expect(JSON.stringify(out.views[6])).not.toContain("Ceiba Feliz 18");
+    expect(JSON.stringify(out.views[7])).toContain("Ceiba Feliz 18");
+  });
+
+  it("hidden students disappear; with fewer than 4 ranked nothing is shown", async () => {
+    const out = await scenario(async (q, act) => {
+      const mates = await table(q);
+      await act(user(mates[1]));
+      await q(`select public.set_leaderboard_hidden(true)`);
+      await act(user(mates[0]));
+      const [{ t }] = await q(`select public.section_leaderboard($1) as t`, [ids.section1]);
+      await act(null);
+      await q(`update public.students set leaderboard_hidden = true where id = any($1)`, [mates.slice(2, 7)]);
+      await act(user(mates[0]));
+      const [{ few }] = await q(`select public.section_leaderboard($1) as few`, [ids.section1]);
+      await act(null);
+      const ev = await q(`select props from public.events where actor_id = $1 and name = 'leaderboard_hidden'`, [mates[1]]);
+      return { t, few, ev };
+    });
+    expect(JSON.stringify(out.t)).not.toContain("Ceiba Feliz 12");
+    expect(out.few).toMatchObject({ enough: false, rows: [], me: { nickname: "Ceiba Feliz 11", points: 80 } });
+    expect(out.ev).toEqual([{ props: { hidden: true } }]);
+  });
+
+  it("is for the section's students only; the teacher sees counts, and can turn it off", async () => {
+    await expectDenied(db, s2, `select public.section_leaderboard($1)`, [ids.section1], /not your section/);
+    await expectDenied(db, t1, `select public.section_leaderboard($1)`, [ids.section1], /not your section/);
+    const out = await scenario(async (q, act) => {
+      await table(q);
+      await act(user(ids.teacher1));
+      const [{ c }] = await q(`select public.section_leaderboard_summary($1) as c`, [ids.section1]);
+      const [{ other }] = await q(`select public.section_leaderboard_summary($1) as other`, [ids.section2]);
+      await q(`insert into public.section_settings (section_id, leaderboard_enabled) values ($1, false)`, [ids.section1]);
+      await act(user(ids.student1));
+      const [{ off }] = await q(`select public.section_leaderboard($1) as off`, [ids.section1]);
+      return { c, other, off };
+    });
+    expect(out.c).toEqual({ members: 10, with_nickname: 8, hidden: 0 });
+    expect(out.other).toBeNull();
+    expect(out.off).toEqual({ enabled: false });
+  });
+
+  it("a recovery code carries the nickname and the week's changes to the new device", async () => {
+    const out = await scenario(async (q, act) => {
+      await q(`update public.students set nickname = 'Lapa Leal 42' where id = $1`, [ids.student2]);
+      await q(`insert into public.mastery_weekly (student_id, skill_id, week_start, score_start, score_end) values ($1, $2, $3, 0.3, 0.6)
+               on conflict (student_id, skill_id, week_start) do update set score_start = 0.3, score_end = 0.6`, [ids.student2, ids.skillPublished, thisWeek()]);
+      await act(user(ids.student2));
+      const [{ code }] = await q(`select public.create_recovery_code() as code`);
+      await act(user(ids.newDevice));
+      const [{ r }] = await q(`select public.redeem_recovery_code($1) as r`, [code]);
+      await act(null);
+      const [st] = await q(`select nickname from public.students where id = $1`, [ids.newDevice]);
+      const weekly = await q(`select count(*)::int as n from public.mastery_weekly where student_id = $1`, [ids.newDevice]);
+      return { r, st, weekly };
+    });
+    expect(out.r.ok).toBe(true);
+    expect(out.st.nickname).toBe("Lapa Leal 42");
+    expect(out.weekly[0].n).toBe(1);
+  });
+});
+
+describe("section pause (fix of fase 1)", () => {
+  it("a year without a calendar does not pause the section; the MEP 2027 break does", async () => {
+    const rows = await db.query(
+      `select private.week_paused_for_section($1, '2026-11-02') as no_calendar,
+              private.week_paused_for_section($1, '2027-07-12') as mep_break,
+              private.week_paused_for_section($1, '2027-03-08') as mep_class`,
+      [ids.section1],
+    );
+    expect(rows.rows[0]).toEqual({ no_calendar: false, mep_break: true, mep_class: false });
+    const [summary] = await as<{ s: { paused: boolean } }>(db, t1, `select public.section_streak_summary($1) as s`, [ids.section1]);
+    expect(summary.s.paused).toBe(false);
   });
 });

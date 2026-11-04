@@ -137,3 +137,15 @@ export const DEMO_STREAK = {
   enabled: true,
   paused: false,
 } as const;
+
+/** Weekly goal and table of the demo section (fictitious, labelled as demo). */
+export const DEMO_GOAL = {
+  enabled: true,
+  target: 15,
+  progress: 11,
+  paused: false,
+  active_students: 24,
+  history: [12, 14, 13, 15],
+} as const;
+
+export const DEMO_LEADERBOARD_SUMMARY = { members: 26, with_nickname: 21, hidden: 3 } as const;
