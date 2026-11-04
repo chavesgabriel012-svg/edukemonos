@@ -1,0 +1,727 @@
+{
+  "unitId": "cc2d3394-8aa3-4c49-9cf7-b315af28bb69",
+  "createdAt": "2026-11-04T17:52:06.358Z",
+  "models": {
+    "games": "claude-sonnet-5-5",
+    "solve": "claude-sonnet-5-5"
+  },
+  "prompts": {
+    "games": "generate-games-system@1",
+    "solve": "solve-games-system@1"
+  },
+  "pieces": [
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 0,
+        "instruction": "Une cada objeto o situación con el concepto geométrico que representa.",
+        "pairs": [
+          {
+            "left": "La marca más pequeña que deja la punta de un lápiz",
+            "right": "Punto"
+          },
+          {
+            "left": "Un hilo bien estirado entre dos clavos",
+            "right": "Segmento"
+          },
+          {
+            "left": "El rayo de luz de una linterna, que sale de un punto y sigue sin fin",
+            "right": "Semirrecta (rayo)"
+          },
+          {
+            "left": "La superficie de una mesa imaginada que se extiende sin fin",
+            "right": "Plano"
+          },
+          {
+            "left": "Una línea recta sin principio ni fin, con flechas en ambos extremos",
+            "right": "Recta"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Cada objeto se parece a un solo concepto: el punto es una marca sin tamaño, el segmento tiene dos extremos, la semirrecta empieza en un punto y no termina, el plano es una superficie sin fin y la recta no tiene principio ni fin."
+      },
+      "seed": "cc2d3394-8aa3-4c49-9cf7-b315af28bb69:0",
+      "solved": {
+        "game": 1,
+        "match": [
+          5,
+          1,
+          4,
+          3,
+          2
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Completa el enunciado con la opción correcta.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Tres puntos que están sobre una misma recta se llaman puntos ___.",
+        "options": [
+          "colineales",
+          "no colineales",
+          "paralelos",
+          "medios"
+        ],
+        "answer_index": 0,
+        "correction": null,
+        "calc": null,
+        "explanation": "Los puntos que están sobre una misma recta son colineales. Si no se pueden unir con una sola recta, son no colineales."
+      },
+      "seed": "cc2d3394-8aa3-4c49-9cf7-b315af28bb69:1",
+      "solved": {
+        "game": 2,
+        "match": null,
+        "order": null,
+        "choice": 0,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Completa el enunciado con la opción correcta.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Las cuatro esquinas del piso plano de un aula son puntos ___.",
+        "options": [
+          "colineales",
+          "coplanares",
+          "concurrentes",
+          "medios"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": null,
+        "explanation": "Las cuatro esquinas están en el mismo plano, el del piso, así que son coplanares. No están sobre una misma recta, por eso no son colineales."
+      },
+      "seed": "cc2d3394-8aa3-4c49-9cf7-b315af28bb69:2",
+      "solved": {
+        "game": 3,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 0,
+        "instruction": "Una de estas frases tiene un error. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "Un segmento tiene dos extremos.",
+          "Una recta no tiene principio ni fin.",
+          "Una semirrecta tiene un punto de origen y se extiende sin fin en un sentido.",
+          "Tres puntos colineales no están sobre una misma recta.",
+          "Un plano se extiende sin fin en todas las direcciones."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 3,
+        "correction": "Tres puntos colineales sí están sobre una misma recta.",
+        "calc": null,
+        "explanation": "Colineales significa que están alineados sobre una misma recta. Las demás frases describen bien el segmento, la recta, la semirrecta y el plano."
+      },
+      "seed": "cc2d3394-8aa3-4c49-9cf7-b315af28bb69:3",
+      "solved": {
+        "game": 4,
+        "match": null,
+        "order": null,
+        "choice": 4,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 1,
+        "instruction": "Completa con la medida correcta.",
+        "pairs": null,
+        "steps": null,
+        "stem": "M es el punto medio del segmento AB y AB mide 14 cm. Entonces AM mide ___ cm.",
+        "options": [
+          "28",
+          "14",
+          "7",
+          "21"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": "14/2",
+        "explanation": "El punto medio divide el segmento en dos partes iguales, así que AM es la mitad de AB: 14 ÷ 2 = 7 cm."
+      },
+      "seed": "cc2d3394-8aa3-4c49-9cf7-b315af28bb69:4",
+      "solved": {
+        "game": 5,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 1,
+        "instruction": "Completa con el número correcto.",
+        "pairs": null,
+        "steps": null,
+        "stem": "En una recta numérica, el punto A está en 3 y el punto B en 11. El punto medio de AB está en ___.",
+        "options": [
+          "14",
+          "8",
+          "6",
+          "7"
+        ],
+        "answer_index": 3,
+        "correction": null,
+        "calc": "(3+11)/2",
+        "explanation": "El punto medio está a la mitad entre 3 y 11: (3 + 11) ÷ 2 = 14 ÷ 2 = 7. Está a 4 unidades de cada extremo."
+      },
+      "seed": "cc2d3394-8aa3-4c49-9cf7-b315af28bb69:5",
+      "solved": {
+        "game": 6,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 1,
+        "instruction": "Ordena los pasos para localizar el punto medio de un segmento con regla.",
+        "pairs": null,
+        "steps": [
+          "Mide con la regla la longitud del segmento AB.",
+          "Divide esa medida entre 2 para obtener la mitad.",
+          "Coloca el cero de la regla en A y mide esa mitad sobre el segmento.",
+          "Marca el punto M donde termina la mitad."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Primero necesitas la longitud total, luego sacas su mitad, después la mides desde un extremo y por último marcas el punto M."
+      },
+      "seed": "cc2d3394-8aa3-4c49-9cf7-b315af28bb69:6",
+      "solved": {
+        "game": 7,
+        "match": null,
+        "order": [
+          1,
+          4,
+          3,
+          2
+        ],
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 1,
+        "instruction": "Una de estas líneas de la resolución tiene un error. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "AB mide 18 cm y M es el punto medio de AB",
+          "AM = MB",
+          "AM = 18 × 2 = 36 cm",
+          "MB = 18 ÷ 2 = 9 cm"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "AM = 18 ÷ 2 = 9 cm",
+        "calc": null,
+        "explanation": "Para hallar la mitad se divide entre 2, no se multiplica. AM no puede medir más que todo el segmento AB."
+      },
+      "seed": "cc2d3394-8aa3-4c49-9cf7-b315af28bb69:7",
+      "solved": {
+        "game": 8,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 1,
+        "instruction": "Une cada medida del segmento AB con la medida de AM, si M es su punto medio.",
+        "pairs": [
+          {
+            "left": "AB mide 10 cm",
+            "right": "AM mide 5 cm"
+          },
+          {
+            "left": "AB mide 16 cm",
+            "right": "AM mide 8 cm"
+          },
+          {
+            "left": "AB mide 24 cm",
+            "right": "AM mide 12 cm"
+          },
+          {
+            "left": "AB mide 30 cm",
+            "right": "AM mide 15 cm"
+          },
+          {
+            "left": "AB mide 8 cm",
+            "right": "AM mide 4 cm"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Como M es el punto medio, AM es la mitad de AB: 10 ÷ 2 = 5, 16 ÷ 2 = 8, 24 ÷ 2 = 12, 30 ÷ 2 = 15 y 8 ÷ 2 = 4."
+      },
+      "seed": "cc2d3394-8aa3-4c49-9cf7-b315af28bb69:8",
+      "solved": {
+        "game": 9,
+        "match": [
+          4,
+          3,
+          2,
+          1,
+          5
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 2,
+        "instruction": "Completa el enunciado con la opción correcta.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Dos rectas en un mismo plano que nunca se cortan son rectas ___.",
+        "options": [
+          "perpendiculares",
+          "concurrentes",
+          "paralelas",
+          "colineales"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": null,
+        "explanation": "Las rectas paralelas están en el mismo plano y nunca se cortan, como los rieles de un tren."
+      },
+      "seed": "cc2d3394-8aa3-4c49-9cf7-b315af28bb69:9",
+      "solved": {
+        "game": 10,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 2,
+        "instruction": "Completa el enunciado con la opción correcta.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Tres rectas que pasan por un mismo punto son rectas ___.",
+        "options": [
+          "paralelas",
+          "perpendiculares",
+          "semirrectas",
+          "concurrentes"
+        ],
+        "answer_index": 3,
+        "correction": null,
+        "calc": null,
+        "explanation": "Las rectas concurrentes se cortan todas en un mismo punto, como los rayos de una llanta de bicicleta en su centro."
+      },
+      "seed": "cc2d3394-8aa3-4c49-9cf7-b315af28bb69:10",
+      "solved": {
+        "game": 11,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 2,
+        "instruction": "Ordena los pasos para trazar una recta perpendicular a otra con escuadra.",
+        "pairs": null,
+        "steps": [
+          "Dibuja la recta dada y marca un punto P sobre ella.",
+          "Apoya un lado de la escuadra sobre la recta, con el ángulo recto en P.",
+          "Traza una línea siguiendo el otro lado de la escuadra desde P.",
+          "Marca el cuadradito del ángulo recto donde se cruzan."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Primero necesitas la recta y el punto, luego colocas la escuadra, después trazas la nueva recta y al final marcas el ángulo recto que forman."
+      },
+      "seed": "cc2d3394-8aa3-4c49-9cf7-b315af28bb69:11",
+      "solved": {
+        "game": 12,
+        "match": null,
+        "order": [
+          2,
+          3,
+          4,
+          1
+        ],
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 3,
+        "instruction": "Une cada notación con lo que significa.",
+        "pairs": [
+          {
+            "left": "l ∥ m",
+            "right": "La recta l es paralela a la recta m"
+          },
+          {
+            "left": "l ⊥ m",
+            "right": "La recta l es perpendicular a la recta m"
+          },
+          {
+            "left": "A ∈ l",
+            "right": "El punto A pertenece a la recta l"
+          },
+          {
+            "left": "A ∉ l",
+            "right": "El punto A no pertenece a la recta l"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "∥ indica paralelas, ⊥ indica perpendiculares, ∈ indica que un punto pertenece y ∉ indica que no pertenece."
+      },
+      "seed": "cc2d3394-8aa3-4c49-9cf7-b315af28bb69:12",
+      "solved": {
+        "game": 13,
+        "match": [
+          3,
+          1,
+          4,
+          2
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 3,
+        "instruction": "Completa con el símbolo correcto.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Para decir que el punto P está sobre la recta m se escribe P ___ m.",
+        "options": [
+          "∥",
+          "⊥",
+          "∉",
+          "∈"
+        ],
+        "answer_index": 3,
+        "correction": null,
+        "calc": null,
+        "explanation": "El símbolo ∈ significa «pertenece a». Si P está sobre la recta m, se escribe P ∈ m."
+      },
+      "seed": "cc2d3394-8aa3-4c49-9cf7-b315af28bb69:13",
+      "solved": {
+        "game": 14,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 4,
+        "instruction": "Una de estas relaciones escritas con símbolos tiene un error. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "Los rieles de un tren no se cortan: r ∥ s",
+          "Dos lados vecinos de una hoja forman una esquina recta: a ⊥ b",
+          "El punto P está fuera de la recta t: P ∉ t",
+          "El punto Q está sobre la recta t: Q ∉ t"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 3,
+        "correction": "El punto Q está sobre la recta t: Q ∈ t",
+        "calc": null,
+        "explanation": "Si Q está sobre la recta t, pertenece a ella y se escribe Q ∈ t. El símbolo ∉ se usa cuando el punto no está sobre la recta."
+      },
+      "seed": "cc2d3394-8aa3-4c49-9cf7-b315af28bb69:14",
+      "solved": {
+        "game": 15,
+        "match": null,
+        "order": null,
+        "choice": 4,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 4,
+        "instruction": "Completa con el símbolo correcto.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Las rectas r y s están en un mismo plano y nunca se cortan. Se escribe r ___ s.",
+        "options": [
+          "⊥",
+          "∥",
+          "∈",
+          "∉"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": null,
+        "explanation": "Dos rectas del plano que nunca se cortan son paralelas y eso se escribe r ∥ s. El símbolo ⊥ se usa para perpendiculares."
+      },
+      "seed": "cc2d3394-8aa3-4c49-9cf7-b315af28bb69:15",
+      "solved": {
+        "game": 16,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    }
+  ],
+  "notes": "No se usó la notación con raya o flecha encima de las letras (segmento, recta, semirrecta) porque no se puede escribir de forma fiable sin LaTeX; la notación se trabajó con los símbolos ∥, ⊥, ∈ y ∉. Se omitieron pairs para la habilidad 2 y order para las habilidades 0, 3 y 4 porque no encajaban con una sola respuesta."
+}

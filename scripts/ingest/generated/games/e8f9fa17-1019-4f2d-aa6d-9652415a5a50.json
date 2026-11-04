@@ -1,0 +1,204 @@
+{
+  "unitId": "e8f9fa17-1019-4f2d-aa6d-9652415a5a50",
+  "createdAt": "2026-11-04T17:46:26.055Z",
+  "models": {
+    "games": "claude-sonnet-5-5",
+    "solve": "claude-sonnet-5-5"
+  },
+  "prompts": {
+    "games": "generate-games-system@1",
+    "solve": "solve-games-system@1"
+  },
+  "pieces": [
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 0,
+        "instruction": "Une cada elemento de la noticia o del cuento con su descripción.",
+        "pairs": [
+          {
+            "left": "Titular",
+            "right": "Frase destacada que resume el hecho principal de la noticia"
+          },
+          {
+            "left": "Entrada o lead",
+            "right": "Primer párrafo de la noticia que responde qué, quién, cuándo y dónde"
+          },
+          {
+            "left": "Nudo",
+            "right": "Parte del cuento en la que surge y se complica el conflicto"
+          },
+          {
+            "left": "Desenlace",
+            "right": "Parte del cuento en la que el conflicto se resuelve"
+          },
+          {
+            "left": "Narrador",
+            "right": "Voz que cuenta los hechos del cuento"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Cada elemento cumple una función distinta: el titular y la entrada son propios de la noticia, y el nudo, el desenlace y el narrador son propios del cuento."
+      },
+      "seed": "e8f9fa17-1019-4f2d-aa6d-9652415a5a50:0",
+      "solved": {
+        "game": 1,
+        "match": [
+          4,
+          1,
+          3,
+          5,
+          2
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 0,
+        "instruction": "Ordena las etapas de un cuento, desde el inicio hasta el final.",
+        "pairs": null,
+        "steps": [
+          "Se presentan los personajes, el lugar y el tiempo",
+          "Aparece un problema o conflicto",
+          "El conflicto se complica hasta el momento de mayor tensión",
+          "El conflicto se resuelve",
+          "La historia termina con el final del cuento"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "El cuento sigue la estructura de inicio, nudo y desenlace: primero se presenta la situación, luego surge y crece el conflicto, y al final se resuelve."
+      },
+      "seed": "e8f9fa17-1019-4f2d-aa6d-9652415a5a50:1",
+      "solved": {
+        "game": 2,
+        "match": null,
+        "order": [
+          5,
+          2,
+          1,
+          4,
+          3
+        ],
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Elige la opción que completa bien el enunciado.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Un texto que informa sobre un hecho real, reciente y de interés público, con datos que se pueden comprobar, es una ___.",
+        "options": [
+          "leyenda",
+          "fábula",
+          "noticia",
+          "novela"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": null,
+        "explanation": "La noticia informa sobre hechos reales y actuales. La leyenda, la fábula y la novela son textos literarios que pueden contener elementos inventados."
+      },
+      "seed": "e8f9fa17-1019-4f2d-aa6d-9652415a5a50:2",
+      "solved": {
+        "game": 3,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 0,
+        "instruction": "Una de estas frases sobre la noticia y el cuento es incorrecta. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "La noticia informa sobre hechos reales y recientes.",
+          "El cuento es un texto narrativo breve con personajes y un conflicto.",
+          "En la noticia, quien la redacta debe inventar datos para que sea más interesante.",
+          "En una noticia se responden preguntas como qué pasó, quién, cuándo y dónde."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "En la noticia, quien la redacta debe comprobar los datos y presentar solo hechos reales.",
+        "calc": null,
+        "explanation": "La noticia debe ser veraz. Inventar datos es propio del cuento, que es un texto de ficción, pero no de la noticia."
+      },
+      "seed": "e8f9fa17-1019-4f2d-aa6d-9652415a5a50:3",
+      "solved": {
+        "game": 4,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    }
+  ],
+  "notes": ""
+}

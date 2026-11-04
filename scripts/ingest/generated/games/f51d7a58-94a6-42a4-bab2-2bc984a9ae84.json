@@ -1,0 +1,715 @@
+{
+  "unitId": "f51d7a58-94a6-42a4-bab2-2bc984a9ae84",
+  "createdAt": "2026-11-04T17:52:40.265Z",
+  "models": {
+    "games": "claude-sonnet-5-5",
+    "solve": "claude-sonnet-5-5"
+  },
+  "prompts": {
+    "games": "generate-games-system@1",
+    "solve": "solve-games-system@1"
+  },
+  "pieces": [
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 0,
+        "instruction": "Une cada término con su descripción.",
+        "pairs": [
+          {
+            "left": "Ángulo llano",
+            "right": "Mide exactamente 180°"
+          },
+          {
+            "left": "Ángulos adyacentes",
+            "right": "Comparten el vértice y un lado, sin traslaparse"
+          },
+          {
+            "left": "Par lineal",
+            "right": "Adyacentes cuyos lados no comunes forman una recta"
+          },
+          {
+            "left": "Ángulos opuestos por el vértice",
+            "right": "Quedan frente a frente cuando dos rectas se cruzan"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Cada término se une con su descripción: el llano mide 180°, los adyacentes comparten vértice y un lado, el par lineal es un par de adyacentes que forma una recta, y los opuestos por el vértice quedan uno frente al otro."
+      },
+      "seed": "f51d7a58-94a6-42a4-bab2-2bc984a9ae84:0",
+      "solved": {
+        "game": 1,
+        "match": [
+          1,
+          4,
+          3,
+          2
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Completa el enunciado con la opción correcta.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Cuando dos rectas se cruzan, los ángulos que quedan uno frente al otro se llaman ángulos ___.",
+        "options": [
+          "Adyacentes",
+          "Llanos",
+          "Opuestos por el vértice",
+          "Complementarios"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": null,
+        "explanation": "Los ángulos que quedan frente a frente al cruzarse dos rectas, sin lados en común, son opuestos por el vértice.  Los adyacentes sí comparten un lado."
+      },
+      "seed": "f51d7a58-94a6-42a4-bab2-2bc984a9ae84:1",
+      "solved": {
+        "game": 2,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 0,
+        "instruction": "Una de estas frases tiene un error. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "Un ángulo llano mide 180°.",
+          "Los dos ángulos de un par lineal son adyacentes.",
+          "Los ángulos opuestos por el vértice comparten un lado.",
+          "Al cruzarse dos rectas se forman dos pares de ángulos opuestos por el vértice."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "Los ángulos opuestos por el vértice comparten solo el vértice; no tienen ningún lado en común.",
+        "calc": null,
+        "explanation": "Los opuestos por el vértice están frente a frente y solo tienen en común el vértice. Compartir un lado es una característica de los ángulos adyacentes."
+      },
+      "seed": "f51d7a58-94a6-42a4-bab2-2bc984a9ae84:2",
+      "solved": {
+        "game": 3,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 1,
+        "instruction": "Une cada pareja de ángulos con la relación que cumple.",
+        "pairs": [
+          {
+            "left": "30° y 60°",
+            "right": "Complementarios"
+          },
+          {
+            "left": "110° y 70°",
+            "right": "Suplementarios"
+          },
+          {
+            "left": "45° y 45°",
+            "right": "Congruentes"
+          },
+          {
+            "left": "50° y 60°",
+            "right": "Ninguna de las tres relaciones"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "30° + 60° = 90°, entonces son complementarios. 110° + 70° = 180°, entonces son suplementarios. 45° y 45° miden lo mismo, entonces son congruentes. 50° y 60° suman 110° y no miden lo mismo, por eso no cumplen ninguna relación."
+      },
+      "seed": "f51d7a58-94a6-42a4-bab2-2bc984a9ae84:3",
+      "solved": {
+        "game": 4,
+        "match": [
+          1,
+          2,
+          4,
+          3
+        ],
+        "order": null,
+        "choice": null,
+        "problems": "45° y 45° son congruentes, pero también son complementarios (suman 90°). La pareja 3 tiene dos respuestas defendibles: Complementarios y Congruentes. Se eligió Congruentes porque Complementarios ya corresponde a 30° y 60°."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "45° y 45° son congruentes, pero también son complementarios (suman 90°). La pareja 3 tiene dos respuestas defendibles: Complementarios y Congruentes. Se eligió Congruentes porque Complementarios ya corresponde a 30° y 60°."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: 45° y 45° son congruentes, pero también son complementarios (suman 90°). La pareja 3 tiene dos respuestas defendibles: Complementarios y Congruentes. Se eligió Congruentes porque Complementarios ya corresponde a 30° y 60°."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 1,
+        "instruction": "Completa el enunciado con la opción correcta.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Dos ángulos cuyas medidas suman 90° se llaman ángulos ___.",
+        "options": [
+          "Suplementarios",
+          "Congruentes",
+          "Adyacentes",
+          "Complementarios"
+        ],
+        "answer_index": 3,
+        "correction": null,
+        "calc": null,
+        "explanation": "Los ángulos complementarios suman 90°. Los suplementarios suman 180° y los congruentes tienen la misma medida."
+      },
+      "seed": "f51d7a58-94a6-42a4-bab2-2bc984a9ae84:4",
+      "solved": {
+        "game": 5,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 1,
+        "instruction": "Una de estas afirmaciones tiene un error. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "40° y 50° son complementarios porque 40° + 50° = 90°.",
+          "120° y 60° son suplementarios porque 120° + 60° = 180°.",
+          "35° y 35° son congruentes porque miden lo mismo.",
+          "70° y 20° son suplementarios porque 70° + 20° = 90°."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 3,
+        "correction": "70° y 20° son complementarios porque 70° + 20° = 90°.",
+        "calc": null,
+        "explanation": "Una suma de 90° indica ángulos complementarios. Para ser suplementarios, la suma tendría que ser 180°."
+      },
+      "seed": "f51d7a58-94a6-42a4-bab2-2bc984a9ae84:5",
+      "solved": {
+        "game": 6,
+        "match": null,
+        "order": null,
+        "choice": 4,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 2,
+        "instruction": "Calcula y completa con la opción correcta.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Dos ángulos son complementarios. Si uno mide 38°, el otro mide ___°.",
+        "options": [
+          "62",
+          "142",
+          "52",
+          "38"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": "90 - 38",
+        "explanation": "Los complementarios suman 90°, entonces el otro ángulo mide 90° − 38° = 52°."
+      },
+      "seed": "f51d7a58-94a6-42a4-bab2-2bc984a9ae84:6",
+      "solved": {
+        "game": 7,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 2,
+        "instruction": "Calcula y completa con la opción correcta.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Dos ángulos son suplementarios. Si uno mide 115°, el otro mide ___°.",
+        "options": [
+          "75",
+          "65",
+          "295",
+          "55"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": "180 - 115",
+        "explanation": "Los suplementarios suman 180°, entonces el otro ángulo mide 180° − 115° = 65°."
+      },
+      "seed": "f51d7a58-94a6-42a4-bab2-2bc984a9ae84:7",
+      "solved": {
+        "game": 8,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 2,
+        "instruction": "Ordena los pasos para hallar el complemento de un ángulo de 35°.",
+        "pairs": null,
+        "steps": [
+          "Identifica que los dos ángulos son complementarios.",
+          "Recuerda que los ángulos complementarios suman 90°.",
+          "Plantea la resta 90° − 35°.",
+          "Calcula: el otro ángulo mide 55°."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Primero se reconoce la relación, luego se recuerda cuánto suman, después se plantea la resta y al final se calcula el resultado."
+      },
+      "seed": "f51d7a58-94a6-42a4-bab2-2bc984a9ae84:8",
+      "solved": {
+        "game": 9,
+        "match": null,
+        "order": [
+          2,
+          1,
+          4,
+          3
+        ],
+        "choice": null,
+        "problems": "Los pasos 1 y 2 podrían intercambiarse (recordar la definición y luego identificar la relación), así que el orden no es único."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "Los pasos 1 y 2 podrían intercambiarse (recordar la definición y luego identificar la relación), así que el orden no es único."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: Los pasos 1 y 2 podrían intercambiarse (recordar la definición y luego identificar la relación), así que el orden no es único."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 2,
+        "instruction": "Una de estas líneas de la resolución tiene un error. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "Dato: A y B son suplementarios y A mide 128°.",
+          "A + B = 180°",
+          "128° + B = 180°",
+          "B = 180° − 128° = 42°"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 3,
+        "correction": "B = 180° − 128° = 52°",
+        "calc": null,
+        "explanation": "180 − 128 = 52, no 42. El error está en la resta del último paso."
+      },
+      "seed": "f51d7a58-94a6-42a4-bab2-2bc984a9ae84:9",
+      "solved": {
+        "game": 10,
+        "match": null,
+        "order": null,
+        "choice": 4,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 3,
+        "instruction": "Calcula y completa con la opción correcta.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Tres rectas se cortan en un punto. Sobre una de ellas, tres ángulos consecutivos de un mismo lado miden 50°, 60° y x. Entonces x = ___°.",
+        "options": [
+          "70",
+          "110",
+          "130",
+          "80"
+        ],
+        "answer_index": 0,
+        "correction": null,
+        "calc": "180 - 50 - 60",
+        "explanation": "Los tres ángulos consecutivos de un mismo lado de una recta forman un ángulo llano, así que suman 180°. Entonces x = 180° − 50° − 60° = 70°."
+      },
+      "seed": "f51d7a58-94a6-42a4-bab2-2bc984a9ae84:10",
+      "solved": {
+        "game": 11,
+        "match": null,
+        "order": null,
+        "choice": 0,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 3,
+        "instruction": "Una de estas líneas tiene un error. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "Tres rectas se cortan en un punto y forman seis ángulos.",
+          "Tres ángulos consecutivos de un mismo lado de una recta suman 180°: 45° + 75° + x = 180°.",
+          "x = 180° − 45° − 75° = 60°",
+          "El ángulo opuesto por el vértice a x mide 120°."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 3,
+        "correction": "El ángulo opuesto por el vértice a x mide 60°, porque es congruente con x.",
+        "calc": null,
+        "explanation": "Los ángulos opuestos por el vértice son congruentes, entonces el opuesto a x también mide 60°."
+      },
+      "seed": "f51d7a58-94a6-42a4-bab2-2bc984a9ae84:11",
+      "solved": {
+        "game": 12,
+        "match": null,
+        "order": null,
+        "choice": 4,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 4,
+        "instruction": "Une cada tipo de ángulos entre paralelas con su descripción.",
+        "pairs": [
+          {
+            "left": "Alternos internos",
+            "right": "Congruentes, entre las paralelas y en lados opuestos de la transversal"
+          },
+          {
+            "left": "Alternos externos",
+            "right": "Congruentes, fuera de las paralelas y en lados opuestos de la transversal"
+          },
+          {
+            "left": "Correspondientes",
+            "right": "Congruentes, en la misma posición en cada paralela"
+          },
+          {
+            "left": "Conjugados internos",
+            "right": "Suplementarios, entre las paralelas y del mismo lado de la transversal"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Cada tipo se reconoce por su posición respecto a las paralelas y a la transversal. Los alternos y los correspondientes son congruentes; los conjugados internos suman 180°."
+      },
+      "seed": "f51d7a58-94a6-42a4-bab2-2bc984a9ae84:12",
+      "solved": {
+        "game": 13,
+        "match": [
+          4,
+          1,
+          2,
+          3
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 4,
+        "instruction": "Completa con la opción correcta.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Dos rectas paralelas son cortadas por una transversal. Si un ángulo mide 65°, su ángulo alterno interno mide ___°.",
+        "options": [
+          "115",
+          "65",
+          "25",
+          "90"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": null,
+        "explanation": "Entre rectas paralelas, los ángulos alternos internos son congruentes, así que miden lo mismo: 65°."
+      },
+      "seed": "f51d7a58-94a6-42a4-bab2-2bc984a9ae84:13",
+      "solved": {
+        "game": 14,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 4,
+        "instruction": "Calcula y completa con la opción correcta.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Dos rectas paralelas son cortadas por una transversal. Si un ángulo interno mide 65°, su ángulo conjugado interno mide ___°.",
+        "options": [
+          "65",
+          "25",
+          "115",
+          "90"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": "180 - 65",
+        "explanation": "Entre paralelas, los conjugados internos son suplementarios y suman 180°. Entonces mide 180° − 65° = 115°."
+      },
+      "seed": "f51d7a58-94a6-42a4-bab2-2bc984a9ae84:14",
+      "solved": {
+        "game": 15,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 4,
+        "instruction": "Una de estas afirmaciones sobre rectas paralelas cortadas por una transversal tiene un error. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "Los ángulos correspondientes entre paralelas son congruentes.",
+          "Los ángulos alternos internos entre paralelas son congruentes.",
+          "Los ángulos conjugados internos entre paralelas son congruentes.",
+          "Los ángulos opuestos por el vértice siempre son congruentes."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "Los ángulos conjugados internos entre paralelas son suplementarios: suman 180°.",
+        "calc": null,
+        "explanation": "Los conjugados internos no miden lo mismo en general; suman 180°. Solo miden lo mismo si ambos son de 90°."
+      },
+      "seed": "f51d7a58-94a6-42a4-bab2-2bc984a9ae84:15",
+      "solved": {
+        "game": 16,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    }
+  ],
+  "notes": ""
+}

@@ -1,0 +1,204 @@
+{
+  "unitId": "173495d6-0e5c-4593-8113-55c1e4dd06e5",
+  "createdAt": "2026-11-04T17:56:06.186Z",
+  "models": {
+    "games": "claude-sonnet-5-5",
+    "solve": "claude-sonnet-5-5"
+  },
+  "prompts": {
+    "games": "generate-games-system@1",
+    "solve": "solve-games-system@1"
+  },
+  "pieces": [
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 0,
+        "instruction": "Une cada experimento aleatorio con su espacio muestral.",
+        "pairs": [
+          {
+            "left": "Lanzar un dado una vez",
+            "right": "{1, 2, 3, 4, 5, 6}"
+          },
+          {
+            "left": "Lanzar una moneda una vez",
+            "right": "{C, S}"
+          },
+          {
+            "left": "Lanzar una moneda dos veces",
+            "right": "{CC, CS, SC, SS}"
+          },
+          {
+            "left": "Sacar una bola de una bolsa con una bola roja, una azul y una verde",
+            "right": "{roja, azul, verde}"
+          },
+          {
+            "left": "Elegir al azar un día del fin de semana",
+            "right": "{sábado, domingo}"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "El espacio muestral reúne todos los resultados simples posibles del experimento. En las monedas, C es cara y S es sello. Cada experimento tiene un conjunto distinto de resultados."
+      },
+      "seed": "173495d6-0e5c-4593-8113-55c1e4dd06e5:0",
+      "solved": {
+        "game": 1,
+        "match": [
+          2,
+          5,
+          3,
+          4,
+          1
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 0,
+        "instruction": "Ordena los pasos para representar con un diagrama de árbol el espacio muestral de lanzar una moneda tres veces.",
+        "pairs": null,
+        "steps": [
+          "Identifica el experimento: lanzar una moneda tres veces.",
+          "Anota los resultados de un lanzamiento: cara (C) o sello (S).",
+          "Dibuja el diagrama de árbol con tres niveles, uno por lanzamiento.",
+          "Recorre cada rama del árbol de principio a fin y escribe el resultado que forma.",
+          "Reúne los 8 resultados en un conjunto: ese es el espacio muestral."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Primero se debe entender el experimento y sus resultados en un lanzamiento. Después se construye el árbol, se leen las ramas completas y al final se juntan todos los puntos muestrales en el espacio muestral."
+      },
+      "seed": "173495d6-0e5c-4593-8113-55c1e4dd06e5:1",
+      "solved": {
+        "game": 2,
+        "match": null,
+        "order": [
+          4,
+          5,
+          2,
+          1,
+          3
+        ],
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Elige la opción que completa el enunciado.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Al lanzar una moneda tres veces, el espacio muestral tiene ___ puntos muestrales.",
+        "options": [
+          "6",
+          "8",
+          "9",
+          "3"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": "2^3",
+        "explanation": "Cada lanzamiento tiene 2 resultados posibles y se lanza 3 veces: 2 × 2 × 2 = 2³ = 8. Los puntos son CCC, CCS, CSC, CSS, SCC, SCS, SSC y SSS."
+      },
+      "seed": "173495d6-0e5c-4593-8113-55c1e4dd06e5:2",
+      "solved": {
+        "game": 3,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 0,
+        "instruction": "Una de estas frases tiene un error. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "Experimento: lanzar una moneda dos veces; cada lanzamiento da cara (C) o sello (S).",
+          "Si el primer lanzamiento es C, se obtiene CC o CS.",
+          "Si el primer lanzamiento es S, se obtiene SC o SS.",
+          "Como CS y SC son el mismo resultado, el espacio muestral es {CC, CS, SS}."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 3,
+        "correction": "CS y SC son resultados distintos porque importa el orden de los lanzamientos; el espacio muestral es {CC, CS, SC, SS}, con 4 puntos muestrales.",
+        "calc": null,
+        "explanation": "CS significa cara en el primer lanzamiento y sello en el segundo, mientras que SC es lo contrario. Son dos puntos muestrales distintos, por eso no se puede eliminar ninguno."
+      },
+      "seed": "173495d6-0e5c-4593-8113-55c1e4dd06e5:3",
+      "solved": {
+        "game": 4,
+        "match": null,
+        "order": null,
+        "choice": 4,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    }
+  ],
+  "notes": ""
+}

@@ -1,0 +1,349 @@
+{
+  "unitId": "15f1d2be-7533-4d86-83ed-b0e8811db333",
+  "createdAt": "2026-11-04T17:50:40.468Z",
+  "models": {
+    "games": "claude-sonnet-5-5",
+    "solve": "claude-sonnet-5-5"
+  },
+  "prompts": {
+    "games": "generate-games-system@1",
+    "solve": "solve-games-system@1"
+  },
+  "pieces": [
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 0,
+        "instruction": "Une cada expresión compleja con su significado.",
+        "pairs": [
+          {
+            "left": "sabelotodo",
+            "right": "persona que presume de saberlo todo"
+          },
+          {
+            "left": "metomentodo",
+            "right": "persona que se entromete en todo"
+          },
+          {
+            "left": "correveidile",
+            "right": "persona que lleva y trae chismes"
+          },
+          {
+            "left": "hazmerreír",
+            "right": "persona que provoca la risa de los demás"
+          },
+          {
+            "left": "sinvergüenza",
+            "right": "persona que actúa sin pudor ni respeto"
+          },
+          {
+            "left": "tentempié",
+            "right": "alimento ligero entre comidas"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Cada expresión compleja se escribe como una sola palabra y tiene un significado propio que no coincide con el de ninguna otra de la lista."
+      },
+      "seed": "15f1d2be-7533-4d86-83ed-b0e8811db333:0",
+      "solved": {
+        "game": 1,
+        "match": [
+          3,
+          2,
+          1,
+          6,
+          5,
+          4
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Elige la forma correcta para completar la oración.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Mariana siempre corrige a todos en clase; es la ___ del grupo.",
+        "options": [
+          "sabelatoda",
+          "sabe lo todo",
+          "sabelotodo",
+          "sabelatodo"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": null,
+        "explanation": "«Sabelotodo» se escribe en una sola palabra y no cambia según el género: se dice «el sabelotodo» y «la sabelotodo»."
+      },
+      "seed": "15f1d2be-7533-4d86-83ed-b0e8811db333:1",
+      "solved": {
+        "game": 2,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": "La oración dice \"la ___ del grupo\" (femenino), pero la forma correcta \"sabelotodo\" es invariable en género, así que sirve. La opción 3 \"sabelatodo\" y la 0 \"sabelatoda\" son incorrectas. Hay una sola respuesta, pero la redacción con \"la\" puede confundir al estudiante."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "La oración dice \"la ___ del grupo\" (femenino), pero la forma correcta \"sabelotodo\" es invariable en género, así que sirve. La opción 3 \"sabelatodo\" y la 0 \"sabelatoda\" son incorrectas. Hay una sola respuesta, pero la redacción con \"la\" puede confundir al estudiante."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: La oración dice \"la ___ del grupo\" (femenino), pero la forma correcta \"sabelotodo\" es invariable en género, así que sirve. La opción 3 \"sabelatodo\" y la 0 \"sabelatoda\" son incorrectas. Hay una sola respuesta, pero la redacción con \"la\" puede confundir al estudiante."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 0,
+        "instruction": "Una de estas oraciones tiene un error en la escritura de una expresión compleja. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "Mi hermano mayor es un sabelotodo.",
+          "Mi prima es una sabelotoda.",
+          "Don Carlos es un metomentodo del barrio.",
+          "Ese vecino es un correveidile."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 1,
+        "correction": "Mi prima es una sabelotodo.",
+        "calc": null,
+        "explanation": "«Sabelotodo» es invariable en género, así que no se cambia la -o final por -a aunque se refiera a una mujer."
+      },
+      "seed": "15f1d2be-7533-4d86-83ed-b0e8811db333:2",
+      "solved": {
+        "game": 3,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": "\"Sabelotodo\" es invariable en género; \"sabelotoda\" es incorrecto. Es el único paso con error."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "\"Sabelotodo\" es invariable en género; \"sabelotoda\" es incorrecto. Es el único paso con error."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: \"Sabelotodo\" es invariable en género; \"sabelotoda\" es incorrecto. Es el único paso con error."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 1,
+        "instruction": "Une cada técnica de comunicación oral con su característica.",
+        "pairs": [
+          {
+            "left": "Debate",
+            "right": "Se defienden posturas opuestas con argumentos ante un moderador."
+          },
+          {
+            "left": "Foro",
+            "right": "El público participa con preguntas u opiniones sobre un tema."
+          },
+          {
+            "left": "Entrevista",
+            "right": "Una persona pregunta y otra responde para dar información."
+          },
+          {
+            "left": "Exposición oral",
+            "right": "Una persona presenta un tema a un auditorio de forma organizada."
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Cada técnica se distingue por quiénes participan y cómo se organiza la comunicación: posturas opuestas, participación del público, preguntas y respuestas, o una presentación a cargo de una sola persona."
+      },
+      "seed": "15f1d2be-7533-4d86-83ed-b0e8811db333:3",
+      "solved": {
+        "game": 4,
+        "match": [
+          2,
+          1,
+          4,
+          3
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 1,
+        "instruction": "Ordena las etapas de una mesa redonda.",
+        "pairs": null,
+        "steps": [
+          "El moderador presenta el tema y a los participantes.",
+          "Cada participante expone su punto de vista.",
+          "Los participantes dialogan e intercambian ideas.",
+          "El moderador resume las ideas principales y cierra."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Primero se presenta el tema, luego se exponen las ideas, después se dialoga sobre ellas y al final el moderador resume y cierra."
+      },
+      "seed": "15f1d2be-7533-4d86-83ed-b0e8811db333:4",
+      "solved": {
+        "game": 5,
+        "match": null,
+        "order": [
+          4,
+          1,
+          2,
+          3
+        ],
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 1,
+        "instruction": "Elige la opción que completa correctamente el enunciado.",
+        "pairs": null,
+        "steps": null,
+        "stem": "En una mesa redonda, quien modera tiene la función de ___.",
+        "options": [
+          "defender su opinión por encima de las demás",
+          "dar turnos de palabra y cuidar el tiempo",
+          "hablar sin parar durante todo el programa",
+          "leer un discurso memorizado"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": null,
+        "explanation": "El moderador organiza la conversación: presenta el tema, da la palabra a cada participante y controla el tiempo para que todos intervengan."
+      },
+      "seed": "15f1d2be-7533-4d86-83ed-b0e8811db333:5",
+      "solved": {
+        "game": 6,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 1,
+        "instruction": "Una de estas frases sobre el debate es incorrecta. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "En un debate se presentan posturas distintas sobre un tema.",
+          "Un moderador da la palabra y cuida el orden.",
+          "Cada participante defiende su postura con argumentos.",
+          "Gana quien habla más fuerte e interrumpe a los demás.",
+          "Quienes participan deben respetar los turnos de palabra."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 3,
+        "correction": "Se valora a quien argumenta con claridad y respeta los turnos de los demás.",
+        "calc": null,
+        "explanation": "En un debate no importa gritar ni interrumpir: lo que cuenta son los argumentos y el respeto a los turnos de palabra."
+      },
+      "seed": "15f1d2be-7533-4d86-83ed-b0e8811db333:6",
+      "solved": {
+        "game": 7,
+        "match": null,
+        "order": null,
+        "choice": 4,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    }
+  ],
+  "notes": "El contenido del programa no precisa cuál técnica de comunicación oral se trabaja, por lo que usé técnicas comunes en este nivel (debate, foro, entrevista, exposición, mesa redonda). No hice una pieza de «order» para la habilidad 0 porque escribir expresiones complejas no sigue un orden único de pasos."
+}

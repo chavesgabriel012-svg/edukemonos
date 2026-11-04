@@ -1,0 +1,516 @@
+{
+  "unitId": "db8ff9ad-f84f-4611-90da-ab182c0fafba",
+  "createdAt": "2026-11-04T17:55:21.601Z",
+  "models": {
+    "games": "claude-sonnet-5-5",
+    "solve": "claude-sonnet-5-5"
+  },
+  "prompts": {
+    "games": "generate-games-system@1",
+    "solve": "solve-games-system@1"
+  },
+  "pieces": [
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 0,
+        "instruction": "Une cada elemento de la pirámide recta con su descripción.",
+        "pairs": [
+          {
+            "left": "Base",
+            "right": "Polígono sobre el que se apoya la pirámide"
+          },
+          {
+            "left": "Cara lateral",
+            "right": "Triángulo que une un lado de la base con el ápice"
+          },
+          {
+            "left": "Ápice o cúspide",
+            "right": "Vértice donde se juntan todas las caras laterales"
+          },
+          {
+            "left": "Altura",
+            "right": "Segmento perpendicular a la base que sale del ápice"
+          },
+          {
+            "left": "Apotema de la pirámide",
+            "right": "Altura de una cara lateral, del ápice al punto medio de un lado de la base"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Cada elemento tiene una descripción propia: la base es el polígono de apoyo, las caras laterales son triángulos, el ápice es el vértice superior, la altura es perpendicular a la base y la apotema es la altura de una cara lateral."
+      },
+      "seed": "db8ff9ad-f84f-4611-90da-ab182c0fafba:0",
+      "solved": {
+        "game": 1,
+        "match": [
+          2,
+          5,
+          3,
+          1,
+          4
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Elige la opción que completa el enunciado.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Una pirámide recta de base cuadrada tiene ___ caras laterales.",
+        "options": [
+          "3",
+          "4",
+          "5",
+          "8"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": null,
+        "explanation": "Hay una cara lateral triangular por cada lado de la base. Como el cuadrado tiene 4 lados, la pirámide tiene 4 caras laterales."
+      },
+      "seed": "db8ff9ad-f84f-4611-90da-ab182c0fafba:1",
+      "solved": {
+        "game": 2,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Calcula y elige la medida correcta de la apotema.",
+        "pairs": null,
+        "steps": null,
+        "stem": "En una pirámide recta de base cuadrada, la altura mide 12 cm y la distancia del centro de la base al punto medio de un lado mide 5 cm. La apotema de la pirámide mide ___ cm.",
+        "options": [
+          "17",
+          "7",
+          "13",
+          "169"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": "sqrt(12^2+5^2)",
+        "explanation": "La altura, la distancia del centro al punto medio del lado y la apotema forman un triángulo rectángulo. La apotema es la hipotenusa: √(12² + 5²) = √169 = 13 cm."
+      },
+      "seed": "db8ff9ad-f84f-4611-90da-ab182c0fafba:2",
+      "solved": {
+        "game": 3,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 0,
+        "instruction": "Una de estas frases sobre la pirámide recta es incorrecta. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "La base de una pirámide es un polígono.",
+          "Las caras laterales de una pirámide recta son triángulos.",
+          "El ápice es el vértice donde se unen todas las caras laterales.",
+          "La altura de la pirámide es el segmento que va del ápice al punto medio de un lado de la base."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 3,
+        "correction": "La altura de la pirámide es el segmento perpendicular a la base que va desde el ápice hasta la base. El segmento que llega al punto medio de un lado de la base es la apotema.",
+        "calc": null,
+        "explanation": "Se confunde la altura con la apotema. La altura es perpendicular a la base, mientras que la apotema es la altura de una cara lateral."
+      },
+      "seed": "db8ff9ad-f84f-4611-90da-ab182c0fafba:3",
+      "solved": {
+        "game": 4,
+        "match": null,
+        "order": null,
+        "choice": 4,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 1,
+        "instruction": "Une cada elemento o prisma con su descripción.",
+        "pairs": [
+          {
+            "left": "Base de un prisma recto",
+            "right": "Cada uno de los dos polígonos paralelos y congruentes"
+          },
+          {
+            "left": "Cara lateral de un prisma recto",
+            "right": "Rectángulo que une lados correspondientes de las dos bases"
+          },
+          {
+            "left": "Altura de un prisma recto",
+            "right": "Distancia entre las dos bases, medida con una arista lateral"
+          },
+          {
+            "left": "Prisma recto de base triangular",
+            "right": "Tiene 3 caras laterales"
+          },
+          {
+            "left": "Prisma recto de base hexagonal",
+            "right": "Tiene 6 caras laterales"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Las bases son los dos polígonos iguales y paralelos, las caras laterales son rectángulos, la altura es la distancia entre las bases y el número de caras laterales es igual al número de lados de la base."
+      },
+      "seed": "db8ff9ad-f84f-4611-90da-ab182c0fafba:4",
+      "solved": {
+        "game": 5,
+        "match": [
+          1,
+          5,
+          3,
+          2,
+          4
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 1,
+        "instruction": "Elige la opción que completa el enunciado.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Un prisma recto de base pentagonal tiene ___ caras en total.",
+        "options": [
+          "5",
+          "10",
+          "12",
+          "7"
+        ],
+        "answer_index": 3,
+        "correction": null,
+        "calc": "5+2",
+        "explanation": "Tiene 5 caras laterales rectangulares (una por cada lado del pentágono) y 2 bases pentagonales: 5 + 2 = 7 caras."
+      },
+      "seed": "db8ff9ad-f84f-4611-90da-ab182c0fafba:5",
+      "solved": {
+        "game": 6,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 1,
+        "instruction": "Revisa el análisis de un prisma recto de base triangular. Un paso tiene un error.",
+        "pairs": null,
+        "steps": [
+          "Caras laterales = 3",
+          "Bases = 2",
+          "Caras totales = 3 + 2 = 6",
+          "Las caras laterales son rectángulos"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "Caras totales = 3 + 2 = 5",
+        "calc": null,
+        "explanation": "La suma 3 + 2 da 5, no 6. Un prisma recto de base triangular tiene 5 caras: 3 laterales y 2 bases."
+      },
+      "seed": "db8ff9ad-f84f-4611-90da-ab182c0fafba:6",
+      "solved": {
+        "game": 7,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 2,
+        "instruction": "Une cada corte plano de una pirámide recta con la figura que se obtiene.",
+        "pairs": [
+          {
+            "left": "Pirámide de base cuadrada, corte paralelo a la base",
+            "right": "Un cuadrado menor que la base"
+          },
+          {
+            "left": "Pirámide de base triangular, corte paralelo a la base",
+            "right": "Un triángulo semejante a la base"
+          },
+          {
+            "left": "Pirámide de base rectangular (no cuadrada), corte paralelo a la base",
+            "right": "Un rectángulo semejante a la base"
+          },
+          {
+            "left": "Pirámide de base cuadrada, corte vertical que pasa por el ápice y por los puntos medios de dos lados opuestos",
+            "right": "Un triángulo isósceles"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Un corte paralelo a la base da una figura semejante a la base. Un corte vertical que pasa por el ápice da un triángulo, que en este caso es isósceles."
+      },
+      "seed": "db8ff9ad-f84f-4611-90da-ab182c0fafba:7",
+      "solved": {
+        "game": 8,
+        "match": [
+          4,
+          3,
+          2,
+          1
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 2,
+        "instruction": "Elige la opción que completa el enunciado.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Al cortar una pirámide recta de base cuadrada con un plano paralelo a la base, la sección que se obtiene es un ___.",
+        "options": [
+          "cuadrado",
+          "triángulo",
+          "círculo",
+          "hexágono"
+        ],
+        "answer_index": 0,
+        "correction": null,
+        "calc": null,
+        "explanation": "Un corte paralelo a la base produce una figura semejante a la base. Como la base es un cuadrado, la sección es un cuadrado más pequeño."
+      },
+      "seed": "db8ff9ad-f84f-4611-90da-ab182c0fafba:8",
+      "solved": {
+        "game": 9,
+        "match": null,
+        "order": null,
+        "choice": 0,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 2,
+        "instruction": "Elige la opción que completa el enunciado.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Un plano pasa por el ápice de una pirámide recta de base cuadrada y corta la base en un segmento. La sección tiene forma de ___.",
+        "options": [
+          "cuadrado",
+          "trapecio",
+          "triángulo",
+          "rectángulo"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": null,
+        "explanation": "El plano toca el ápice y un segmento de la base. La sección tiene un vértice en el ápice y dos en los extremos de ese segmento, por eso es un triángulo."
+      },
+      "seed": "db8ff9ad-f84f-4611-90da-ab182c0fafba:9",
+      "solved": {
+        "game": 10,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 2,
+        "instruction": "Una de estas afirmaciones sobre secciones planas de pirámides es incorrecta. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "Un corte paralelo a la base de una pirámide de base cuadrada da un cuadrado.",
+          "Un corte paralelo a la base de una pirámide de base triangular da un triángulo.",
+          "Un corte paralelo a la base de una pirámide de base rectangular da un círculo.",
+          "Un corte paralelo a la base de una pirámide da una figura semejante a la base."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "Un corte paralelo a la base de una pirámide de base rectangular da un rectángulo semejante a la base.",
+        "calc": null,
+        "explanation": "Un corte paralelo a la base siempre da una figura semejante a la base. Si la base es un rectángulo, la sección es un rectángulo, no un círculo."
+      },
+      "seed": "db8ff9ad-f84f-4611-90da-ab182c0fafba:10",
+      "solved": {
+        "game": 11,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    }
+  ],
+  "notes": "No se incluyó ninguna pieza de ordenar pasos porque en estas habilidades no hay un procedimiento con un único orden válido. El extracto del programa no trae datos del problema inicial."
+}

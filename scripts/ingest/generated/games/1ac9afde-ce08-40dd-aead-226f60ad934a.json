@@ -1,0 +1,729 @@
+{
+  "unitId": "1ac9afde-ce08-40dd-aead-226f60ad934a",
+  "createdAt": "2026-11-04T17:58:26.585Z",
+  "models": {
+    "games": "claude-sonnet-5-5",
+    "solve": "claude-sonnet-5-5"
+  },
+  "prompts": {
+    "games": "generate-games-system@1",
+    "solve": "solve-games-system@1"
+  },
+  "pieces": [
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 0,
+        "instruction": "Une cada medida en grados con su equivalente en radianes.",
+        "pairs": [
+          {
+            "left": "180°",
+            "right": "π"
+          },
+          {
+            "left": "90°",
+            "right": "π/2"
+          },
+          {
+            "left": "60°",
+            "right": "π/3"
+          },
+          {
+            "left": "45°",
+            "right": "π/4"
+          },
+          {
+            "left": "30°",
+            "right": "π/6"
+          },
+          {
+            "left": "270°",
+            "right": "3π/2"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Se multiplica los grados por π/180 y se simplifica. Por ejemplo, 90 × π/180 = π/2 y 270 × π/180 = 3π/2."
+      },
+      "seed": "1ac9afde-ce08-40dd-aead-226f60ad934a:0",
+      "solved": {
+        "game": 1,
+        "match": [
+          6,
+          3,
+          1,
+          5,
+          4,
+          2
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Completa con la medida correcta en radianes.",
+        "pairs": null,
+        "steps": null,
+        "stem": "150° equivale a ___ radianes.",
+        "options": [
+          "3π/4",
+          "5π/3",
+          "5π/6",
+          "2π/3"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": null,
+        "explanation": "150 × π/180 = 150π/180. Al simplificar dividiendo entre 30 queda 5π/6."
+      },
+      "seed": "1ac9afde-ce08-40dd-aead-226f60ad934a:1",
+      "solved": {
+        "game": 2,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 0,
+        "instruction": "Ordena los pasos para convertir grados a radianes.",
+        "pairs": null,
+        "steps": [
+          "Escribe la medida del ángulo en grados.",
+          "Multiplica la medida por π/180.",
+          "Simplifica la fracción que obtuviste.",
+          "Escribe el resultado con π, en radianes."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Primero se parte de los grados, luego se multiplica por π/180, después se simplifica y al final se escribe el resultado en radianes."
+      },
+      "seed": "1ac9afde-ce08-40dd-aead-226f60ad934a:2",
+      "solved": {
+        "game": 3,
+        "match": null,
+        "order": [
+          2,
+          1,
+          3,
+          4
+        ],
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 1,
+        "instruction": "Une cada razón o elemento del triángulo rectángulo con su descripción.",
+        "pairs": [
+          {
+            "left": "Seno de A",
+            "right": "cateto opuesto ÷ hipotenusa"
+          },
+          {
+            "left": "Coseno de A",
+            "right": "cateto adyacente ÷ hipotenusa"
+          },
+          {
+            "left": "Tangente de A",
+            "right": "cateto opuesto ÷ cateto adyacente"
+          },
+          {
+            "left": "Hipotenusa",
+            "right": "lado opuesto al ángulo recto"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Seno usa opuesto e hipotenusa, coseno usa adyacente e hipotenusa y tangente usa opuesto y adyacente. La hipotenusa es el lado frente al ángulo recto."
+      },
+      "seed": "1ac9afde-ce08-40dd-aead-226f60ad934a:3",
+      "solved": {
+        "game": 4,
+        "match": [
+          3,
+          2,
+          4,
+          1
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 1,
+        "instruction": "Calcula la razón y elige la opción correcta.",
+        "pairs": null,
+        "steps": null,
+        "stem": "En un triángulo rectángulo los catetos miden 6 cm y 8 cm, y la hipotenusa mide 10 cm. Si el cateto opuesto al ángulo A mide 6 cm, entonces sen A = ___.",
+        "options": [
+          "0,8",
+          "0,6",
+          "0,75",
+          "1,25"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": "6/10",
+        "explanation": "El seno es cateto opuesto ÷ hipotenusa = 6 ÷ 10 = 0,6. El 0,8 sería el coseno y el 0,75 la tangente."
+      },
+      "seed": "1ac9afde-ce08-40dd-aead-226f60ad934a:4",
+      "solved": {
+        "game": 5,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 2,
+        "instruction": "Usa la relación entre tangente, seno y coseno.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Si sen A = 3/5 y cos A = 4/5, entonces tan A = ___.",
+        "options": [
+          "3/4",
+          "4/3",
+          "12/25",
+          "3/5"
+        ],
+        "answer_index": 0,
+        "correction": null,
+        "calc": null,
+        "explanation": "tan A = sen A ÷ cos A = (3/5) ÷ (4/5) = 3/4."
+      },
+      "seed": "1ac9afde-ce08-40dd-aead-226f60ad934a:5",
+      "solved": {
+        "game": 6,
+        "match": null,
+        "order": null,
+        "choice": 0,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 2,
+        "instruction": "Encuentra el paso con el error.",
+        "pairs": null,
+        "steps": [
+          "Datos: sen A = 5/13 y cos A = 12/13.",
+          "tan A = sen A ÷ cos A",
+          "tan A = (5/13) ÷ (12/13) = 12/5"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "tan A = (5/13) ÷ (12/13) = 5/12",
+        "calc": null,
+        "explanation": "Al dividir (5/13) ÷ (12/13) los 13 se cancelan y queda 5/12. El resultado 12/5 es el inverso."
+      },
+      "seed": "1ac9afde-ce08-40dd-aead-226f60ad934a:6",
+      "solved": {
+        "game": 7,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": "El paso 3 tiene el error: (5/13) ÷ (12/13) = 5/12, no 12/5."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "El paso 3 tiene el error: (5/13) ÷ (12/13) = 5/12, no 12/5."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: El paso 3 tiene el error: (5/13) ÷ (12/13) = 5/12, no 12/5."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 3,
+        "instruction": "Une cada razón con la razón de su ángulo complementario que vale lo mismo.",
+        "pairs": [
+          {
+            "left": "sen 10°",
+            "right": "cos 80°"
+          },
+          {
+            "left": "cos 35°",
+            "right": "sen 55°"
+          },
+          {
+            "left": "sen 72°",
+            "right": "cos 18°"
+          },
+          {
+            "left": "cos 60°",
+            "right": "sen 30°"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "El seno de un ángulo es igual al coseno de su complemento (los dos suman 90°), y viceversa."
+      },
+      "seed": "1ac9afde-ce08-40dd-aead-226f60ad934a:7",
+      "solved": {
+        "game": 8,
+        "match": [
+          2,
+          4,
+          3,
+          1
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 3,
+        "instruction": "Completa con el ángulo correcto.",
+        "pairs": null,
+        "steps": null,
+        "stem": "sen 25° = cos ___",
+        "options": [
+          "25°",
+          "75°",
+          "155°",
+          "65°"
+        ],
+        "answer_index": 3,
+        "correction": null,
+        "calc": "90-25",
+        "explanation": "El seno de un ángulo es igual al coseno de su complemento. El complemento de 25° es 90° − 25° = 65°."
+      },
+      "seed": "1ac9afde-ce08-40dd-aead-226f60ad934a:8",
+      "solved": {
+        "game": 9,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 4,
+        "instruction": "Completa la afirmación sobre ángulos de elevación y depresión.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Desde la azotea de un edificio ves un carro en la calle y el ángulo de depresión es 35°. Desde el carro, el ángulo de elevación hacia la azotea es ___.",
+        "options": [
+          "55°",
+          "145°",
+          "35°",
+          "90°"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": null,
+        "explanation": "El ángulo de depresión y el de elevación son iguales porque son alternos internos entre rectas horizontales paralelas."
+      },
+      "seed": "1ac9afde-ce08-40dd-aead-226f60ad934a:9",
+      "solved": {
+        "game": 10,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 5,
+        "instruction": "Aplica que sen² A + cos² A = 1.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Si A es un ángulo agudo y sen A = 3/5, entonces cos A = ___.",
+        "options": [
+          "2/5",
+          "4/5",
+          "16/25",
+          "3/4"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": null,
+        "explanation": "cos² A = 1 − (3/5)² = 1 − 9/25 = 16/25, y cos A = 4/5. El 16/25 es cos² A, no cos A."
+      },
+      "seed": "1ac9afde-ce08-40dd-aead-226f60ad934a:10",
+      "solved": {
+        "game": 11,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 5,
+        "instruction": "Encuentra el paso con el error.",
+        "pairs": null,
+        "steps": [
+          "sen² A + cos² A = 1",
+          "(5/13)² + cos² A = 1",
+          "25/169 + cos² A = 1",
+          "cos² A = 1 − 25/169 = 154/169"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 3,
+        "correction": "cos² A = 1 − 25/169 = 144/169, y entonces cos A = 12/13",
+        "calc": null,
+        "explanation": "1 = 169/169 y 169 − 25 = 144, por lo que cos² A = 144/169, no 154/169."
+      },
+      "seed": "1ac9afde-ce08-40dd-aead-226f60ad934a:11",
+      "solved": {
+        "game": 12,
+        "match": null,
+        "order": null,
+        "choice": 4,
+        "problems": "El paso 4 tiene el error: 1 − 25/169 = 144/169, no 154/169."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "El paso 4 tiene el error: 1 − 25/169 = 144/169, no 154/169."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: El paso 4 tiene el error: 1 − 25/169 = 144/169, no 154/169."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 6,
+        "instruction": "Aplica la ley de senos y completa.",
+        "pairs": null,
+        "steps": null,
+        "stem": "En un triángulo, A = 30°, a = 10 cm y B = 90°. Con la ley de senos, el lado b mide ___ cm.",
+        "options": [
+          "20",
+          "5",
+          "10",
+          "15"
+        ],
+        "answer_index": 0,
+        "correction": null,
+        "calc": "10*1/(1/2)",
+        "explanation": "a ÷ sen A = b ÷ sen B. Entonces 10 ÷ 0,5 = b ÷ 1, así que b = 20."
+      },
+      "seed": "1ac9afde-ce08-40dd-aead-226f60ad934a:12",
+      "solved": {
+        "game": 13,
+        "match": null,
+        "order": null,
+        "choice": 0,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 6,
+        "instruction": "Ordena los pasos para resolver un problema con la ley de senos.",
+        "pairs": null,
+        "steps": [
+          "Identifica los ángulos y los lados opuestos que conoces.",
+          "Plantea a ÷ sen A = b ÷ sen B.",
+          "Sustituye los datos conocidos.",
+          "Despeja la incógnita y calcula."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Primero se identifican los datos, luego se plantea la ley, se sustituye y por último se despeja y se calcula."
+      },
+      "seed": "1ac9afde-ce08-40dd-aead-226f60ad934a:13",
+      "solved": {
+        "game": 14,
+        "match": null,
+        "order": [
+          3,
+          4,
+          1,
+          2
+        ],
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 7,
+        "instruction": "Resuelve el problema y elige la respuesta.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Una escalera de 10 m forma un ángulo de 30° con el suelo (sen 30° = 0,5). La altura que alcanza en la pared es ___ m.",
+        "options": [
+          "10",
+          "20",
+          "8,66",
+          "5"
+        ],
+        "answer_index": 3,
+        "correction": null,
+        "calc": "10*0.5",
+        "explanation": "La altura es el cateto opuesto al ángulo: sen 30° = h ÷ 10, así que h = 10 × 0,5 = 5 m."
+      },
+      "seed": "1ac9afde-ce08-40dd-aead-226f60ad934a:14",
+      "solved": {
+        "game": 15,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 8,
+        "instruction": "Elige la ecuación que plantea bien el problema.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Una escalera de 6 m se apoya en una pared y forma 70° con el suelo. Para hallar la altura h a la que llega, se plantea ___.",
+        "options": [
+          "cos 70° = h/6",
+          "tan 70° = h/6",
+          "sen 70° = h/6",
+          "sen 70° = 6/h"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": null,
+        "explanation": "La altura h es el cateto opuesto al ángulo de 70° y la escalera es la hipotenusa, por lo que sen 70° = h/6."
+      },
+      "seed": "1ac9afde-ce08-40dd-aead-226f60ad934a:15",
+      "solved": {
+        "game": 16,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    }
+  ],
+  "notes": "No se incluyó find_error para las habilidades 3, 4, 6, 7 y 8 ni order para las demás, porque no encajaban con un único orden o error claro. Para la ley de senos se usaron ángulos de 30° y 90° para evitar valores irracionales."
+}

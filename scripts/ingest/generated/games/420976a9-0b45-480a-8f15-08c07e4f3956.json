@@ -1,0 +1,754 @@
+{
+  "unitId": "420976a9-0b45-480a-8f15-08c07e4f3956",
+  "createdAt": "2026-11-04T17:44:43.946Z",
+  "models": {
+    "games": "claude-sonnet-5-5",
+    "solve": "claude-sonnet-5-5"
+  },
+  "prompts": {
+    "games": "generate-games-system@1",
+    "solve": "solve-games-system@1"
+  },
+  "pieces": [
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 0,
+        "instruction": "Une cada fase de análisis de un texto con lo que haces en ella.",
+        "pairs": [
+          {
+            "left": "Fase natural",
+            "right": "Expresas de forma espontánea lo que sentiste y entendiste en la primera lectura"
+          },
+          {
+            "left": "Fase de ubicación",
+            "right": "Identificas el tipo de texto, el autor, el tema y el contexto"
+          },
+          {
+            "left": "Fase analística",
+            "right": "Examinas las partes, las ideas y los recursos del texto"
+          },
+          {
+            "left": "Fase explicativa e interpretativa",
+            "right": "Explicas los sentidos del texto y los compartes con fundamento"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Cada fase tiene un propósito propio: la natural recoge la primera impresión, la de ubicación sitúa el texto, la analística lo descompone y la explicativa e interpretativa explica sus sentidos."
+      },
+      "seed": "420976a9-0b45-480a-8f15-08c07e4f3956:0",
+      "solved": {
+        "game": 1,
+        "match": [
+          2,
+          3,
+          1,
+          4
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 0,
+        "instruction": "Ordena las fases del análisis de un texto, de la primera a la última.",
+        "pairs": null,
+        "steps": [
+          "Fase natural: lees y anotas tu primera impresión",
+          "Fase de ubicación: identificas el tipo de texto, el autor y el tema",
+          "Fase analística: analizas las partes y las ideas del texto",
+          "Fase explicativa e interpretativa: explicas y compartes los sentidos del texto"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Primero reaccionas al texto, luego lo ubicas, después lo analizas y al final explicas e interpretas sus sentidos."
+      },
+      "seed": "420976a9-0b45-480a-8f15-08c07e4f3956:1",
+      "solved": {
+        "game": 2,
+        "match": null,
+        "order": [
+          1,
+          3,
+          2,
+          4
+        ],
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Elige la opción que completa la oración.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Cuando identificas el autor, el tipo de texto y el tema, trabajas la fase ___.",
+        "options": [
+          "natural",
+          "de ubicación",
+          "analística",
+          "explicativa e interpretativa"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": null,
+        "explanation": "Identificar el autor, el tipo de texto y el tema es situar el texto, y eso corresponde a la fase de ubicación."
+      },
+      "seed": "420976a9-0b45-480a-8f15-08c07e4f3956:2",
+      "solved": {
+        "game": 3,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 0,
+        "instruction": "Un paso describe mal una fase del análisis. Encuentra cuál es.",
+        "pairs": null,
+        "steps": [
+          "Primero, en la fase natural, comento qué sentí al leer el texto.",
+          "Luego, en la fase de ubicación, identifico el tipo de texto y su tema.",
+          "Después, en la fase analística, copio el texto sin analizar sus partes.",
+          "Por último, en la fase explicativa e interpretativa, explico los sentidos del texto."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "Después, en la fase analística, analizo las partes y las ideas del texto.",
+        "calc": null,
+        "explanation": "La fase analística consiste en analizar las partes, las ideas y los recursos del texto, no en copiarlo."
+      },
+      "seed": "420976a9-0b45-480a-8f15-08c07e4f3956:3",
+      "solved": {
+        "game": 4,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 1,
+        "instruction": "Une cada momento de la escritura con la actividad que le corresponde.",
+        "pairs": [
+          {
+            "left": "Planificación",
+            "right": "Elegir el tema y hacer un esquema de ideas"
+          },
+          {
+            "left": "Textualización",
+            "right": "Redactar el borrador en párrafos"
+          },
+          {
+            "left": "Revisión del contenido",
+            "right": "Comprobar que las ideas sean claras y completas"
+          },
+          {
+            "left": "Revisión de la forma",
+            "right": "Corregir ortografía, tildes y puntuación"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Se planifica antes de escribir, se textualiza al redactar y se revisa tanto lo que se dice (contenido) como cómo está escrito (forma)."
+      },
+      "seed": "420976a9-0b45-480a-8f15-08c07e4f3956:4",
+      "solved": {
+        "game": 5,
+        "match": [
+          2,
+          3,
+          1,
+          4
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 1,
+        "instruction": "Ordena los pasos para escribir un texto, del primero al último.",
+        "pairs": null,
+        "steps": [
+          "Defines el tema y el propósito de tu texto",
+          "Elaboras un esquema con las ideas principales",
+          "Redactas el primer borrador siguiendo el esquema",
+          "Revisas que las ideas estén claras y completas",
+          "Corriges ortografía y puntuación y pasas el texto en limpio"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Primero se planifica, luego se escribe el borrador y al final se revisa el contenido y la forma antes de la versión final."
+      },
+      "seed": "420976a9-0b45-480a-8f15-08c07e4f3956:5",
+      "solved": {
+        "game": 6,
+        "match": null,
+        "order": [
+          2,
+          4,
+          1,
+          5,
+          3
+        ],
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 1,
+        "instruction": "Elige la opción que completa la oración.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Corregir las tildes y los signos de puntuación es parte de la revisión de la ___.",
+        "options": [
+          "forma",
+          "planificación",
+          "textualización",
+          "información"
+        ],
+        "answer_index": 0,
+        "correction": null,
+        "calc": null,
+        "explanation": "Las tildes y la puntuación tienen que ver con cómo está escrito el texto, es decir, con su forma."
+      },
+      "seed": "420976a9-0b45-480a-8f15-08c07e4f3956:6",
+      "solved": {
+        "game": 7,
+        "match": null,
+        "order": null,
+        "choice": 0,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 1,
+        "instruction": "Un paso del proceso de escritura está mal. Encuentra cuál es.",
+        "pairs": null,
+        "steps": [
+          "Planificación: elijo el tema y pienso a quién le escribo.",
+          "Planificación: anoto las ideas principales en un esquema.",
+          "Textualización: escribo el borrador siguiendo el esquema.",
+          "Revisión: entrego el texto sin leerlo de nuevo para ahorrar tiempo."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 3,
+        "correction": "Revisión: releo el texto y corrijo el contenido y la forma antes de entregarlo.",
+        "calc": null,
+        "explanation": "La revisión es un momento necesario de la escritura: hay que releer para corregir el contenido y la forma."
+      },
+      "seed": "420976a9-0b45-480a-8f15-08c07e4f3956:7",
+      "solved": {
+        "game": 8,
+        "match": null,
+        "order": null,
+        "choice": 4,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 2,
+        "instruction": "Une cada término del párrafo con su definición.",
+        "pairs": [
+          {
+            "left": "Frase tópica",
+            "right": "Oración que expresa la idea principal del párrafo"
+          },
+          {
+            "left": "Frases secundarias",
+            "right": "Oraciones que explican o amplían la idea principal"
+          },
+          {
+            "left": "Coherencia",
+            "right": "Todas las ideas del párrafo se relacionan con el mismo tema"
+          },
+          {
+            "left": "Cohesión",
+            "right": "Las oraciones se conectan entre sí con conectores y otras palabras de enlace"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "La frase tópica da la idea central y las secundarias la desarrollan. La coherencia se refiere al sentido del tema y la cohesión a las conexiones entre oraciones."
+      },
+      "seed": "420976a9-0b45-480a-8f15-08c07e4f3956:8",
+      "solved": {
+        "game": 9,
+        "match": [
+          2,
+          4,
+          3,
+          1
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 2,
+        "instruction": "Ordena las oraciones para formar un párrafo con coherencia y cohesión.",
+        "pairs": null,
+        "steps": [
+          "Preparar gallo pinto en casa es muy fácil.",
+          "Primero, cocina el arroz y los frijoles por separado.",
+          "Luego, sofríe cebolla y chile dulce en una sartén.",
+          "Después, agrega el arroz y los frijoles al sofrito y mezcla.",
+          "Finalmente, sirve el gallo pinto caliente."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "El párrafo empieza con la frase tópica y sigue el orden que marcan los conectores: primero, luego, después y finalmente."
+      },
+      "seed": "420976a9-0b45-480a-8f15-08c07e4f3956:9",
+      "solved": {
+        "game": 10,
+        "match": null,
+        "order": [
+          4,
+          3,
+          1,
+          2,
+          5
+        ],
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 2,
+        "instruction": "Elige la opción que completa la oración.",
+        "pairs": null,
+        "steps": null,
+        "stem": "La oración que expresa la idea principal de un párrafo se llama frase ___.",
+        "options": [
+          "secundaria",
+          "final",
+          "de transición",
+          "tópica"
+        ],
+        "answer_index": 3,
+        "correction": null,
+        "calc": null,
+        "explanation": "La frase tópica presenta la idea principal; las frases secundarias la desarrollan."
+      },
+      "seed": "420976a9-0b45-480a-8f15-08c07e4f3956:10",
+      "solved": {
+        "game": 11,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 2,
+        "instruction": "En este párrafo hay una oración que no tiene relación con el tema. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "Reciclar en el colegio ayuda a cuidar el ambiente.",
+          "Al separar el papel, el plástico y el vidrio, se reduce la cantidad de basura.",
+          "Mi hermano juega fútbol todos los sábados en la plaza.",
+          "Además, los materiales reciclados sirven para fabricar productos nuevos."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "Por eso, el colegio ahorra recursos cuando todos reciclamos.",
+        "calc": null,
+        "explanation": "La oración sobre el fútbol no se relaciona con el reciclaje, así que el párrafo pierde coherencia."
+      },
+      "seed": "420976a9-0b45-480a-8f15-08c07e4f3956:11",
+      "solved": {
+        "game": 12,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 3,
+        "instruction": "Une cada tipo de párrafo con su descripción.",
+        "pairs": [
+          {
+            "left": "Introducción interrogante",
+            "right": "Comienza con una pregunta que despierta el interés del lector"
+          },
+          {
+            "left": "Desarrollo cronológico",
+            "right": "Presenta los hechos en el orden en que ocurrieron"
+          },
+          {
+            "left": "Desarrollo por ejemplificación",
+            "right": "Explica la idea con casos concretos"
+          },
+          {
+            "left": "Párrafo de transición",
+            "right": "Une dos partes del escrito y anuncia lo que sigue"
+          },
+          {
+            "left": "Conclusión que retoma el título",
+            "right": "Cierra comentando el título en relación con el contenido"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Cada tipo de párrafo cumple una función distinta dentro del escrito ensayístico."
+      },
+      "seed": "420976a9-0b45-480a-8f15-08c07e4f3956:12",
+      "solved": {
+        "game": 13,
+        "match": [
+          2,
+          3,
+          4,
+          1,
+          5
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 3,
+        "instruction": "Ordena las partes de un escrito ensayístico, de la primera a la última.",
+        "pairs": null,
+        "steps": [
+          "Párrafo de introducción",
+          "Primer párrafo de desarrollo",
+          "Párrafo de transición",
+          "Segundo párrafo de desarrollo",
+          "Párrafo de conclusión"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "El escrito empieza con la introducción, sigue con el desarrollo, usa la transición para unir sus partes y termina con la conclusión."
+      },
+      "seed": "420976a9-0b45-480a-8f15-08c07e4f3956:13",
+      "solved": {
+        "game": 14,
+        "match": null,
+        "order": [
+          3,
+          4,
+          1,
+          5,
+          2
+        ],
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 3,
+        "instruction": "Elige la opción que completa la oración.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Un párrafo de introducción que presenta el tema con una pregunta es una introducción ___.",
+        "options": [
+          "cronológica",
+          "de transición",
+          "interrogante",
+          "de paralelismo"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": null,
+        "explanation": "Cuando la introducción empieza con una pregunta para atraer al lector, se llama interrogante."
+      },
+      "seed": "420976a9-0b45-480a-8f15-08c07e4f3956:14",
+      "solved": {
+        "game": 15,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 3,
+        "instruction": "Una de estas afirmaciones sobre el escrito ensayístico es falsa. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "La introducción presenta el tema del escrito.",
+          "El desarrollo explica las ideas con ejemplos o en orden cronológico.",
+          "El párrafo de transición une una parte del escrito con la siguiente.",
+          "La conclusión debe presentar ideas totalmente nuevas que no se trataron antes."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 3,
+        "correction": "La conclusión resume lo tratado o retoma el título y lo comenta en relación con el contenido.",
+        "calc": null,
+        "explanation": "La conclusión cierra el escrito con una síntesis o con un comentario sobre el título; no agrega ideas nuevas."
+      },
+      "seed": "420976a9-0b45-480a-8f15-08c07e4f3956:15",
+      "solved": {
+        "game": 16,
+        "match": null,
+        "order": null,
+        "choice": 4,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    }
+  ],
+  "notes": ""
+}

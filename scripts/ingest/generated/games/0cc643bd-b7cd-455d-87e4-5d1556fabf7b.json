@@ -1,0 +1,349 @@
+{
+  "unitId": "0cc643bd-b7cd-455d-87e4-5d1556fabf7b",
+  "createdAt": "2026-11-04T17:39:55.271Z",
+  "models": {
+    "games": "claude-sonnet-5-5",
+    "solve": "claude-sonnet-5-5"
+  },
+  "prompts": {
+    "games": "generate-games-system@1",
+    "solve": "solve-games-system@1"
+  },
+  "pieces": [
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 0,
+        "instruction": "Une cada palabra con la función o el significado que tiene.",
+        "pairs": [
+          {
+            "left": "él",
+            "right": "Pronombre personal de tercera persona"
+          },
+          {
+            "left": "el",
+            "right": "Artículo"
+          },
+          {
+            "left": "dé",
+            "right": "Forma del verbo dar"
+          },
+          {
+            "left": "de",
+            "right": "Preposición"
+          },
+          {
+            "left": "té",
+            "right": "Bebida caliente"
+          },
+          {
+            "left": "tú",
+            "right": "Pronombre personal de segunda persona"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "La tilde diacrítica distingue palabras iguales con funciones distintas. Con tilde: él, dé, té y tú. Sin tilde: el (artículo) y de (preposición)."
+      },
+      "seed": "0cc643bd-b7cd-455d-87e4-5d1556fabf7b:0",
+      "solved": {
+        "game": 1,
+        "match": [
+          5,
+          2,
+          1,
+          3,
+          6,
+          4
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Elige la palabra que completa bien la oración.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Espero que la profesora me ___ permiso para salir temprano.",
+        "options": [
+          "de",
+          "dé",
+          "té",
+          "se"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": null,
+        "explanation": "Aquí se necesita una forma del verbo dar (que la profesora dé). Esa forma lleva tilde para diferenciarla de la preposición «de»."
+      },
+      "seed": "0cc643bd-b7cd-455d-87e4-5d1556fabf7b:1",
+      "solved": {
+        "game": 2,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Elige la opción correcta para completar la pregunta.",
+        "pairs": null,
+        "steps": null,
+        "stem": "¿___ comienza el festival cívico de tu colegio?",
+        "options": [
+          "Cuando",
+          "Cuánto",
+          "Cuándo",
+          "Cuanto"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": null,
+        "explanation": "Es una pregunta sobre el tiempo, así que se usa el interrogativo «cuándo», que lleva tilde."
+      },
+      "seed": "0cc643bd-b7cd-455d-87e4-5d1556fabf7b:2",
+      "solved": {
+        "game": 3,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 0,
+        "instruction": "Una de estas frases tiene un error en el uso de la tilde diacrítica. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "Yo sé la respuesta de la pregunta.",
+          "Dile a Marcos que se siente aquí.",
+          "Se que llegarás pronto a la reunión.",
+          "Me dijo que sí vendría a la feria."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "Sé que llegarás pronto a la reunión.",
+        "calc": null,
+        "explanation": "En la tercera frase se usa el verbo saber (yo sé), que lleva tilde para distinguirlo del pronombre «se»."
+      },
+      "seed": "0cc643bd-b7cd-455d-87e4-5d1556fabf7b:3",
+      "solved": {
+        "game": 4,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 1,
+        "instruction": "Elige la palabra con el significado que pide la oración.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Mi abuela prepara un ___ de manzanilla para la merienda.",
+        "options": [
+          "te",
+          "tu",
+          "de",
+          "té"
+        ],
+        "answer_index": 3,
+        "correction": null,
+        "calc": null,
+        "explanation": "Se habla de una bebida caliente, y esa palabra lleva tilde: «té». Sin tilde, «te» es un pronombre."
+      },
+      "seed": "0cc643bd-b7cd-455d-87e4-5d1556fabf7b:4",
+      "solved": {
+        "game": 5,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 1,
+        "instruction": "Une cada palabra con su significado.",
+        "pairs": [
+          {
+            "left": "mas",
+            "right": "Pero"
+          },
+          {
+            "left": "más",
+            "right": "Mayor cantidad"
+          },
+          {
+            "left": "aún",
+            "right": "Todavía"
+          },
+          {
+            "left": "si",
+            "right": "Indica una condición"
+          },
+          {
+            "left": "sí",
+            "right": "Afirmación"
+          },
+          {
+            "left": "mí",
+            "right": "Pronombre que va después de una preposición"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "La tilde cambia el significado: «mas» es «pero» y «más» indica cantidad; «si» plantea una condición y «sí» afirma; «aún» equivale a «todavía»; «mí» es pronombre."
+      },
+      "seed": "0cc643bd-b7cd-455d-87e4-5d1556fabf7b:5",
+      "solved": {
+        "game": 6,
+        "match": [
+          5,
+          6,
+          3,
+          4,
+          1,
+          2
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 1,
+        "instruction": "Una de estas frases tiene un error de tilde que cambia su significado. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "Mi mamá compró más frutas en la feria.",
+          "Quiero ir al cine, mas no tengo dinero.",
+          "El pidió permiso para salir al recreo.",
+          "Tú sabes cuánto cuesta el pasaje."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "Él pidió permiso para salir al recreo.",
+        "calc": null,
+        "explanation": "Aquí se habla de una persona, por lo que se necesita el pronombre personal «él», con tilde. «El» sin tilde es un artículo y necesita un sustantivo después."
+      },
+      "seed": "0cc643bd-b7cd-455d-87e4-5d1556fabf7b:6",
+      "solved": {
+        "game": 7,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    }
+  ],
+  "notes": "No se incluyó ninguna pieza de ordenar pasos porque distinguir las palabras con tilde diacrítica no tiene un único orden válido de pasos."
+}

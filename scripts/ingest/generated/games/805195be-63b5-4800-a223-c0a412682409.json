@@ -1,0 +1,398 @@
+{
+  "unitId": "805195be-63b5-4800-a223-c0a412682409",
+  "createdAt": "2026-11-04T17:43:28.268Z",
+  "models": {
+    "games": "claude-sonnet-5-5",
+    "solve": "claude-sonnet-5-5"
+  },
+  "prompts": {
+    "games": "generate-games-system@1",
+    "solve": "solve-games-system@1"
+  },
+  "pieces": [
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 0,
+        "instruction": "Une cada expresión que excluye con una alternativa inclusiva.",
+        "pairs": [
+          {
+            "left": "Los niños",
+            "right": "La niñez"
+          },
+          {
+            "left": "Los profesores",
+            "right": "El personal docente"
+          },
+          {
+            "left": "Los alumnos",
+            "right": "El estudiantado"
+          },
+          {
+            "left": "Los vecinos",
+            "right": "La vecindad"
+          },
+          {
+            "left": "Los directores",
+            "right": "La dirección"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Las palabras colectivas como niñez, personal docente, estudiantado, vecindad y dirección nombran a todas las personas sin dejar a nadie por fuera."
+      },
+      "seed": "805195be-63b5-4800-a223-c0a412682409:0",
+      "solved": {
+        "game": 1,
+        "match": [
+          2,
+          4,
+          5,
+          3,
+          1
+        ],
+        "order": null,
+        "choice": null,
+        "problems": "Los profesores → personal docente (4); los niños → la niñez (2); los alumnos → el estudiantado (5); los vecinos → la vecindad (3); los directores → la dirección (1). Pareja única."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "Los profesores → personal docente (4); los niños → la niñez (2); los alumnos → el estudiantado (5); los vecinos → la vecindad (3); los directores → la dirección (1). Pareja única."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: Los profesores → personal docente (4); los niños → la niñez (2); los alumnos → el estudiantado (5); los vecinos → la vecindad (3); los directores → la dirección (1). Pareja única."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 0,
+        "instruction": "Ordena los pasos para usar la idea de otra persona en tu texto y respetar su autoría.",
+        "pairs": null,
+        "steps": [
+          "Leo la fuente y anoto el autor, el título y el año.",
+          "Decido si voy a copiar la idea tal cual o a explicarla con mis palabras.",
+          "Escribo la idea entre comillas o la parafraseo.",
+          "Menciono en el texto quién la escribió.",
+          "Agrego la fuente a la lista de referencias al final."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Primero se registra la fuente, luego se decide cómo usar la idea, después se escribe y se reconoce a la persona autora, y al final se anota la referencia completa."
+      },
+      "seed": "805195be-63b5-4800-a223-c0a412682409:1",
+      "solved": {
+        "game": 2,
+        "match": null,
+        "order": [
+          1,
+          5,
+          2,
+          4,
+          3
+        ],
+        "choice": null,
+        "problems": "El orden es razonable, pero los pasos 4 y 2 podrían intercambiarse (mencionar al autor antes o después de escribir la idea), lo que genera cierta ambigüedad leve."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "El orden es razonable, pero los pasos 4 y 2 podrían intercambiarse (mencionar al autor antes o después de escribir la idea), lo que genera cierta ambigüedad leve."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: El orden es razonable, pero los pasos 4 y 2 podrían intercambiarse (mencionar al autor antes o después de escribir la idea), lo que genera cierta ambigüedad leve."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Elige la opción que completa bien el enunciado.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Si copias palabra por palabra lo que escribió un autor, debes ponerlo ___ y decir de dónde lo tomaste.",
+        "options": [
+          "en mayúsculas",
+          "entre comillas",
+          "en negrita sin más",
+          "sin ninguna marca"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": null,
+        "explanation": "Las comillas indican que las palabras son de otra persona. Además, hay que citar la fuente para respetar su autoría."
+      },
+      "seed": "805195be-63b5-4800-a223-c0a412682409:2",
+      "solved": {
+        "game": 3,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 0,
+        "instruction": "Encuentra la frase que tiene un error sobre lenguaje inclusivo y autoría.",
+        "pairs": null,
+        "steps": [
+          "En vez de «los profesores», puedo escribir «el personal docente».",
+          "Para nombrar a todo un grupo, puedo usar «el estudiantado».",
+          "Si uso una idea de otra persona, debo mencionar quién la escribió.",
+          "Copiar un texto de internet y presentarlo como propio es una forma válida de investigar.",
+          "Parafrasear es explicar una idea con mis palabras y aun así citar la fuente."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 3,
+        "correction": "Copiar un texto de internet y presentarlo como propio es plagio; hay que citar la fuente o parafrasear y dar el crédito.",
+        "calc": null,
+        "explanation": "Presentar como propio un texto ajeno es plagio y no respeta la autoría. Las demás frases son correctas."
+      },
+      "seed": "805195be-63b5-4800-a223-c0a412682409:3",
+      "solved": {
+        "game": 4,
+        "match": null,
+        "order": null,
+        "choice": 4,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 1,
+        "instruction": "Elige la técnica oral que corresponde a la descripción.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Cuando dos grupos defienden posturas contrarias con argumentos, guiados por una persona moderadora, se realiza un ___.",
+        "options": [
+          "entrevista",
+          "exposición",
+          "debate",
+          "declamación"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": null,
+        "explanation": "El debate se caracteriza por posturas opuestas defendidas con argumentos y por tener moderación. La entrevista es de preguntas y respuestas, la exposición explica un tema y la declamación recita un poema."
+      },
+      "seed": "805195be-63b5-4800-a223-c0a412682409:4",
+      "solved": {
+        "game": 5,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": "La frase usa «un ___» y la opción 0 'entrevista' aparece sin artículo, pero solo 'debate' es correcta."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "La frase usa «un ___» y la opción 0 'entrevista' aparece sin artículo, pero solo 'debate' es correcta."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: La frase usa «un ___» y la opción 0 'entrevista' aparece sin artículo, pero solo 'debate' es correcta."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 1,
+        "instruction": "Une cada técnica de comunicación oral con su característica.",
+        "pairs": [
+          {
+            "left": "Debate",
+            "right": "Se defienden posturas contrarias con argumentos"
+          },
+          {
+            "left": "Entrevista",
+            "right": "Una persona pregunta y otra responde para obtener información"
+          },
+          {
+            "left": "Exposición oral",
+            "right": "Una persona explica un tema ante un público"
+          },
+          {
+            "left": "Declamación",
+            "right": "Se recita un poema con entonación y gestos"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Cada técnica oral tiene una característica propia: el debate confronta posturas, la entrevista es de preguntas y respuestas, la exposición explica un tema y la declamación recita poesía."
+      },
+      "seed": "805195be-63b5-4800-a223-c0a412682409:5",
+      "solved": {
+        "game": 6,
+        "match": [
+          1,
+          3,
+          4,
+          2
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 1,
+        "instruction": "Ordena los pasos para preparar y realizar una exposición oral.",
+        "pairs": null,
+        "steps": [
+          "Elijo el tema y el propósito de mi exposición.",
+          "Investigo y organizo las ideas en un esquema.",
+          "Preparo apoyos visuales, como láminas o carteles.",
+          "Ensayo en voz alta cuidando el volumen y los gestos.",
+          "Presento el tema ante el público."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Primero se define el tema, luego se investiga y se organiza, después se preparan los apoyos y se ensaya. Al final se presenta."
+      },
+      "seed": "805195be-63b5-4800-a223-c0a412682409:6",
+      "solved": {
+        "game": 7,
+        "match": null,
+        "order": [
+          2,
+          5,
+          1,
+          3,
+          4
+        ],
+        "choice": null,
+        "problems": "Los pasos 1 (apoyos visuales) y 5 (investigar) podrían ordenarse de otra forma, pero investigar antes de preparar apoyos es lo lógico."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "Los pasos 1 (apoyos visuales) y 5 (investigar) podrían ordenarse de otra forma, pero investigar antes de preparar apoyos es lo lógico."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: Los pasos 1 (apoyos visuales) y 5 (investigar) podrían ordenarse de otra forma, pero investigar antes de preparar apoyos es lo lógico."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 1,
+        "instruction": "Encuentra el paso que no corresponde a una buena entrevista.",
+        "pairs": null,
+        "steps": [
+          "Antes de la entrevista, preparo preguntas sobre el tema.",
+          "Saludo y explico para qué quiero entrevistar a la persona.",
+          "Mientras la persona responde, la interrumpo para dar mi opinión.",
+          "Escucho con atención y, si hace falta, hago preguntas nuevas.",
+          "Al final, agradezco a la persona su participación."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "Mientras la persona responde, la escucho sin interrumpir y tomo apuntes.",
+        "calc": null,
+        "explanation": "En la entrevista, quien entrevista pregunta y escucha. Interrumpir para dar su opinión rompe la técnica y falta el respeto a la persona entrevistada."
+      },
+      "seed": "805195be-63b5-4800-a223-c0a412682409:7",
+      "solved": {
+        "game": 8,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    }
+  ],
+  "notes": ""
+}

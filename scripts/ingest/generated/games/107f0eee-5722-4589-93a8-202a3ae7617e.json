@@ -1,0 +1,310 @@
+{
+  "unitId": "107f0eee-5722-4589-93a8-202a3ae7617e",
+  "createdAt": "2026-11-04T17:58:16.132Z",
+  "models": {
+    "games": "claude-sonnet-5-5",
+    "solve": "claude-sonnet-5-5"
+  },
+  "prompts": {
+    "games": "generate-games-system@1",
+    "solve": "solve-games-system@1"
+  },
+  "pieces": [
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 0,
+        "instruction": "Une cada situación con la expresión algebraica que la representa.",
+        "pairs": [
+          {
+            "left": "Área de un cuadrado de lado x",
+            "right": "f(x) = x²"
+          },
+          {
+            "left": "Perímetro de un cuadrado de lado x",
+            "right": "f(x) = 4x"
+          },
+          {
+            "left": "Área de un rectángulo de largo x + 3 y ancho x",
+            "right": "f(x) = x² + 3x"
+          },
+          {
+            "left": "Costo de x cuadernos a ₡900 cada uno",
+            "right": "f(x) = 900x"
+          },
+          {
+            "left": "Área de un triángulo de base x y altura x",
+            "right": "f(x) = x²/2"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Cada situación se traduce con su fórmula: el área del cuadrado es lado × lado, el perímetro suma cuatro lados, el rectángulo multiplica largo por ancho (x · (x + 3) = x² + 3x), el costo multiplica el precio por la cantidad y el triángulo usa base × altura ÷ 2."
+      },
+      "seed": "107f0eee-5722-4589-93a8-202a3ae7617e:0",
+      "solved": {
+        "game": 1,
+        "match": [
+          5,
+          2,
+          1,
+          4,
+          3
+        ],
+        "order": null,
+        "choice": null,
+        "problems": "El ítem 5 es incorrecto: el área de un triángulo de base x y altura x es x²/2 (Derecha 3), y el área del cuadrado es x² (Derecha 5). Las parejas son 1→5, 2→2, 3→1, 4→4, 5→3, todas correctas y sin ambigüedad. Sin problemas."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "El ítem 5 es incorrecto: el área de un triángulo de base x y altura x es x²/2 (Derecha 3), y el área del cuadrado es x² (Derecha 5). Las parejas son 1→5, 2→2, 3→1, 4→4, 5→3, todas correctas y sin ambigüedad. Sin problemas."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: El ítem 5 es incorrecto: el área de un triángulo de base x y altura x es x²/2 (Derecha 3), y el área del cuadrado es x² (Derecha 5). Las parejas son 1→5, 2→2, 3→1, 4→4, 5→3, todas correctas y sin ambigüedad. Sin problemas."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Elige la expresión que representa la situación.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Un terreno tiene forma rectangular. Su ancho mide x metros y su largo mide 4 metros más que el ancho. La expresión del área es ___.",
+        "options": [
+          "f(x) = 4x",
+          "f(x) = x² + 4x",
+          "f(x) = 2x + 8",
+          "f(x) = x² + 4"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": null,
+        "explanation": "El largo es x + 4 y el ancho es x. El área es largo × ancho: (x + 4) · x = x² + 4x. Es una función cuadrática porque aparece x²."
+      },
+      "seed": "107f0eee-5722-4589-93a8-202a3ae7617e:1",
+      "solved": {
+        "game": 2,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 1,
+        "instruction": "Ordena los pasos para representar gráficamente f(x) = x² − 4.",
+        "pairs": null,
+        "steps": [
+          "Elegir varios valores de x, por ejemplo −2, −1, 0, 1 y 2",
+          "Calcular f(x) para cada valor de x y completar la tabla",
+          "Escribir cada pareja (x, f(x)) como un punto",
+          "Ubicar los puntos en el plano cartesiano",
+          "Unir los puntos con una curva suave: la parábola"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Primero se eligen valores de x, luego se calcula f(x) para formar la tabla, después se escriben y ubican los puntos en el plano y al final se unen con una curva suave."
+      },
+      "seed": "107f0eee-5722-4589-93a8-202a3ae7617e:2",
+      "solved": {
+        "game": 3,
+        "match": null,
+        "order": [
+          1,
+          2,
+          4,
+          5,
+          3
+        ],
+        "choice": null,
+        "problems": "El orden 1,2,4,5,3 es el más natural. Los pasos 2 y 4 podrían intercambiarse si se interpreta que completar la tabla ya incluye escribir las parejas, pero el orden dado es defendible."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "El orden 1,2,4,5,3 es el más natural. Los pasos 2 y 4 podrían intercambiarse si se interpreta que completar la tabla ya incluye escribir las parejas, pero el orden dado es defendible."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: El orden 1,2,4,5,3 es el más natural. Los pasos 2 y 4 podrían intercambiarse si se interpreta que completar la tabla ya incluye escribir las parejas, pero el orden dado es defendible."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 1,
+        "instruction": "Calcula y elige la opción correcta.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Si f(x) = x² − 2x − 3, entonces f(4) = ___.",
+        "options": [
+          "−3",
+          "11",
+          "5",
+          "21"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": "4^2 - 2*4 - 3",
+        "explanation": "Se sustituye x por 4: 4² − 2 · 4 − 3 = 16 − 8 − 3 = 5."
+      },
+      "seed": "107f0eee-5722-4589-93a8-202a3ae7617e:3",
+      "solved": {
+        "game": 4,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": "f(4) = 16 − 8 − 3 = 5, que es la opción 2."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "f(4) = 16 − 8 − 3 = 5, que es la opción 2."
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": [
+          "el verificador señaló: f(4) = 16 − 8 − 3 = 5, que es la opción 2."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 1,
+        "instruction": "Estos pasos completan la tabla de f(x) = x² + 1. Encuentra el paso con error.",
+        "pairs": null,
+        "steps": [
+          "f(−2) = (−2)² + 1 = 5",
+          "f(−1) = (−1)² + 1 = 0",
+          "f(0) = 0² + 1 = 1",
+          "f(1) = 1² + 1 = 2",
+          "f(2) = 2² + 1 = 5"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 1,
+        "correction": "f(−1) = (−1)² + 1 = 1 + 1 = 2",
+        "calc": null,
+        "explanation": "(−1)² es 1, no −1, porque un número negativo elevado al cuadrado da positivo. Entonces f(−1) = 1 + 1 = 2."
+      },
+      "seed": "107f0eee-5722-4589-93a8-202a3ae7617e:4",
+      "solved": {
+        "game": 5,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": "El error está en el paso 2: f(−1) = (−1)² + 1 = 1 + 1 = 2, no 0. Por lo tanto el paso con error es el 2, no el 3."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "El error está en el paso 2: f(−1) = (−1)² + 1 = 1 + 1 = 2, no 0. Por lo tanto el paso con error es el 2, no el 3."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: El error está en el paso 2: f(−1) = (−1)² + 1 = 1 + 1 = 2, no 0. Por lo tanto el paso con error es el 2, no el 3."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 1,
+        "instruction": "Une cada función con el valor de f(0), que es donde su gráfica corta el eje y.",
+        "pairs": [
+          {
+            "left": "f(x) = x² + 3",
+            "right": "3"
+          },
+          {
+            "left": "f(x) = x² − 5",
+            "right": "−5"
+          },
+          {
+            "left": "f(x) = 2x² + 1",
+            "right": "1"
+          },
+          {
+            "left": "f(x) = x² + 4x − 2",
+            "right": "−2"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Al sustituir x = 0 desaparecen los términos con x, y queda solo el número sin x. Ese valor es donde la parábola corta el eje y."
+      },
+      "seed": "107f0eee-5722-4589-93a8-202a3ae7617e:5",
+      "solved": {
+        "game": 6,
+        "match": [
+          2,
+          3,
+          1,
+          4
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    }
+  ],
+  "notes": ""
+}

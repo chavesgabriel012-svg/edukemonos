@@ -1,0 +1,395 @@
+{
+  "unitId": "e6233ccb-8349-4bb2-b754-397466fc916a",
+  "createdAt": "2026-11-04T17:47:55.940Z",
+  "models": {
+    "games": "claude-sonnet-5-5",
+    "solve": "claude-sonnet-5-5"
+  },
+  "prompts": {
+    "games": "generate-games-system@1",
+    "solve": "solve-games-system@1"
+  },
+  "pieces": [
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 0,
+        "instruction": "Une cada palabra con su significado.",
+        "pairs": [
+          {
+            "left": "cocer",
+            "right": "Hervir o cocinar un alimento en agua"
+          },
+          {
+            "left": "coser",
+            "right": "Unir telas con aguja e hilo"
+          },
+          {
+            "left": "casa",
+            "right": "Vivienda donde se habita"
+          },
+          {
+            "left": "caza",
+            "right": "Acción de perseguir animales para capturarlos"
+          },
+          {
+            "left": "cima",
+            "right": "Parte más alta de una montaña"
+          },
+          {
+            "left": "sima",
+            "right": "Cavidad muy profunda en la tierra"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Son homófonos: suenan igual, pero se escriben distinto y tienen significados diferentes. Cada significado corresponde a una sola palabra."
+      },
+      "seed": "e6233ccb-8349-4bb2-b754-397466fc916a:0",
+      "solved": {
+        "game": 1,
+        "match": [
+          1,
+          4,
+          2,
+          3,
+          6,
+          5
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Elige la letra que completa la regla.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Las palabras que terminan en z cambian esa letra por ___ en el plural: vez → veces.",
+        "options": [
+          "s",
+          "x",
+          "c",
+          "z"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": null,
+        "explanation": "Cuando una palabra termina en z, en el plural la z cambia a c porque se escribe antes de e: vez → veces, luz → luces."
+      },
+      "seed": "e6233ccb-8349-4bb2-b754-397466fc916a:1",
+      "solved": {
+        "game": 2,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": "La regla es correcta: la z cambia por c en el plural (vez → veces). La opción 2 ('c') es la única correcta."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "La regla es correcta: la z cambia por c en el plural (vez → veces). La opción 2 ('c') es la única correcta."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: La regla es correcta: la z cambia por c en el plural (vez → veces). La opción 2 ('c') es la única correcta."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 1,
+        "instruction": "Une cada palabra en singular con su plural correcto.",
+        "pairs": [
+          {
+            "left": "luz",
+            "right": "luces"
+          },
+          {
+            "left": "vez",
+            "right": "veces"
+          },
+          {
+            "left": "lápiz",
+            "right": "lápices"
+          },
+          {
+            "left": "pez",
+            "right": "peces"
+          },
+          {
+            "left": "cruz",
+            "right": "cruces"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Al formar el plural, la z final cambia a c antes de es: luz → luces, vez → veces, lápiz → lápices, pez → peces, cruz → cruces."
+      },
+      "seed": "e6233ccb-8349-4bb2-b754-397466fc916a:2",
+      "solved": {
+        "game": 3,
+        "match": [
+          5,
+          3,
+          4,
+          2,
+          1
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 1,
+        "instruction": "Completa la oración con la palabra bien escrita.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Mi abuela va a ___ los frijoles en la olla.",
+        "options": [
+          "coser",
+          "cocer",
+          "cozer",
+          "coxer"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": null,
+        "explanation": "Cocer significa hervir o cocinar un alimento y se escribe con c. Coser es unir telas con hilo, y cozer y coxer no existen."
+      },
+      "seed": "e6233ccb-8349-4bb2-b754-397466fc916a:3",
+      "solved": {
+        "game": 4,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 1,
+        "instruction": "Encuentra la frase que tiene un error de ortografía.",
+        "pairs": null,
+        "steps": [
+          "Ayer fuimos a la playa con toda la familia.",
+          "El profesor nos dio una explicación muy clara.",
+          "La exelente nota de Ana alegró a todos.",
+          "Después de la clase, pasamos por el parque."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "La excelente nota de Ana alegró a todos.",
+        "calc": null,
+        "explanation": "La palabra excelente se escribe con x seguida de c: ex-ce-len-te. Las demás frases están bien escritas."
+      },
+      "seed": "e6233ccb-8349-4bb2-b754-397466fc916a:4",
+      "solved": {
+        "game": 5,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": "El error está en 'exelente', que debe escribirse 'excelente'."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "El error está en 'exelente', que debe escribirse 'excelente'."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: El error está en 'exelente', que debe escribirse 'excelente'."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 2,
+        "instruction": "Ordena los pasos para revisar la ortografía de un texto.",
+        "pairs": null,
+        "steps": [
+          "Escribe el borrador completo del texto.",
+          "Lee el texto y subraya las palabras con c, s, z o x que te den duda.",
+          "Consulta cada palabra subrayada en el diccionario.",
+          "Corrige las palabras y pasa el texto en limpio."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Primero se necesita el texto escrito; luego se detectan las dudas, se consultan y al final se corrigen para pasar el texto en limpio."
+      },
+      "seed": "e6233ccb-8349-4bb2-b754-397466fc916a:5",
+      "solved": {
+        "game": 6,
+        "match": null,
+        "order": [
+          4,
+          3,
+          1,
+          2
+        ],
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 2,
+        "instruction": "Elige la palabra que completa bien la oración.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Tú ___ terminado la tarea antes de la hora.",
+        "options": [
+          "as",
+          "haz",
+          "az",
+          "has"
+        ],
+        "answer_index": 3,
+        "correction": null,
+        "calc": null,
+        "explanation": "Has es la forma del verbo haber que acompaña a terminado (tú has terminado). As es una carta o una persona destacada, haz viene del verbo hacer, y az no existe."
+      },
+      "seed": "e6233ccb-8349-4bb2-b754-397466fc916a:6",
+      "solved": {
+        "game": 7,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 2,
+        "instruction": "Encuentra la frase donde se usó mal un homófono.",
+        "pairs": null,
+        "steps": [
+          "Mi papá va a asar la carne en el patio.",
+          "Voy a cocer mi pantalón porque se descosió.",
+          "Subimos hasta la cima del cerro.",
+          "La caza de animales silvestres está prohibida."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 1,
+        "correction": "Voy a coser mi pantalón porque se descosió.",
+        "calc": null,
+        "explanation": "Para unir telas con aguja e hilo se usa coser, con s. Cocer es hervir o cocinar un alimento."
+      },
+      "seed": "e6233ccb-8349-4bb2-b754-397466fc916a:7",
+      "solved": {
+        "game": 8,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": "En la frase 2 debería usarse 'coser' (unir telas con aguja e hilo), no 'cocer'."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "En la frase 2 debería usarse 'coser' (unir telas con aguja e hilo), no 'cocer'."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: En la frase 2 debería usarse 'coser' (unir telas con aguja e hilo), no 'cocer'."
+        ]
+      }
+    }
+  ],
+  "notes": "El programa no trae contenidos específicos; las piezas se basan en usos y homófonos comunes de c, s, z y x. No se incluyó 'order' para las habilidades 0 y 1 ni 'pairs' para la 2, porque no encajan con un único orden o una única unión."
+}

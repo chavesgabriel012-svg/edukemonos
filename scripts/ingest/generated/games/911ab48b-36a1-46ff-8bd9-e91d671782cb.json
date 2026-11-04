@@ -1,0 +1,721 @@
+{
+  "unitId": "911ab48b-36a1-46ff-8bd9-e91d671782cb",
+  "createdAt": "2026-11-04T17:50:10.264Z",
+  "models": {
+    "games": "claude-sonnet-5-5",
+    "solve": "claude-sonnet-5-5"
+  },
+  "prompts": {
+    "games": "generate-games-system@1",
+    "solve": "solve-games-system@1"
+  },
+  "pieces": [
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 0,
+        "instruction": "Une cada fase del análisis de textos con lo que se hace en ella.",
+        "pairs": [
+          {
+            "left": "Fase natural",
+            "right": "Leer, decir tus primeras impresiones y relacionar el texto con lo que ya sabes"
+          },
+          {
+            "left": "Fase de ubicación",
+            "right": "Situar el texto: quién lo escribió, tipo de texto y contexto"
+          },
+          {
+            "left": "Fase analística",
+            "right": "Examinar las partes del texto: estructura, ideas y recursos"
+          },
+          {
+            "left": "Fase explicativa e interpretativa",
+            "right": "Explicar los sentidos del texto y dar una opinión fundamentada"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Cada fase tiene una tarea propia: primero lees y reaccionas, luego ubicas el texto, después lo analizas y al final explicas e interpretas sus sentidos."
+      },
+      "seed": "911ab48b-36a1-46ff-8bd9-e91d671782cb:0",
+      "solved": {
+        "game": 1,
+        "match": [
+          4,
+          1,
+          2,
+          3
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 0,
+        "instruction": "Ordena las fases del análisis crítico de un texto.",
+        "pairs": null,
+        "steps": [
+          "Fase natural: leer y anotar tus primeras impresiones",
+          "Fase de ubicación: identificar autor, tipo de texto y contexto",
+          "Fase analística: analizar estructura, ideas y recursos",
+          "Fase explicativa e interpretativa: explicar los sentidos y valorar el texto"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "El análisis va de lo más general a lo más profundo: natural, ubicación, analística y, por último, explicativa e interpretativa."
+      },
+      "seed": "911ab48b-36a1-46ff-8bd9-e91d671782cb:1",
+      "solved": {
+        "game": 2,
+        "match": null,
+        "order": [
+          4,
+          1,
+          3,
+          2
+        ],
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Elige la opción que completa el enunciado.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Cuando identificas quién escribió un texto, en qué contexto lo hizo y qué tipo de texto es, trabajas la fase ___.",
+        "options": [
+          "natural",
+          "de ubicación",
+          "analística",
+          "explicativa e interpretativa"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": null,
+        "explanation": "Situar el texto (autor, contexto y tipo de texto) es lo propio de la fase de ubicación."
+      },
+      "seed": "911ab48b-36a1-46ff-8bd9-e91d671782cb:2",
+      "solved": {
+        "game": 3,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 0,
+        "instruction": "Una de estas frases sobre las fases del análisis tiene un error. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "En la fase natural, expresas tus primeras impresiones del texto.",
+          "En la fase de ubicación, reconoces el tipo de texto y su contexto.",
+          "En la fase analística, solo dices si el texto te gustó o no, sin examinar sus partes.",
+          "En la fase explicativa e interpretativa, explicas los sentidos del texto y das tu opinión con razones."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "En la fase analística, examinas las partes del texto: su estructura, sus ideas y sus recursos.",
+        "calc": null,
+        "explanation": "Decir si algo gustó pertenece a las primeras impresiones de la fase natural. La fase analística examina cómo está construido el texto."
+      },
+      "seed": "911ab48b-36a1-46ff-8bd9-e91d671782cb:3",
+      "solved": {
+        "game": 4,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 1,
+        "instruction": "Une cada término del debate y la poesía coral con su significado.",
+        "pairs": [
+          {
+            "left": "Moderador",
+            "right": "Persona que dirige el debate, da los turnos y cuida el orden"
+          },
+          {
+            "left": "Tesis",
+            "right": "Postura que defiende cada equipo sobre el tema"
+          },
+          {
+            "left": "Argumento",
+            "right": "Razón que apoya la postura que se defiende"
+          },
+          {
+            "left": "Refutación",
+            "right": "Respuesta que muestra que un argumento contrario es débil o falso"
+          },
+          {
+            "left": "Solista",
+            "right": "En la poesía coral, voz que recita sola un fragmento"
+          },
+          {
+            "left": "Coro",
+            "right": "En la poesía coral, grupo que recita un fragmento al mismo tiempo"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Cada término cumple una función distinta: en el debate se dirige, se defiende, se apoya y se refuta; en la poesía coral se alternan voces solas y en grupo."
+      },
+      "seed": "911ab48b-36a1-46ff-8bd9-e91d671782cb:4",
+      "solved": {
+        "game": 5,
+        "match": [
+          2,
+          1,
+          4,
+          3,
+          6,
+          5
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 1,
+        "instruction": "Ordena las partes de un debate.",
+        "pairs": null,
+        "steps": [
+          "El moderador presenta el tema y las reglas",
+          "Cada equipo expone su postura inicial",
+          "Los equipos refutan los argumentos contrarios",
+          "Cada equipo presenta sus conclusiones finales",
+          "El moderador cierra el debate"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Primero se presenta el tema, luego se exponen las posturas, se refuta, se concluye y al final se cierra el debate."
+      },
+      "seed": "911ab48b-36a1-46ff-8bd9-e91d671782cb:5",
+      "solved": {
+        "game": 6,
+        "match": null,
+        "order": [
+          4,
+          3,
+          1,
+          5,
+          2
+        ],
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 1,
+        "instruction": "Elige la opción que completa el enunciado.",
+        "pairs": null,
+        "steps": null,
+        "stem": "La poesía coral se caracteriza porque el poema se recita ___.",
+        "options": [
+          "en silencio, solo con la vista",
+          "por una sola persona, sin cambiar el tono",
+          "por un grupo de voces que combinan solos y partes en coro",
+          "con un jurado que responde cada verso"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": null,
+        "explanation": "La poesía coral se recita entre varias voces, con ritmo, entonación y volumen coordinados, alternando solistas y coro."
+      },
+      "seed": "911ab48b-36a1-46ff-8bd9-e91d671782cb:6",
+      "solved": {
+        "game": 7,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 1,
+        "instruction": "Una de estas frases sobre el debate tiene un error. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "El debate es una discusión organizada sobre un tema con posturas distintas.",
+          "El moderador dirige los turnos de participación.",
+          "Los participantes defienden su postura con argumentos.",
+          "Un buen debatiente interrumpe y descalifica a la otra persona para ganar."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 3,
+        "correction": "Un buen debatiente respeta los turnos y refuta las ideas, no a las personas.",
+        "calc": null,
+        "explanation": "El debate exige respeto y orden. Se rebaten los argumentos, no se ataca a quien los dice."
+      },
+      "seed": "911ab48b-36a1-46ff-8bd9-e91d671782cb:7",
+      "solved": {
+        "game": 8,
+        "match": null,
+        "order": null,
+        "choice": 4,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 2,
+        "instruction": "Une cada forma de voseo con su equivalente en tuteo.",
+        "pairs": [
+          {
+            "left": "vos tenés",
+            "right": "tú tienes"
+          },
+          {
+            "left": "vos querés",
+            "right": "tú quieres"
+          },
+          {
+            "left": "vos sos",
+            "right": "tú eres"
+          },
+          {
+            "left": "vos vivís",
+            "right": "tú vives"
+          },
+          {
+            "left": "vos podés",
+            "right": "tú puedes"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "El voseo y el tuteo usan formas verbales distintas para la segunda persona del singular. Cada forma de voseo tiene una sola forma de tuteo."
+      },
+      "seed": "911ab48b-36a1-46ff-8bd9-e91d671782cb:8",
+      "solved": {
+        "game": 9,
+        "match": [
+          2,
+          5,
+          1,
+          4,
+          3
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 2,
+        "instruction": "Elige el tratamiento adecuado para la situación.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Para pedirle a la directora del colegio que revise tu carta, escribirías: «Directora, ¿___ puede revisar mi carta?»",
+        "options": [
+          "usted",
+          "tú",
+          "vos",
+          "yo"
+        ],
+        "answer_index": 0,
+        "correction": null,
+        "calc": null,
+        "explanation": "Con una persona de autoridad se usa el trato formal de usted, con el verbo en tercera persona: «usted puede»."
+      },
+      "seed": "911ab48b-36a1-46ff-8bd9-e91d671782cb:9",
+      "solved": {
+        "game": 10,
+        "match": null,
+        "order": null,
+        "choice": 0,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 2,
+        "instruction": "Una de estas frases mezcla mal las formas de tratamiento. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "Mamá, ¿querés que te ayude con la cena?",
+          "Profesora, ¿usted me puede explicar otra vez el tema?",
+          "Don Luis, ¿tú podés atenderme un momento?",
+          "Carlos, vos tenés razón en lo que dijiste."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "Don Luis, ¿usted puede atenderme un momento?",
+        "calc": null,
+        "explanation": "La frase mezcla el pronombre «tú» con el verbo de voseo «podés». Además, a una persona mayor o de jefatura se le habla de usted."
+      },
+      "seed": "911ab48b-36a1-46ff-8bd9-e91d671782cb:10",
+      "solved": {
+        "game": 11,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": "En la frase 1 se usa 'querés' con 'te', que es voseo coherente (vos/te), por lo que no es error; el error es solo la 3, que mezcla 'Don Luis' y 'tú' con 'podés' (voseo) y trato formal."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "En la frase 1 se usa 'querés' con 'te', que es voseo coherente (vos/te), por lo que no es error; el error es solo la 3, que mezcla 'Don Luis' y 'tú' con 'podés' (voseo) y trato formal."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: En la frase 1 se usa 'querés' con 'te', que es voseo coherente (vos/te), por lo que no es error; el error es solo la 3, que mezcla 'Don Luis' y 'tú' con 'podés' (voseo) y trato formal."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 3,
+        "instruction": "Une cada momento de la escritura con la tarea que corresponde.",
+        "pairs": [
+          {
+            "left": "Planificación",
+            "right": "Definir el propósito, el destinatario y un esquema de ideas"
+          },
+          {
+            "left": "Textualización",
+            "right": "Redactar el borrador en párrafos siguiendo el esquema"
+          },
+          {
+            "left": "Revisión del contenido",
+            "right": "Comprobar que las ideas sean claras, completas y ordenadas"
+          },
+          {
+            "left": "Revisión de la forma",
+            "right": "Corregir ortografía, tildes y puntuación"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Planificar es preparar el texto, textualizar es escribirlo y revisar es mejorarlo, tanto en lo que dice como en cómo está escrito."
+      },
+      "seed": "911ab48b-36a1-46ff-8bd9-e91d671782cb:11",
+      "solved": {
+        "game": 12,
+        "match": [
+          4,
+          1,
+          3,
+          2
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 3,
+        "instruction": "Ordena los pasos para escribir un texto.",
+        "pairs": null,
+        "steps": [
+          "Elegir el tema y el propósito del texto",
+          "Hacer un esquema con las ideas principales",
+          "Redactar el borrador en párrafos",
+          "Revisar que el contenido sea claro y completo",
+          "Corregir ortografía y puntuación"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Primero se planifica (tema y esquema), luego se textualiza (borrador) y al final se revisa, primero el contenido y después la forma."
+      },
+      "seed": "911ab48b-36a1-46ff-8bd9-e91d671782cb:12",
+      "solved": {
+        "game": 13,
+        "match": null,
+        "order": [
+          2,
+          1,
+          5,
+          4,
+          3
+        ],
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 3,
+        "instruction": "Elige la opción que completa el enunciado.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Cuando relees tu texto para corregir tildes y signos de puntuación, estás en el momento de ___ de la forma.",
+        "options": [
+          "planificación",
+          "textualización",
+          "lluvia de ideas",
+          "revisión"
+        ],
+        "answer_index": 3,
+        "correction": null,
+        "calc": null,
+        "explanation": "Corregir tildes y puntuación es parte de la revisión, que puede ser del contenido o de la forma."
+      },
+      "seed": "911ab48b-36a1-46ff-8bd9-e91d671782cb:13",
+      "solved": {
+        "game": 14,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": "La opción 3 'revisión' es la correcta, pero la frase 'momento de ___ de la forma' suena algo forzada; sigue siendo la única respuesta posible."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "La opción 3 'revisión' es la correcta, pero la frase 'momento de ___ de la forma' suena algo forzada; sigue siendo la única respuesta posible."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: La opción 3 'revisión' es la correcta, pero la frase 'momento de ___ de la forma' suena algo forzada; sigue siendo la única respuesta posible."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 3,
+        "instruction": "Una de estas frases sobre los momentos de la escritura tiene un error. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "La planificación incluye definir el propósito y quién leerá el texto.",
+          "En la textualización se redacta el borrador siguiendo el esquema.",
+          "La revisión solo se hace del contenido; la forma no importa.",
+          "Después de revisar, se puede reescribir el texto para mejorarlo."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "La revisión se hace del contenido y de la forma (ortografía, puntuación y redacción).",
+        "calc": null,
+        "explanation": "La revisión tiene dos partes: el contenido, o sea las ideas, y la forma, o sea cómo está escrito. Las dos son importantes."
+      },
+      "seed": "911ab48b-36a1-46ff-8bd9-e91d671782cb:14",
+      "solved": {
+        "game": 15,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    }
+  ],
+  "notes": "No se hizo pieza de ordenar para la habilidad 2 porque los tratamientos (voseo, tuteo, usted) no siguen un orden único. Los ejemplos de voseo se usan solo como contenido de la unidad."
+}

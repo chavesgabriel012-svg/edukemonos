@@ -1,0 +1,792 @@
+{
+  "unitId": "05c42523-48a1-4fc4-8c04-cf55b07a638c",
+  "createdAt": "2026-11-04T18:00:10.690Z",
+  "models": {
+    "games": "claude-sonnet-5-5",
+    "solve": "claude-sonnet-5-5"
+  },
+  "prompts": {
+    "games": "generate-games-system@1",
+    "solve": "solve-games-system@1"
+  },
+  "pieces": [
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Elige la opción que completa la idea sobre agrupar datos.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Cuando una variable tiene muchos valores distintos, como el tiempo de viaje de 120 estudiantes, agrupar los datos en clases sirve para ___.",
+        "options": [
+          "eliminar los datos que se repiten",
+          "cambiar los datos por otros más pequeños",
+          "hacer que todos los datos sean iguales",
+          "resumir muchos valores y ver cómo se distribuyen"
+        ],
+        "answer_index": 3,
+        "correction": null,
+        "calc": null,
+        "explanation": "Con muchos valores distintos, una lista completa es difícil de leer. Al agrupar en clases se resume la información y se ve dónde se concentran los datos."
+      },
+      "seed": "05c42523-48a1-4fc4-8c04-cf55b07a638c:0",
+      "solved": {
+        "game": 1,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 0,
+        "instruction": "Una de estas frases sobre agrupar datos es falsa. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "Agrupar en clases permite resumir muchos datos en una tabla corta.",
+          "Cada dato debe quedar en una sola clase.",
+          "Las clases deben cubrir desde el dato menor hasta el dato mayor.",
+          "Al agrupar, se conserva el valor exacto de cada dato original."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 3,
+        "correction": "Al agrupar, se pierde el valor exacto de cada dato, pero se gana una visión general de cómo se distribuyen.",
+        "calc": null,
+        "explanation": "Dentro de una clase ya no se ve el valor exacto de cada dato. Eso es lo que se cede a cambio de obtener un resumen más claro."
+      },
+      "seed": "05c42523-48a1-4fc4-8c04-cf55b07a638c:1",
+      "solved": {
+        "game": 2,
+        "match": null,
+        "order": null,
+        "choice": 4,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 1,
+        "instruction": "Se midieron 50 datos en total. Une cada frecuencia absoluta con su frecuencia porcentual.",
+        "pairs": [
+          {
+            "left": "10 de 50 datos",
+            "right": "20 %"
+          },
+          {
+            "left": "15 de 50 datos",
+            "right": "30 %"
+          },
+          {
+            "left": "25 de 50 datos",
+            "right": "50 %"
+          },
+          {
+            "left": "5 de 50 datos",
+            "right": "10 %"
+          },
+          {
+            "left": "20 de 50 datos",
+            "right": "40 %"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "La frecuencia porcentual es la frecuencia absoluta dividida entre el total y multiplicada por 100. Por ejemplo, 10 / 50 = 0,2, que es 20 %."
+      },
+      "seed": "05c42523-48a1-4fc4-8c04-cf55b07a638c:2",
+      "solved": {
+        "game": 3,
+        "match": [
+          1,
+          2,
+          3,
+          5,
+          4
+        ],
+        "order": null,
+        "choice": null,
+        "problems": "Con 50 datos: 10→20 %, 15→30 %, 25→50 %, 5→10 %, 20→40 %. Los números de la derecha son: 20 % es el 5, 10 % es el 1, 40 % es el 4. Por tanto 10 de 50 = 20 % (der. 5), 15 = 30 % (der. 2), 25 = 50 % (der. 3), 5 = 10 % (der. 1), 20 = 40 % (der. 4)."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": false,
+          "problems": "Con 50 datos: 10→20 %, 15→30 %, 25→50 %, 5→10 %, 20→40 %. Los números de la derecha son: 20 % es el 5, 10 % es el 1, 40 % es el 4. Por tanto 10 de 50 = 20 % (der. 5), 15 = 30 % (der. 2), 25 = 50 % (der. 3), 5 = 10 % (der. 1), 20 = 40 % (der. 4)."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador dio otra respuesta"
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 1,
+        "instruction": "Ordena los pasos para construir un cuadro de distribución de frecuencias.",
+        "pairs": null,
+        "steps": [
+          "Identifica el dato menor y el dato mayor.",
+          "Calcula el rango restando el menor al mayor.",
+          "Decide cuántas clases usar y la amplitud de cada una.",
+          "Escribe las clases en la primera columna del cuadro.",
+          "Cuenta cuántos datos caen en cada clase (frecuencia absoluta).",
+          "Divide cada frecuencia absoluta entre el total para hallar la frecuencia relativa."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Primero se conoce el rango, luego se definen las clases, después se cuenta y al final se calculan las frecuencias relativas, que dependen de las absolutas y del total."
+      },
+      "seed": "05c42523-48a1-4fc4-8c04-cf55b07a638c:3",
+      "solved": {
+        "game": 4,
+        "match": null,
+        "order": [
+          6,
+          1,
+          4,
+          3,
+          5,
+          2
+        ],
+        "choice": null,
+        "problems": "Los pasos 1 y 6 podrían intercambiarse (identificar menor y mayor antes de calcular el rango es lo lógico), y el paso 3 podría ir antes del 5 o después; el orden dado es el más natural."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "Los pasos 1 y 6 podrían intercambiarse (identificar menor y mayor antes de calcular el rango es lo lógico), y el paso 3 podría ir antes del 5 o después; el orden dado es el más natural."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: Los pasos 1 y 6 podrían intercambiarse (identificar menor y mayor antes de calcular el rango es lo lógico), y el paso 3 podría ir antes del 5 o después; el orden dado es el más natural."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 1,
+        "instruction": "Calcula y elige la opción correcta.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Los datos van de 12 a 48 y se quieren 6 clases de igual amplitud. La amplitud de cada clase es ___.",
+        "options": [
+          "4",
+          "6",
+          "8",
+          "36"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": "(48-12)/6",
+        "explanation": "El rango es 48 − 12 = 36. Al dividirlo entre 6 clases, la amplitud es 36 ÷ 6 = 6."
+      },
+      "seed": "05c42523-48a1-4fc4-8c04-cf55b07a638c:4",
+      "solved": {
+        "game": 5,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 1,
+        "instruction": "Un cuadro tiene cuatro clases con frecuencias 5, 8, 4 y 3. Encuentra el paso con el error.",
+        "pairs": null,
+        "steps": [
+          "Total de datos: 5 + 8 + 4 + 3 = 20",
+          "Frecuencia relativa de la clase 1: 5 / 20 = 0,25",
+          "Frecuencia relativa de la clase 2: 8 / 20 = 0,4",
+          "Frecuencia relativa de la clase 3: 4 / 20 = 0,25",
+          "Frecuencia relativa de la clase 4: 3 / 20 = 0,15"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 3,
+        "correction": "Frecuencia relativa de la clase 3: 4 / 20 = 0,2",
+        "calc": null,
+        "explanation": "4 dividido entre 20 es 0,2, no 0,25. Así las frecuencias relativas suman 0,25 + 0,4 + 0,2 + 0,15 = 1."
+      },
+      "seed": "05c42523-48a1-4fc4-8c04-cf55b07a638c:5",
+      "solved": {
+        "game": 6,
+        "match": null,
+        "order": null,
+        "choice": 4,
+        "problems": "Error en el paso 4: 4/20 = 0,2, no 0,25."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "Error en el paso 4: 4/20 = 0,2, no 0,25."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: Error en el paso 4: 4/20 = 0,2, no 0,25."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 2,
+        "instruction": "Lee el cuadro y elige la respuesta. Tiempo de estudio de 40 estudiantes (minutos): [20, 30): 8; [30, 40): 16; [40, 50): 12; [50, 60]: 4.",
+        "pairs": null,
+        "steps": null,
+        "stem": "El número de estudiantes que estudian menos de 40 minutos es ___.",
+        "options": [
+          "16",
+          "28",
+          "24",
+          "8"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": "8+16",
+        "explanation": "Estudian menos de 40 minutos los de las clases [20, 30) y [30, 40): 8 + 16 = 24 estudiantes."
+      },
+      "seed": "05c42523-48a1-4fc4-8c04-cf55b07a638c:6",
+      "solved": {
+        "game": 7,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 2,
+        "instruction": "Lee el cuadro y elige la respuesta. Tiempo de estudio de 40 estudiantes (minutos): [20, 30): 8; [30, 40): 16; [40, 50): 12; [50, 60]: 4.",
+        "pairs": null,
+        "steps": null,
+        "stem": "La frecuencia porcentual de la clase [40, 50) es ___.",
+        "options": [
+          "30 %",
+          "12 %",
+          "40 %",
+          "3 %"
+        ],
+        "answer_index": 0,
+        "correction": null,
+        "calc": "12/40*100",
+        "explanation": "La frecuencia relativa es 12 / 40 = 0,3. Al multiplicar por 100 se obtiene 30 %."
+      },
+      "seed": "05c42523-48a1-4fc4-8c04-cf55b07a638c:7",
+      "solved": {
+        "game": 8,
+        "match": null,
+        "order": null,
+        "choice": 0,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 2,
+        "instruction": "Estas conclusiones salen del cuadro de 40 estudiantes: [20, 30): 8; [30, 40): 16; [40, 50): 12; [50, 60]: 4. Una es incorrecta. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "El total de datos es 8 + 16 + 12 + 4 = 40.",
+          "La clase [30, 40) tiene la mayor frecuencia: 16 estudiantes.",
+          "La frecuencia relativa de [20, 30) es 8 / 40 = 0,2, es decir, 20 %.",
+          "Estudian menos de 40 minutos 8 + 16 = 24 estudiantes.",
+          "Estudian 50 minutos o más 12 + 4 = 16 estudiantes."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 4,
+        "correction": "Estudian 50 minutos o más solo 4 estudiantes, los de la clase [50, 60].",
+        "calc": null,
+        "explanation": "La clase [40, 50) llega hasta antes de 50 minutos, así que esos 12 estudiantes no cuentan. Solo cuenta la clase [50, 60]."
+      },
+      "seed": "05c42523-48a1-4fc4-8c04-cf55b07a638c:8",
+      "solved": {
+        "game": 9,
+        "match": null,
+        "order": null,
+        "choice": 5,
+        "problems": "Error en el paso 5: 50 o más es solo la clase [50, 60] con 4 estudiantes, no 12 + 4 = 16."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "Error en el paso 5: 50 o más es solo la clase [50, 60] con 4 estudiantes, no 12 + 4 = 16."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: Error en el paso 5: 50 o más es solo la clase [50, 60] con 4 estudiantes, no 12 + 4 = 16."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 3,
+        "instruction": "Une cada elemento de un histograma o de un polígono de frecuencias con lo que representa.",
+        "pairs": [
+          {
+            "left": "Histograma",
+            "right": "Barras pegadas cuya altura es la frecuencia de cada clase"
+          },
+          {
+            "left": "Polígono de frecuencias",
+            "right": "Línea que une puntos ubicados en la marca de clase a la altura de la frecuencia"
+          },
+          {
+            "left": "Eje horizontal",
+            "right": "Clases o intervalos"
+          },
+          {
+            "left": "Eje vertical",
+            "right": "Frecuencias"
+          },
+          {
+            "left": "Barra más alta",
+            "right": "Clase con mayor frecuencia"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "En un histograma las clases van en el eje horizontal y las frecuencias en el vertical. La barra más alta señala la clase con más datos. El polígono une los puntos de las marcas de clase."
+      },
+      "seed": "05c42523-48a1-4fc4-8c04-cf55b07a638c:9",
+      "solved": {
+        "game": 10,
+        "match": [
+          2,
+          3,
+          1,
+          4,
+          5
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 3,
+        "instruction": "Lee el histograma descrito y elige la respuesta.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Un histograma tiene cuatro barras con alturas 3, 7, 9 y 5, que son frecuencias absolutas. El total de datos representados es ___.",
+        "options": [
+          "21",
+          "24",
+          "9",
+          "4"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": "3+7+9+5",
+        "explanation": "En un histograma de frecuencias absolutas, la suma de las alturas es el total de datos: 3 + 7 + 9 + 5 = 24."
+      },
+      "seed": "05c42523-48a1-4fc4-8c04-cf55b07a638c:10",
+      "solved": {
+        "game": 11,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 3,
+        "instruction": "Una de estas frases sobre un histograma es falsa. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "Las barras de un histograma se dibujan sin espacio entre ellas, porque las clases son continuas.",
+          "La barra más alta indica la clase con mayor frecuencia.",
+          "La altura de cada barra indica la amplitud de la clase.",
+          "En el eje horizontal se escriben las clases."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "La altura de cada barra indica la frecuencia de la clase; la amplitud corresponde al ancho de la barra.",
+        "calc": null,
+        "explanation": "La altura de una barra se lee en el eje vertical y representa la frecuencia. La amplitud de la clase se ve en el ancho de la barra."
+      },
+      "seed": "05c42523-48a1-4fc4-8c04-cf55b07a638c:11",
+      "solved": {
+        "game": 12,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 4,
+        "instruction": "Ordena los pasos para armar una distribución de frecuencias y su gráfico en una hoja de cálculo.",
+        "pairs": null,
+        "steps": [
+          "Escribe los datos en una sola columna.",
+          "Escribe en otra columna los límites de las clases.",
+          "Calcula la frecuencia absoluta de cada clase con una función de conteo.",
+          "Divide cada frecuencia entre el total para obtener la frecuencia relativa.",
+          "Selecciona el cuadro e inserta el gráfico (histograma)."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "El gráfico se construye con las frecuencias del cuadro, así que primero se necesitan los datos, las clases y las frecuencias, y al final se inserta el gráfico."
+      },
+      "seed": "05c42523-48a1-4fc4-8c04-cf55b07a638c:12",
+      "solved": {
+        "game": 13,
+        "match": null,
+        "order": [
+          1,
+          5,
+          2,
+          4,
+          3
+        ],
+        "choice": null,
+        "problems": "Los pasos 4 y 3 podrían intercambiarse (el gráfico podría hacerse antes de la frecuencia relativa), pero el orden dado es el más natural."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "Los pasos 4 y 3 podrían intercambiarse (el gráfico podría hacerse antes de la frecuencia relativa), pero el orden dado es el más natural."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: Los pasos 4 y 3 podrían intercambiarse (el gráfico podría hacerse antes de la frecuencia relativa), pero el orden dado es el más natural."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 4,
+        "instruction": "Elige la función de la hoja de cálculo que completa la frase.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Para obtener el total de datos sumando todas las frecuencias de una columna, se usa la función ___.",
+        "options": [
+          "PROMEDIO",
+          "MAX",
+          "SUMA",
+          "MIN"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": null,
+        "explanation": "SUMA agrega todos los valores de un rango. Al sumar las frecuencias absolutas se obtiene el total de datos."
+      },
+      "seed": "05c42523-48a1-4fc4-8c04-cf55b07a638c:13",
+      "solved": {
+        "game": 14,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 4,
+        "instruction": "Elige la fórmula correcta.",
+        "pairs": null,
+        "steps": null,
+        "stem": "En una hoja de cálculo, la frecuencia absoluta de una clase está en B2 y el total de datos en B10. La frecuencia relativa se calcula con ___.",
+        "options": [
+          "=B2/B10",
+          "=B10/B2",
+          "=B2*B10",
+          "=B2+B10"
+        ],
+        "answer_index": 0,
+        "correction": null,
+        "calc": null,
+        "explanation": "La frecuencia relativa es la frecuencia absoluta dividida entre el total, es decir, =B2/B10."
+      },
+      "seed": "05c42523-48a1-4fc4-8c04-cf55b07a638c:14",
+      "solved": {
+        "game": 15,
+        "match": null,
+        "order": null,
+        "choice": 0,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 4,
+        "instruction": "Une cada función de la hoja de cálculo con lo que obtiene en una columna de datos.",
+        "pairs": [
+          {
+            "left": "=MAX(A2:A31)",
+            "right": "El dato mayor"
+          },
+          {
+            "left": "=MIN(A2:A31)",
+            "right": "El dato menor"
+          },
+          {
+            "left": "=SUMA(B2:B7)",
+            "right": "La suma de las frecuencias"
+          },
+          {
+            "left": "=CONTAR(A2:A31)",
+            "right": "Cuántas celdas tienen números"
+          },
+          {
+            "left": "=PROMEDIO(A2:A31)",
+            "right": "El valor promedio de los datos"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "MAX y MIN dan los extremos, que sirven para calcular el rango. SUMA y CONTAR dan totales, y PROMEDIO calcula el valor medio."
+      },
+      "seed": "05c42523-48a1-4fc4-8c04-cf55b07a638c:15",
+      "solved": {
+        "game": 16,
+        "match": [
+          2,
+          5,
+          4,
+          3,
+          1
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 4,
+        "instruction": "Estos pasos usan una hoja de cálculo para preparar las clases. Encuentra el paso con el error.",
+        "pairs": null,
+        "steps": [
+          "Los datos están en A2:A31, así que hay 30 datos.",
+          "=MAX(A2:A31) da el mayor dato, 48, y =MIN(A2:A31) da el menor, 12.",
+          "Rango: 48 − 12 = 36",
+          "Con 6 clases, la amplitud es 36 / 6 = 6.",
+          "Con B2 = 6 y el total en B8 = 30, la fórmula =B8/B2 calcula la frecuencia relativa."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 4,
+        "correction": "La frecuencia relativa se calcula con =B2/B8, que da 6 / 30 = 0,2.",
+        "calc": null,
+        "explanation": "La frecuencia relativa es la frecuencia de la clase entre el total. La fórmula =B8/B2 invierte la división y daría 5."
+      },
+      "seed": "05c42523-48a1-4fc4-8c04-cf55b07a638c:16",
+      "solved": {
+        "game": 17,
+        "match": null,
+        "order": null,
+        "choice": 5,
+        "problems": "Error en el paso 5: la fórmula correcta de frecuencia relativa es =B2/B8, no =B8/B2."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "Error en el paso 5: la fórmula correcta de frecuencia relativa es =B2/B8, no =B8/B2."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: Error en el paso 5: la fórmula correcta de frecuencia relativa es =B2/B8, no =B8/B2."
+        ]
+      }
+    }
+  ],
+  "notes": "Los cuadros se describen en la consigna porque no hay imágenes. Las clases usan la notación [a, b) para dejar claro a qué clase pertenece cada límite."
+}

@@ -1,0 +1,546 @@
+{
+  "unitId": "157e6f8f-6acc-41c3-a615-3ab1f60ca4b0",
+  "createdAt": "2026-11-04T17:54:38.580Z",
+  "models": {
+    "games": "claude-sonnet-5-5",
+    "solve": "claude-sonnet-5-5"
+  },
+  "prompts": {
+    "games": "generate-games-system@1",
+    "solve": "solve-games-system@1"
+  },
+  "pieces": [
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 0,
+        "instruction": "Une cada punto y su razón con su imagen en una homotecia de centro en el origen.",
+        "pairs": [
+          {
+            "left": "A(2, 3) con k = 2",
+            "right": "A'(4, 6)"
+          },
+          {
+            "left": "B(−1, 4) con k = 3",
+            "right": "B'(−3, 12)"
+          },
+          {
+            "left": "C(6, −4) con k = 1/2",
+            "right": "C'(3, −2)"
+          },
+          {
+            "left": "D(4, 8) con k = 1/4",
+            "right": "D'(1, 2)"
+          },
+          {
+            "left": "E(3, −2) con k = −2",
+            "right": "E'(−6, 4)"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Con centro en el origen, cada punto (x, y) se transforma en (kx, ky). Se multiplican ambas coordenadas por la razón k."
+      },
+      "seed": "157e6f8f-6acc-41c3-a615-3ab1f60ca4b0:0",
+      "solved": {
+        "game": 1,
+        "match": [
+          1,
+          4,
+          2,
+          3,
+          5
+        ],
+        "order": null,
+        "choice": null,
+        "problems": "A(2,3)·2=(4,6)→1; B(−1,4)·3=(−3,12)→4; C(6,−4)·1/2=(3,−2)→2; D(4,8)·1/4=(1,2)→3; E(3,−2)·(−2)=(−6,4)→5. Sin problemas."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "A(2,3)·2=(4,6)→1; B(−1,4)·3=(−3,12)→4; C(6,−4)·1/2=(3,−2)→2; D(4,8)·1/4=(1,2)→3; E(3,−2)·(−2)=(−6,4)→5. Sin problemas."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: A(2,3)·2=(4,6)→1; B(−1,4)·3=(−3,12)→4; C(6,−4)·1/2=(3,−2)→2; D(4,8)·1/4=(1,2)→3; E(3,−2)·(−2)=(−6,4)→5. Sin problemas."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 0,
+        "instruction": "Ordena los pasos para trazar la imagen de un polígono por una homotecia con centro en el origen.",
+        "pairs": null,
+        "steps": [
+          "Ubica en el plano cartesiano los vértices del polígono original.",
+          "Multiplica las dos coordenadas de cada vértice por la razón k.",
+          "Ubica en el plano los puntos que obtuviste, que son los vértices de la imagen.",
+          "Une los puntos imagen en el mismo orden que los vértices originales."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Primero necesitas los vértices originales, luego calculas sus imágenes, las ubicas y al final las unes en el mismo orden para formar la figura."
+      },
+      "seed": "157e6f8f-6acc-41c3-a615-3ab1f60ca4b0:1",
+      "solved": {
+        "game": 2,
+        "match": null,
+        "order": [
+          1,
+          3,
+          2,
+          4
+        ],
+        "choice": null,
+        "problems": "Los pasos 2 y 4 podrían intercambiarse parcialmente (unir puntos antes de ubicarlos no tiene sentido, así que el orden es único). Sin problemas graves."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "Los pasos 2 y 4 podrían intercambiarse parcialmente (unir puntos antes de ubicarlos no tiene sentido, así que el orden es único). Sin problemas graves."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: Los pasos 2 y 4 podrían intercambiarse parcialmente (unir puntos antes de ubicarlos no tiene sentido, así que el orden es único). Sin problemas graves."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Completa con la coordenada correcta.",
+        "pairs": null,
+        "steps": null,
+        "stem": "El vértice C(3, 5) se transforma con una homotecia de centro en el origen y razón 3. La coordenada y de C' es ___.",
+        "options": [
+          "8",
+          "15",
+          "6",
+          "9"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": "3*5",
+        "explanation": "La coordenada y se multiplica por la razón: 3 × 5 = 15. Por eso C' = (9, 15). El 8 sale de sumar y el 9 es la coordenada x de C'."
+      },
+      "seed": "157e6f8f-6acc-41c3-a615-3ab1f60ca4b0:2",
+      "solved": {
+        "game": 3,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 0,
+        "instruction": "Encuentra el paso con error al aplicar una homotecia de centro O y razón 2.",
+        "pairs": null,
+        "steps": [
+          "La regla es (x, y) → (2x, 2y), porque el centro es el origen y k = 2.",
+          "P(3, −1): (2 × 3, 2 × (−1)) = (6, −2)",
+          "Q(−2, 4): (2 × (−2), 2 × 4) = (−4, 6)",
+          "R(5, 0): (2 × 5, 2 × 0) = (10, 0)"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "Q(−2, 4): (2 × (−2), 2 × 4) = (−4, 8)",
+        "calc": null,
+        "explanation": "2 × 4 = 8, no 6. Las dos coordenadas de Q se multiplican por 2, así que Q' = (−4, 8)."
+      },
+      "seed": "157e6f8f-6acc-41c3-a615-3ab1f60ca4b0:3",
+      "solved": {
+        "game": 4,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": "El error está en el paso 3: 2×4 = 8, no 6. Corrección: el paso con error es el 3, no el 4."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "El error está en el paso 3: 2×4 = 8, no 6. Corrección: el paso con error es el 3, no el 4."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: El error está en el paso 3: 2×4 = 8, no 6. Corrección: el paso con error es el 3, no el 4."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 1,
+        "instruction": "Une cada término con su descripción.",
+        "pairs": [
+          {
+            "left": "Centro de homotecia",
+            "right": "Punto fijo desde el cual se aplica la transformación"
+          },
+          {
+            "left": "Razón de homotecia",
+            "right": "Número por el que se multiplica la distancia de cada punto al centro"
+          },
+          {
+            "left": "Puntos homólogos",
+            "right": "Un punto de la figura original y el punto que le corresponde en la imagen"
+          },
+          {
+            "left": "Ángulos homólogos",
+            "right": "Ángulos que tienen la misma medida en la figura y en su imagen"
+          },
+          {
+            "left": "Lados homólogos",
+            "right": "Lados que se corresponden y cuyas medidas guardan la razón k"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Cada término tiene una descripción distinta: el centro es un punto fijo, la razón es un número, y los elementos homólogos son los que se corresponden entre la figura y su imagen."
+      },
+      "seed": "157e6f8f-6acc-41c3-a615-3ab1f60ca4b0:4",
+      "solved": {
+        "game": 5,
+        "match": [
+          2,
+          5,
+          3,
+          1,
+          4
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 1,
+        "instruction": "Completa con el elemento homólogo.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Una homotecia transforma el triángulo ABC en el triángulo A'B'C'. El lado homólogo de BC es ___.",
+        "options": [
+          "A'B'",
+          "A'C'",
+          "B'C'",
+          "AB"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": null,
+        "explanation": "Los lados homólogos unen los homólogos de los extremos. B tiene como homólogo a B' y C a C', así que el homólogo de BC es B'C'."
+      },
+      "seed": "157e6f8f-6acc-41c3-a615-3ab1f60ca4b0:5",
+      "solved": {
+        "game": 6,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 1,
+        "instruction": "Una de estas frases sobre una homotecia tiene un error. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "Se aplica una homotecia de razón 3 al triángulo ABC y se obtiene el triángulo A'B'C'.",
+          "El vértice B' es el homólogo del vértice B.",
+          "El ángulo en C' mide lo mismo que el ángulo en C.",
+          "Si AB mide 4 cm, entonces A'B' mide 3 + 4 = 7 cm.",
+          "El lado B'C' es el homólogo del lado BC."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 3,
+        "correction": "Si AB mide 4 cm, entonces A'B' mide 3 × 4 = 12 cm.",
+        "calc": null,
+        "explanation": "El lado homólogo se obtiene multiplicando por la razón, no sumándola. Con k = 3, A'B' mide 3 × 4 = 12 cm."
+      },
+      "seed": "157e6f8f-6acc-41c3-a615-3ab1f60ca4b0:6",
+      "solved": {
+        "game": 7,
+        "match": null,
+        "order": null,
+        "choice": 4,
+        "problems": "El paso 4 es erróneo: con razón 3, A'B' mide 3×4 = 12 cm, no 3+4."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "El paso 4 es erróneo: con razón 3, A'B' mide 3×4 = 12 cm, no 3+4."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: El paso 4 es erróneo: con razón 3, A'B' mide 3×4 = 12 cm, no 3+4."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 2,
+        "instruction": "Une cada par de puntos homólogos con la razón de la homotecia de centro en el origen.",
+        "pairs": [
+          {
+            "left": "A(2, 4) y A'(6, 12)",
+            "right": "k = 3"
+          },
+          {
+            "left": "B(6, 9) y B'(2, 3)",
+            "right": "k = 1/3"
+          },
+          {
+            "left": "C(4, −2) y C'(−4, 2)",
+            "right": "k = −1"
+          },
+          {
+            "left": "D(5, 5) y D'(10, 10)",
+            "right": "k = 2"
+          },
+          {
+            "left": "E(8, −6) y E'(4, −3)",
+            "right": "k = 1/2"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "La razón es el cociente entre las coordenadas de la imagen y las del original. Por ejemplo, 6 ÷ 2 = 3 y 12 ÷ 4 = 3, así que k = 3."
+      },
+      "seed": "157e6f8f-6acc-41c3-a615-3ab1f60ca4b0:7",
+      "solved": {
+        "game": 8,
+        "match": [
+          2,
+          4,
+          1,
+          5,
+          3
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 2,
+        "instruction": "Ordena los pasos para comprobar si dos figuras son homotéticas con centro en el origen.",
+        "pairs": null,
+        "steps": [
+          "Anota las coordenadas de los vértices de las dos figuras.",
+          "Empareja cada vértice de la primera figura con su posible homólogo.",
+          "Divide las coordenadas de cada vértice de la segunda figura entre las de su pareja.",
+          "Verifica que el cociente sea el mismo en todos los vértices.",
+          "Concluye que son homotéticas, y que ese cociente es la razón k."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Primero necesitas los datos, luego los emparejas, calculas los cocientes, los comparas y solo al final concluyes."
+      },
+      "seed": "157e6f8f-6acc-41c3-a615-3ab1f60ca4b0:8",
+      "solved": {
+        "game": 9,
+        "match": null,
+        "order": [
+          1,
+          3,
+          5,
+          4,
+          2
+        ],
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 2,
+        "instruction": "Elige el triángulo que es homotético al dado.",
+        "pairs": null,
+        "steps": null,
+        "stem": "El triángulo de vértices A(1, 2), B(3, 2) y C(3, 4) es homotético, con centro en el origen y razón 2, al triángulo de vértices ___.",
+        "options": [
+          "A'(2, 3), B'(4, 3), C'(4, 5)",
+          "A'(3, 4), B'(5, 4), C'(5, 6)",
+          "A'(2, 4), B'(6, 4), C'(6, 6)",
+          "A'(2, 4), B'(6, 4), C'(6, 8)"
+        ],
+        "answer_index": 3,
+        "correction": null,
+        "calc": null,
+        "explanation": "Se multiplican por 2 las dos coordenadas de cada vértice: A' = (2, 4), B' = (6, 4) y C' = (6, 8). Las otras opciones suman en lugar de multiplicar o no cambian bien todas las coordenadas."
+      },
+      "seed": "157e6f8f-6acc-41c3-a615-3ab1f60ca4b0:9",
+      "solved": {
+        "game": 10,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": "Con k=2: A'(2,4), B'(6,4), C'(6,8). Solo la opción 3 es correcta."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "Con k=2: A'(2,4), B'(6,4), C'(6,8). Solo la opción 3 es correcta."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: Con k=2: A'(2,4), B'(6,4), C'(6,8). Solo la opción 3 es correcta."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 2,
+        "instruction": "Se comprueba si A'B'C' es la imagen de ABC. Encuentra el paso con error.",
+        "pairs": null,
+        "steps": [
+          "Se prueba una homotecia de centro O y razón k = 2 sobre el triángulo ABC.",
+          "A(1, 1) → A'(2, 2), porque 2 × 1 = 2.",
+          "B(4, 1) → B'(8, 2), porque 2 × 4 = 8 y 2 × 1 = 2.",
+          "C(4, 3) → C'(8, 5), porque 2 × 3 = 5."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 3,
+        "correction": "C(4, 3) → C'(8, 6), porque 2 × 3 = 6.",
+        "calc": null,
+        "explanation": "2 × 3 = 6, no 5. Por eso la imagen de C es C'(8, 6), y el punto (8, 5) no es su homólogo."
+      },
+      "seed": "157e6f8f-6acc-41c3-a615-3ab1f60ca4b0:10",
+      "solved": {
+        "game": 11,
+        "match": null,
+        "order": null,
+        "choice": 4,
+        "problems": "El paso 4 es erróneo: 2×3 = 6, así que C' debería ser (8,6), no (8,5)."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "El paso 4 es erróneo: 2×3 = 6, así que C' debería ser (8,6), no (8,5)."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: El paso 4 es erróneo: 2×3 = 6, así que C' debería ser (8,6), no (8,5)."
+        ]
+      }
+    }
+  ],
+  "notes": ""
+}

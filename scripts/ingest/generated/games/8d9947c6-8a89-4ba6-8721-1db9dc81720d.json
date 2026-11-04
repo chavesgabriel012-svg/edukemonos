@@ -1,0 +1,393 @@
+{
+  "unitId": "8d9947c6-8a89-4ba6-8721-1db9dc81720d",
+  "createdAt": "2026-11-04T17:43:29.305Z",
+  "models": {
+    "games": "claude-sonnet-5-5",
+    "solve": "claude-sonnet-5-5"
+  },
+  "prompts": {
+    "games": "generate-games-system@1",
+    "solve": "solve-games-system@1"
+  },
+  "pieces": [
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 0,
+        "instruction": "Une cada momento de la lectura con lo que haces en él.",
+        "pairs": [
+          {
+            "left": "Antes de leer",
+            "right": "Observo la portada y el título para imaginar de qué trata"
+          },
+          {
+            "left": "Mientras leo",
+            "right": "Subrayo o anoto las palabras que no entiendo"
+          },
+          {
+            "left": "Al terminar un capítulo",
+            "right": "Cuento con mis palabras lo que sucedió"
+          },
+          {
+            "left": "Al elegir mi libro",
+            "right": "Escojo un tema que me guste"
+          },
+          {
+            "left": "Al terminar el tiempo diario",
+            "right": "Anoto la página donde me quedé"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Cada momento de la lectura tiene una acción propia: predecir antes, anotar dudas durante, resumir al terminar un capítulo, elegir por gusto y marcar el avance al final."
+      },
+      "seed": "8d9947c6-8a89-4ba6-8721-1db9dc81720d:0",
+      "solved": {
+        "game": 1,
+        "match": [
+          5,
+          2,
+          1,
+          3,
+          4
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 0,
+        "instruction": "Ordena los pasos de una sesión de lectura diaria.",
+        "pairs": null,
+        "steps": [
+          "Observo la portada y el título para predecir de qué trata",
+          "Leo con atención durante los treinta minutos",
+          "Busco el significado de las palabras que no entendí",
+          "Cuento con mis palabras lo que leí"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Primero se prepara la lectura (antes), luego se lee (durante) y después se aclaran las dudas y se comenta lo leído (después)."
+      },
+      "seed": "8d9947c6-8a89-4ba6-8721-1db9dc81720d:1",
+      "solved": {
+        "game": 2,
+        "match": null,
+        "order": [
+          1,
+          2,
+          4,
+          3
+        ],
+        "choice": null,
+        "problems": "Ambigüedad: buscar el significado de las palabras (4) puede hacerse durante la lectura o después, y contar lo leído (3) también podría ir antes. Los pasos 3 y 4 son defendibles en ambos órdenes. Elegí 4 antes de 3 porque primero se aclara el vocabulario y luego se cuenta lo leído."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "Ambigüedad: buscar el significado de las palabras (4) puede hacerse durante la lectura o después, y contar lo leído (3) también podría ir antes. Los pasos 3 y 4 son defendibles en ambos órdenes. Elegí 4 antes de 3 porque primero se aclara el vocabulario y luego se cuenta lo leído."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: Ambigüedad: buscar el significado de las palabras (4) puede hacerse durante la lectura o después, y contar lo leído (3) también podría ir antes. Los pasos 3 y 4 son defendibles en ambos órdenes. Elegí 4 antes de 3 porque primero se aclara el vocabulario y luego se cuenta lo leído."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Elige la opción que completa la oración.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Para leer con gozo treinta minutos cada día, lo más recomendable es elegir un libro ___.",
+        "options": [
+          "que otra persona escogió aunque no me interese",
+          "que me llame la atención y me guste",
+          "que sea muy difícil para presumir",
+          "que solo tenga imágenes y nada de texto"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": null,
+        "explanation": "Leer con gozo exige escoger un libro que nos interese; así es más fácil mantener el hábito todos los días."
+      },
+      "seed": "8d9947c6-8a89-4ba6-8721-1db9dc81720d:2",
+      "solved": {
+        "game": 3,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 0,
+        "instruction": "Una de estas frases sobre la lectura diaria tiene un error. Encuéntralo.",
+        "pairs": null,
+        "steps": [
+          "Leer todos los días durante treinta minutos ayuda a formar el hábito de la lectura.",
+          "Leer de forma comprensiva significa entender lo que dice el texto.",
+          "Si no entiendo una palabra, lo mejor es saltarla siempre y nunca buscar su significado.",
+          "Después de leer, puedo resumir lo que entendí con mis propias palabras."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "Si no entiendo una palabra, puedo releer la oración, deducir su significado por el contexto o buscarlo en el diccionario.",
+        "calc": null,
+        "explanation": "Para comprender lo que se lee hay que aclarar las palabras desconocidas; saltarlas siempre dificulta entender el texto."
+      },
+      "seed": "8d9947c6-8a89-4ba6-8721-1db9dc81720d:3",
+      "solved": {
+        "game": 4,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 1,
+        "instruction": "Une cada técnica de comunicación oral con su característica.",
+        "pairs": [
+          {
+            "left": "Entrevista",
+            "right": "Una persona pregunta y otra responde para obtener información"
+          },
+          {
+            "left": "Debate",
+            "right": "Dos grupos defienden posturas opuestas y buscan convencer"
+          },
+          {
+            "left": "Exposición oral",
+            "right": "Una persona presenta un tema a la audiencia de forma organizada"
+          },
+          {
+            "left": "Foro",
+            "right": "La audiencia participa con preguntas y opiniones sobre un tema"
+          },
+          {
+            "left": "Mesa redonda",
+            "right": "Varias personas conversan en igualdad sobre un tema, sin buscar ganar"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Cada técnica se distingue por quién habla y para qué: la entrevista pregunta, el debate confronta posturas, la exposición presenta, el foro abre la participación y la mesa redonda conversa sin competir."
+      },
+      "seed": "8d9947c6-8a89-4ba6-8721-1db9dc81720d:4",
+      "solved": {
+        "game": 5,
+        "match": [
+          3,
+          2,
+          4,
+          5,
+          1
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 1,
+        "instruction": "Ordena los pasos para preparar una exposición oral.",
+        "pairs": null,
+        "steps": [
+          "Elijo el tema que voy a presentar",
+          "Investigo en fuentes confiables",
+          "Organizo las ideas en un esquema con inicio, desarrollo y cierre",
+          "Practico en voz alta cuidando el volumen y la claridad",
+          "Presento el tema ante la audiencia"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Primero se escoge y se investiga el tema, después se organizan las ideas, luego se practica y al final se presenta."
+      },
+      "seed": "8d9947c6-8a89-4ba6-8721-1db9dc81720d:5",
+      "solved": {
+        "game": 6,
+        "match": null,
+        "order": [
+          3,
+          5,
+          4,
+          1,
+          2
+        ],
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 1,
+        "instruction": "Elige la opción que completa la oración.",
+        "pairs": null,
+        "steps": null,
+        "stem": "En un debate, la persona que modera ___.",
+        "options": [
+          "defiende una de las posturas con más fuerza",
+          "responde todas las preguntas del público",
+          "da la palabra y cuida el orden y el tiempo de las intervenciones",
+          "decide en secreto quién tiene la razón"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": null,
+        "explanation": "El moderador no toma partido: organiza los turnos para hablar y controla el tiempo para que el debate sea ordenado y respetuoso."
+      },
+      "seed": "8d9947c6-8a89-4ba6-8721-1db9dc81720d:6",
+      "solved": {
+        "game": 7,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 1,
+        "instruction": "Una de estas frases sobre las técnicas orales tiene un error. Encuéntralo.",
+        "pairs": null,
+        "steps": [
+          "En una entrevista, quien entrevista prepara las preguntas con anticipación.",
+          "En una entrevista, la persona entrevistada es quien hace todas las preguntas.",
+          "En una exposición oral conviene hablar con voz clara y mirar a la audiencia.",
+          "En un debate se deben respetar los turnos para hablar."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 1,
+        "correction": "En una entrevista, quien entrevista es quien hace las preguntas y la persona entrevistada las responde.",
+        "calc": null,
+        "explanation": "En la entrevista los papeles son distintos: la persona entrevistadora pregunta y la entrevistada responde; la frase invierte esos papeles."
+      },
+      "seed": "8d9947c6-8a89-4ba6-8721-1db9dc81720d:7",
+      "solved": {
+        "game": 8,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    }
+  ],
+  "notes": "El programa no detalla contenidos; se usaron técnicas orales comunes en sétimo año (entrevista, debate, exposición, foro, mesa redonda)."
+}

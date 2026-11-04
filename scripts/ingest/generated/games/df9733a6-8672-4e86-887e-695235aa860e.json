@@ -1,0 +1,202 @@
+{
+  "unitId": "df9733a6-8672-4e86-887e-695235aa860e",
+  "createdAt": "2026-11-04T17:53:22.954Z",
+  "models": {
+    "games": "claude-sonnet-5-5",
+    "solve": "claude-sonnet-5-5"
+  },
+  "prompts": {
+    "games": "generate-games-system@1",
+    "solve": "solve-games-system@1"
+  },
+  "pieces": [
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 0,
+        "instruction": "Une cada representación con la que le corresponde.",
+        "pairs": [
+          {
+            "left": "Gráfica: una recta que pasa por el origen",
+            "right": "Relación directa"
+          },
+          {
+            "left": "Gráfica: una curva que baja y no toca los ejes",
+            "right": "Relación inversa"
+          },
+          {
+            "left": "Tabla: x = 1, 2, 3 y y = 4, 8, 12",
+            "right": "y = 4x"
+          },
+          {
+            "left": "Tabla: x = 1, 2, 4 y y = 8, 4, 2",
+            "right": "y = 8/x"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "En la tabla 1, y es siempre 4 veces x, así que es y = 4x. En la tabla 2, x × y siempre da 8, así que es y = 8/x. La gráfica de una relación directa es una recta por el origen y la de una inversa es una curva."
+      },
+      "seed": "df9733a6-8672-4e86-887e-695235aa860e:0",
+      "solved": {
+        "game": 1,
+        "match": [
+          1,
+          3,
+          2,
+          4
+        ],
+        "order": null,
+        "choice": null,
+        "problems": "Cada elemento de la izquierda tiene dos opciones de la derecha que podrían servirle: la gráfica de la recta (1) con \"Relación directa\", y la tabla 3 con \"y = 4x\". Con todo, las parejas quedan determinadas por exclusión: 1→1, 2→3, 3→2, 4→4. Una recta por el origen también podría describirse con una ecuación, pero ninguna ecuación se menciona en la gráfica, así que la respuesta única es defendible."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "Cada elemento de la izquierda tiene dos opciones de la derecha que podrían servirle: la gráfica de la recta (1) con \"Relación directa\", y la tabla 3 con \"y = 4x\". Con todo, las parejas quedan determinadas por exclusión: 1→1, 2→3, 3→2, 4→4. Una recta por el origen también podría describirse con una ecuación, pero ninguna ecuación se menciona en la gráfica, así que la respuesta única es defendible."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: Cada elemento de la izquierda tiene dos opciones de la derecha que podrían servirle: la gráfica de la recta (1) con \"Relación directa\", y la tabla 3 con \"y = 4x\". Con todo, las parejas quedan determinadas por exclusión: 1→1, 2→3, 3→2, 4→4. Una recta por el origen también podría describirse con una ecuación, pero ninguna ecuación se menciona en la gráfica, así que la respuesta única es defendible."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 0,
+        "instruction": "Ordena los pasos para hallar la ecuación de una relación directa a partir de una tabla.",
+        "pairs": null,
+        "steps": [
+          "Elige un par (x, y) de la tabla.",
+          "Calcula la constante k = y ÷ x con ese par.",
+          "Comprueba que otro par de la tabla da el mismo k.",
+          "Escribe la ecuación y = kx."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Primero se toma un par, luego se calcula k, después se verifica con otro par para estar seguros de que la relación es directa y al final se escribe y = kx."
+      },
+      "seed": "df9733a6-8672-4e86-887e-695235aa860e:1",
+      "solved": {
+        "game": 2,
+        "match": null,
+        "order": [
+          4,
+          1,
+          3,
+          2
+        ],
+        "choice": null,
+        "problems": "El orden 4,1,2,3 también es defendible: comprobar con otro par antes de escribir la ecuación. El orden 4,1,3,2 sigue el texto (escribir la ecuación y luego verificarla). Hay ambigüedad entre los pasos 2 y 3."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": false,
+          "problems": "El orden 4,1,2,3 también es defendible: comprobar con otro par antes de escribir la ecuación. El orden 4,1,3,2 sigue el texto (escribir la ecuación y luego verificarla). Hay ambigüedad entre los pasos 2 y 3."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador dio otra respuesta"
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Completa con el valor correcto.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Una relación inversa cumple y = 24/x. Cuando x = 6, el valor de y es ___.",
+        "options": [
+          "30",
+          "144",
+          "4",
+          "18"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": "24/6",
+        "explanation": "Se sustituye x por 6: y = 24 ÷ 6 = 4. Multiplicar (144), restar (18) o sumar (30) no es lo que indica la ecuación."
+      },
+      "seed": "df9733a6-8672-4e86-887e-695235aa860e:2",
+      "solved": {
+        "game": 3,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 0,
+        "instruction": "Encuentra el paso con error en esta resolución.",
+        "pairs": null,
+        "steps": [
+          "La relación es directa, entonces y = kx.",
+          "Datos: x = 4 y y = 20.",
+          "k = 20 ÷ 4 = 5",
+          "y = 5x",
+          "Si x = 7: y = 5 × 7 = 30"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 4,
+        "correction": "Si x = 7: y = 5 × 7 = 35",
+        "calc": null,
+        "explanation": "El error está en la multiplicación: 5 × 7 es 35, no 30. Los otros pasos están bien."
+      },
+      "seed": "df9733a6-8672-4e86-887e-695235aa860e:3",
+      "solved": {
+        "game": 4,
+        "match": null,
+        "order": null,
+        "choice": 5,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    }
+  ],
+  "notes": ""
+}

@@ -1,0 +1,618 @@
+{
+  "unitId": "5e6d4038-cd69-4277-ac97-768041906bbc",
+  "createdAt": "2026-11-04T18:00:06.851Z",
+  "models": {
+    "games": "claude-sonnet-5-5",
+    "solve": "claude-sonnet-5-5"
+  },
+  "prompts": {
+    "games": "generate-games-system@1",
+    "solve": "solve-games-system@1"
+  },
+  "pieces": [
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Elige el evento cuya probabilidad no se puede calcular con el concepto clásico.",
+        "pairs": null,
+        "steps": null,
+        "stem": "La probabilidad de ___ no puede calcularse con el concepto clásico.",
+        "options": [
+          "sacar un 4 al lanzar un dado equilibrado",
+          "que una moneda equilibrada caiga corona",
+          "que una tachuela lanzada caiga con la punta hacia arriba",
+          "sacar una bola verde de una bolsa con 2 verdes y 8 rojas"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": null,
+        "explanation": "El concepto clásico necesita resultados igualmente probables. Una tachuela puede caer de dos formas, pero esas formas no tienen la misma posibilidad. Por eso su probabilidad se estima repitiendo el experimento."
+      },
+      "seed": "5e6d4038-cd69-4277-ac97-768041906bbc:0",
+      "solved": {
+        "game": 1,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 0,
+        "instruction": "Una de estas frases es incorrecta. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "El concepto clásico exige que todos los resultados del espacio muestral tengan la misma posibilidad.",
+          "Al lanzar un dado equilibrado, la probabilidad de que salga 3 es 1/6 y se calcula con el concepto clásico.",
+          "Si un dado está cargado, se puede seguir usando 1/6 para cada cara con el concepto clásico.",
+          "Cuando los resultados no son igualmente probables, la probabilidad se estima con la frecuencia relativa."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "Si un dado está cargado, sus caras no son igualmente probables, así que no se puede usar 1/6 con el concepto clásico. La probabilidad se estima con la frecuencia relativa.",
+        "calc": null,
+        "explanation": "Un dado cargado favorece algunas caras. Sin resultados igualmente probables, el concepto clásico no sirve y hay que usar la frecuencia relativa."
+      },
+      "seed": "5e6d4038-cd69-4277-ac97-768041906bbc:1",
+      "solved": {
+        "game": 2,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 1,
+        "instruction": "Une cada término con su significado.",
+        "pairs": [
+          {
+            "left": "Frecuencia absoluta",
+            "right": "Número de veces que ocurre el evento"
+          },
+          {
+            "left": "Frecuencia relativa",
+            "right": "Frecuencia absoluta dividida entre el total de ensayos"
+          },
+          {
+            "left": "Ensayo",
+            "right": "Cada repetición del experimento"
+          },
+          {
+            "left": "Espacio muestral indeterminado",
+            "right": "No se conocen o no se pueden listar todos los resultados posibles"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "La frecuencia absoluta cuenta las veces que ocurre el evento. La frecuencia relativa la divide entre los ensayos. Cada repetición del experimento es un ensayo. Cuando no se pueden listar los resultados posibles, el espacio muestral es indeterminado."
+      },
+      "seed": "5e6d4038-cd69-4277-ac97-768041906bbc:2",
+      "solved": {
+        "game": 3,
+        "match": [
+          3,
+          2,
+          4,
+          1
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 1,
+        "instruction": "Ordena los pasos para estimar una probabilidad con la frecuencia relativa.",
+        "pairs": null,
+        "steps": [
+          "Define el evento que quieres estudiar.",
+          "Repite el experimento muchas veces en las mismas condiciones.",
+          "Anota cuántas veces ocurrió el evento (frecuencia absoluta).",
+          "Divide esa frecuencia entre el total de repeticiones.",
+          "Usa el resultado como estimación de la probabilidad del evento."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Primero se define el evento y se repite el experimento. Luego se cuentan las veces que ocurre y se divide entre el total de ensayos. Ese cociente es la estimación de la probabilidad."
+      },
+      "seed": "5e6d4038-cd69-4277-ac97-768041906bbc:3",
+      "solved": {
+        "game": 4,
+        "match": null,
+        "order": [
+          4,
+          5,
+          2,
+          3,
+          1
+        ],
+        "choice": null,
+        "problems": "Los pasos 2 y 3 son secuenciales, pero el orden 5,2,3 es el natural; no hay ambigüedad relevante."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "Los pasos 2 y 3 son secuenciales, pero el orden 5,2,3 es el natural; no hay ambigüedad relevante."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: Los pasos 2 y 3 son secuenciales, pero el orden 5,2,3 es el natural; no hay ambigüedad relevante."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 1,
+        "instruction": "Calcula la frecuencia relativa y elige la opción correcta.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Una tachuela se lanzó 200 veces y cayó con la punta hacia arriba 128 veces. La frecuencia relativa de ese evento es ___.",
+        "options": [
+          "0,36",
+          "0,64",
+          "1,56",
+          "0,128"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": "128/200",
+        "explanation": "La frecuencia relativa es 128 ÷ 200 = 0,64. Los distractores salen de dividir al revés (1,56), de usar las veces que no ocurrió (0,36) o de usar solo el numerador (0,128)."
+      },
+      "seed": "5e6d4038-cd69-4277-ac97-768041906bbc:4",
+      "solved": {
+        "game": 5,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 1,
+        "instruction": "Encuentra el paso con el error.",
+        "pairs": null,
+        "steps": [
+          "Total de lanzamientos de la chinche: 50.",
+          "Veces que cayó con la punta hacia arriba: 20.",
+          "Frecuencia relativa = 20 ÷ 50 = 0,04",
+          "La frecuencia relativa calculada sirve como estimación de la probabilidad."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "Frecuencia relativa = 20 ÷ 50 = 0,4",
+        "calc": null,
+        "explanation": "20 ÷ 50 es 0,4, no 0,04. El error está en la posición de la coma decimal."
+      },
+      "seed": "5e6d4038-cd69-4277-ac97-768041906bbc:5",
+      "solved": {
+        "game": 6,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 2,
+        "instruction": "Une cada situación con lo que pasa con su frecuencia relativa.",
+        "pairs": [
+          {
+            "left": "Al lanzar un dado, obtener 7",
+            "right": "Frecuencia relativa siempre 0"
+          },
+          {
+            "left": "Al lanzar un dado, obtener un número menor que 7",
+            "right": "Frecuencia relativa siempre 1"
+          },
+          {
+            "left": "Un evento que ocurrió en algunos ensayos, pero no en todos",
+            "right": "Frecuencia relativa mayor que 0 y menor que 1"
+          },
+          {
+            "left": "Un valor como 1,3 o −0,2",
+            "right": "No puede ser una frecuencia relativa"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Un evento imposible tiene frecuencia 0 y uno seguro tiene frecuencia 1. Si ocurre solo en algunos ensayos, queda entre 0 y 1. Ninguna frecuencia relativa es negativa ni mayor que 1."
+      },
+      "seed": "5e6d4038-cd69-4277-ac97-768041906bbc:6",
+      "solved": {
+        "game": 7,
+        "match": [
+          1,
+          2,
+          4,
+          3
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 2,
+        "instruction": "Completa con el valor correcto.",
+        "pairs": null,
+        "steps": null,
+        "stem": "En 40 lanzamientos de un dado equilibrado nunca salió un 9. La frecuencia relativa de sacar 9 es ___.",
+        "options": [
+          "1",
+          "1/40",
+          "0",
+          "40"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": "0/40",
+        "explanation": "Sacar 9 en un dado normal es un evento imposible. Ocurrió 0 veces, y 0 ÷ 40 = 0."
+      },
+      "seed": "5e6d4038-cd69-4277-ac97-768041906bbc:7",
+      "solved": {
+        "game": 8,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 2,
+        "instruction": "Una de estas afirmaciones es incorrecta. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "Un evento imposible nunca ocurre, así que su frecuencia relativa es 0.",
+          "Un evento seguro ocurre en todos los ensayos, así que su frecuencia relativa es 1.",
+          "La frecuencia relativa de cualquier evento está entre 0 y 1, incluyendo ambos valores.",
+          "Un evento puede ocurrir 15 veces en 12 ensayos, y su frecuencia relativa sería 15/12."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 3,
+        "correction": "Un evento no puede ocurrir más veces que el número de ensayos. Su frecuencia relativa nunca es mayor que 1.",
+        "calc": null,
+        "explanation": "La frecuencia absoluta nunca supera el total de ensayos. Por eso la frecuencia relativa siempre está entre 0 y 1."
+      },
+      "seed": "5e6d4038-cd69-4277-ac97-768041906bbc:8",
+      "solved": {
+        "game": 9,
+        "match": null,
+        "order": null,
+        "choice": 4,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 3,
+        "instruction": "Elige la opción que completa la idea.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Al lanzar muchísimas veces una moneda equilibrada, la frecuencia relativa de obtener corona se acerca cada vez más a ___.",
+        "options": [
+          "1/4",
+          "1",
+          "0",
+          "1/2"
+        ],
+        "answer_index": 3,
+        "correction": null,
+        "calc": null,
+        "explanation": "Según la ley de los grandes números, al aumentar los lanzamientos la frecuencia relativa se aproxima a la probabilidad clásica. Para una moneda equilibrada esa probabilidad es 1/2."
+      },
+      "seed": "5e6d4038-cd69-4277-ac97-768041906bbc:9",
+      "solved": {
+        "game": 10,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 3,
+        "instruction": "Encuentra el paso con el error.",
+        "pairs": null,
+        "steps": [
+          "Se lanza un dado equilibrado 12 veces y sale 6 en 3 ocasiones: 3 ÷ 12 = 0,25.",
+          "Se lanza 600 veces y sale 6 en 98 ocasiones: 98 ÷ 600 ≈ 0,163.",
+          "La probabilidad clásica de sacar 6 es 1/6 ≈ 0,167.",
+          "Con más lanzamientos, la frecuencia relativa se aleja de 1/6."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 3,
+        "correction": "Con más lanzamientos, la frecuencia relativa se acerca a 1/6.",
+        "calc": null,
+        "explanation": "Con 12 lanzamientos la frecuencia (0,25) está lejos de 1/6, pero con 600 (≈ 0,163) queda muy cerca. Al aumentar los ensayos, la frecuencia relativa se acerca a la probabilidad clásica."
+      },
+      "seed": "5e6d4038-cd69-4277-ac97-768041906bbc:10",
+      "solved": {
+        "game": 11,
+        "match": null,
+        "order": null,
+        "choice": 4,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 4,
+        "instruction": "Resuelve el problema del grupo.",
+        "pairs": null,
+        "steps": null,
+        "stem": "En un grupo de noveno se preguntó a 40 estudiantes y 28 dijeron que llevan almuerzo desde la casa. La frecuencia relativa de que un estudiante del grupo lleve almuerzo es ___.",
+        "options": [
+          "0,7",
+          "0,3",
+          "0,28",
+          "1,43"
+        ],
+        "answer_index": 0,
+        "correction": null,
+        "calc": "28/40",
+        "explanation": "La frecuencia relativa es 28 ÷ 40 = 0,7. Los distractores son 0,3 (los que no llevan almuerzo), 0,28 (mal puesta la coma) y 1,43 (división al revés)."
+      },
+      "seed": "5e6d4038-cd69-4277-ac97-768041906bbc:11",
+      "solved": {
+        "game": 12,
+        "match": null,
+        "order": null,
+        "choice": 0,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 4,
+        "instruction": "Usa la frecuencia relativa para hacer una predicción.",
+        "pairs": null,
+        "steps": null,
+        "stem": "En el comedor, de 200 estudiantes que pasaron durante una semana, 50 compraron jugo. Si el lunes pasan 80 estudiantes, se espera que compren jugo aproximadamente ___ estudiantes.",
+        "options": [
+          "25",
+          "50",
+          "16",
+          "20"
+        ],
+        "answer_index": 3,
+        "correction": null,
+        "calc": "(50/200)*80",
+        "explanation": "La frecuencia relativa es 50 ÷ 200 = 0,25. Entonces 0,25 × 80 = 20 estudiantes. Es una estimación, no un valor exacto."
+      },
+      "seed": "5e6d4038-cd69-4277-ac97-768041906bbc:12",
+      "solved": {
+        "game": 13,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 4,
+        "instruction": "Encuentra el paso con el error en esta resolución.",
+        "pairs": null,
+        "steps": [
+          "En 30 recreos, la campana sonó tarde 6 veces.",
+          "Frecuencia relativa = 6 ÷ 30 = 0,2",
+          "En 150 recreos se esperan 0,2 × 150 = 300 recreos con campana tarde.",
+          "El resultado es una estimación, no un valor exacto."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "En 150 recreos se esperan 0,2 × 150 = 30 recreos con campana tarde.",
+        "calc": null,
+        "explanation": "0,2 × 150 = 30, no 300. Además, 300 es mayor que los 150 recreos, y eso no es posible."
+      },
+      "seed": "5e6d4038-cd69-4277-ac97-768041906bbc:13",
+      "solved": {
+        "game": 14,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    }
+  ],
+  "notes": "Se omitieron las piezas de parejas y de orden para la habilidad 3 (no hay parejas con una sola forma de unirse ni un procedimiento con orden único), las de orden para las habilidades 0 y 2, y las de parejas para las habilidades 0 y 4, por riesgo de ambigüedad."
+}

@@ -1,0 +1,395 @@
+{
+  "unitId": "54326ddc-7364-4660-9a5f-434e22fc8a4e",
+  "createdAt": "2026-11-04T17:46:12.635Z",
+  "models": {
+    "games": "claude-sonnet-5-5",
+    "solve": "claude-sonnet-5-5"
+  },
+  "prompts": {
+    "games": "generate-games-system@1",
+    "solve": "solve-games-system@1"
+  },
+  "pieces": [
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 0,
+        "instruction": "Une cada fase del análisis de textos con lo que haces en ella.",
+        "pairs": [
+          {
+            "left": "Fase natural",
+            "right": "Cuentas tus primeras impresiones y lo que ya sabes del tema"
+          },
+          {
+            "left": "Fase de ubicación",
+            "right": "Identificas autor, tipo de texto y contexto"
+          },
+          {
+            "left": "Fase analística",
+            "right": "Examinas las partes, las ideas y la estructura del texto"
+          },
+          {
+            "left": "Fase explicativa e interpretativa",
+            "right": "Explicas los sentidos del texto y compartes tu interpretación"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Cada fase tiene un propósito distinto: la natural parte de tus impresiones, la de ubicación sitúa el texto, la analística lo descompone y la explicativa e interpretativa busca sus sentidos."
+      },
+      "seed": "54326ddc-7364-4660-9a5f-434e22fc8a4e:0",
+      "solved": {
+        "game": 1,
+        "match": [
+          1,
+          4,
+          2,
+          3
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 0,
+        "instruction": "Ordena las fases del análisis crítico de un texto, de la primera a la última.",
+        "pairs": null,
+        "steps": [
+          "Fase natural",
+          "Fase de ubicación",
+          "Fase analística",
+          "Fase explicativa e interpretativa"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Se empieza con tus impresiones (natural), luego se ubica el texto, después se analizan sus partes y al final se explican e interpretan sus sentidos."
+      },
+      "seed": "54326ddc-7364-4660-9a5f-434e22fc8a4e:1",
+      "solved": {
+        "game": 2,
+        "match": null,
+        "order": [
+          4,
+          2,
+          1,
+          3
+        ],
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Elige la opción que completa bien el enunciado.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Cuando examinas cómo está organizado un texto y cuáles son sus ideas principales, trabajas la fase ___.",
+        "options": [
+          "natural",
+          "de ubicación",
+          "analística",
+          "explicativa e interpretativa"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": null,
+        "explanation": "Revisar la organización y las ideas del texto es descomponerlo en sus partes, y eso corresponde a la fase analística."
+      },
+      "seed": "54326ddc-7364-4660-9a5f-434e22fc8a4e:2",
+      "solved": {
+        "game": 3,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 0,
+        "instruction": "Una de estas frases sobre las fases del análisis es incorrecta. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "En la fase natural, expresas tus primeras impresiones del texto.",
+          "En la fase de ubicación, identificas el autor, el tipo de texto y su contexto.",
+          "En la fase analística, copias el texto sin examinar sus partes.",
+          "En la fase explicativa e interpretativa, explicas los sentidos del texto y compartes tu interpretación."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "En la fase analística, examinas las partes del texto, sus ideas y su estructura.",
+        "calc": null,
+        "explanation": "La fase analística consiste en analizar el texto, no en copiarlo. Las demás frases describen bien su fase."
+      },
+      "seed": "54326ddc-7364-4660-9a5f-434e22fc8a4e:3",
+      "solved": {
+        "game": 4,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 1,
+        "instruction": "Une cada apartado de la monografía con su función.",
+        "pairs": [
+          {
+            "left": "Portada",
+            "right": "Presenta título, autores, institución y fecha"
+          },
+          {
+            "left": "Objetivos",
+            "right": "Indican lo que se quiere lograr con la investigación"
+          },
+          {
+            "left": "Justificación",
+            "right": "Explica por qué es importante investigar el tema"
+          },
+          {
+            "left": "Conclusiones",
+            "right": "Resumen de lo que se descubrió al investigar"
+          },
+          {
+            "left": "Bibliografía",
+            "right": "Lista de las fuentes consultadas"
+          },
+          {
+            "left": "Anexos",
+            "right": "Material complementario, como encuestas o fotografías"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Cada apartado cumple una función propia dentro de la monografía, y por eso cada función solo encaja con un apartado."
+      },
+      "seed": "54326ddc-7364-4660-9a5f-434e22fc8a4e:4",
+      "solved": {
+        "game": 5,
+        "match": [
+          2,
+          3,
+          1,
+          5,
+          4,
+          6
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 1,
+        "instruction": "Ordena los apartados de una monografía como aparecen en el trabajo.",
+        "pairs": null,
+        "steps": [
+          "Portada",
+          "Asunto y objetivos",
+          "Justificación",
+          "Cuerpo del texto",
+          "Conclusiones y recomendaciones",
+          "Bibliografía"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "La monografía abre con la portada, presenta el asunto, los objetivos y la justificación, desarrolla el tema, cierra con conclusiones y recomendaciones, y termina con las fuentes."
+      },
+      "seed": "54326ddc-7364-4660-9a5f-434e22fc8a4e:5",
+      "solved": {
+        "game": 6,
+        "match": null,
+        "order": [
+          1,
+          5,
+          2,
+          4,
+          3,
+          6
+        ],
+        "choice": null,
+        "problems": "El orden de justificación y asunto/objetivos puede variar según el modelo de monografía; aquí se asume justificación antes de asunto y objetivos. Si el orden fuera diferente, habría ambigüedad."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": false,
+          "problems": "El orden de justificación y asunto/objetivos puede variar según el modelo de monografía; aquí se asume justificación antes de asunto y objetivos. Si el orden fuera diferente, habría ambigüedad."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador dio otra respuesta"
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 1,
+        "instruction": "Elige la opción que completa bien el enunciado.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Si copias palabras exactas de un libro en tu monografía, debes escribirlas entre ___ y anotar la fuente.",
+        "options": [
+          "paréntesis",
+          "comillas",
+          "guiones largos",
+          "asteriscos"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": null,
+        "explanation": "Una cita textual reproduce las palabras exactas del autor. Se encierra entre comillas y se indica de dónde proviene."
+      },
+      "seed": "54326ddc-7364-4660-9a5f-434e22fc8a4e:6",
+      "solved": {
+        "game": 7,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 1,
+        "instruction": "Una de estas frases sobre la monografía es incorrecta. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "La portada incluye el título, los autores, la institución y la fecha.",
+          "La justificación explica por qué es importante investigar el tema.",
+          "La bibliografía enlista las fuentes que se usaron en el trabajo.",
+          "La paráfrasis consiste en copiar las palabras del autor sin cambiarlas."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 3,
+        "correction": "La paráfrasis consiste en expresar con tus propias palabras la idea de un autor, citando la fuente.",
+        "calc": null,
+        "explanation": "Copiar palabras exactas es una cita textual. La paráfrasis dice la misma idea con otras palabras, y también se cita la fuente."
+      },
+      "seed": "54326ddc-7364-4660-9a5f-434e22fc8a4e:7",
+      "solved": {
+        "game": 8,
+        "match": null,
+        "order": null,
+        "choice": 4,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    }
+  ],
+  "notes": "El programa no detalla contenidos ni el anexo V; las descripciones de las fases y el orden de los apartados son generales y conviene contrastarlos con las pautas oficiales."
+}

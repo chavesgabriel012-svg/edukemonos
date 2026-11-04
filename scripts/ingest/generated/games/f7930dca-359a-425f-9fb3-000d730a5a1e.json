@@ -1,0 +1,707 @@
+{
+  "unitId": "f7930dca-359a-425f-9fb3-000d730a5a1e",
+  "createdAt": "2026-11-04T17:57:21.361Z",
+  "models": {
+    "games": "claude-sonnet-5-5",
+    "solve": "claude-sonnet-5-5"
+  },
+  "prompts": {
+    "games": "generate-games-system@1",
+    "solve": "solve-games-system@1"
+  },
+  "pieces": [
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 0,
+        "instruction": "Une cada número con la descripción que le corresponde.",
+        "pairs": [
+          {
+            "left": "π",
+            "right": "Razón entre la longitud de una circunferencia y su diámetro"
+          },
+          {
+            "left": "√2",
+            "right": "Longitud de la diagonal de un cuadrado de lado 1"
+          },
+          {
+            "left": "0,25",
+            "right": "Decimal exacto, se escribe como 1/4"
+          },
+          {
+            "left": "1/3",
+            "right": "Decimal periódico 0,333..."
+          },
+          {
+            "left": "√49",
+            "right": "Raíz exacta, es igual a 7"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "π y √2 aparecen en contextos de medida y son irracionales. Los otros tres son racionales: 0,25 es decimal exacto, 1/3 es periódico y √49 es 7."
+      },
+      "seed": "f7930dca-359a-425f-9fb3-000d730a5a1e:0",
+      "solved": {
+        "game": 1,
+        "match": [
+          1,
+          3,
+          2,
+          5,
+          4
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Elige el número irracional.",
+        "pairs": null,
+        "steps": null,
+        "stem": "El número ___ es irracional.",
+        "options": [
+          "√49",
+          "0,75",
+          "√20",
+          "22/7"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": null,
+        "explanation": "20 no es un cuadrado perfecto, así que √20 es irracional. √49 = 7, 0,75 = 3/4 y 22/7 es una fracción, por lo que los tres son racionales."
+      },
+      "seed": "f7930dca-359a-425f-9fb3-000d730a5a1e:1",
+      "solved": {
+        "game": 2,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 1,
+        "instruction": "Elige el número con expansión decimal infinita no periódica.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Tiene expansión decimal infinita no periódica el número ___.",
+        "options": [
+          "0,125",
+          "0,181818...",
+          "0,5",
+          "0,1010010001..."
+        ],
+        "answer_index": 3,
+        "correction": null,
+        "calc": null,
+        "explanation": "En 0,1010010001... cada vez hay un cero más entre los unos, así que ningún grupo de cifras se repite. 0,125 y 0,5 son exactos y 0,181818... repite el grupo 18."
+      },
+      "seed": "f7930dca-359a-425f-9fb3-000d730a5a1e:2",
+      "solved": {
+        "game": 3,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 1,
+        "instruction": "Una de estas afirmaciones es incorrecta. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "0,5 tiene expansión decimal finita.",
+          "1/3 = 0,333... es un decimal periódico.",
+          "0,121212... es infinito y no periódico.",
+          "π = 3,14159... es infinito y no periódico."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "0,121212... es infinito y periódico, porque repite el grupo 12.",
+        "calc": null,
+        "explanation": "En 0,121212... el grupo 12 se repite siempre, por eso es periódico y racional."
+      },
+      "seed": "f7930dca-359a-425f-9fb3-000d730a5a1e:3",
+      "solved": {
+        "game": 4,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 2,
+        "instruction": "Ordena los pasos para aproximar √5 con una cifra decimal.",
+        "pairs": null,
+        "steps": [
+          "Como 2² = 4 y 3² = 9, √5 está entre 2 y 3.",
+          "Prueba 2,2: 2,2² = 4,84, que es menor que 5.",
+          "Prueba 2,3: 2,3² = 5,29, que es mayor que 5.",
+          "Concluye que √5 está entre 2,2 y 2,3, o sea √5 ≈ 2,2."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Primero se ubica √5 entre dos enteros. Luego se prueban decimales hasta encontrar dos valores consecutivos cuyos cuadrados rodean al 5."
+      },
+      "seed": "f7930dca-359a-425f-9fb3-000d730a5a1e:4",
+      "solved": {
+        "game": 5,
+        "match": null,
+        "order": [
+          2,
+          3,
+          1,
+          4
+        ],
+        "choice": null,
+        "problems": "Los pasos 1 y 3 pueden ir en cualquier orden (2,3,1,4 o 2,1,3,4), por lo que el orden no es único. Además, la conclusión √5 ≈ 2,2 es correcta, pero √5 = 2,236..., que está más cerca de 2,2 que de 2,3, así que no hay error de fondo."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "Los pasos 1 y 3 pueden ir en cualquier orden (2,3,1,4 o 2,1,3,4), por lo que el orden no es único. Además, la conclusión √5 ≈ 2,2 es correcta, pero √5 = 2,236..., que está más cerca de 2,2 que de 2,3, así que no hay error de fondo."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: Los pasos 1 y 3 pueden ir en cualquier orden (2,3,1,4 o 2,1,3,4), por lo que el orden no es único. Además, la conclusión √5 ≈ 2,2 es correcta, pero √5 = 2,236..., que está más cerca de 2,2 que de 2,3, así que no hay error de fondo."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 2,
+        "instruction": "Elige la aproximación correcta.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Como √2 = 1,41421..., la aproximación de √2 a las centésimas es ___.",
+        "options": [
+          "1,42",
+          "1,41",
+          "1,40",
+          "1,44"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": null,
+        "explanation": "Las centésimas son las dos primeras cifras decimales: 1,41. La siguiente cifra es 4, menor que 5, así que se queda en 1,41."
+      },
+      "seed": "f7930dca-359a-425f-9fb3-000d730a5a1e:5",
+      "solved": {
+        "game": 6,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 3,
+        "instruction": "Une cada número con la razón que explica si es racional o irracional.",
+        "pairs": [
+          {
+            "left": "√10",
+            "right": "Raíz de un número que no es cuadrado perfecto"
+          },
+          {
+            "left": "√16",
+            "right": "Raíz exacta igual a 4"
+          },
+          {
+            "left": "0,2020020002...",
+            "right": "Decimal con un patrón que nunca se repite"
+          },
+          {
+            "left": "0,125",
+            "right": "Decimal exacto"
+          },
+          {
+            "left": "0,454545...",
+            "right": "Decimal con grupo que se repite"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Una raíz de un número que no es cuadrado perfecto y un decimal infinito sin periodo son irracionales. Los demás se pueden escribir como fracción."
+      },
+      "seed": "f7930dca-359a-425f-9fb3-000d730a5a1e:6",
+      "solved": {
+        "game": 7,
+        "match": [
+          4,
+          5,
+          2,
+          3,
+          1
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 3,
+        "instruction": "Una de estas frases es incorrecta. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "√49 = 7, por lo tanto es racional.",
+          "√8 es irracional porque 8 no es un cuadrado perfecto.",
+          "√(1/4) = 1/2, por lo tanto es racional.",
+          "√15 es racional porque es una raíz."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 3,
+        "correction": "√15 es irracional porque 15 no es un cuadrado perfecto.",
+        "calc": null,
+        "explanation": "No toda raíz es racional. Solo lo es cuando el número es cuadrado perfecto, y 15 no lo es."
+      },
+      "seed": "f7930dca-359a-425f-9fb3-000d730a5a1e:7",
+      "solved": {
+        "game": 8,
+        "match": null,
+        "order": null,
+        "choice": 4,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 4,
+        "instruction": "Ordena estos números de menor a mayor.",
+        "pairs": null,
+        "steps": [
+          "√2 (≈ 1,41)",
+          "1,5",
+          "√3 (≈ 1,73)",
+          "1,8",
+          "√5 (≈ 2,24)"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Al escribir las raíces en decimales se compara fácil: 1,41 < 1,5 < 1,73 < 1,8 < 2,24."
+      },
+      "seed": "f7930dca-359a-425f-9fb3-000d730a5a1e:8",
+      "solved": {
+        "game": 9,
+        "match": null,
+        "order": [
+          1,
+          2,
+          5,
+          3,
+          4
+        ],
+        "choice": null,
+        "problems": "Error: el orden correcto es √2 (1,41), 1,5, √3 (1,73), 1,8, √5 (2,24), o sea 1,2,5,3,4; no hay problema en la pieza."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "Error: el orden correcto es √2 (1,41), 1,5, √3 (1,73), 1,8, √5 (2,24), o sea 1,2,5,3,4; no hay problema en la pieza."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: Error: el orden correcto es √2 (1,41), 1,5, √3 (1,73), 1,8, √5 (2,24), o sea 1,2,5,3,4; no hay problema en la pieza."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 4,
+        "instruction": "Completa con el signo correcto.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Al comparar √7 con 2,6 se cumple que √7 ___ 2,6.",
+        "options": [
+          "<",
+          "=",
+          ">",
+          "No se pueden comparar"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": null,
+        "explanation": "2,6² = 6,76, que es menor que 7. Entonces 2,6 < √7, es decir, √7 > 2,6."
+      },
+      "seed": "f7930dca-359a-425f-9fb3-000d730a5a1e:9",
+      "solved": {
+        "game": 10,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": "√7 ≈ 2,6458 > 2,6, por lo que la respuesta correcta es >."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "√7 ≈ 2,6458 > 2,6, por lo que la respuesta correcta es >."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: √7 ≈ 2,6458 > 2,6, por lo que la respuesta correcta es >."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 4,
+        "instruction": "Uno de los pasos tiene un error. Encuéntralo.",
+        "pairs": null,
+        "steps": [
+          "2² = 4 y 3² = 9",
+          "4 < 7 < 9, entonces 2 < √7 < 3",
+          "2,6² = 6,76 y 2,7² = 7,29",
+          "6,76 < 7 < 7,29, entonces 2,6 < √7 < 2,7",
+          "Por lo tanto, √7 < 2,6"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 4,
+        "correction": "Por lo tanto, √7 > 2,6 (y √7 < 2,7).",
+        "calc": null,
+        "explanation": "El paso anterior muestra que √7 está entre 2,6 y 2,7, así que es mayor que 2,6."
+      },
+      "seed": "f7930dca-359a-425f-9fb3-000d730a5a1e:10",
+      "solved": {
+        "game": 11,
+        "match": null,
+        "order": null,
+        "choice": 5,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 5,
+        "instruction": "Une cada número con la clasificación que le corresponde.",
+        "pairs": [
+          {
+            "left": "√(−9)",
+            "right": "No es un número real"
+          },
+          {
+            "left": "−7",
+            "right": "Entero negativo"
+          },
+          {
+            "left": "√3",
+            "right": "Irracional"
+          },
+          {
+            "left": "0,4",
+            "right": "Decimal exacto"
+          },
+          {
+            "left": "2/5",
+            "right": "Fracción"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Una raíz cuadrada de un número negativo no es real. Los demás son reales: −7 es entero, √3 es irracional, 0,4 es decimal exacto y 2/5 es fracción."
+      },
+      "seed": "f7930dca-359a-425f-9fb3-000d730a5a1e:11",
+      "solved": {
+        "game": 12,
+        "match": [
+          5,
+          3,
+          2,
+          4,
+          1
+        ],
+        "order": null,
+        "choice": null,
+        "problems": "Ambigüedad: 0,4 es decimal exacto pero también puede escribirse como fracción (2/5), y 2/5 es también decimal exacto (0,4). Con el emparejamiento uno a uno, la solución es 0,4 con Decimal exacto y 2/5 con Fracción, pero es defendible el cruce inverso."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "Ambigüedad: 0,4 es decimal exacto pero también puede escribirse como fracción (2/5), y 2/5 es también decimal exacto (0,4). Con el emparejamiento uno a uno, la solución es 0,4 con Decimal exacto y 2/5 con Fracción, pero es defendible el cruce inverso."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: Ambigüedad: 0,4 es decimal exacto pero también puede escribirse como fracción (2/5), y 2/5 es también decimal exacto (0,4). Con el emparejamiento uno a uno, la solución es 0,4 con Decimal exacto y 2/5 con Fracción, pero es defendible el cruce inverso."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 5,
+        "instruction": "Elige el número que no es real.",
+        "pairs": null,
+        "steps": null,
+        "stem": "El número ___ no es un número real.",
+        "options": [
+          "√(−16)",
+          "−√16",
+          "√16",
+          "√(16/25)"
+        ],
+        "answer_index": 0,
+        "correction": null,
+        "calc": null,
+        "explanation": "No existe un número real que multiplicado por sí mismo dé −16. Los otros valen −4, 4 y 4/5, que sí son reales."
+      },
+      "seed": "f7930dca-359a-425f-9fb3-000d730a5a1e:12",
+      "solved": {
+        "game": 13,
+        "match": null,
+        "order": null,
+        "choice": 0,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 6,
+        "instruction": "Ordena los pasos para representar √2 en la recta numérica.",
+        "pairs": null,
+        "steps": [
+          "Dibuja un cuadrado de lado 1 con un vértice en el 0 de la recta.",
+          "La diagonal de ese cuadrado mide √2.",
+          "Con el compás en el 0, abre hasta la diagonal y traza un arco hasta la recta.",
+          "El punto donde el arco corta la recta representa √2."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Primero se construye el cuadrado, cuya diagonal mide √2. Luego se traslada esa longitud a la recta con el compás."
+      },
+      "seed": "f7930dca-359a-425f-9fb3-000d730a5a1e:13",
+      "solved": {
+        "game": 14,
+        "match": null,
+        "order": [
+          4,
+          2,
+          3,
+          1
+        ],
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 6,
+        "instruction": "Elige los enteros entre los que se ubica el número.",
+        "pairs": null,
+        "steps": null,
+        "stem": "En la recta numérica, √10 se ubica entre ___.",
+        "options": [
+          "2 y 3",
+          "3 y 4",
+          "4 y 5",
+          "9 y 10"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": null,
+        "explanation": "3² = 9 y 4² = 16, y 10 está entre 9 y 16. Por eso √10 está entre 3 y 4 (≈ 3,16)."
+      },
+      "seed": "f7930dca-359a-425f-9fb3-000d730a5a1e:14",
+      "solved": {
+        "game": 15,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    }
+  ],
+  "notes": "Se omitieron las piezas find_error de la habilidad 2 y 6, y order y pairs de otras, porque no encajaban bien con la habilidad."
+}

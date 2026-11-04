@@ -1,0 +1,576 @@
+{
+  "unitId": "d5349eeb-4f47-4591-a332-49e5d6cdcdd9",
+  "createdAt": "2026-11-04T17:52:40.880Z",
+  "models": {
+    "games": "claude-sonnet-5-5",
+    "solve": "claude-sonnet-5-5"
+  },
+  "prompts": {
+    "games": "generate-games-system@1",
+    "solve": "solve-games-system@1"
+  },
+  "pieces": [
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 0,
+        "instruction": "Une cada trío de lados con la conclusión correcta sobre si forma un triángulo.",
+        "pairs": [
+          {
+            "left": "3 cm, 4 cm y 8 cm",
+            "right": "No forma: 3 + 4 = 7 es menor que 8"
+          },
+          {
+            "left": "5 cm, 6 cm y 10 cm",
+            "right": "Sí forma: 5 + 6 = 11 es mayor que 10"
+          },
+          {
+            "left": "2 cm, 5 cm y 7 cm",
+            "right": "No forma: 2 + 5 = 7 es igual a 7"
+          },
+          {
+            "left": "6 cm, 7 cm y 8 cm",
+            "right": "Sí forma: 6 + 7 = 13 es mayor que 8"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Para que existan tres lados de un triángulo, la suma de los dos lados menores debe ser mayor que el lado mayor. Si es menor o igual, no se puede formar."
+      },
+      "seed": "d5349eeb-4f47-4591-a332-49e5d6cdcdd9:0",
+      "solved": {
+        "game": 1,
+        "match": [
+          3,
+          1,
+          2,
+          4
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 0,
+        "instruction": "Ordena los pasos para saber si tres medidas pueden ser los lados de un triángulo.",
+        "pairs": null,
+        "steps": [
+          "Identifica cuál es el lado de mayor medida.",
+          "Suma las medidas de los dos lados menores.",
+          "Compara esa suma con la medida del lado mayor.",
+          "Concluye: si la suma es mayor, sí se forma el triángulo; si no, no se forma."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Primero se localiza el lado mayor, luego se suman los otros dos, después se comparan y al final se concluye."
+      },
+      "seed": "d5349eeb-4f47-4591-a332-49e5d6cdcdd9:1",
+      "solved": {
+        "game": 2,
+        "match": null,
+        "order": [
+          4,
+          3,
+          1,
+          2
+        ],
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Completa con la medida entera más grande posible para el tercer lado.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Un triángulo tiene dos lados de 5 cm y 9 cm. Si el tercer lado mide un número entero de centímetros, lo más grande que puede medir es ___ cm.",
+        "options": [
+          "12",
+          "13",
+          "14",
+          "4"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": "5 + 9 - 1",
+        "explanation": "El tercer lado debe ser menor que 5 + 9 = 14. Como es un número entero, el mayor valor posible es 13 cm. Con 14 la suma sería igual, y eso no forma triángulo."
+      },
+      "seed": "d5349eeb-4f47-4591-a332-49e5d6cdcdd9:2",
+      "solved": {
+        "game": 3,
+        "match": null,
+        "order": null,
+        "choice": 0,
+        "problems": ""
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": false,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": [
+          "el verificador dio otra respuesta"
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 0,
+        "instruction": "Encuentra el paso con error al revisar si 4 cm, 6 cm y 11 cm forman un triángulo.",
+        "pairs": null,
+        "steps": [
+          "El lado mayor mide 11 cm; los otros dos lados miden 4 cm y 6 cm.",
+          "4 + 6 = 10",
+          "10 es mayor que 11, así que sí se puede formar el triángulo."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "10 es menor que 11, así que no se puede formar el triángulo.",
+        "calc": null,
+        "explanation": "La suma 10 no es mayor que 11; es menor. Por eso no se cumple la desigualdad triangular y no se forma el triángulo."
+      },
+      "seed": "d5349eeb-4f47-4591-a332-49e5d6cdcdd9:3",
+      "solved": {
+        "game": 4,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 1,
+        "instruction": "Une cada par de ángulos internos con la medida del tercer ángulo.",
+        "pairs": [
+          {
+            "left": "50° y 60°",
+            "right": "70°"
+          },
+          {
+            "left": "90° y 35°",
+            "right": "55°"
+          },
+          {
+            "left": "45° y 45°",
+            "right": "90°"
+          },
+          {
+            "left": "80° y 40°",
+            "right": "60°"
+          },
+          {
+            "left": "100° y 30°",
+            "right": "50°"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Los tres ángulos internos de un triángulo suman 180°. Al tercer ángulo se le resta a 180° la suma de los otros dos."
+      },
+      "seed": "d5349eeb-4f47-4591-a332-49e5d6cdcdd9:4",
+      "solved": {
+        "game": 5,
+        "match": [
+          4,
+          5,
+          1,
+          2,
+          3
+        ],
+        "order": null,
+        "choice": null,
+        "problems": "Los pares son 50+60=110→70; 90+35=125→55; 45+45=90→90; 80+40=120→60; 100+30=130→50. Correcto: [3,5,1,2,4]."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": false,
+          "problems": "Los pares son 50+60=110→70; 90+35=125→55; 45+45=90→90; 80+40=120→60; 100+30=130→50. Correcto: [3,5,1,2,4]."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador dio otra respuesta"
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 1,
+        "instruction": "Ordena los pasos para hallar el ángulo interno que falta en un triángulo.",
+        "pairs": null,
+        "steps": [
+          "Anota las medidas de los dos ángulos internos que conoces.",
+          "Suma esas dos medidas.",
+          "Resta esa suma a 180°.",
+          "Comprueba que los tres ángulos sumen 180°."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Se suman los ángulos conocidos, se resta el resultado a 180° y se comprueba que el total sea 180°."
+      },
+      "seed": "d5349eeb-4f47-4591-a332-49e5d6cdcdd9:5",
+      "solved": {
+        "game": 6,
+        "match": null,
+        "order": [
+          1,
+          4,
+          2,
+          3
+        ],
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 1,
+        "instruction": "Completa con la medida del tercer ángulo interno.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Un triángulo tiene ángulos internos de 65° y 48°. El tercer ángulo mide ___ grados.",
+        "options": [
+          "113",
+          "57",
+          "67",
+          "77"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": "180 - (65 + 48)",
+        "explanation": "65 + 48 = 113 y 180 − 113 = 67. El tercer ángulo mide 67°. El número 113 es solo la suma de los dos ángulos dados."
+      },
+      "seed": "d5349eeb-4f47-4591-a332-49e5d6cdcdd9:6",
+      "solved": {
+        "game": 7,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 1,
+        "instruction": "Encuentra el paso con error al calcular el tercer ángulo interno de un triángulo con ángulos de 72° y 38°.",
+        "pairs": null,
+        "steps": [
+          "Los ángulos internos de un triángulo suman 180°.",
+          "72 + 38 = 110",
+          "180 − 110 = 80"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "180 − 110 = 70",
+        "calc": null,
+        "explanation": "180 − 110 da 70, no 80. Comprobación: 72 + 38 + 70 = 180."
+      },
+      "seed": "d5349eeb-4f47-4591-a332-49e5d6cdcdd9:7",
+      "solved": {
+        "game": 8,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": "Hay un error: 180 − 110 = 70, no 80. El error está en el paso 3."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "Hay un error: 180 − 110 = 70, no 80. El error está en el paso 3."
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": [
+          "el verificador señaló: Hay un error: 180 − 110 = 70, no 80. El error está en el paso 3."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 2,
+        "instruction": "Une los dos ángulos internos no adyacentes con la medida del ángulo externo.",
+        "pairs": [
+          {
+            "left": "30° y 45°",
+            "right": "75°"
+          },
+          {
+            "left": "60° y 55°",
+            "right": "115°"
+          },
+          {
+            "left": "35° y 90°",
+            "right": "125°"
+          },
+          {
+            "left": "50° y 70°",
+            "right": "120°"
+          },
+          {
+            "left": "25° y 65°",
+            "right": "90°"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Un ángulo externo de un triángulo mide lo mismo que la suma de los dos ángulos internos que no son adyacentes a él."
+      },
+      "seed": "d5349eeb-4f47-4591-a332-49e5d6cdcdd9:8",
+      "solved": {
+        "game": 9,
+        "match": [
+          1,
+          2,
+          5,
+          4,
+          3
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 2,
+        "instruction": "Ordena los pasos para hallar un ángulo externo de un triángulo cuando conoces dos ángulos internos.",
+        "pairs": null,
+        "steps": [
+          "Identifica el ángulo externo que debes calcular.",
+          "Ubica los dos ángulos internos que no son adyacentes a él.",
+          "Suma las medidas de esos dos ángulos.",
+          "Escribe el resultado como la medida del ángulo externo."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Primero se identifica el ángulo externo, luego se buscan los dos internos no adyacentes, se suman y el resultado es el ángulo externo."
+      },
+      "seed": "d5349eeb-4f47-4591-a332-49e5d6cdcdd9:9",
+      "solved": {
+        "game": 10,
+        "match": null,
+        "order": [
+          2,
+          3,
+          4,
+          1
+        ],
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 2,
+        "instruction": "Completa con la medida del ángulo interno que falta.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Un ángulo externo de un triángulo mide 130°. Uno de los ángulos internos no adyacentes a él mide 45°. El otro ángulo interno no adyacente mide ___ grados.",
+        "options": [
+          "175",
+          "95",
+          "135",
+          "85"
+        ],
+        "answer_index": 3,
+        "correction": null,
+        "calc": "130 - 45",
+        "explanation": "El ángulo externo es igual a la suma de los dos internos no adyacentes. Entonces 130 − 45 = 85, y el otro ángulo mide 85°."
+      },
+      "seed": "d5349eeb-4f47-4591-a332-49e5d6cdcdd9:10",
+      "solved": {
+        "game": 11,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 2,
+        "instruction": "Encuentra el paso con error al hallar el ángulo externo en C de un triángulo con ángulos internos A = 55° y B = 65°.",
+        "pairs": null,
+        "steps": [
+          "55 + 65 = 120",
+          "180 − 120 = 60",
+          "Ángulo externo en C: 180 − 60 = 110"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "Ángulo externo en C: 180 − 60 = 120",
+        "calc": null,
+        "explanation": "El ángulo interno en C mide 60°, y su ángulo externo mide 180° − 60° = 120°. También es igual a 55° + 65° = 120°."
+      },
+      "seed": "d5349eeb-4f47-4591-a332-49e5d6cdcdd9:11",
+      "solved": {
+        "game": 12,
+        "match": null,
+        "order": null,
+        "choice": null,
+        "problems": "Ningún paso tiene error: 55+65=120, 180−120=60, y el externo en C es 180−60=120, no 110. El error está en el paso 3."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": false,
+          "problems": "Ningún paso tiene error: 55+65=120, 180−120=60, y el externo en C es 180−60=120, no 110. El error está en el paso 3."
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": [
+          "el verificador dio otra respuesta"
+        ]
+      }
+    }
+  ],
+  "notes": ""
+}

@@ -1,0 +1,707 @@
+{
+  "unitId": "28dcb22a-5696-4ed0-8ae4-fec7a51b8d57",
+  "createdAt": "2026-11-04T17:51:40.539Z",
+  "models": {
+    "games": "claude-sonnet-5-5",
+    "solve": "claude-sonnet-5-5"
+  },
+  "prompts": {
+    "games": "generate-games-system@1",
+    "solve": "solve-games-system@1"
+  },
+  "pieces": [
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Completa el enunciado usando el algoritmo de la división.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Se reparten 125 libros en cajas de 8 libros cada una. Se llenan ___ cajas completas.",
+        "options": [
+          "14",
+          "15",
+          "16",
+          "17"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": "(125-5)/8",
+        "explanation": "125 ÷ 8 da cociente 15 y residuo 5, porque 8 × 15 + 5 = 125. Entonces se llenan 15 cajas completas y sobran 5 libros."
+      },
+      "seed": "28dcb22a-5696-4ed0-8ae4-fec7a51b8d57:0",
+      "solved": {
+        "game": 1,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 0,
+        "instruction": "Un paso de esta división de 137 entre 6 tiene un error. Encuéntralo.",
+        "pairs": null,
+        "steps": [
+          "6 × 22 = 132",
+          "137 − 132 = 5",
+          "Como 5 < 6, el residuo es válido",
+          "Comprobación: 6 × 22 + 5 = 147"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 3,
+        "correction": "Comprobación: 6 × 22 + 5 = 137",
+        "calc": null,
+        "explanation": "Al comprobar, divisor × cociente + residuo debe dar el dividendo. 6 × 22 + 5 = 132 + 5 = 137, no 147."
+      },
+      "seed": "28dcb22a-5696-4ed0-8ae4-fec7a51b8d57:1",
+      "solved": {
+        "game": 2,
+        "match": null,
+        "order": null,
+        "choice": 4,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 1,
+        "instruction": "Une cada descripción con el número que la cumple.",
+        "pairs": [
+          {
+            "left": "Menor múltiplo positivo de 7",
+            "right": "7"
+          },
+          {
+            "left": "Mayor divisor de 30 menor que 30",
+            "right": "15"
+          },
+          {
+            "left": "Múltiplo de 9 entre 20 y 30",
+            "right": "27"
+          },
+          {
+            "left": "Divisor de 25 distinto de 1 y de 25",
+            "right": "5"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "El menor múltiplo positivo de 7 es 7 × 1 = 7. El mayor divisor de 30 menor que 30 es 15, porque 30 ÷ 15 = 2. Entre 20 y 30 el único múltiplo de 9 es 27 (9 × 3). Los divisores de 25 son 1, 5 y 25."
+      },
+      "seed": "28dcb22a-5696-4ed0-8ae4-fec7a51b8d57:2",
+      "solved": {
+        "game": 3,
+        "match": [
+          2,
+          4,
+          3,
+          1
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 1,
+        "instruction": "Elige la opción que completa bien el enunciado.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Un grupo de 36 estudiantes quiere formar equipos con la misma cantidad de integrantes, sin que sobre nadie. El equipo NO puede tener ___ integrantes.",
+        "options": [
+          "5",
+          "4",
+          "6",
+          "9"
+        ],
+        "answer_index": 0,
+        "correction": null,
+        "calc": null,
+        "explanation": "El tamaño del equipo debe ser un divisor de 36. 4, 6 y 9 dividen exactamente a 36, pero 36 ÷ 5 deja residuo 1."
+      },
+      "seed": "28dcb22a-5696-4ed0-8ae4-fec7a51b8d57:3",
+      "solved": {
+        "game": 4,
+        "match": null,
+        "order": null,
+        "choice": 0,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 1,
+        "instruction": "Estos pasos buscan pares de factores de 24. Uno tiene un error. Encuéntralo.",
+        "pairs": null,
+        "steps": [
+          "1 × 24 = 24",
+          "2 × 12 = 24",
+          "3 × 8 = 24",
+          "4 × 5 = 24"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 3,
+        "correction": "4 × 6 = 24",
+        "calc": null,
+        "explanation": "4 × 5 = 20, no 24. El factor que acompaña al 4 para dar 24 es el 6."
+      },
+      "seed": "28dcb22a-5696-4ed0-8ae4-fec7a51b8d57:4",
+      "solved": {
+        "game": 5,
+        "match": null,
+        "order": null,
+        "choice": 4,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 2,
+        "instruction": "Une cada número con la afirmación correcta sobre él.",
+        "pairs": [
+          {
+            "left": "29",
+            "right": "Primo: solo tiene como divisores 1 y 29"
+          },
+          {
+            "left": "51",
+            "right": "Compuesto: 3 × 17 = 51"
+          },
+          {
+            "left": "1",
+            "right": "No es primo ni compuesto"
+          },
+          {
+            "left": "2",
+            "right": "El único número primo par"
+          },
+          {
+            "left": "91",
+            "right": "Compuesto: 7 × 13 = 91"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Un número primo tiene exactamente dos divisores. Uno compuesto tiene más de dos. El 1 tiene un solo divisor, por eso no es ni primo ni compuesto."
+      },
+      "seed": "28dcb22a-5696-4ed0-8ae4-fec7a51b8d57:5",
+      "solved": {
+        "game": 6,
+        "match": [
+          3,
+          5,
+          4,
+          2,
+          1
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 2,
+        "instruction": "Elige la opción correcta.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Entre estos números, el único compuesto es ___.",
+        "options": [
+          "31",
+          "37",
+          "41",
+          "51"
+        ],
+        "answer_index": 3,
+        "correction": null,
+        "calc": null,
+        "explanation": "51 = 3 × 17, así que tiene más de dos divisores y es compuesto. 31, 37 y 41 solo se dividen entre 1 y entre sí mismos."
+      },
+      "seed": "28dcb22a-5696-4ed0-8ae4-fec7a51b8d57:6",
+      "solved": {
+        "game": 7,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 3,
+        "instruction": "Ordena los pasos para descomponer 60 en factores primos.",
+        "pairs": null,
+        "steps": [
+          "Dividir 60 entre 2: da 30",
+          "Dividir 30 entre 2: da 15",
+          "Dividir 15 entre 3: da 5",
+          "Dividir 5 entre 5: da 1",
+          "Escribir 60 = 2 × 2 × 3 × 5 = 2² × 3 × 5"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Se divide entre el menor primo posible hasta llegar a 1. Después se escribe el producto de todos los divisores primos usados."
+      },
+      "seed": "28dcb22a-5696-4ed0-8ae4-fec7a51b8d57:7",
+      "solved": {
+        "game": 8,
+        "match": null,
+        "order": [
+          1,
+          2,
+          5,
+          4,
+          3
+        ],
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 3,
+        "instruction": "Elige la descomposición en factores primos correcta.",
+        "pairs": null,
+        "steps": null,
+        "stem": "La descomposición en factores primos de 36 es ___.",
+        "options": [
+          "4 × 9",
+          "2 × 3 × 6",
+          "2² × 3²",
+          "2³ × 3"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": null,
+        "explanation": "36 = 2 × 2 × 3 × 3 = 2² × 3². 4 × 9 y 2 × 3 × 6 usan factores que no son primos, y 2³ × 3 = 24."
+      },
+      "seed": "28dcb22a-5696-4ed0-8ae4-fec7a51b8d57:8",
+      "solved": {
+        "game": 9,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 3,
+        "instruction": "Un paso de la descomposición de 84 tiene un error. Encuéntralo.",
+        "pairs": null,
+        "steps": [
+          "84 ÷ 2 = 42",
+          "42 ÷ 2 = 21",
+          "21 ÷ 3 = 7",
+          "7 ÷ 7 = 1",
+          "84 = 2 × 3 × 7 = 42"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 4,
+        "correction": "84 = 2 × 2 × 3 × 7 = 2² × 3 × 7",
+        "calc": null,
+        "explanation": "Se usó el factor 2 dos veces en las divisiones, pero en el producto final solo apareció una vez. Por eso el resultado no daba 84."
+      },
+      "seed": "28dcb22a-5696-4ed0-8ae4-fec7a51b8d57:9",
+      "solved": {
+        "game": 10,
+        "match": null,
+        "order": null,
+        "choice": 5,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 4,
+        "instruction": "Calcula y elige la opción correcta.",
+        "pairs": null,
+        "steps": null,
+        "stem": "El mínimo común múltiplo de 8 y 12 es ___.",
+        "options": [
+          "24",
+          "48",
+          "96",
+          "20"
+        ],
+        "answer_index": 0,
+        "correction": null,
+        "calc": "lcm(8,12)",
+        "explanation": "8 = 2³ y 12 = 2² × 3. Se toman los factores con mayor exponente: 2³ × 3 = 24."
+      },
+      "seed": "28dcb22a-5696-4ed0-8ae4-fec7a51b8d57:10",
+      "solved": {
+        "game": 11,
+        "match": null,
+        "order": null,
+        "choice": 0,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 4,
+        "instruction": "Un paso del cálculo del mcm de 4 y 6 tiene un error. Encuéntralo.",
+        "pairs": null,
+        "steps": [
+          "4 = 2²",
+          "6 = 2 × 3",
+          "Se toman todos los factores con su mayor exponente: 2² y 3",
+          "mcm = 2² × 3 = 10"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 3,
+        "correction": "mcm = 2² × 3 = 12",
+        "calc": null,
+        "explanation": "2² × 3 = 4 × 3 = 12, no 10. Además, 12 es múltiplo de 4 y de 6, pero 10 no."
+      },
+      "seed": "28dcb22a-5696-4ed0-8ae4-fec7a51b8d57:11",
+      "solved": {
+        "game": 12,
+        "match": null,
+        "order": null,
+        "choice": 4,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 5,
+        "instruction": "Ordena los pasos del algoritmo de Euclides para hallar el MCD de 48 y 18.",
+        "pairs": null,
+        "steps": [
+          "Dividir 48 entre 18: cociente 2, residuo 12",
+          "Dividir 18 entre 12: cociente 1, residuo 6",
+          "Dividir 12 entre 6: cociente 2, residuo 0",
+          "El último divisor, 6, es el MCD"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "En cada división, el divisor anterior pasa a ser dividendo y el residuo pasa a ser divisor. Cuando el residuo es 0, el último divisor es el MCD."
+      },
+      "seed": "28dcb22a-5696-4ed0-8ae4-fec7a51b8d57:12",
+      "solved": {
+        "game": 13,
+        "match": null,
+        "order": [
+          4,
+          2,
+          3,
+          1
+        ],
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 5,
+        "instruction": "Calcula y elige la opción correcta.",
+        "pairs": null,
+        "steps": null,
+        "stem": "El máximo común divisor de 42 y 56 es ___.",
+        "options": [
+          "7",
+          "28",
+          "14",
+          "168"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": "gcd(42,56)",
+        "explanation": "42 = 2 × 3 × 7 y 56 = 2³ × 7. Los factores comunes con menor exponente son 2 y 7, y 2 × 7 = 14."
+      },
+      "seed": "28dcb22a-5696-4ed0-8ae4-fec7a51b8d57:13",
+      "solved": {
+        "game": 14,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 6,
+        "instruction": "Resuelve el problema y elige la respuesta.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Dos buses salen juntos de una terminal a las 6:00 a. m. Uno sale cada 12 minutos y el otro cada 18 minutos. Volverán a salir juntos después de ___ minutos.",
+        "options": [
+          "6",
+          "36",
+          "216",
+          "30"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": "lcm(12,18)",
+        "explanation": "Se busca el primer momento en que coinciden, es decir, el mcm de 12 y 18. 12 = 2² × 3 y 18 = 2 × 3², así que el mcm es 2² × 3² = 36."
+      },
+      "seed": "28dcb22a-5696-4ed0-8ae4-fec7a51b8d57:14",
+      "solved": {
+        "game": 15,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 6,
+        "instruction": "Resuelve el problema y elige la respuesta.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Una pulpería tiene 24 manzanas y 36 naranjas. Quiere armar la mayor cantidad posible de bolsas iguales, con todas las frutas y sin que sobre ninguna. Puede armar ___ bolsas.",
+        "options": [
+          "72",
+          "6",
+          "4",
+          "12"
+        ],
+        "answer_index": 3,
+        "correction": null,
+        "calc": "gcd(24,36)",
+        "explanation": "El número de bolsas debe dividir exactamente a 24 y a 36, y se quiere el mayor: el MCD de 24 y 36, que es 12. Cada bolsa llevará 2 manzanas y 3 naranjas."
+      },
+      "seed": "28dcb22a-5696-4ed0-8ae4-fec7a51b8d57:15",
+      "solved": {
+        "game": 16,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    }
+  ],
+  "notes": ""
+}
