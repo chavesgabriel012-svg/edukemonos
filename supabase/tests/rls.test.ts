@@ -1202,3 +1202,46 @@ describe("groups and subject sections", () => {
     expect(out.groups).toEqual([{ group_id: out.g }]);
   });
 });
+
+describe("a subject teacher across several groups", () => {
+  it("teaches Math only in 7-1 and 8-3: sees exactly those two groups, not 7-2", async () => {
+    const out = await scenario(async (q, act) => {
+      const [{ inst }] = await q(`insert into public.institutions (name) values ('Liceo de prueba') returning id as inst`);
+      await q(`insert into public.institution_members (institution_id, profile_id, role) values ($1, $2, 'admin'), ($1, $3, 'teacher')`, [inst, ids.teacher1, ids.teacher2]);
+      await act(user(ids.teacher1));
+      const groups: Record<string, string> = {};
+      for (const [name, grade] of [["7-1", 7], ["7-2", 7], ["8-3", 8]] as const) {
+        const [{ g }] = await q(`select public.create_group($1, $2::smallint, $3) as g`, [name, grade, inst]);
+        groups[name] = g;
+      }
+      // teacher1 teaches Math in 7-1 and 8-3; teacher2 teaches Math in 7-2.
+      for (const name of ["7-1", "8-3"]) {
+        await q(`insert into public.sections (teacher_id, name, grade_id, group_id, subject_id, join_code) values ($1, $2, 7, $3, 'matematicas', '')`, [ids.teacher1, `${name} Matemáticas`, groups[name]]);
+      }
+      await act(user(ids.teacher2));
+      await q(`insert into public.sections (teacher_id, name, grade_id, group_id, subject_id, join_code) values ($1, '7-2 Matemáticas', 7, $2, 'matematicas', '')`, [ids.teacher2, groups["7-2"]]);
+      await act(null);
+      // One student per group, each with a Math attempt.
+      const students: Record<string, string> = {};
+      let k = 0;
+      for (const name of ["7-1", "7-2", "8-3"]) {
+        const id = `00000000-0000-4000-9100-${String(++k).padStart(12, "0")}`;
+        await q(`insert into auth.users (id, email, is_anonymous) values ($1, null, true)`, [id]);
+        const [{ code }] = await q(`select join_code as code from public.groups where id = $1`, [groups[name]]);
+        await act(user(id));
+        await q(`select public.join_with_code($1, $2, true)`, [code, `Estudiante ${name}`]);
+        await q(`select public.submit_attempt($1, 2::smallint)`, [ids.itemVerified]);
+        await act(null);
+        students[name] = id;
+      }
+      await act(user(ids.teacher1));
+      const sections = (await q(`select name, grade_id from public.sections where teacher_id = $1 and group_id is not null order by name`, [ids.teacher1])).map((r) => `${r.name} (${r.grade_id}.º)`);
+      const seen = (await q(`select distinct student_id from public.attempts where student_id = any($1)`, [Object.values(students)])).map((r) => r.student_id).sort();
+      const names = (await q(`select display_name from public.section_members m join public.sections s on s.id = m.section_id where s.teacher_id = $1 and s.group_id is not null order by 1`, [ids.teacher1])).map((r) => r.display_name);
+      return { sections, seen, names, students };
+    });
+    expect(out.sections).toEqual(["7-1 Matemáticas (7.º)", "8-3 Matemáticas (8.º)"]);
+    expect(out.seen).toEqual([out.students["7-1"], out.students["8-3"]].sort());
+    expect(out.names).toEqual(["Estudiante 7-1", "Estudiante 8-3"]);
+  });
+});
