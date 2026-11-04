@@ -33,7 +33,10 @@ const LETTERS = "ABCDEFGHJKLMNPRSTV";
 
 export const DEMO_SECTION = {
   id: "demo",
-  name: "7-3 (demostración)",
+  name: "7-3 · Matemáticas (demostración)",
+  groupName: "7-3 (demostración)",
+  subjectId: "matematicas",
+  subjectName: "Matemáticas",
   gradeId: 7,
   institution: "Liceo de demostración",
   term: 2,

@@ -42,7 +42,7 @@ export function SectionOverview({ source, metrics, subjectId, summary }: {
       ]} />
 
       <Panel id="resumen" title="¿Qué está pasando en la sección?" hint="Hallazgos calculados con los datos de la sección. Cada uno explica cómo se calculó.">
-        <Findings target={source.demo ? "demo" : source.section.id} findings={metrics.findings} initial={summary} />
+        <Findings target={source.demo ? (source.kind === "group" ? "demo-guia" : "demo") : source.kind === "group" ? `grupo:${source.section.id}` : source.section.id} findings={metrics.findings} initial={summary} />
       </Panel>
 
       <Panel id="apoyo" title="Estudiantes que podrían necesitar apoyo"

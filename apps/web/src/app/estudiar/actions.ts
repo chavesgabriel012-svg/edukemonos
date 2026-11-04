@@ -204,7 +204,8 @@ export async function finishDiagnostic(diagnosticId: string): Promise<ActionResu
 
 export interface JoinState {
   error?: string;
-  joined?: { section_name: string; grade_id: number };
+  /** A group (every subject of it) or a standalone section. */
+  joined?: { kind: "group" | "section"; name: string; grade_id: number; subjects: string[] };
 }
 
 export async function joinSection(_prev: JoinState, form: FormData): Promise<JoinState> {
@@ -216,15 +217,15 @@ export async function joinSection(_prev: JoinState, form: FormData): Promise<Joi
   if (!consent) return { error: "Para unirte necesitamos tu consentimiento." };
   const { supabase, error: sessionError } = await studentClient();
   if (sessionError) return { error: sessionError };
-  const { data, error } = await supabase.rpc("join_section", { p_code: code, p_display_name: name, p_consent: consent });
+  // One code for everything: a group code puts the student in every subject of the group.
+  const { data, error } = await supabase.rpc("join_with_code", { p_code: code, p_display_name: name, p_consent: consent });
   if (error) {
     if (/invalid or inactive code/.test(error.message)) return { error: "Ese código no existe o la sección ya no está activa. Revísalo con tu docente." };
     if (/staff accounts/.test(error.message)) return { error: "Las cuentas de docente o revisor no pueden unirse como estudiantes." };
     console.error("join_section failed:", error.message);
     return { error: "No pudimos unirte a la sección. Intenta de nuevo." };
   }
-  const row = (data as { section_name: string; grade_id: number }[])[0];
-  return { joined: row };
+  return { joined: data as NonNullable<JoinState["joined"]> };
 }
 
 export interface ReportState {
