@@ -27,10 +27,15 @@ export interface StudentSection {
 }
 
 /** The visitor's sections with this week's goal and table (computed in the database). */
-export async function studentSections(): Promise<{ sections: StudentSection[]; nickname: string | null; hidden: boolean; signedIn: boolean }> {
+export async function studentSections(): Promise<{ sections: StudentSection[]; groups: { name: string; gradeId: number }[]; nickname: string | null; hidden: boolean; signedIn: boolean }> {
   const supabase = await createClient();
   const { data: auth } = await supabase.auth.getUser();
-  if (!auth.user?.is_anonymous) return { sections: [], nickname: null, hidden: false, signedIn: false };
+  if (!auth.user?.is_anonymous) return { sections: [], groups: [], nickname: null, hidden: false, signedIn: false };
+  const { data: groupRows } = await supabase.from("group_members").select("groups(name, grade_id)").eq("student_id", auth.user.id);
+  const groups = (groupRows ?? []).flatMap((r) => {
+    const g = r.groups as unknown as { name: string; grade_id: number } | null;
+    return g ? [{ name: g.name, gradeId: g.grade_id }] : [];
+  });
   const [{ data: members }, { data: me }] = await Promise.all([
     supabase.from("section_members").select("section_id, sections(id, name, grade_id)").eq("student_id", auth.user.id).order("joined_at"),
     supabase.from("students").select("nickname, leaderboard_hidden").eq("id", auth.user.id).maybeSingle(),
@@ -50,7 +55,7 @@ export async function studentSections(): Promise<{ sections: StudentSection[]; n
       })()];
     }),
   );
-  return { sections, nickname: me?.nickname ?? null, hidden: me?.leaderboard_hidden ?? false, signedIn: true };
+  return { sections, groups, nickname: me?.nickname ?? null, hidden: me?.leaderboard_hidden ?? false, signedIn: true };
 }
 
 /** Six free nicknames to choose from. */

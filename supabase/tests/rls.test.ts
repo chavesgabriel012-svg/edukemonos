@@ -540,7 +540,7 @@ describe("recovery codes", () => {
       where c.contype = 'f' and c.confrelid = 'public.students'::regclass
       order by 1`);
     const handled = [
-      "attempts", "diagnostics", "mastery", "mastery_weekly", "section_members", "streak_repairs", "student_recovery_codes",
+      "attempts", "diagnostics", "group_members", "mastery", "mastery_weekly", "section_members", "streak_repairs", "student_recovery_codes",
       "tutor_sessions", "writing_feedback",
     ];
     expect(rows.map((r) => r.table.replace(/^public\./, "")).sort()).toEqual(handled);
@@ -1001,5 +1001,204 @@ describe("section pause (fix of fase 1)", () => {
     expect(rows.rows[0]).toEqual({ no_calendar: false, mep_break: true, mep_class: false });
     const [summary] = await as<{ s: { paused: boolean } }>(db, t1, `select public.section_streak_summary($1) as s`, [ids.section1]);
     expect(summary.s.paused).toBe(false);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Groups and one section per subject: teacher = subject, guide = group
+// ---------------------------------------------------------------------------
+describe("groups and subject sections", () => {
+  const teacher3 = "00000000-0000-4000-8000-0000000000c3";
+  const outsider = "00000000-0000-4000-8000-0000000000c4";
+
+  /**
+   * Institution with teacher1 (admin) and teacher2 and teacher3 (teachers); group 7-3 with a Math
+   * section (teacher1) and a Spanish section (teacher2); teacher3 is the guide. A published Spanish
+   * unit with one item. Returns ids.
+   */
+  async function school(q: Q, act: (a: ReturnType<typeof user> | null) => Promise<void>) {
+    await q(`insert into auth.users (id, email, is_anonymous) values ($1, 'teacher3@example.test', false), ($2, 'outsider@example.test', false)`, [teacher3, outsider]);
+    const [{ inst }] = await q(`insert into public.institutions (name) values ('Liceo de prueba') returning id as inst`);
+    await q(`insert into public.institution_members (institution_id, profile_id, role) values ($1, $2, 'admin'), ($1, $3, 'teacher'), ($1, $4, 'teacher')`, [inst, ids.teacher1, ids.teacher2, teacher3]);
+    const [{ unit }] = await q(
+      `insert into public.curriculum_units (cycle_id, grade_id, subject_id, title, source_id, source_page, source_excerpt, status)
+       values ('III', 7, 'espanol', 'Unidad de español', $1, 12, 'extracto', 'published') returning id as unit`, [ids.source]);
+    const [{ skill }] = await q(`insert into public.skills (unit_id, subject_id, grade_id, name) values ($1, 'espanol', 7, 'Habilidad de español') returning id as skill`, [unit]);
+    const [{ item }] = await q(
+      `insert into public.items (unit_id, skill_ids, stem, options, correct_index, explanation, distractor_explanations, difficulty, verified, status)
+       values ($1, array[$2::uuid], 'tilde', array['a','b','c','d'], 1, 'e', array['x','x','x','x'], 3, true, 'published') returning id as item`, [unit, skill]);
+
+    await act(user(ids.teacher1));
+    const [{ g }] = await q(`select public.create_group('7-3', 7::smallint, $1) as g`, [inst]);
+    const [{ math }] = await q(`insert into public.sections (teacher_id, name, grade_id, group_id, subject_id, join_code) values ($1, '7-3 Matemáticas', 7, $2, 'matematicas', '') returning id as math`, [ids.teacher1, g]);
+    await q(`select public.set_group_guide($1, 'teacher3@example.test')`, [g]);
+    await act(user(ids.teacher2));
+    const [{ esp }] = await q(`insert into public.sections (teacher_id, name, grade_id, group_id, subject_id, join_code) values ($1, '7-3 Español', 9, $2, 'espanol', '') returning id as esp`, [ids.teacher2, g]);
+    await act(null);
+    const [{ code }] = await q(`select join_code as code from public.groups where id = $1`, [g]);
+    return { inst, g, math, esp, code, espItem: item, espSkill: skill };
+  }
+
+  it("one group code puts the student in every subject; each teacher sees only their subject; the guide sees all", async () => {
+    const out = await scenario(async (q, act) => {
+      const s = await school(q, act);
+      await act(user(ids.loner));
+      const [{ joined }] = await q(`select public.join_with_code($1, 'Estudiante Sintético Nueve', true) as joined`, [s.code.toLowerCase()]);
+      await q(`select public.submit_attempt($1, 2::smallint)`, [ids.itemVerified]);   // Math, right
+      await q(`select public.submit_attempt($1, 1::smallint)`, [s.espItem]);         // Spanish, right
+      const own = await q(`select subject_id from public.attempts where student_id = $1 order by subject_id`, [ids.loner]);
+      const read = async (who: string) => {
+        await act(user(who));
+        const attempts = (await q(`select subject_id from public.attempts where student_id = $1 order by subject_id`, [ids.loner])).map((r) => r.subject_id);
+        const mastery = (await q(`select subject_id from public.mastery where student_id = $1 order by subject_id`, [ids.loner])).map((r) => r.subject_id);
+        const weekly = (await q(`select subject_id from public.mastery_weekly where student_id = $1 order by subject_id`, [ids.loner])).map((r) => r.subject_id);
+        const names = (await q(`select display_name from public.group_members where student_id = $1`, [ids.loner])).map((r) => r.display_name);
+        return { attempts, mastery, weekly, names };
+      };
+      const math = await read(ids.teacher1);
+      const esp = await read(ids.teacher2);
+      const guide = await read(teacher3);
+      const stranger = await read(outsider);
+      await act(null);
+      const members = await q(`select section_id from public.section_members where student_id = $1 order by section_id`, [ids.loner]);
+      const [{ grade }] = await q(`select grade_id as grade from public.sections where id = $1`, [s.esp]);
+      return { s, joined, own, math, esp, guide, stranger, members, grade };
+    });
+    expect(out.joined).toMatchObject({ kind: "group", name: "7-3", grade_id: 7, subjects: ["Español", "Matemáticas"] });
+    expect(out.members.map((m) => m.section_id).sort()).toEqual([out.s.math, out.s.esp].sort());
+    expect(out.own.map((r) => r.subject_id)).toEqual(["espanol", "matematicas"]);
+    expect(out.math).toEqual({ attempts: ["matematicas"], mastery: ["matematicas"], weekly: ["matematicas"], names: ["Estudiante Sintético Nueve"] });
+    expect(out.esp).toEqual({ attempts: ["espanol"], mastery: ["espanol"], weekly: ["espanol"], names: ["Estudiante Sintético Nueve"] });
+    expect(out.guide).toEqual({ attempts: ["espanol", "matematicas"], mastery: ["espanol", "matematicas"], weekly: ["espanol", "matematicas"], names: ["Estudiante Sintético Nueve"] });
+    expect(out.stranger).toEqual({ attempts: [], mastery: [], weekly: [], names: [] });
+    // The section's grade comes from the group, whatever was sent.
+    expect(out.grade).toBe(7);
+  });
+
+  it("a subject teacher only sees diagnostics, tutor topics and writing of their subject", async () => {
+    const out = await scenario(async (q, act) => {
+      const s = await school(q, act);
+      await act(user(ids.loner));
+      await q(`select public.join_with_code($1, 'Nueve', true)`, [s.code]);
+      await act(null);
+      await q(`insert into public.diagnostics (student_id, subject_id, grade_id) values ($1, 'espanol', 7), ($1, 'matematicas', 7)`, [ids.loner]);
+      const [{ espUnit }] = await q(`select unit_id as "espUnit" from public.skills where id = $1`, [s.espSkill]);
+      await q(`insert into public.tutor_sessions (student_id, unit_id, topic) values ($1, $2, 'tildes'), ($1, $3, 'potencias'), ($1, null, 'general')`, [ids.loner, espUnit, ids.unitPublished]);
+      await q(`insert into public.writing_feedback (student_id, unit_id, category, count) values ($1, $2, 'tildes', 2)`, [ids.loner, espUnit]);
+      await act(user(ids.teacher1));
+      const diag = (await q(`select subject_id from public.diagnostics where student_id = $1`, [ids.loner])).map((r) => r.subject_id);
+      const topics = (await q(`select topic from public.tutor_sessions where student_id = $1 order by topic`, [ids.loner])).map((r) => r.topic);
+      const writing = await q(`select * from public.writing_feedback where student_id = $1`, [ids.loner]);
+      await act(user(teacher3));
+      const guideTopics = (await q(`select topic from public.tutor_sessions where student_id = $1 order by topic`, [ids.loner])).map((r) => r.topic);
+      return { diag, topics, writing, guideTopics };
+    });
+    expect(out.diag).toEqual(["matematicas"]);
+    expect(out.topics).toEqual(["potencias"]);         // no Spanish topic, no topic outside a unit
+    expect(out.writing).toEqual([]);
+    expect(out.guideTopics).toEqual(["general", "potencias", "tildes"]);
+  });
+
+  it("the goal and the table of a subject section count only that subject", async () => {
+    const out = await scenario(async (q, act) => {
+      const s = await school(q, act);
+      await act(user(ids.loner));
+      await q(`select public.join_with_code($1, 'Nueve', true)`, [s.code]);
+      await act(null);
+      await q(`insert into public.mastery_weekly (student_id, skill_id, week_start, score_start, score_end) values ($1, $2, $3, 0.5, 0.8)`, [ids.loner, s.espSkill, thisWeek()]);
+      const [{ math }] = await q(`select private.section_week_mastered($1, $2) as math`, [s.math, thisWeek()]);
+      const [{ esp }] = await q(`select private.section_week_mastered($1, $2) as esp`, [s.esp, thisWeek()]);
+      return { math, esp };
+    });
+    expect(out).toEqual({ math: 0, esp: 1 });
+  });
+
+  it("a code of a section in a group joins the whole group; a section added later includes the group's students", async () => {
+    const out = await scenario(async (q, act) => {
+      const s = await school(q, act);
+      const [{ sectionCode }] = await q(`select join_code as "sectionCode" from public.sections where id = $1`, [s.esp]);
+      await act(user(ids.loner));
+      const [{ joined }] = await q(`select public.join_with_code($1, 'Nueve', true) as joined`, [sectionCode]);
+      await act(user(teacher3));
+      const [{ sci }] = await q(`insert into public.sections (teacher_id, name, grade_id, group_id, subject_id, join_code) values ($1, '7-3 Ciencias', 7, $2, 'ciencias', '') returning id as sci`, [teacher3, s.g]);
+      await act(null);
+      const members = await q(`select count(*)::int as n from public.section_members where student_id = $1`, [ids.loner]);
+      const [{ inSci }] = await q(`select exists (select 1 from public.section_members where section_id = $1 and student_id = $2) as "inSci"`, [sci, ids.loner]);
+      return { joined, members, inSci };
+    });
+    expect(out.joined.kind).toBe("group");
+    expect(out.members[0].n).toBe(3);
+    expect(out.inSci).toBe(true);
+  });
+
+  it("only the institution's teachers add subject sections, one per subject; only admins create institution groups", async () => {
+    const errs = await scenario(async (q, act) => {
+      const s = await school(q, act);
+      const tryq = async (sql: string, params: unknown[]) => {
+        await q("savepoint t");
+        try { await q(sql, params); await q("release savepoint t"); return "ok"; } catch (e) { await q("rollback to savepoint t"); return (e as Error).message; }
+      };
+      await act(user(outsider));
+      const foreign = await tryq(`insert into public.sections (teacher_id, name, grade_id, group_id, subject_id, join_code) values ($1, 'x', 7, $2, 'ingles', '')`, [outsider, s.g]);
+      await act(user(ids.teacher2));
+      const twice = await tryq(`insert into public.sections (teacher_id, name, grade_id, group_id, subject_id, join_code) values ($1, 'x', 7, $2, 'matematicas', '')`, [ids.teacher2, s.g]);
+      const notAdmin = await tryq(`select public.create_group('7-4', 7::smallint, $1)`, [s.inst]);
+      const standalone = await tryq(`select public.create_group('Mi grupo', 8::smallint, null)`, []);
+      const noSubject = await tryq(`insert into public.sections (teacher_id, name, grade_id, group_id, join_code) values ($1, 'x', 7, $2, '')`, [ids.teacher2, s.g]);
+      const guideOutside = await tryq(`select public.set_group_guide($1, 'outsider@example.test')`, [s.g]);
+      await act(user(ids.teacher1));
+      const guideOutsideByAdmin = await tryq(`select public.set_group_guide($1, 'outsider@example.test')`, [s.g]);
+      return { foreign, twice, notAdmin, standalone, noSubject, guideOutside, guideOutsideByAdmin };
+    });
+    expect(errs.foreign).toMatch(/cannot add sections/);
+    expect(errs.twice).toMatch(/duplicate key/);
+    expect(errs.notAdmin).toMatch(/not an admin/);
+    expect(errs.standalone).toBe("ok");
+    expect(errs.noSubject).toMatch(/sections_group_needs_subject/);
+    expect(errs.guideOutside).toMatch(/not your group/);
+    expect(errs.guideOutsideByAdmin).toMatch(/must belong to the institution/);
+  });
+
+  it("the guide can take a student out of the group and of all its subjects; students only see their own group", async () => {
+    const out = await scenario(async (q, act) => {
+      const s = await school(q, act);
+      await act(user(ids.loner));
+      await q(`select public.join_with_code($1, 'Nueve', true)`, [s.code]);
+      const mine = await q(`select name from public.groups`);
+      await act(user(ids.student2));
+      const notMine = await q(`select name from public.groups`);
+      await q("savepoint o");
+      const overview = await q(`select public.group_overview($1)`, [s.g]).then(() => "ok", async (e) => { await q("rollback to savepoint o"); return (e as Error).message; });
+      await act(user(teacher3));
+      const [{ ov }] = await q(`select public.group_overview($1) as ov`, [s.g]);
+      await q(`select public.remove_group_member($1, $2)`, [s.g, ids.loner]);
+      await act(null);
+      const left = await q(`select count(*)::int as n from public.section_members where student_id = $1`, [ids.loner]);
+      return { mine, notMine, overview, ov, left };
+    });
+    expect(out.mine).toEqual([{ name: "7-3" }]);
+    expect(out.notMine).toEqual([]);
+    expect(out.overview).toMatch(/not your group/);
+    expect(out.ov).toMatchObject({ name: "7-3", is_guide: true, manages: false, students: 1 });
+    expect(out.ov.sections.map((x: { subject: string }) => x.subject)).toEqual(["Español", "Matemáticas"]);
+    expect(out.left[0].n).toBe(0);
+  });
+
+  it("group codes and section codes never collide, and a recovery code carries the group", async () => {
+    const out = await scenario(async (q, act) => {
+      const s = await school(q, act);
+      const [{ clash }] = await q(`select exists (select 1 from public.sections where join_code = $1) as clash`, [s.code]);
+      await act(user(ids.student2));
+      await q(`select public.join_with_code($1, 'Dos', true)`, [s.code]);
+      const [{ code }] = await q(`select public.create_recovery_code() as code`);
+      await act(user(ids.newDevice));
+      const [{ r }] = await q(`select public.redeem_recovery_code($1) as r`, [code]);
+      await act(null);
+      const groups = await q(`select group_id from public.group_members where student_id = $1`, [ids.newDevice]);
+      return { clash, r, groups, g: s.g };
+    });
+    expect(out.clash).toBe(false);
+    expect(out.r.moved.groups).toBe(1);
+    expect(out.groups).toEqual([{ group_id: out.g }]);
   });
 });

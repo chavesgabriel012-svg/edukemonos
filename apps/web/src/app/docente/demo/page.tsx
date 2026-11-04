@@ -1,5 +1,6 @@
 import { busiestSubject, computeSectionMetrics } from "@edukemonos/curriculum";
 import type { Metadata } from "next";
+import Link from "next/link";
 import { SectionHeader } from "@/components/teacher/section-header";
 import { SectionOverview } from "@/components/teacher/section-overview";
 import { GoalPanel } from "@/components/teacher/goal-panel";
@@ -20,6 +21,10 @@ export default async function DemoSectionPage({ searchParams }: PageProps<"/doce
   return (
     <div className="space-y-6">
       <SectionHeader source={source} />
+      <p className="text-sm">
+        <Link href="/docente/demo/guia" className="font-medium underline underline-offset-2">Ver cómo lo ve la persona guía del grupo</Link>
+        {" "}(todas las materias).
+      </p>
       <SectionOverview source={source} metrics={metrics} subjectId={subjectId} summary={await cachedSummary(metrics.findings)} />
       <GoalPanel data={demo} />
       <StreakPanel sectionId="demo" data={demo} demo />

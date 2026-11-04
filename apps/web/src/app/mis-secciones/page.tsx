@@ -8,7 +8,7 @@ import { NicknameForm } from "./nickname-form";
 export const metadata: Metadata = { title: "Mis secciones" };
 
 export default async function MySectionsPage() {
-  const { sections, nickname, hidden, signedIn } = await studentSections();
+  const { sections, groups, nickname, hidden, signedIn } = await studentSections();
   const options = signedIn && sections.length && !nickname ? await nicknameOptions() : [];
 
   if (!sections.length) {
@@ -23,7 +23,16 @@ export default async function MySectionsPage() {
 
   return (
     <section className="mx-auto max-w-xl space-y-6">
-      <h1 className="text-2xl font-bold">Mis secciones</h1>
+      <div className="space-y-1">
+        <h1 className="text-2xl font-bold">{groups.length ? `Tu grupo: ${groups.map((g) => g.name).join(", ")}` : "Mis secciones"}</h1>
+        {groups.length > 0 && (
+          <p className="text-sm text-muted-foreground">
+            Abajo están tus materias. Cada docente ve tu avance en la suya
+            {" "}y, si tu grupo tiene docente guía, ve el de todas.{" "}
+            <Link href={`/estudiar/${groups[0].gradeId}`} className="font-medium underline underline-offset-2">Ir a estudiar</Link>
+          </p>
+        )}
+      </div>
 
       <div className="space-y-3 rounded-[22px] bg-card p-5">
         <h2 className="font-heading text-xl font-bold">{nickname ? `Tu apodo: ${nickname}` : "Elige tu apodo"}</h2>

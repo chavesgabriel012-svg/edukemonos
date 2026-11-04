@@ -5,6 +5,7 @@ import { Kemo } from "@/components/brand/logo";
 import { brand } from "@/lib/brand";
 import { createClient } from "@/lib/supabase/server";
 import { formatCode } from "@/lib/teacher";
+import { NewGroupForm } from "./new-group-form";
 import { NewSectionForm } from "./new-section-form";
 
 export const metadata: Metadata = {
@@ -72,11 +73,18 @@ export default async function TeacherHomePage() {
     return i ? [{ ...i, admin: m.role === "admin" }] : [];
   });
 
-  const { data: sections } = await supabase
-    .from("sections")
-    .select("id, name, grade_id, join_code, active, current_term, section_members(count)")
-    .eq("teacher_id", auth.user.id)
-    .order("created_at", { ascending: false });
+  const [{ data: sections }, { data: groups }, { data: subjects }] = await Promise.all([
+    supabase
+      .from("sections")
+      .select("id, name, grade_id, join_code, active, current_term, subject_id, subjects(name), groups(name, join_code), section_members(count)")
+      .eq("teacher_id", auth.user.id)
+      .order("created_at", { ascending: false }),
+    // Groups visible to the teacher: theirs, the ones they guide or teach in, and those of their institutions.
+    supabase.from("groups").select("id, name, grade_id, guide_id, created_by, sections(teacher_id)").order("name"),
+    supabase.from("subjects").select("id, name").order("sort"),
+  ]);
+  const role = (g: { guide_id: string | null; created_by: string; sections: { teacher_id: string }[] }) =>
+    g.guide_id === auth.user!.id ? "Guía" : g.sections.some((x) => x.teacher_id === auth.user!.id) ? "Doy una materia" : g.created_by === auth.user!.id ? "Lo creé" : "De mi institución";
 
   return (
     <div className="space-y-8">
@@ -98,9 +106,13 @@ export default async function TeacherHomePage() {
                   <Link href={`/docente/seccion/${s.id}`} className="flex h-full flex-col gap-2 rounded-[22px] border bg-card p-5 transition hover:border-violeta">
                     <span className="font-mono text-xs text-muted-foreground">{s.grade_id}.º AÑO</span>
                     <span className="font-heading text-2xl leading-none font-bold">{s.name}</span>
-                    <span className="text-sm text-muted-foreground">{members} {members === 1 ? "estudiante" : "estudiantes"}</span>
+                    <span className="text-sm text-muted-foreground">
+                      {(s.subjects as unknown as { name: string } | null)?.name ?? "Todas las materias"} · {members} {members === 1 ? "estudiante" : "estudiantes"}
+                    </span>
                     <span className="mt-auto flex items-center justify-between pt-2 text-sm">
-                      <span className="font-mono font-semibold tracking-wider">{formatCode(s.join_code)}</span>
+                      <span className="font-mono font-semibold tracking-wider">
+                        {formatCode((s.groups as unknown as { join_code: string } | null)?.join_code ?? s.join_code)}
+                      </span>
                       {!s.active && <span className="rounded-full bg-secondary px-2 py-0.5 text-xs">código desactivado</span>}
                     </span>
                   </Link>
@@ -110,6 +122,22 @@ export default async function TeacherHomePage() {
           </ul>
         )}
       </section>
+      {(groups ?? []).length > 0 && (
+        <section className="space-y-3">
+          <h2 className="font-heading text-2xl font-bold">Grupos</h2>
+          <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {(groups ?? []).map((g) => (
+              <li key={g.id}>
+                <Link href={`/docente/grupo/${g.id}`} className="flex h-full flex-col gap-1 rounded-[22px] border bg-card p-4 transition hover:border-violeta">
+                  <span className="font-mono text-xs text-muted-foreground">{g.grade_id}.º AÑO · GRUPO</span>
+                  <span className="font-heading text-2xl leading-none font-bold">{g.name}</span>
+                  <span className="text-sm text-muted-foreground">{role(g)}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
       {institutions.length > 0 && (
         <section className="space-y-3">
           <h2 className="font-heading text-2xl font-bold">Mis instituciones</h2>
@@ -126,8 +154,16 @@ export default async function TeacherHomePage() {
         </section>
       )}
       <section className="space-y-4 rounded-[22px] border bg-card p-5 sm:p-6">
-        <h2 className="font-heading text-2xl font-bold">Crear una sección</h2>
-        <NewSectionForm />
+        <h2 className="font-heading text-2xl font-bold">Agregar mi materia o crear una sección</h2>
+        <NewSectionForm groups={(groups ?? []).map((g) => ({ id: g.id, name: `${g.name} (${g.grade_id}.º)` }))} subjects={subjects ?? []} />
+      </section>
+      <section className="space-y-4 rounded-[22px] border bg-card p-5 sm:p-6">
+        <h2 className="font-heading text-2xl font-bold">Crear un grupo</h2>
+        <p className="text-sm text-muted-foreground">
+          Un grupo (por ejemplo, 7-3) tiene un solo código: sus estudiantes se unen una vez y quedan en todas las materias. Cada
+          docente agrega su materia y ve solo esa. Se puede asignar una persona guía, que ve todas las materias del grupo.
+        </p>
+        <NewGroupForm institutions={institutions.filter((i) => i.admin).map((i) => ({ id: i.id, name: i.name }))} />
       </section>
     </div>
   );

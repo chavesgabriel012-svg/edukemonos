@@ -8,9 +8,10 @@ ella con un PR. Nada pasa a `main` sin aprobación del fundador.
 | 0 | `producto/fase-0-requisitos` | Este documento, código personal de recuperación, salida del tutor a 2 048 tokens, `.env.example` |
 | 1 | `fase-1` | Racha semanal de dominio, calendario escolar, comodín, aviso de descanso |
 | 2 | `fase-2` | Meta colectiva semanal y tabla con apodos |
-| 3 | `producto/fase-3-minijuegos` | Mecánicas fijas con contenido generado y verificado |
-| 4 | `producto/fase-4-torneo` | Torneo automático de los viernes |
-| 5 | `producto/fase-5-reconocimiento` | Insignias, certificado de dominio y equipo destacado |
+| — | `secciones-por-materia` | Grupos con un código, docente = materia, guía = grupo (§12) |
+| 3 | `fase-3` | Mecánicas fijas con contenido generado y verificado |
+| 4 | `fase-4` | Torneo automático de los viernes |
+| 5 | `fase-5` | Insignias, certificado de dominio y equipo destacado |
 
 ## 1. Principios
 
@@ -398,60 +399,69 @@ Resueltas el 3 de noviembre de 2026:
 3. **Aviso de descanso**: después de 1 hora.
 4. **Ítems sin verificar en la racha**: cuentan, igual que en la práctica de hoy.
 
-## 12. Propuesta: una sección por materia
+## 12. Grupos y una sección por materia
 
-Idea del fundador (4 nov): que el estudiante tenga una sección por materia, para que cada docente tenga control sobre
-sus estudiantes en su materia. Es lo que más complica la infraestructura, pero es como funciona el colegio y le da
-mucho valor al producto.
+Idea del fundador (4 nov), con sus decisiones del 5 nov. Va en la rama `secciones-por-materia`, antes de la Fase 3.
 
-### Cómo está hoy
+| Papel | Qué es | Qué ve |
+|---|---|---|
+| **Grupo** | El 7-3 de la institución, con **un solo código** | — |
+| **Docente = materia** | Una sección con materia dentro del grupo | Solo el avance de **su materia** |
+| **Guía = grupo** | Opcional, una persona por grupo | El rendimiento de **todos los estudiantes del grupo en todas las materias** |
+| **Estudiante** | Miembro del grupo | Su grupo y las materias que le tocan |
 
-- La sección tiene grado, pero no materia. El panel muestra todas las materias del grado.
-- Un estudiante ya puede estar en varias secciones: el modelo lo permite.
-- **El problema es la privacidad.** `private.teaches_student(student)` le da al docente acceso a **todo** lo del
-  estudiante: intentos, dominio, diagnósticos, temas del tutor y escritura de todas las materias. Con secciones por
-  materia, el docente de Matemáticas vería también Español.
+«Guía = grado» se interpretó como el grupo (7-3), que es como funciona el profesor guía en Costa Rica. Si en algún
+colegio la guía debe ver todos los 7.º de la institución, es una extensión pequeña: una guía por nivel en vez de por
+grupo.
 
-### Propuesta
+### Modelo de datos
 
-1. **`sections.subject_id`**, opcional. Con materia, la sección es de esa materia. Sin materia, es una «sección guía»
-   (profesor guía), que se comporta como hoy y ve todas las materias. Las secciones existentes quedan sin materia, así
-   que nada cambia para ellas.
-2. **Privacidad por materia (la parte difícil).** Las políticas de `attempts`, `mastery`, `mastery_weekly`,
-   `diagnostics`, `tutor_sessions` y `writing_feedback` pasan de «enseña a este estudiante» a «enseña a este estudiante
-   **en esta materia**», con `private.teaches_student_subject(student, subject)`. Para que sea rápido, la materia se
-   guarda en cada fila: `attempts.subject_id` (la llena `submit_attempt`), `mastery.subject_id` y los datos anteriores
-   se completan en la migración. Las pruebas de RLS cubren que el docente de Matemáticas no lea nada de Español.
-3. **Lo que ya está hecho se ajusta solo**:
-   - `section_scope_skills()` filtra por materia, y con eso la meta y la tabla pasan a ser por materia.
-   - El panel docente filtra unidades, mapa de calor, diagnósticos y temas del tutor por la materia de la sección.
-   - La racha sigue siendo del estudiante: cuenta todas sus materias.
-4. **Grupo, para no pedir 6 códigos.** El estudiante de 7-3 tiene 6 o 7 materias. Pedirle un código por docente es
-   mucha fricción. Propongo el **grupo**: un «7-3» de la institución que reúne las secciones por materia.
-   - El estudiante se une **una vez** con el código del grupo y queda en todas sus secciones.
-   - El consentimiento nombra a cada docente y materia.
-   - Quien administra la institución (o el profesor guía) crea el grupo, y cada docente crea su sección de materia
-     dentro de él.
-   - Sin institución, el docente puede seguir creando una sección suelta con su propio código, como hoy.
-5. **Dónde lo nota el estudiante.** En «Mis secciones» ve una tarjeta por materia (meta y tabla de cada una), con un
-   solo apodo para todas.
+- `groups(id, name, grade_id, institution_id, guide_id, created_by, join_code, active)` y
+  `group_members(group_id, student_id, display_name, consent_at)`.
+- `sections.subject_id` y `sections.group_id`: una sección de un grupo **siempre** tiene materia, y hay una sola por
+  materia en cada grupo. El grado y la institución vienen del grupo.
+- **Las secciones sin materia** (las de antes, o una sección suelta) **siguen como antes**: su docente ve todas las
+  materias de sus estudiantes. No se migró nada.
+- **Membresías materializadas**: al unirse al grupo, el estudiante queda en `section_members` de cada materia del
+  grupo, y una materia agregada después incluye sola a los estudiantes del grupo. Así funcionan sin cambios el panel,
+  la racha, la meta y la tabla.
 
-### Costo y riesgo
+### Un solo código
 
-- Una migración grande, que reescribe 6 políticas de RLS y agrega la materia a 2 tablas grandes, más sus pruebas.
-- Cambios en el panel docente, en el flujo de unirse y en la creación de secciones.
-- Estimo que es tan grande como una fase. El riesgo principal es dejar un hueco de privacidad, y por eso las pruebas
-  de RLS van primero.
+- `join_with_code()` acepta el código del grupo (entra a todas sus materias), el de una sección de un grupo (entra al
+  grupo completo) o el de una sección suelta (como antes). Grupos y secciones comparten el espacio de códigos, así
+  que nunca chocan.
+- El consentimiento dice que cada docente ve su materia y la persona guía, todas.
 
-### Orden recomendado
+### Privacidad por materia (la parte delicada)
 
-Antes de la Fase 3. Los minijuegos («juegos de la sección»), el torneo («temas que la sección trabajó», equipos) y el
-reconocimiento dependen de qué es una sección. Hacerlo después obligaría a rehacer partes de esas fases.
+- Cada fila de `attempts`, `mastery`, `mastery_weekly`, `tutor_sessions` y `writing_feedback` guarda su materia (la
+  llena un trigger; los datos anteriores se completaron en la migración). `diagnostics` ya la tenía.
+- Sus políticas pasan de «enseña a este estudiante» a `private.can_see_student_subject(student, subject)`: el docente
+  de una sección con esa materia (o sin materia) o la persona guía del grupo. Un tema del tutor fuera de una unidad (sin
+  materia) solo lo ven las vistas de todo el estudiante.
+- El panel de una sección de materia también filtra por materia en las consultas, para que quien sea guía y docente
+  vea en su sección solo esa materia.
+- La meta y la tabla de una sección de materia cuentan solo esa materia (`section_scope_skills`). **La racha sigue
+  siendo del estudiante** y cuenta todas sus materias; el panel de cada docente la muestra igual.
 
-### Decisiones pendientes del fundador
+### Quién hace qué
 
-1. ¿Grupo con un solo código (recomendado) o un código por cada docente de materia?
-2. ¿El profesor guía (sección sin materia) ve todas las materias de su grupo?
-3. ¿Quién crea el grupo: quien administra la institución, el profesor guía o cualquier docente de la institución?
-4. ¿Se hace antes de la Fase 3?
+- **Crear un grupo**: con institución, quien la administra; sin institución, cualquier docente (grupo suelto).
+- **Agregar una materia al grupo**: cualquier docente de la institución del grupo (en un grupo suelto, quien lo creó).
+- **Asignar la persona guía**: quien administra el grupo, por correo. En un grupo con institución, la persona guía
+  tiene que ser parte de ella.
+- **Sacar a un estudiante del grupo** (y de todas sus materias): quien administra el grupo o la persona guía. Un docente
+  puede sacarlo solo de su materia, como antes.
+- **Pantallas**:
+  - `/docente/grupo/[id]`: código, materias con su docente, «Agregar mi materia» y persona guía.
+  - `/docente/grupo/[id]/panel`: la vista de la persona guía.
+  - `/docente/demo` muestra la sección de Matemáticas de un 7-3 y `/docente/demo/guia` la vista de la persona guía,
+    las dos con datos ficticios.
 
+### Efecto en las fases que siguen
+
+- **Fase 3 (minijuegos)**: los juegos se proponen por la materia de cada sección.
+- **Fase 4 (torneo)**: se arma por sección de materia, con los temas de esa materia.
+- **Fase 5 (reconocimiento)**: el equipo ganador se destaca en la sección de materia. La persona guía ve los de
+  todas las materias de su grupo.
