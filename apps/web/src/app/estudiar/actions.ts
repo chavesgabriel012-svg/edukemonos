@@ -10,6 +10,7 @@ import {
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { studentClient } from "@/lib/student-session";
+import type { GameResult, GameRunView, PieceFeedback } from "@/lib/games";
 import type { PublicItem } from "@/lib/learn";
 
 /**
@@ -418,4 +419,57 @@ export async function setLeaderboardHidden(hidden: boolean): Promise<ActionResul
   }
   revalidatePath("/mis-secciones");
   return { ok: true, data: null };
+}
+
+// ---------------------------------------------------------------------------
+// Mini-games (docs/producto/gamificacion.md §6). The database picks the pieces, grades every answer
+// (context 'game', it counts for mastery like practice) and computes the result.
+// ---------------------------------------------------------------------------
+
+const GAME_MODES = ["pairs", "order", "fill", "find_error", "ghost_race"] as const;
+
+export async function startGame(unitId: string, mode: string): Promise<ActionResult<GameRunView>> {
+  if (!UUID.test(unitId) || !GAME_MODES.includes(mode as (typeof GAME_MODES)[number])) return fail("Juego inválido.");
+  const { supabase, error: sessionError } = await studentClient();
+  if (sessionError) return fail(sessionError);
+  const { data, error } = await supabase.rpc("start_game_run", { p_unit: unitId, p_mode: mode });
+  if (error) {
+    console.error("start_game_run failed:", error.message);
+    return fail("No pudimos empezar el juego. Intenta de nuevo.");
+  }
+  const r = data as { ok: boolean; error?: string } & GameRunView;
+  if (!r.ok) return fail(r.error === "disabled" ? "Tu docente no usa los juegos en tu sección." : "Este juego todavía no tiene contenido en esta unidad.");
+  return { ok: true, data: { run: r.run, mode: r.mode, rival: r.rival, pieces: r.pieces } };
+}
+
+/** `answer`: an option or step index (fill, find_error, race) or a list (pairs, order). */
+export async function answerGamePiece(runId: string, itemId: string, answer: number | number[]): Promise<ActionResult<PieceFeedback>> {
+  if (!UUID.test(runId) || !UUID.test(itemId)) return fail("Pieza inválida.");
+  const list = Array.isArray(answer) ? answer.filter((x) => Number.isInteger(x) && x >= 0 && x < 20).slice(0, 10) : null;
+  const index = !Array.isArray(answer) && Number.isInteger(answer) && answer >= 0 && answer < 20 ? answer : null;
+  if (list === null && index === null) return fail("Respuesta inválida.");
+  const supabase = await createClient();
+  const { data, error } = await supabase.rpc("submit_attempt", {
+    p_item_id: itemId,
+    p_answer_index: index,
+    p_answer_text: list ? JSON.stringify(list) : null,
+    p_session_id: runId,
+    p_context: "game",
+  });
+  if (error) {
+    console.error("game answer failed:", error.message);
+    return fail(/already answered/.test(error.message) ? "Ya respondiste esta pieza." : "No pudimos revisar tu respuesta. Intenta de nuevo.");
+  }
+  return { ok: true, data: data as PieceFeedback };
+}
+
+export async function finishGame(runId: string): Promise<ActionResult<GameResult>> {
+  if (!UUID.test(runId)) return fail("Juego inválido.");
+  const supabase = await createClient();
+  const { data, error } = await supabase.rpc("finish_game_run", { p_run: runId });
+  if (error) {
+    console.error("finish_game_run failed:", error.message);
+    return fail("No pudimos cerrar el juego, pero tus respuestas quedaron guardadas.");
+  }
+  return { ok: true, data: data as GameResult };
 }

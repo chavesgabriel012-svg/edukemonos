@@ -3,12 +3,13 @@
 import { useActionState } from "react";
 import { saveSectionSettings, type SettingsState } from "@/app/docente/actions";
 
-export function SectionSettingsForm({ sectionId, streakEnabled, weeklyTarget, goalEnabled, leaderboardEnabled, institutionId, institutions, demo }: {
+export function SectionSettingsForm({ sectionId, streakEnabled, weeklyTarget, goalEnabled, leaderboardEnabled, gamesEnabled, institutionId, institutions, demo }: {
   sectionId: string;
   streakEnabled: boolean;
   weeklyTarget: number;
   goalEnabled: boolean;
   leaderboardEnabled: boolean;
+  gamesEnabled: boolean;
   institutionId: string | null;
   institutions: { id: string; name: string }[];
   demo: boolean;
@@ -28,6 +29,10 @@ export function SectionSettingsForm({ sectionId, streakEnabled, weeklyTarget, go
         <label className="flex min-h-11 items-center gap-3">
           <input type="checkbox" name="leaderboard_enabled" defaultChecked={leaderboardEnabled} className="size-5" />
           <span>Mostrar la tabla de mejora con apodos</span>
+        </label>
+        <label className="flex min-h-11 items-center gap-3">
+          <input type="checkbox" name="games_enabled" defaultChecked={gamesEnabled} className="size-5" />
+          <span>Ofrecer los minijuegos (cada respuesta cuenta para el dominio)</span>
         </label>
         <label className="block space-y-1">
           <span className="block font-medium">Ejercicios bien resueltos por semana para cumplir la racha</span>

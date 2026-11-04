@@ -1,0 +1,322 @@
+{
+  "unitId": "b8015f3e-bbf8-4030-bf9f-f5cf686db6c1",
+  "createdAt": "2026-11-04T17:56:30.904Z",
+  "models": {
+    "games": "claude-sonnet-5-5",
+    "solve": "claude-sonnet-5-5"
+  },
+  "prompts": {
+    "games": "generate-games-system@1",
+    "solve": "solve-games-system@1"
+  },
+  "pieces": [
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 0,
+        "instruction": "Une cada evento del lanzamiento de un dado de 6 caras con sus resultados favorables.",
+        "pairs": [
+          {
+            "left": "Salir un número par",
+            "right": "{2, 4, 6}"
+          },
+          {
+            "left": "Salir un número mayor que 4",
+            "right": "{5, 6}"
+          },
+          {
+            "left": "Salir un múltiplo de 3",
+            "right": "{3, 6}"
+          },
+          {
+            "left": "Salir un número primo",
+            "right": "{2, 3, 5}"
+          },
+          {
+            "left": "Salir un número menor que 3",
+            "right": "{1, 2}"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Los resultados favorables son los números del dado (1 al 6) que cumplen la condición del evento. Por ejemplo, los múltiplos de 3 son solo 3 y 6."
+      },
+      "seed": "b8015f3e-bbf8-4030-bf9f-f5cf686db6c1:0",
+      "solved": {
+        "game": 1,
+        "match": [
+          4,
+          5,
+          3,
+          1,
+          2
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Completa con el número correcto de resultados favorables.",
+        "pairs": null,
+        "steps": null,
+        "stem": "En una bolsa hay 3 bolas rojas, 2 azules y 5 verdes. Si el evento es «sacar una bola que no sea verde», hay ___ resultados favorables.",
+        "options": [
+          "10",
+          "5",
+          "3",
+          "7"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": "3+2",
+        "explanation": "Las bolas que no son verdes son las 3 rojas y las 2 azules: 3 + 2 = 5. El 10 es el total de bolas, el 3 solo cuenta las rojas y el 7 suma las azules con las verdes."
+      },
+      "seed": "b8015f3e-bbf8-4030-bf9f-f5cf686db6c1:1",
+      "solved": {
+        "game": 2,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 0,
+        "instruction": "Encuentra el paso con el error.",
+        "pairs": null,
+        "steps": [
+          "Se lanza un dado de 6 caras y el evento es «salir un número impar mayor que 1».",
+          "El espacio muestral es {1, 2, 3, 4, 5, 6}.",
+          "Los números impares son 1, 3 y 5.",
+          "De esos, los mayores que 1 son 3 y 5.",
+          "Hay 3 resultados favorables al evento."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 4,
+        "correction": "Hay 2 resultados favorables al evento: el 3 y el 5.",
+        "calc": null,
+        "explanation": "Los resultados favorables son los que cumplen las dos condiciones a la vez: impar y mayor que 1. Solo son 3 y 5, es decir, 2 resultados. El 1 es impar, pero no es mayor que 1."
+      },
+      "seed": "b8015f3e-bbf8-4030-bf9f-f5cf686db6c1:2",
+      "solved": {
+        "game": 3,
+        "match": null,
+        "order": null,
+        "choice": null,
+        "problems": "Ningún paso tiene error: los impares mayores que 1 son 3 y 5, por lo que hay 2 resultados favorables. El paso 5 dice 3, lo cual es un error (el paso 5 es el único con error)."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": false,
+          "problems": "Ningún paso tiene error: los impares mayores que 1 son 3 y 5, por lo que hay 2 resultados favorables. El paso 5 dice 3, lo cual es un error (el paso 5 es el único con error)."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador dio otra respuesta"
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 1,
+        "instruction": "Elige la palabra que completa el enunciado.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Al lanzar un dado de 6 caras, «salir un número par» es un evento ___ porque tiene tres resultados favorables: 2, 4 y 6.",
+        "options": [
+          "seguro",
+          "simple",
+          "compuesto",
+          "imposible"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": null,
+        "explanation": "Un evento compuesto tiene más de un resultado favorable. Aquí son tres (2, 4 y 6), así que es compuesto. Un evento simple tendría un solo resultado."
+      },
+      "seed": "b8015f3e-bbf8-4030-bf9f-f5cf686db6c1:3",
+      "solved": {
+        "game": 4,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 1,
+        "instruction": "Encuentra la frase que clasifica mal el evento. Se lanza un dado de 6 caras.",
+        "pairs": null,
+        "steps": [
+          "«Salir 4» es un evento simple, pues solo tiene un resultado favorable.",
+          "«Salir un número mayor que 4» es un evento compuesto, pues sus resultados favorables son 5 y 6.",
+          "«Salir un múltiplo de 3» es un evento simple, pues solo se trata de un tipo de número.",
+          "«Salir un número menor que 2» es un evento simple, pues solo el 1 cumple."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "«Salir un múltiplo de 3» es un evento compuesto, pues tiene dos resultados favorables: 3 y 6.",
+        "calc": null,
+        "explanation": "Un evento es simple solo si tiene un resultado favorable. Los múltiplos de 3 en el dado son 3 y 6, entonces el evento es compuesto."
+      },
+      "seed": "b8015f3e-bbf8-4030-bf9f-f5cf686db6c1:4",
+      "solved": {
+        "game": 5,
+        "match": null,
+        "order": null,
+        "choice": null,
+        "problems": "Hay varios pasos con error: el 2 (5 y 6 son dos resultados, por tanto es compuesto, lo cual está bien) y el 3 (salir múltiplo de 3 tiene dos resultados, 3 y 6, es compuesto y no simple). El único error es el paso 3."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": false,
+          "problems": "Hay varios pasos con error: el 2 (5 y 6 son dos resultados, por tanto es compuesto, lo cual está bien) y el 3 (salir múltiplo de 3 tiene dos resultados, 3 y 6, es compuesto y no simple). El único error es el paso 3."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador dio otra respuesta"
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 2,
+        "instruction": "Elige la clasificación correcta del evento.",
+        "pairs": null,
+        "steps": null,
+        "stem": "En una bolsa solo hay bolas azules. Sacar una bola roja es un evento ___.",
+        "options": [
+          "imposible",
+          "seguro",
+          "probable",
+          "compuesto"
+        ],
+        "answer_index": 0,
+        "correction": null,
+        "calc": null,
+        "explanation": "Como en la bolsa no hay ninguna bola roja, ese resultado nunca puede ocurrir. Un evento que nunca ocurre es imposible."
+      },
+      "seed": "b8015f3e-bbf8-4030-bf9f-f5cf686db6c1:5",
+      "solved": {
+        "game": 6,
+        "match": null,
+        "order": null,
+        "choice": 0,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 2,
+        "instruction": "Se lanza un dado de 6 caras. Encuentra la clasificación que está mal.",
+        "pairs": null,
+        "steps": [
+          "Salir un número menor que 7 es un evento seguro.",
+          "Salir un 8 es un evento imposible.",
+          "Salir un número par es un evento probable.",
+          "Salir un número mayor que 6 es un evento seguro."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 3,
+        "correction": "Salir un número mayor que 6 es un evento imposible, porque el dado solo llega hasta 6.",
+        "calc": null,
+        "explanation": "Ninguna cara del dado es mayor que 6, así que ese evento no tiene resultados favorables y es imposible. Los otros tres pasos están bien clasificados."
+      },
+      "seed": "b8015f3e-bbf8-4030-bf9f-f5cf686db6c1:6",
+      "solved": {
+        "game": 7,
+        "match": null,
+        "order": null,
+        "choice": 4,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    }
+  ],
+  "notes": "No hice «order» porque los procedimientos de esta unidad no tienen un único orden válido claro. Tampoco hice «pairs» para las habilidades 1 y 2, porque varias situaciones comparten la misma categoría y la unión no sería única."
+}

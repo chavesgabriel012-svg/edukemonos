@@ -1,0 +1,403 @@
+{
+  "unitId": "c980e0cc-0828-4c51-a86a-3deffdb0f1c4",
+  "createdAt": "2026-11-04T17:39:18.913Z",
+  "models": {
+    "games": "claude-sonnet-5-5",
+    "solve": "claude-sonnet-5-5"
+  },
+  "prompts": {
+    "games": "generate-games-system@1",
+    "solve": "solve-games-system@1"
+  },
+  "pieces": [
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 0,
+        "instruction": "Une cada potencia con su valor.",
+        "pairs": [
+          {
+            "left": "2³",
+            "right": "8"
+          },
+          {
+            "left": "3²",
+            "right": "9"
+          },
+          {
+            "left": "5²",
+            "right": "25"
+          },
+          {
+            "left": "4³",
+            "right": "64"
+          },
+          {
+            "left": "10³",
+            "right": "1000"
+          },
+          {
+            "left": "2⁵",
+            "right": "32"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Una potencia se calcula multiplicando la base por sí misma tantas veces como indica el exponente. Por ejemplo, 4³ = 4 × 4 × 4 = 64."
+      },
+      "seed": "c980e0cc-0828-4c51-a86a-3deffdb0f1c4:0",
+      "solved": {
+        "game": 1,
+        "match": [
+          6,
+          2,
+          3,
+          5,
+          1,
+          4
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 0,
+        "instruction": "Ordena los pasos para calcular 3⁴.",
+        "pairs": null,
+        "steps": [
+          "Identifica la base (3) y el exponente (4)",
+          "Escribe la potencia como multiplicación: 3 × 3 × 3 × 3",
+          "Multiplica los dos primeros factores: 3 × 3 = 9",
+          "Multiplica el resultado por el siguiente 3: 9 × 3 = 27",
+          "Multiplica por el último 3: 27 × 3 = 81"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Primero se identifica qué indican la base y el exponente, luego se escribe la multiplicación repetida y después se multiplica de izquierda a derecha hasta obtener 81."
+      },
+      "seed": "c980e0cc-0828-4c51-a86a-3deffdb0f1c4:1",
+      "solved": {
+        "game": 2,
+        "match": null,
+        "order": [
+          5,
+          4,
+          2,
+          3,
+          1
+        ],
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Elige el valor que completa el enunciado.",
+        "pairs": null,
+        "steps": null,
+        "stem": "El valor de 2⁵ es ___.",
+        "options": [
+          "10",
+          "25",
+          "32",
+          "64"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": "2^5",
+        "explanation": "2⁵ = 2 × 2 × 2 × 2 × 2 = 32. El error de 10 viene de multiplicar 2 × 5, y el de 25 de invertir base y exponente."
+      },
+      "seed": "c980e0cc-0828-4c51-a86a-3deffdb0f1c4:2",
+      "solved": {
+        "game": 3,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 0,
+        "instruction": "Una de estas igualdades tiene un error. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "2³ = 2 × 2 × 2 = 8",
+          "5² = 5 × 5 = 25",
+          "10³ = 10 × 10 × 10 = 1000",
+          "3⁴ = 3 × 4 = 12"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 3,
+        "correction": "3⁴ = 3 × 3 × 3 × 3 = 81",
+        "calc": null,
+        "explanation": "El exponente indica cuántas veces se multiplica la base por sí misma, no por qué número se multiplica. En 3⁴ se escribe el 3 cuatro veces como factor."
+      },
+      "seed": "c980e0cc-0828-4c51-a86a-3deffdb0f1c4:3",
+      "solved": {
+        "game": 4,
+        "match": null,
+        "order": null,
+        "choice": 4,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 1,
+        "instruction": "Une cada operación combinada con su resultado.",
+        "pairs": [
+          {
+            "left": "8 + 2 × 3",
+            "right": "14"
+          },
+          {
+            "left": "(8 + 2) × 3",
+            "right": "30"
+          },
+          {
+            "left": "20 − 12 ÷ 4",
+            "right": "17"
+          },
+          {
+            "left": "(20 − 12) ÷ 4",
+            "right": "2"
+          },
+          {
+            "left": "2 + 3²",
+            "right": "11"
+          },
+          {
+            "left": "(2 + 3)²",
+            "right": "25"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Se resuelven primero los paréntesis, luego las potencias, después multiplicaciones y divisiones, y al final sumas y restas. Por eso 8 + 2 × 3 = 8 + 6 = 14, pero (8 + 2) × 3 = 30."
+      },
+      "seed": "c980e0cc-0828-4c51-a86a-3deffdb0f1c4:4",
+      "solved": {
+        "game": 5,
+        "match": [
+          4,
+          1,
+          3,
+          2,
+          6,
+          5
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": false,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": [
+          "el verificador dio otra respuesta"
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 1,
+        "instruction": "Ordena los pasos para resolver 2 + 3 × (6 − 4)².",
+        "pairs": null,
+        "steps": [
+          "Resuelve el paréntesis: 6 − 4 = 2, queda 2 + 3 × 2²",
+          "Calcula la potencia: 2² = 4, queda 2 + 3 × 4",
+          "Haz la multiplicación: 3 × 4 = 12, queda 2 + 12",
+          "Haz la suma: 2 + 12 = 14"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Se respeta la jerarquía de las operaciones: primero el paréntesis, luego la potencia, después la multiplicación y al final la suma."
+      },
+      "seed": "c980e0cc-0828-4c51-a86a-3deffdb0f1c4:5",
+      "solved": {
+        "game": 6,
+        "match": null,
+        "order": [
+          3,
+          1,
+          4,
+          2
+        ],
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 1,
+        "instruction": "Elige el resultado correcto.",
+        "pairs": null,
+        "steps": null,
+        "stem": "El resultado de 18 − 2 × (4 + 1) es ___.",
+        "options": [
+          "8",
+          "80",
+          "25",
+          "13"
+        ],
+        "answer_index": 0,
+        "correction": null,
+        "calc": "18 - 2*(4+1)",
+        "explanation": "Primero el paréntesis: 4 + 1 = 5. Luego la multiplicación: 2 × 5 = 10. Al final la resta: 18 − 10 = 8. El resultado 80 sale de restar antes de multiplicar."
+      },
+      "seed": "c980e0cc-0828-4c51-a86a-3deffdb0f1c4:6",
+      "solved": {
+        "game": 7,
+        "match": null,
+        "order": null,
+        "choice": 0,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 1,
+        "instruction": "Una de estas resoluciones tiene un error. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "4 + 6 × 2 = 4 + 12 = 16",
+          "(4 + 6) × 2 = 10 × 2 = 20",
+          "18 ÷ 3 + 3 = 6 + 3 = 9",
+          "20 − 2 × 5 = 18 × 5 = 90"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 3,
+        "correction": "20 − 2 × 5 = 20 − 10 = 10",
+        "calc": null,
+        "explanation": "Sin paréntesis, la multiplicación se hace antes que la resta. Primero se calcula 2 × 5 = 10 y luego 20 − 10 = 10."
+      },
+      "seed": "c980e0cc-0828-4c51-a86a-3deffdb0f1c4:7",
+      "solved": {
+        "game": 8,
+        "match": null,
+        "order": null,
+        "choice": 4,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    }
+  ],
+  "notes": ""
+}

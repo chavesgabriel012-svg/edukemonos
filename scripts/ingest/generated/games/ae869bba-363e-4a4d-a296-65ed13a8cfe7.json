@@ -1,0 +1,395 @@
+{
+  "unitId": "ae869bba-363e-4a4d-a296-65ed13a8cfe7",
+  "createdAt": "2026-11-04T17:57:50.200Z",
+  "models": {
+    "games": "claude-sonnet-5-5",
+    "solve": "claude-sonnet-5-5"
+  },
+  "prompts": {
+    "games": "generate-games-system@1",
+    "solve": "solve-games-system@1"
+  },
+  "pieces": [
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 0,
+        "instruction": "Une cada par de catetos con la hipotenusa del triángulo rectángulo.",
+        "pairs": [
+          {
+            "left": "Catetos 3 y 4",
+            "right": "Hipotenusa 5"
+          },
+          {
+            "left": "Catetos 6 y 8",
+            "right": "Hipotenusa 10"
+          },
+          {
+            "left": "Catetos 5 y 12",
+            "right": "Hipotenusa 13"
+          },
+          {
+            "left": "Catetos 8 y 15",
+            "right": "Hipotenusa 17"
+          },
+          {
+            "left": "Catetos 9 y 12",
+            "right": "Hipotenusa 15"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Se suman los cuadrados de los catetos y se saca la raíz. Por ejemplo, 3² + 4² = 9 + 16 = 25 y √25 = 5. Con los otros pares funciona igual."
+      },
+      "seed": "ae869bba-363e-4a4d-a296-65ed13a8cfe7:0",
+      "solved": {
+        "game": 1,
+        "match": [
+          4,
+          5,
+          3,
+          1,
+          2
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 0,
+        "instruction": "Ordena los pasos para hallar la hipotenusa de un triángulo rectángulo.",
+        "pairs": null,
+        "steps": [
+          "Identifica los catetos y la hipotenusa del triángulo",
+          "Escribe la fórmula c² = a² + b²",
+          "Sustituye a y b por las medidas de los catetos",
+          "Calcula los cuadrados y súmalos",
+          "Saca la raíz cuadrada del resultado para obtener c"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Primero hay que saber qué lados son los catetos y cuál es la hipotenusa. Luego se escribe la fórmula, se sustituye, se calcula c² y al final se saca la raíz para hallar c."
+      },
+      "seed": "ae869bba-363e-4a4d-a296-65ed13a8cfe7:1",
+      "solved": {
+        "game": 2,
+        "match": null,
+        "order": [
+          3,
+          5,
+          1,
+          2,
+          4
+        ],
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Completa con la altura que alcanza la escalera.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Una escalera de 13 m se apoya en una pared vertical. Su base queda a 5 m de la pared. La escalera alcanza una altura de ___ m.",
+        "options": [
+          "8",
+          "18",
+          "12",
+          "14"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": "sqrt(13^2-5^2)",
+        "explanation": "La escalera es la hipotenusa (13 m) y la distancia a la pared es un cateto (5 m). La altura es el otro cateto: √(13² − 5²) = √(169 − 25) = √144 = 12 m."
+      },
+      "seed": "ae869bba-363e-4a4d-a296-65ed13a8cfe7:2",
+      "solved": {
+        "game": 3,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 0,
+        "instruction": "Un triángulo rectángulo tiene catetos de 9 y 12. Encuentra el paso donde hay un error.",
+        "pairs": null,
+        "steps": [
+          "c² = 9² + 12²",
+          "9² + 12² = 81 + 144",
+          "81 + 144 = 225",
+          "c² = 225",
+          "√225 = 25"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 4,
+        "correction": "√225 = 15, porque 15 × 15 = 225",
+        "calc": null,
+        "explanation": "El error está en la raíz cuadrada: 25 × 25 = 625, no 225. Como 15 × 15 = 225, la hipotenusa mide 15."
+      },
+      "seed": "ae869bba-363e-4a4d-a296-65ed13a8cfe7:3",
+      "solved": {
+        "game": 4,
+        "match": null,
+        "order": null,
+        "choice": 5,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 1,
+        "instruction": "Une cada par de puntos con la distancia que hay entre ellos.",
+        "pairs": [
+          {
+            "left": "(0, 0) y (3, 4)",
+            "right": "5"
+          },
+          {
+            "left": "(1, 1) y (7, 9)",
+            "right": "10"
+          },
+          {
+            "left": "(2, −1) y (14, 4)",
+            "right": "13"
+          },
+          {
+            "left": "(−4, −3) y (5, 9)",
+            "right": "15"
+          },
+          {
+            "left": "(1, 2) y (9, 17)",
+            "right": "17"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Se halla la diferencia en x y en y, y se aplica Pitágoras. Por ejemplo, de (1, 1) a (7, 9) las diferencias son 6 y 8, y √(36 + 64) = 10. De (−4, −3) a (5, 9) son 9 y 12, y √(81 + 144) = 15."
+      },
+      "seed": "ae869bba-363e-4a4d-a296-65ed13a8cfe7:4",
+      "solved": {
+        "game": 5,
+        "match": [
+          2,
+          4,
+          5,
+          1,
+          3
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 1,
+        "instruction": "Ordena los pasos para hallar la distancia entre dos puntos del plano cartesiano.",
+        "pairs": null,
+        "steps": [
+          "Anota las coordenadas de los puntos (x₁, y₁) y (x₂, y₂)",
+          "Calcula las diferencias x₂ − x₁ y y₂ − y₁",
+          "Eleva al cuadrado cada diferencia",
+          "Suma los dos cuadrados",
+          "Saca la raíz cuadrada de la suma"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Las diferencias son los catetos de un triángulo rectángulo. Se necesitan primero las coordenadas, luego las diferencias, después se elevan al cuadrado y se suman, y al final se saca la raíz para obtener la hipotenusa, que es la distancia."
+      },
+      "seed": "ae869bba-363e-4a4d-a296-65ed13a8cfe7:5",
+      "solved": {
+        "game": 6,
+        "match": null,
+        "order": [
+          5,
+          4,
+          3,
+          2,
+          1
+        ],
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 1,
+        "instruction": "Completa con la distancia entre los puntos.",
+        "pairs": null,
+        "steps": null,
+        "stem": "La distancia entre A(−2, 3) y B(4, 11) es ___ unidades.",
+        "options": [
+          "14",
+          "10",
+          "12",
+          "100"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": "sqrt((4-(-2))^2+(11-3)^2)",
+        "explanation": "Las diferencias son 4 − (−2) = 6 y 11 − 3 = 8. Entonces d = √(6² + 8²) = √(36 + 64) = √100 = 10."
+      },
+      "seed": "ae869bba-363e-4a4d-a296-65ed13a8cfe7:6",
+      "solved": {
+        "game": 7,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 1,
+        "instruction": "Se calcula la distancia entre A(−3, 2) y B(2, 14). Encuentra el paso donde hay un error.",
+        "pairs": null,
+        "steps": [
+          "Diferencia en x: 2 − (−3) = 5",
+          "Diferencia en y: 14 − 2 = 12",
+          "d² = 5² + 12²",
+          "5² + 12² = 25 + 144 = 169",
+          "d = 5 + 12 = 17"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 4,
+        "correction": "d = √169 = 13",
+        "calc": null,
+        "explanation": "La distancia no se obtiene sumando las diferencias, sino sacando la raíz cuadrada de la suma de sus cuadrados. Como d² = 169, d = √169 = 13."
+      },
+      "seed": "ae869bba-363e-4a4d-a296-65ed13a8cfe7:7",
+      "solved": {
+        "game": 8,
+        "match": null,
+        "order": null,
+        "choice": 5,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    }
+  ],
+  "notes": ""
+}

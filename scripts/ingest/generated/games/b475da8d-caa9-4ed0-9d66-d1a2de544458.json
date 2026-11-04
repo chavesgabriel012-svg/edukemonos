@@ -1,0 +1,508 @@
+{
+  "unitId": "b475da8d-caa9-4ed0-9d66-d1a2de544458",
+  "createdAt": "2026-11-04T17:57:07.625Z",
+  "models": {
+    "games": "claude-sonnet-5-5",
+    "solve": "claude-sonnet-5-5"
+  },
+  "prompts": {
+    "games": "generate-games-system@1",
+    "solve": "solve-games-system@1"
+  },
+  "pieces": [
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 0,
+        "instruction": "Une cada evento del lanzamiento de un dado con su probabilidad.",
+        "pairs": [
+          {
+            "left": "Sacar un 7 en un dado de 6 caras",
+            "right": "0"
+          },
+          {
+            "left": "Sacar un número menor que 7",
+            "right": "1"
+          },
+          {
+            "left": "Sacar un 3",
+            "right": "1/6"
+          },
+          {
+            "left": "Sacar un número par",
+            "right": "1/2"
+          },
+          {
+            "left": "Sacar un número mayor que 4",
+            "right": "1/3"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Un dado tiene 6 caras. El 7 no existe (imposible, 0). Todo número va de 1 a 6, así que es menor que 7 (seguro, 1). Un 3 es 1 caso de 6. Los pares son 2, 4 y 6 (3/6 = 1/2). Mayores que 4 son 5 y 6 (2/6 = 1/3)."
+      },
+      "seed": "b475da8d-caa9-4ed0-9d66-d1a2de544458:0",
+      "solved": {
+        "game": 1,
+        "match": [
+          1,
+          5,
+          4,
+          3,
+          2
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Elige la opción que completa la frase.",
+        "pairs": null,
+        "steps": null,
+        "stem": "La probabilidad de un evento seguro es ___.",
+        "options": [
+          "0",
+          "1/2",
+          "1",
+          "2"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": null,
+        "explanation": "Un evento seguro siempre ocurre, así que su probabilidad es 1, el valor más grande que puede tomar una probabilidad."
+      },
+      "seed": "b475da8d-caa9-4ed0-9d66-d1a2de544458:1",
+      "solved": {
+        "game": 2,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 0,
+        "instruction": "Encuentra la frase que tiene un error.",
+        "pairs": null,
+        "steps": [
+          "Al lanzar un dado, sacar un 9 es imposible y su probabilidad es 0.",
+          "Sacar un número menor que 7 es seguro y su probabilidad es 1.",
+          "Sacar un 4 es posible y su probabilidad es 1/6.",
+          "Como sacar un número par ocurre muy seguido, su probabilidad es 1,5."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 3,
+        "correction": "Sacar un número par tiene probabilidad 3/6 = 1/2, porque ninguna probabilidad puede ser mayor que 1.",
+        "calc": null,
+        "explanation": "Toda probabilidad está entre 0 y 1. El valor 1,5 se pasa de 1, así que no puede ser una probabilidad."
+      },
+      "seed": "b475da8d-caa9-4ed0-9d66-d1a2de544458:2",
+      "solved": {
+        "game": 3,
+        "match": null,
+        "order": null,
+        "choice": 4,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 1,
+        "instruction": "Calcula y elige la opción correcta.",
+        "pairs": null,
+        "steps": null,
+        "stem": "En una caja hay 20 rifas y 4 son ganadoras. La probabilidad de ganar, en porcentaje, es ___ %.",
+        "options": [
+          "4",
+          "20",
+          "25",
+          "80"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": "4/20*100",
+        "explanation": "La probabilidad es 4/20 = 0,2. Al pasar a porcentaje: 0,2 × 100 = 20 %."
+      },
+      "seed": "b475da8d-caa9-4ed0-9d66-d1a2de544458:3",
+      "solved": {
+        "game": 4,
+        "match": null,
+        "order": null,
+        "choice": null,
+        "problems": "4/20 = 1/5 = 20%, y 20 es la opción 1. Revisando: las opciones son 4, 20, 25, 80; la correcta es 20, que es la opción 1."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": false,
+          "problems": "4/20 = 1/5 = 20%, y 20 es la opción 1. Revisando: las opciones son 4, 20, 25, 80; la correcta es 20, que es la opción 1."
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": [
+          "el verificador dio otra respuesta"
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 1,
+        "instruction": "Completa con la fracción simplificada.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Al lanzar dos dados, la probabilidad de que la suma sea 7 es 6/36, que simplificada es ___.",
+        "options": [
+          "1/12",
+          "1/7",
+          "1/3",
+          "1/6"
+        ],
+        "answer_index": 3,
+        "correction": null,
+        "calc": null,
+        "explanation": "Las combinaciones que suman 7 son (1,6), (2,5), (3,4), (4,3), (5,2) y (6,1): 6 de 36. Al dividir entre 6 queda 1/6."
+      },
+      "seed": "b475da8d-caa9-4ed0-9d66-d1a2de544458:4",
+      "solved": {
+        "game": 5,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 1,
+        "instruction": "Ordena los pasos para calcular una probabilidad.",
+        "pairs": null,
+        "steps": [
+          "Identifica todos los resultados posibles del experimento.",
+          "Cuenta los resultados favorables al evento.",
+          "Escribe la probabilidad como favorables/posibles.",
+          "Simplifica la fracción si se puede.",
+          "Verifica que el resultado esté entre 0 y 1."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Primero necesitas conocer los casos posibles y los favorables; luego formas la fracción, la simplificas y compruebas que sea un valor entre 0 y 1."
+      },
+      "seed": "b475da8d-caa9-4ed0-9d66-d1a2de544458:5",
+      "solved": {
+        "game": 6,
+        "match": null,
+        "order": [
+          3,
+          1,
+          4,
+          2,
+          5
+        ],
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 1,
+        "instruction": "Encuentra el paso con error al calcular la probabilidad de que la suma de dos dados sea 5.",
+        "pairs": null,
+        "steps": [
+          "Resultados posibles = 6 × 6 = 36",
+          "Resultados favorables (suma 5): (1,4), (2,3), (3,2), (4,1) = 4",
+          "P(suma 5) = 4/36 = 1/8",
+          "Como la probabilidad está entre 0 y 1, el evento es posible pero poco probable."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "P(suma 5) = 4/36 = 1/9",
+        "calc": null,
+        "explanation": "Al dividir numerador y denominador entre 4, 4/36 queda 1/9, no 1/8."
+      },
+      "seed": "b475da8d-caa9-4ed0-9d66-d1a2de544458:6",
+      "solved": {
+        "game": 7,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 1,
+        "instruction": "Une cada suma de dos dados con su probabilidad simplificada.",
+        "pairs": [
+          {
+            "left": "Suma 2",
+            "right": "1/36"
+          },
+          {
+            "left": "Suma 3",
+            "right": "1/18"
+          },
+          {
+            "left": "Suma 4",
+            "right": "1/12"
+          },
+          {
+            "left": "Suma 5",
+            "right": "1/9"
+          },
+          {
+            "left": "Suma 7",
+            "right": "1/6"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Hay 1, 2, 3, 4 y 6 combinaciones que suman 2, 3, 4, 5 y 7. Se dividen entre 36 y se simplifica: 1/36, 2/36 = 1/18, 3/36 = 1/12, 4/36 = 1/9 y 6/36 = 1/6."
+      },
+      "seed": "b475da8d-caa9-4ed0-9d66-d1a2de544458:7",
+      "solved": {
+        "game": 8,
+        "match": [
+          5,
+          1,
+          3,
+          2,
+          4
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 2,
+        "instruction": "Elige la mejor decisión según las probabilidades.",
+        "pairs": null,
+        "steps": null,
+        "stem": "En un juego con dos dados ganas si aciertas la suma. Para tener la mayor probabilidad de ganar conviene apostar a que la suma sea ___.",
+        "options": [
+          "2",
+          "12",
+          "7",
+          "10"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": null,
+        "explanation": "La suma 7 tiene 6 combinaciones de 36 (1/6). La 10 tiene 3, y la 2 y la 12 solo 1. Por eso la suma 7 es la más probable."
+      },
+      "seed": "b475da8d-caa9-4ed0-9d66-d1a2de544458:8",
+      "solved": {
+        "game": 9,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 2,
+        "instruction": "Decide quién tiene más probabilidad de ganar.",
+        "pairs": null,
+        "steps": null,
+        "stem": "En una rifa de 50 números, Marco compró 2 y Elena compró 5. Tiene más probabilidad de ganar ___.",
+        "options": [
+          "Elena, porque 5/50 es mayor que 2/50",
+          "Marco, porque 2/50 es mayor que 5/50",
+          "las dos personas tienen la misma probabilidad",
+          "no se puede comparar"
+        ],
+        "answer_index": 0,
+        "correction": null,
+        "calc": null,
+        "explanation": "Con más números comprados hay más casos favorables entre los mismos 50 posibles. Entonces 5/50 es mayor que 2/50."
+      },
+      "seed": "b475da8d-caa9-4ed0-9d66-d1a2de544458:9",
+      "solved": {
+        "game": 10,
+        "match": null,
+        "order": null,
+        "choice": 0,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 2,
+        "instruction": "Encuentra el paso con error en esta decisión.",
+        "pairs": null,
+        "steps": [
+          "En la bolsa A hay 3 bolas rojas de 10; en la bolsa B hay 4 rojas de 8. Quieres sacar una roja.",
+          "P(roja en A) = 3/10 = 0,3",
+          "P(roja en B) = 4/8 = 0,5",
+          "Como 0,3 es mayor que 0,5, conviene sacar de la bolsa A."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 3,
+        "correction": "Como 0,5 es mayor que 0,3, conviene sacar de la bolsa B.",
+        "calc": null,
+        "explanation": "Conviene elegir la opción con mayor probabilidad. Como 0,5 es mayor que 0,3, la bolsa B da más posibilidad de sacar una bola roja."
+      },
+      "seed": "b475da8d-caa9-4ed0-9d66-d1a2de544458:10",
+      "solved": {
+        "game": 11,
+        "match": null,
+        "order": null,
+        "choice": 4,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    }
+  ],
+  "notes": ""
+}

@@ -1,0 +1,438 @@
+{
+  "unitId": "17de8545-d770-4099-a0fe-ff985d9e2c2a",
+  "createdAt": "2026-11-04T17:53:49.063Z",
+  "models": {
+    "games": "claude-sonnet-5-5",
+    "solve": "claude-sonnet-5-5"
+  },
+  "prompts": {
+    "games": "generate-games-system@1",
+    "solve": "solve-games-system@1"
+  },
+  "pieces": [
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 0,
+        "instruction": "Un colegio de Cartago tiene 800 estudiantes y se encuesta a 40 sobre su medio de transporte. Une cada concepto con su ejemplo.",
+        "pairs": [
+          {
+            "left": "Población",
+            "right": "Los 800 estudiantes del colegio"
+          },
+          {
+            "left": "Muestra",
+            "right": "Los 40 estudiantes encuestados"
+          },
+          {
+            "left": "Unidad estadística",
+            "right": "Cada estudiante encuestado"
+          },
+          {
+            "left": "Variable o característica",
+            "right": "Medio de transporte"
+          },
+          {
+            "left": "Dato u observación",
+            "right": "«Autobús», respuesta dada por un estudiante"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "La población es todo el grupo que interesa. La muestra es la parte que se estudia. Cada estudiante es una unidad estadística, el medio de transporte es la característica y cada respuesta es un dato."
+      },
+      "seed": "17de8545-d770-4099-a0fe-ff985d9e2c2a:0",
+      "solved": {
+        "game": 1,
+        "match": [
+          3,
+          2,
+          1,
+          5,
+          4
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Completa con el concepto correcto.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Para conocer cuántas horas duermen los 600 estudiantes de un liceo, se pregunta a 30 de ellos. Esos 30 estudiantes forman la ___.",
+        "options": [
+          "población",
+          "muestra",
+          "variable",
+          "unidad estadística"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": null,
+        "explanation": "Los 30 estudiantes son solo una parte de los 600, así que son la muestra. Los 600 son la población."
+      },
+      "seed": "17de8545-d770-4099-a0fe-ff985d9e2c2a:1",
+      "solved": {
+        "game": 2,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Completa con el concepto correcto.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Una pulpería registra la marca de gaseosa que compra cada cliente. En ese estudio, cada cliente es una ___.",
+        "options": [
+          "población",
+          "muestra",
+          "variable",
+          "unidad estadística"
+        ],
+        "answer_index": 3,
+        "correction": null,
+        "calc": null,
+        "explanation": "La unidad estadística es cada elemento del que se obtiene información. Aquí, cada cliente. La variable es la marca de gaseosa."
+      },
+      "seed": "17de8545-d770-4099-a0fe-ff985d9e2c2a:2",
+      "solved": {
+        "game": 3,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 0,
+        "instruction": "Encuentra el paso que tiene un error.",
+        "pairs": null,
+        "steps": [
+          "Se estudia el tipo de mascota de las 50 familias de un barrio y se entrevistan 10 de ellas.",
+          "La unidad estadística es cada familia.",
+          "La muestra son las 50 familias del barrio.",
+          "La variable es el tipo de mascota.",
+          "La población son las 50 familias del barrio."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "La muestra son las 10 familias entrevistadas.",
+        "calc": null,
+        "explanation": "Las 50 familias son toda la población. La muestra es la parte que se entrevista, es decir, las 10 familias."
+      },
+      "seed": "17de8545-d770-4099-a0fe-ff985d9e2c2a:3",
+      "solved": {
+        "game": 4,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 1,
+        "instruction": "Elige la opción que completa bien la oración.",
+        "pairs": null,
+        "steps": null,
+        "stem": "La variable «color de camiseta de cada jugador» es una variable ___.",
+        "options": [
+          "cuantitativa, porque se puede contar",
+          "cualitativa, porque expresa una cualidad",
+          "cuantitativa, porque hay varios jugadores",
+          "cualitativa, porque se mide en números"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": null,
+        "explanation": "El color es una cualidad o categoría, no un número. Por eso la variable es cualitativa."
+      },
+      "seed": "17de8545-d770-4099-a0fe-ff985d9e2c2a:4",
+      "solved": {
+        "game": 5,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 1,
+        "instruction": "Elige la opción que completa bien la oración.",
+        "pairs": null,
+        "steps": null,
+        "stem": "La variable «minutos que tarda cada estudiante en llegar al colegio» es cuantitativa porque ___.",
+        "options": [
+          "sus datos son categorías como «cerca» o «lejos»",
+          "sus datos son nombres de transportes",
+          "sus datos son números que miden una cantidad",
+          "todos sus datos son iguales"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": null,
+        "explanation": "Los minutos son números que miden una cantidad (tiempo). Una variable con datos numéricos de este tipo es cuantitativa."
+      },
+      "seed": "17de8545-d770-4099-a0fe-ff985d9e2c2a:5",
+      "solved": {
+        "game": 6,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 1,
+        "instruction": "Una de estas clasificaciones de variables está mal. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "Número de hermanos: cuantitativa.",
+          "Sabor de helado preferido: cualitativa.",
+          "Estatura en centímetros: cualitativa.",
+          "Provincia donde vive: cualitativa."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "Estatura en centímetros: cuantitativa.",
+        "calc": null,
+        "explanation": "La estatura en centímetros se expresa con números que miden una cantidad, por eso es cuantitativa."
+      },
+      "seed": "17de8545-d770-4099-a0fe-ff985d9e2c2a:6",
+      "solved": {
+        "game": 7,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 2,
+        "instruction": "Elige la opción correcta.",
+        "pairs": null,
+        "steps": null,
+        "stem": "La variabilidad de los datos significa que ___.",
+        "options": [
+          "todos los datos son iguales",
+          "la muestra siempre es igual a la población",
+          "los datos solo pueden ser palabras",
+          "los datos de una variable cambian de una observación a otra"
+        ],
+        "answer_index": 3,
+        "correction": null,
+        "calc": null,
+        "explanation": "Hay variabilidad cuando los datos de una misma variable no son todos iguales, sino que cambian entre una observación y otra."
+      },
+      "seed": "17de8545-d770-4099-a0fe-ff985d9e2c2a:7",
+      "solved": {
+        "game": 8,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 2,
+        "instruction": "Completa la oración.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Si los 30 estudiantes de un grupo tienen exactamente la misma estatura, en esos datos no hay ___.",
+        "options": [
+          "población",
+          "variabilidad",
+          "unidad estadística",
+          "variable"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": null,
+        "explanation": "Cuando todos los datos son iguales no cambian, es decir, no hay variabilidad."
+      },
+      "seed": "17de8545-d770-4099-a0fe-ff985d9e2c2a:8",
+      "solved": {
+        "game": 9,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 2,
+        "instruction": "Encuentra el paso con un error en este razonamiento.",
+        "pairs": null,
+        "steps": [
+          "Se midió la estatura de 4 estudiantes: 1,50 m; 1,58 m; 1,62 m y 1,55 m.",
+          "Los datos no son todos iguales, así que hay variabilidad.",
+          "Como hay variabilidad, un solo dato basta para describir a todo el grupo.",
+          "Por eso conviene analizar todos los datos del grupo."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "Como hay variabilidad, un solo dato no basta para describir a todo el grupo.",
+        "calc": null,
+        "explanation": "Si los datos cambian, un solo dato no representa a todos. Por eso la variabilidad obliga a analizar el conjunto de datos."
+      },
+      "seed": "17de8545-d770-4099-a0fe-ff985d9e2c2a:9",
+      "solved": {
+        "game": 10,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    }
+  ],
+  "notes": "No se hizo «order» porque los procedimientos de esta unidad no tienen un orden único. Tampoco «pairs» para las habilidades 1 y 2, porque los tipos de variable se repiten y no habría una sola forma de unir."
+}

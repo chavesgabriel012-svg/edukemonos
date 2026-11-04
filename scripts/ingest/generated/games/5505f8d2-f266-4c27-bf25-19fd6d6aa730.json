@@ -1,0 +1,451 @@
+{
+  "unitId": "5505f8d2-f266-4c27-bf25-19fd6d6aa730",
+  "createdAt": "2026-11-04T17:48:22.368Z",
+  "models": {
+    "games": "claude-sonnet-5-5",
+    "solve": "claude-sonnet-5-5"
+  },
+  "prompts": {
+    "games": "generate-games-system@1",
+    "solve": "solve-games-system@1"
+  },
+  "pieces": [
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 0,
+        "instruction": "Une cada situación con la palabra que debes usar para expresarla.",
+        "pairs": [
+          {
+            "left": "Lugar del teatro donde se dejan los abrigos",
+            "right": "guardarropa"
+          },
+          {
+            "left": "Dos días antes de hoy",
+            "right": "anteayer"
+          },
+          {
+            "left": "Hacer algo con intención, a propósito",
+            "right": "adrede"
+          },
+          {
+            "left": "Hacia el interior de un lugar",
+            "right": "adentro"
+          },
+          {
+            "left": "Persona o embarcación que vigila el litoral",
+            "right": "guardacostas"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Cada situación corresponde a una sola palabra, y todas se escriben en una sola palabra: guardarropa, anteayer, adrede, adentro y guardacostas."
+      },
+      "seed": "5505f8d2-f266-4c27-bf25-19fd6d6aa730:0",
+      "solved": {
+        "game": 1,
+        "match": [
+          5,
+          4,
+          3,
+          1,
+          2
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Elige la palabra que completa bien la oración según el contexto.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Mi primo rompió el juguete ___, porque estaba enojado y quería hacerlo.",
+        "options": [
+          "adrede",
+          "a drede",
+          "ahdrede",
+          "a dre de"
+        ],
+        "answer_index": 0,
+        "correction": null,
+        "calc": null,
+        "explanation": "«Adrede» significa «a propósito» y se escribe en una sola palabra. Las demás opciones están mal escritas."
+      },
+      "seed": "5505f8d2-f266-4c27-bf25-19fd6d6aa730:1",
+      "solved": {
+        "game": 2,
+        "match": null,
+        "order": null,
+        "choice": 0,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 0,
+        "instruction": "Una de estas frases tiene una expresión mal escrita. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "Anteayer me llamó mi tía desde Cartago.",
+          "El libro trata a cerca de la vida en el campo.",
+          "Además, llevé mi almuerzo al colegio.",
+          "Guardé mi abrigo en el guardarropa."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 1,
+        "correction": "El libro trata acerca de la vida en el campo.",
+        "calc": null,
+        "explanation": "Cuando significa «sobre» o «en relación con un tema», se escribe «acerca» en una sola palabra. «A cerca» está mal escrito en esa frase."
+      },
+      "seed": "5505f8d2-f266-4c27-bf25-19fd6d6aa730:2",
+      "solved": {
+        "game": 3,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 1,
+        "instruction": "Une cada forma mal escrita con su escritura correcta.",
+        "pairs": [
+          {
+            "left": "pasa tiempo",
+            "right": "pasatiempo"
+          },
+          {
+            "left": "pisa papel",
+            "right": "pisapapel"
+          },
+          {
+            "left": "contra tiempo",
+            "right": "contratiempo"
+          },
+          {
+            "left": "guarda ropa",
+            "right": "guardarropa"
+          },
+          {
+            "left": "ante sala",
+            "right": "antesala"
+          },
+          {
+            "left": "sobre natural",
+            "right": "sobrenatural"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Todas estas palabras se escriben juntas, sin espacio ni guion, cuando las usas en un texto."
+      },
+      "seed": "5505f8d2-f266-4c27-bf25-19fd6d6aa730:3",
+      "solved": {
+        "game": 4,
+        "match": [
+          3,
+          5,
+          4,
+          1,
+          6,
+          2
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 1,
+        "instruction": "Elige la forma correcta para completar el texto.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Perdí el bus y ese ___ me hizo llegar tarde al colegio.",
+        "options": [
+          "contra tiempo",
+          "contratiempo",
+          "contra-tiempo",
+          "contratienpo"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": null,
+        "explanation": "«Contratiempo» es un imprevisto que complica algo y se escribe en una sola palabra, con m… no, con «p» y «m» como en tiempo: c-o-n-t-r-a-t-i-e-m-p-o."
+      },
+      "seed": "5505f8d2-f266-4c27-bf25-19fd6d6aa730:4",
+      "solved": {
+        "game": 5,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 1,
+        "instruction": "Lee el párrafo. Una frase tiene una palabra mal escrita. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "Ayer fui a la feria del pueblo con mi familia.",
+          "Además de comer, jugamos varios juegos de mesa.",
+          "Anteayer habíamos visitado a mi abuela.",
+          "Regresamos tarde, pero sin ningún contra tiempo."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 3,
+        "correction": "Regresamos tarde, pero sin ningún contratiempo.",
+        "calc": null,
+        "explanation": "«Contratiempo» se escribe en una sola palabra. Las otras frases están bien escritas."
+      },
+      "seed": "5505f8d2-f266-4c27-bf25-19fd6d6aa730:5",
+      "solved": {
+        "game": 6,
+        "match": null,
+        "order": null,
+        "choice": 4,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 2,
+        "instruction": "Une cada palabra con su significado.",
+        "pairs": [
+          {
+            "left": "pasatiempo",
+            "right": "Actividad que se hace por diversión en el tiempo libre"
+          },
+          {
+            "left": "pisapapel",
+            "right": "Objeto que sujeta hojas para que no se vuelen"
+          },
+          {
+            "left": "guardarropa",
+            "right": "Lugar donde se guardan abrigos y prendas"
+          },
+          {
+            "left": "contratiempo",
+            "right": "Suceso imprevisto que complica algo"
+          },
+          {
+            "left": "antesala",
+            "right": "Sala previa donde se espera antes de pasar a otra"
+          },
+          {
+            "left": "retroactivo",
+            "right": "Que tiene efecto sobre lo ya ocurrido"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Cada palabra tiene un significado propio, que se deduce de sus partes y de su uso."
+      },
+      "seed": "5505f8d2-f266-4c27-bf25-19fd6d6aa730:6",
+      "solved": {
+        "game": 7,
+        "match": [
+          5,
+          3,
+          6,
+          1,
+          2,
+          4
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 2,
+        "instruction": "Elige la palabra cuyo significado encaja en la oración.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Mientras esperaba la entrevista, me senté en la ___ de la oficina.",
+        "options": [
+          "pisapapel",
+          "guardarropa",
+          "antesala",
+          "pasatiempo"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": null,
+        "explanation": "La «antesala» es la sala previa donde se espera antes de entrar a otro lugar. Las otras palabras tienen otro significado."
+      },
+      "seed": "5505f8d2-f266-4c27-bf25-19fd6d6aa730:7",
+      "solved": {
+        "game": 8,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 2,
+        "instruction": "Una de estas definiciones es incorrecta. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "El guardarropa es el lugar donde se guardan abrigos y prendas.",
+          "Un pisapapel sirve para evitar que las hojas se vuelen.",
+          "Un contratiempo es un suceso planeado que ayuda a terminar antes.",
+          "Un hecho sobrenatural es el que parece ir más allá de lo natural."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "Un contratiempo es un suceso imprevisto que complica o retrasa algo.",
+        "calc": null,
+        "explanation": "Un contratiempo es un imprevisto que causa dificultades, no algo planeado que ayude."
+      },
+      "seed": "5505f8d2-f266-4c27-bf25-19fd6d6aa730:8",
+      "solved": {
+        "game": 9,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    }
+  ],
+  "notes": "No incluí piezas de ordenar pasos porque en esta unidad no hay un procedimiento con un único orden válido. Me limité a las palabras de la lista B porque el contenido A no especifica expresiones concretas."
+}

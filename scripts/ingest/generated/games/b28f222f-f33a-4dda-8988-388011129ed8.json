@@ -1,0 +1,516 @@
+{
+  "unitId": "b28f222f-f33a-4dda-8988-388011129ed8",
+  "createdAt": "2026-11-04T17:50:43.830Z",
+  "models": {
+    "games": "claude-sonnet-5-5",
+    "solve": "claude-sonnet-5-5"
+  },
+  "prompts": {
+    "games": "generate-games-system@1",
+    "solve": "solve-games-system@1"
+  },
+  "pieces": [
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 0,
+        "instruction": "Une cada locución preposicional con la idea que expresa.",
+        "pairs": [
+          {
+            "left": "a pesar de",
+            "right": "Oposición: algo ocurre aunque haya un obstáculo"
+          },
+          {
+            "left": "debido a",
+            "right": "Causa: explica por qué sucede algo"
+          },
+          {
+            "left": "con el fin de",
+            "right": "Finalidad: indica para qué se hace algo"
+          },
+          {
+            "left": "acerca de",
+            "right": "Tema: señala de qué se habla"
+          },
+          {
+            "left": "en lugar de",
+            "right": "Sustitución: una cosa ocupa el sitio de otra"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Cada locución tiene un valor propio: «a pesar de» marca oposición, «debido a» causa, «con el fin de» finalidad, «acerca de» tema y «en lugar de» sustitución."
+      },
+      "seed": "b28f222f-f33a-4dda-8988-388011129ed8:0",
+      "solved": {
+        "game": 1,
+        "match": [
+          1,
+          3,
+          2,
+          5,
+          4
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Elige la locución preposicional que completa bien la oración.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Llegamos tarde al colegio ___ el fuerte aguacero que cayó en Cartago.",
+        "options": [
+          "con el fin de",
+          "en lugar de",
+          "a causa de",
+          "acerca de"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": null,
+        "explanation": "El aguacero es la razón del atraso, así que se necesita una locución de causa: «a causa de». Las otras no expresan causa."
+      },
+      "seed": "b28f222f-f33a-4dda-8988-388011129ed8:1",
+      "solved": {
+        "game": 2,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Completa con la locución que da sentido a la oración.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Ana llegó puntual a la práctica ___ el tráfico tan intenso.",
+        "options": [
+          "debido a",
+          "a pesar de",
+          "con el fin de",
+          "en lugar de"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": null,
+        "explanation": "Ana llegó puntual aunque había tráfico, o sea, hay un obstáculo que no lo impidió. Eso lo expresa «a pesar de»."
+      },
+      "seed": "b28f222f-f33a-4dda-8988-388011129ed8:2",
+      "solved": {
+        "game": 3,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 0,
+        "instruction": "Una de estas oraciones usa mal una locución preposicional. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "Con base en los datos, redactamos la conclusión.",
+          "Conversamos acerca de la visita al museo.",
+          "En base a la encuesta, cambiaron el horario del recreo.",
+          "A pesar de la lluvia, jugamos fútbol en la cancha."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "Con base en la encuesta, cambiaron el horario del recreo.",
+        "calc": null,
+        "explanation": "La forma correcta es «con base en» (o «sobre la base de»). «En base a» se considera incorrecta."
+      },
+      "seed": "b28f222f-f33a-4dda-8988-388011129ed8:3",
+      "solved": {
+        "game": 4,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 1,
+        "instruction": "Une cada fase del análisis crítico con lo que haces en ella.",
+        "pairs": [
+          {
+            "left": "Fase natural",
+            "right": "Lees y expresas tus primeras impresiones y lo que entiendes en general"
+          },
+          {
+            "left": "Fase de ubicación",
+            "right": "Sitúas el texto según su autor, su época, su género y su contexto"
+          },
+          {
+            "left": "Fase analística",
+            "right": "Examinas el narrador, los personajes, el tiempo, el espacio y el lenguaje"
+          },
+          {
+            "left": "Fase explicativa e interpretativa",
+            "right": "Explicas los sentidos del texto y justificas tu valoración con ejemplos"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Cada fase tiene una tarea distinta: primero la impresión, luego el contexto, después los elementos del cuento y al final la interpretación fundamentada."
+      },
+      "seed": "b28f222f-f33a-4dda-8988-388011129ed8:4",
+      "solved": {
+        "game": 5,
+        "match": [
+          4,
+          1,
+          3,
+          2
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 1,
+        "instruction": "Ordena las fases del análisis crítico de un cuento.",
+        "pairs": null,
+        "steps": [
+          "Fase natural: lees el cuento y anotas tus primeras impresiones",
+          "Fase de ubicación: relacionas el cuento con su autor, su época y su género",
+          "Fase analística: examinas narrador, personajes, espacio y tiempo",
+          "Fase explicativa e interpretativa: explicas los sentidos y das tu valoración"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "El análisis parte de la lectura y las impresiones, sigue con el contexto, luego con el análisis de los elementos y termina con la interpretación y la valoración."
+      },
+      "seed": "b28f222f-f33a-4dda-8988-388011129ed8:5",
+      "solved": {
+        "game": 6,
+        "match": null,
+        "order": [
+          2,
+          4,
+          3,
+          1
+        ],
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 1,
+        "instruction": "Elige la fase que corresponde a la actividad.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Cuando examinas el tipo de narrador, los personajes y el tiempo de un cuento, trabajas la fase ___.",
+        "options": [
+          "natural",
+          "de ubicación",
+          "explicativa e interpretativa",
+          "analística"
+        ],
+        "answer_index": 3,
+        "correction": null,
+        "calc": null,
+        "explanation": "Estudiar los elementos del cuento (narrador, personajes, tiempo) es propio de la fase analística."
+      },
+      "seed": "b28f222f-f33a-4dda-8988-388011129ed8:6",
+      "solved": {
+        "game": 7,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 1,
+        "instruction": "Una frase describe mal una fase del análisis crítico. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "En la fase natural, lees el cuento completo y anotas tus primeras impresiones.",
+          "En la fase de ubicación, relacionas el cuento con su autor, su época y su género.",
+          "En la fase analística, evitas fijarte en el narrador y los personajes y solo das tu opinión.",
+          "En la fase explicativa e interpretativa, explicas los sentidos del cuento y justificas tu valoración."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "En la fase analística, examinas el narrador, los personajes, el espacio y el tiempo del cuento.",
+        "calc": null,
+        "explanation": "La fase analística consiste en examinar los elementos del texto. Dar la opinión sin analizar corresponde a otra etapa."
+      },
+      "seed": "b28f222f-f33a-4dda-8988-388011129ed8:7",
+      "solved": {
+        "game": 8,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 2,
+        "instruction": "Une cada técnica de comunicación oral con su característica.",
+        "pairs": [
+          {
+            "left": "Debate",
+            "right": "Dos posturas opuestas se defienden con argumentos"
+          },
+          {
+            "left": "Entrevista",
+            "right": "Una persona pregunta y otra responde para obtener información"
+          },
+          {
+            "left": "Exposición oral",
+            "right": "Una persona presenta un tema ante un público"
+          },
+          {
+            "left": "Foro",
+            "right": "El público participa con preguntas y opiniones sobre un tema"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Cada técnica oral tiene una forma de participación: en el debate se confrontan posturas, en la entrevista se pregunta y responde, en la exposición se presenta un tema y en el foro el público interviene."
+      },
+      "seed": "b28f222f-f33a-4dda-8988-388011129ed8:8",
+      "solved": {
+        "game": 9,
+        "match": [
+          1,
+          2,
+          4,
+          3
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 2,
+        "instruction": "Elige la opción que completa bien la oración.",
+        "pairs": null,
+        "steps": null,
+        "stem": "En un debate, la función de quien modera es ___.",
+        "options": [
+          "defender una de las posturas",
+          "dar la palabra y cuidar el orden y los tiempos",
+          "resolver por su cuenta el tema",
+          "impedir que los demás hablen"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": null,
+        "explanation": "Quien modera no toma partido: organiza los turnos y vela por el orden y el tiempo de cada participante."
+      },
+      "seed": "b28f222f-f33a-4dda-8988-388011129ed8:9",
+      "solved": {
+        "game": 10,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 2,
+        "instruction": "Una frase describe mal una técnica oral. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "En una entrevista, una persona pregunta y la otra responde.",
+          "En un debate, los participantes defienden posturas distintas con argumentos.",
+          "En una exposición oral, quien expone presenta un tema y cuida su volumen y su dicción.",
+          "En un foro, el público no puede intervenir nunca."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 3,
+        "correction": "En un foro, el público participa con preguntas y opiniones sobre el tema.",
+        "calc": null,
+        "explanation": "La característica principal del foro es la participación del público, por eso la última frase es falsa."
+      },
+      "seed": "b28f222f-f33a-4dda-8988-388011129ed8:10",
+      "solved": {
+        "game": 11,
+        "match": null,
+        "order": null,
+        "choice": 4,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    }
+  ],
+  "notes": "El programa no especifica cuál técnica de comunicación oral se trabaja, así que se usaron técnicas comunes (debate, entrevista, exposición oral y foro). No se hizo una pieza de ordenar para la habilidad 2 porque estas técnicas no tienen un orden único."
+}

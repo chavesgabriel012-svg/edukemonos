@@ -1,0 +1,391 @@
+{
+  "unitId": "b20404a2-c84d-4a55-81d9-4b86b6453a05",
+  "createdAt": "2026-11-04T17:55:22.708Z",
+  "models": {
+    "games": "claude-sonnet-5-5",
+    "solve": "claude-sonnet-5-5"
+  },
+  "prompts": {
+    "games": "generate-games-system@1",
+    "solve": "solve-games-system@1"
+  },
+  "pieces": [
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 0,
+        "instruction": "Une cada situación con la expresión que la describe.",
+        "pairs": [
+          {
+            "left": "Ahorras ₡2 000 y cada semana agregas ₡500",
+            "right": "y = 500x + 2 000"
+          },
+          {
+            "left": "Un plan de celular cobra ₡3 000 fijos más ₡10 por cada minuto",
+            "right": "y = 10x + 3 000"
+          },
+          {
+            "left": "Una vela de 20 cm se consume 2 cm cada hora",
+            "right": "y = −2x + 20"
+          },
+          {
+            "left": "Cada cuaderno cuesta ₡900 y no hay otro cobro",
+            "right": "y = 900x"
+          },
+          {
+            "left": "El área de un cuadrado de lado x",
+            "right": "y = x²"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "En y = ax + b, a es lo que cambia por cada unidad y b es el valor inicial o fijo. El área del cuadrado lleva x², por eso no tiene la forma ax + b."
+      },
+      "seed": "b20404a2-c84d-4a55-81d9-4b86b6453a05:0",
+      "solved": {
+        "game": 1,
+        "match": [
+          4,
+          3,
+          1,
+          5,
+          2
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Completa la expresión de la tarifa del taxi.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Un taxi cobra ₡550 por el primer kilómetro y ₡200 por cada kilómetro adicional. Para x kilómetros (x ≥ 1), el costo es y = 200x + ___.",
+        "options": [
+          "550",
+          "350",
+          "200",
+          "750"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": "550-200",
+        "explanation": "Con x = 1 el costo debe ser 550. Entonces 200 × 1 + b = 550, y b = 550 − 200 = 350. Por eso y = 200x + 350."
+      },
+      "seed": "b20404a2-c84d-4a55-81d9-4b86b6453a05:1",
+      "solved": {
+        "game": 2,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": "Costo = 550 + 200(x−1) = 200x + 350, por lo que la opción 1 (350) es la correcta."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "Costo = 550 + 200(x−1) = 200x + 350, por lo que la opción 1 (350) es la correcta."
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": [
+          "el verificador señaló: Costo = 550 + 200(x−1) = 200x + 350, por lo que la opción 1 (350) es la correcta."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 0,
+        "instruction": "Una piscina ya tiene 100 L de agua y se llena con 30 L por minuto. Encuentra el paso con error.",
+        "pairs": null,
+        "steps": [
+          "Dato fijo: la piscina ya tiene 100 L al empezar.",
+          "Cambio por minuto: se agregan 30 L, entonces a = 30.",
+          "El valor inicial es b = 30.",
+          "La expresión es y = 30x + 100, donde x son los minutos."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "El valor inicial es b = 100.",
+        "calc": null,
+        "explanation": "El valor inicial b es la cantidad que hay al empezar, que son 100 L. Los 30 L por minuto son el valor de a."
+      },
+      "seed": "b20404a2-c84d-4a55-81d9-4b86b6453a05:2",
+      "solved": {
+        "game": 3,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": "El paso 3 es incorrecto: el valor inicial es b = 100, no 30."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "El paso 3 es incorrecto: el valor inicial es b = 100, no 30."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: El paso 3 es incorrecto: el valor inicial es b = 100, no 30."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 1,
+        "instruction": "Ordena los pasos para graficar la función y = 2x + 1.",
+        "pairs": null,
+        "steps": [
+          "Elegir algunos valores de x para la tabla.",
+          "Calcular cada y sustituyendo x en y = 2x + 1.",
+          "Escribir los pares ordenados (x, y).",
+          "Ubicar los puntos en el plano cartesiano.",
+          "Trazar la recta que pasa por los puntos."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Primero se eligen valores de x, luego se calculan los de y, después se forman los puntos, se ubican en el plano y al final se traza la recta."
+      },
+      "seed": "b20404a2-c84d-4a55-81d9-4b86b6453a05:3",
+      "solved": {
+        "game": 4,
+        "match": null,
+        "order": [
+          3,
+          1,
+          5,
+          2,
+          4
+        ],
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 1,
+        "instruction": "Completa el valor de la tabla.",
+        "pairs": null,
+        "steps": null,
+        "stem": "En la función y = 3x − 2, cuando x = 4 el valor de y es ___.",
+        "options": [
+          "14",
+          "12",
+          "10",
+          "6"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": "3*4-2",
+        "explanation": "Se sustituye x = 4: 3 × 4 − 2 = 12 − 2 = 10."
+      },
+      "seed": "b20404a2-c84d-4a55-81d9-4b86b6453a05:4",
+      "solved": {
+        "game": 5,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": "y = 3(4) − 2 = 10."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "y = 3(4) − 2 = 10."
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": [
+          "el verificador señaló: y = 3(4) − 2 = 10."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 1,
+        "instruction": "Se hizo una tabla de valores para y = 2x + 3. Encuentra el paso con error.",
+        "pairs": null,
+        "steps": [
+          "x = 0: 2 × 0 + 3 = 3",
+          "x = 1: 2 × 1 + 3 = 5",
+          "x = 2: 2 × 2 + 3 = 8",
+          "x = 3: 2 × 3 + 3 = 9"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "x = 2: 2 × 2 + 3 = 7",
+        "calc": null,
+        "explanation": "2 × 2 = 4 y 4 + 3 = 7, no 8. Los demás cálculos son correctos."
+      },
+      "seed": "b20404a2-c84d-4a55-81d9-4b86b6453a05:5",
+      "solved": {
+        "game": 6,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": "El paso 3 es incorrecto: 2×2+3 = 7, no 8."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "El paso 3 es incorrecto: 2×2+3 = 7, no 8."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: El paso 3 es incorrecto: 2×2+3 = 7, no 8."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 1,
+        "instruction": "Une cada función con el punto donde su recta corta el eje y.",
+        "pairs": [
+          {
+            "left": "y = 3x − 4",
+            "right": "(0, −4)"
+          },
+          {
+            "left": "y = x + 6",
+            "right": "(0, 6)"
+          },
+          {
+            "left": "y = −2x",
+            "right": "(0, 0)"
+          },
+          {
+            "left": "y = 5x + 1",
+            "right": "(0, 1)"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Al sustituir x = 0 queda y = b, así que la recta corta el eje y en (0, b)."
+      },
+      "seed": "b20404a2-c84d-4a55-81d9-4b86b6453a05:6",
+      "solved": {
+        "game": 7,
+        "match": [
+          1,
+          4,
+          2,
+          3
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 1,
+        "instruction": "Elige la expresión que corresponde a la tabla.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Una tabla tiene los pares (0, 5), (1, 7) y (2, 9). Su expresión algebraica es ___.",
+        "options": [
+          "y = 5x + 2",
+          "y = x + 5",
+          "y = 7x − 2",
+          "y = 2x + 5"
+        ],
+        "answer_index": 3,
+        "correction": null,
+        "calc": null,
+        "explanation": "Cuando x = 0, y = 5, entonces b = 5. Cada vez que x sube 1, y sube 2, entonces a = 2. Así, y = 2x + 5."
+      },
+      "seed": "b20404a2-c84d-4a55-81d9-4b86b6453a05:7",
+      "solved": {
+        "game": 8,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": "Pendiente 2, intercepto 5, y = 2x + 5."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "Pendiente 2, intercepto 5, y = 2x + 5."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: Pendiente 2, intercepto 5, y = 2x + 5."
+        ]
+      }
+    }
+  ],
+  "notes": ""
+}

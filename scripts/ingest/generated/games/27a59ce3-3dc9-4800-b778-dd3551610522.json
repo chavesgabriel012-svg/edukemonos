@@ -1,0 +1,725 @@
+{
+  "unitId": "27a59ce3-3dc9-4800-b778-dd3551610522",
+  "createdAt": "2026-11-04T17:58:53.058Z",
+  "models": {
+    "games": "claude-sonnet-5-5",
+    "solve": "claude-sonnet-5-5"
+  },
+  "prompts": {
+    "games": "generate-games-system@1",
+    "solve": "solve-games-system@1"
+  },
+  "pieces": [
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 0,
+        "instruction": "Une cada expresión con su forma factorizada.",
+        "pairs": [
+          {
+            "left": "x² − 9",
+            "right": "(x + 3)(x − 3)"
+          },
+          {
+            "left": "x² + 5x + 6",
+            "right": "(x + 2)(x + 3)"
+          },
+          {
+            "left": "x² − 4x + 4",
+            "right": "(x − 2)²"
+          },
+          {
+            "left": "2x² + 6x",
+            "right": "2x(x + 3)"
+          },
+          {
+            "left": "x² − x − 6",
+            "right": "(x − 3)(x + 2)"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Cada expresión se factoriza con su método: diferencia de cuadrados, trinomio, trinomio cuadrado perfecto o factor común. Si multiplicas los factores, obtienes la expresión original."
+      },
+      "seed": "27a59ce3-3dc9-4800-b778-dd3551610522:0",
+      "solved": {
+        "game": 1,
+        "match": [
+          5,
+          2,
+          3,
+          1,
+          4
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Simplifica la expresión y elige la opción correcta.",
+        "pairs": null,
+        "steps": null,
+        "stem": "(x² − 4) ÷ (x + 2) = ___, con x ≠ −2",
+        "options": [
+          "x + 2",
+          "x − 2",
+          "x − 4",
+          "x² − 2"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": null,
+        "explanation": "x² − 4 es una diferencia de cuadrados: (x + 2)(x − 2). Al cancelar el factor (x + 2) queda x − 2."
+      },
+      "seed": "27a59ce3-3dc9-4800-b778-dd3551610522:1",
+      "solved": {
+        "game": 2,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 0,
+        "instruction": "Encuentra el paso donde se cometió el error al simplificar.",
+        "pairs": null,
+        "steps": [
+          "x² − 9 = (x + 3)(x − 3)",
+          "x² + 3x = x(x + 3)",
+          "(x² − 9)/(x² + 3x) = (x + 3)(x − 3)/(x(x + 3))",
+          "Se cancelan el factor (x + 3) y también la x del denominador con la x de (x − 3): queda x − 3"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 3,
+        "correction": "Solo se cancela el factor común (x + 3); queda (x − 3)/x",
+        "calc": null,
+        "explanation": "Solo se pueden cancelar factores completos que se repiten en numerador y denominador. La x del denominador no es un factor del numerador, así que el resultado es (x − 3)/x."
+      },
+      "seed": "27a59ce3-3dc9-4800-b778-dd3551610522:2",
+      "solved": {
+        "game": 3,
+        "match": null,
+        "order": null,
+        "choice": 4,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 1,
+        "instruction": "Ordena los pasos para escribir x² + 6x + 5 como (x + h)² + k.",
+        "pairs": null,
+        "steps": [
+          "Identifica el coeficiente de x: 6",
+          "Calcula su mitad: 6 ÷ 2 = 3",
+          "Suma y resta 3² = 9: x² + 6x + 9 − 9 + 5",
+          "Factoriza el trinomio cuadrado perfecto: (x + 3)² − 9 + 5",
+          "Reduce las constantes: (x + 3)² − 4"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Primero se halla la mitad del coeficiente de x, luego se suma y resta su cuadrado para formar el trinomio cuadrado perfecto, se factoriza y al final se reducen las constantes."
+      },
+      "seed": "27a59ce3-3dc9-4800-b778-dd3551610522:3",
+      "solved": {
+        "game": 4,
+        "match": null,
+        "order": [
+          2,
+          4,
+          5,
+          3,
+          1
+        ],
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 1,
+        "instruction": "Completa el cuadrado y elige el valor de k.",
+        "pairs": null,
+        "steps": null,
+        "stem": "x² + 10x + 3 = (x + 5)² + ___",
+        "options": [
+          "−2",
+          "22",
+          "−22",
+          "28"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": "3 - 5^2",
+        "explanation": "(x + 5)² = x² + 10x + 25. Como el original tiene 3 y no 25, hay que restar 25 − 3: k = 3 − 25 = −22."
+      },
+      "seed": "27a59ce3-3dc9-4800-b778-dd3551610522:4",
+      "solved": {
+        "game": 5,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 1,
+        "instruction": "Encuentra el paso con el error al completar el cuadrado de x² − 8x + 3.",
+        "pairs": null,
+        "steps": [
+          "(−8) ÷ 2 = −4",
+          "(−4)² = 16",
+          "x² − 8x + 3 = x² − 8x + 16 − 16 + 3",
+          "−16 + 3 = −19",
+          "x² − 8x + 3 = (x − 4)² − 13"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 3,
+        "correction": "−16 + 3 = −13",
+        "calc": null,
+        "explanation": "Al sumar −16 y 3 el resultado es −13, no −19. Por eso la expresión queda (x − 4)² − 13."
+      },
+      "seed": "27a59ce3-3dc9-4800-b778-dd3551610522:5",
+      "solved": {
+        "game": 6,
+        "match": null,
+        "order": null,
+        "choice": 4,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 2,
+        "instruction": "Une cada división de polinomios con su cociente.",
+        "pairs": [
+          {
+            "left": "(x² + 5x + 6) ÷ (x + 2)",
+            "right": "x + 3"
+          },
+          {
+            "left": "(x² − 1) ÷ (x − 1)",
+            "right": "x + 1"
+          },
+          {
+            "left": "(x² − 5x + 6) ÷ (x − 3)",
+            "right": "x − 2"
+          },
+          {
+            "left": "(6x² + 3x) ÷ (3x)",
+            "right": "2x + 1"
+          },
+          {
+            "left": "(x² + x − 20) ÷ (x + 5)",
+            "right": "x − 4"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Puedes comprobar cada cociente multiplicándolo por el divisor: debe dar el dividendo. Por ejemplo, (x + 5)(x − 4) = x² + x − 20."
+      },
+      "seed": "27a59ce3-3dc9-4800-b778-dd3551610522:6",
+      "solved": {
+        "game": 7,
+        "match": [
+          5,
+          1,
+          2,
+          3,
+          4
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 2,
+        "instruction": "Ordena los pasos de la división larga de polinomios.",
+        "pairs": null,
+        "steps": [
+          "Ordena dividendo y divisor de mayor a menor grado",
+          "Divide el primer término del dividendo entre el primer término del divisor",
+          "Multiplica ese resultado por todo el divisor",
+          "Resta el producto al dividendo",
+          "Repite con el polinomio que quedó hasta que el grado del residuo sea menor que el del divisor"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "El algoritmo siempre sigue la secuencia: ordenar, dividir, multiplicar, restar y repetir hasta que el residuo tenga menor grado que el divisor."
+      },
+      "seed": "27a59ce3-3dc9-4800-b778-dd3551610522:7",
+      "solved": {
+        "game": 8,
+        "match": null,
+        "order": [
+          4,
+          5,
+          2,
+          3,
+          1
+        ],
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 2,
+        "instruction": "Efectúa la división y elige el cociente.",
+        "pairs": null,
+        "steps": null,
+        "stem": "(2x² + 7x + 3) ÷ (x + 3) = ___",
+        "options": [
+          "2x − 1",
+          "x + 1",
+          "2x + 3",
+          "2x + 1"
+        ],
+        "answer_index": 3,
+        "correction": null,
+        "calc": null,
+        "explanation": "2x² ÷ x = 2x; 2x(x + 3) = 2x² + 6x; al restar queda x + 3; x ÷ x = 1 y 1(x + 3) = x + 3, con residuo 0. El cociente es 2x + 1."
+      },
+      "seed": "27a59ce3-3dc9-4800-b778-dd3551610522:8",
+      "solved": {
+        "game": 9,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 2,
+        "instruction": "Encuentra el paso con el error en la división (x² + 5x + 6) ÷ (x + 2).",
+        "pairs": null,
+        "steps": [
+          "x² ÷ x = x",
+          "x(x + 2) = x² + 2x",
+          "(x² + 5x + 6) − (x² + 2x) = 7x + 6",
+          "3x ÷ x = 3",
+          "3(x + 2) = 3x + 6, el residuo es 0 y el cociente es x + 3"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "(x² + 5x + 6) − (x² + 2x) = 3x + 6",
+        "calc": null,
+        "explanation": "Al restar, 5x − 2x = 3x, no 7x. Por eso el siguiente paso trabaja con 3x + 6."
+      },
+      "seed": "27a59ce3-3dc9-4800-b778-dd3551610522:9",
+      "solved": {
+        "game": 10,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 3,
+        "instruction": "Ordena los pasos para sumar fracciones algebraicas con distinto denominador.",
+        "pairs": null,
+        "steps": [
+          "Factoriza los denominadores y halla el denominador común",
+          "Escribe cada fracción como una equivalente con ese denominador",
+          "Suma los numeradores y conserva el denominador común",
+          "Simplifica el resultado si es posible"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Solo se pueden sumar numeradores cuando los denominadores ya son iguales. Por eso primero se busca el denominador común y se convierten las fracciones."
+      },
+      "seed": "27a59ce3-3dc9-4800-b778-dd3551610522:10",
+      "solved": {
+        "game": 11,
+        "match": null,
+        "order": [
+          4,
+          3,
+          1,
+          2
+        ],
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 3,
+        "instruction": "Efectúa la suma y elige el resultado.",
+        "pairs": null,
+        "steps": null,
+        "stem": "2/x + 3/(2x) = ___",
+        "options": [
+          "7/(2x)",
+          "5/(3x)",
+          "5/(2x)",
+          "6/(2x²)"
+        ],
+        "answer_index": 0,
+        "correction": null,
+        "calc": null,
+        "explanation": "El denominador común es 2x. 2/x = 4/(2x), entonces 4/(2x) + 3/(2x) = 7/(2x)."
+      },
+      "seed": "27a59ce3-3dc9-4800-b778-dd3551610522:11",
+      "solved": {
+        "game": 12,
+        "match": null,
+        "order": null,
+        "choice": 0,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 3,
+        "instruction": "Encuentra el paso con el error al sumar 1/x + 1/(x + 1).",
+        "pairs": null,
+        "steps": [
+          "El denominador común es x(x + 1)",
+          "1/x = (x + 1)/(x(x + 1))",
+          "1/(x + 1) = 1/(x(x + 1))",
+          "1/x + 1/(x + 1) = (x + 1 + x)/(x(x + 1)) = (2x + 1)/(x(x + 1))"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "1/(x + 1) = x/(x(x + 1))",
+        "calc": null,
+        "explanation": "Para obtener una fracción equivalente hay que multiplicar numerador y denominador por x. Aquí solo se multiplicó el denominador, así que el numerador debe ser x."
+      },
+      "seed": "27a59ce3-3dc9-4800-b778-dd3551610522:12",
+      "solved": {
+        "game": 13,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 4,
+        "instruction": "Ordena los pasos para racionalizar 1/(√5 + 2).",
+        "pairs": null,
+        "steps": [
+          "Identifica el conjugado del denominador: √5 − 2",
+          "Multiplica numerador y denominador por √5 − 2",
+          "Aplica la diferencia de cuadrados en el denominador: 5 − 4 = 1",
+          "Simplifica: el resultado es √5 − 2"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Primero se identifica el conjugado, luego se multiplica arriba y abajo para no cambiar el valor, y el denominador queda sin raíz al usar la diferencia de cuadrados."
+      },
+      "seed": "27a59ce3-3dc9-4800-b778-dd3551610522:13",
+      "solved": {
+        "game": 14,
+        "match": null,
+        "order": [
+          4,
+          2,
+          1,
+          3
+        ],
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 4,
+        "instruction": "Racionaliza el denominador y elige el resultado.",
+        "pairs": null,
+        "steps": null,
+        "stem": "4/√2 = ___",
+        "options": [
+          "4√2",
+          "2√2",
+          "2",
+          "√2"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": null,
+        "explanation": "Se multiplica por √2/√2: 4√2/2 = 2√2. El denominador ya no tiene raíz."
+      },
+      "seed": "27a59ce3-3dc9-4800-b778-dd3551610522:14",
+      "solved": {
+        "game": 15,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 4,
+        "instruction": "Encuentra el paso con el error al racionalizar 6/√3.",
+        "pairs": null,
+        "steps": [
+          "Se multiplican numerador y denominador por √3",
+          "6/√3 = (6 × √3)/(√3 × √3)",
+          "√3 × √3 = 3",
+          "6√3/3 = 3√3"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 3,
+        "correction": "6√3/3 = 2√3",
+        "calc": null,
+        "explanation": "Al dividir 6 entre 3 se obtiene 2, no 3. El resultado correcto es 2√3."
+      },
+      "seed": "27a59ce3-3dc9-4800-b778-dd3551610522:15",
+      "solved": {
+        "game": 16,
+        "match": null,
+        "order": null,
+        "choice": 4,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    }
+  ],
+  "notes": "Se dejaron fuera las parejas de las habilidades 1, 3 y 4 y el orden de la habilidad 0 para respetar el máximo de 16 piezas y porque no tienen un único orden claro."
+}

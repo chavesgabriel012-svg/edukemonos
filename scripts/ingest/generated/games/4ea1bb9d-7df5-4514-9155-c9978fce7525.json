@@ -1,0 +1,384 @@
+{
+  "unitId": "4ea1bb9d-7df5-4514-9155-c9978fce7525",
+  "createdAt": "2026-11-04T17:49:28.090Z",
+  "models": {
+    "games": "claude-sonnet-5-5",
+    "solve": "claude-sonnet-5-5"
+  },
+  "prompts": {
+    "games": "generate-games-system@1",
+    "solve": "solve-games-system@1"
+  },
+  "pieces": [
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 0,
+        "instruction": "Une cada elemento con su descripción.",
+        "pairs": [
+          {
+            "left": "Titular",
+            "right": "Frase breve que resume la noticia y llama la atención"
+          },
+          {
+            "left": "Entrada (lead)",
+            "right": "Primer párrafo que responde qué, quién, cuándo y dónde"
+          },
+          {
+            "left": "Cuerpo",
+            "right": "Parte donde se desarrollan los detalles de la noticia"
+          },
+          {
+            "left": "Acotación",
+            "right": "Indicación del autor sobre gestos, movimientos o escenario en una obra"
+          },
+          {
+            "left": "Acto",
+            "right": "Parte grande en que se divide una obra dramática"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Cada término tiene una función propia: el titular resume, la entrada da lo esencial, el cuerpo amplía, la acotación guía la puesta en escena y el acto divide la obra."
+      },
+      "seed": "4ea1bb9d-7df5-4514-9155-c9978fce7525:0",
+      "solved": {
+        "game": 1,
+        "match": [
+          2,
+          3,
+          4,
+          5,
+          1
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 0,
+        "instruction": "Ordena las partes de una noticia como aparecen al leerla.",
+        "pairs": null,
+        "steps": [
+          "Titular que resume el hecho",
+          "Entrada con los datos más importantes",
+          "Cuerpo con los detalles y las citas",
+          "Cierre con un dato final"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "La noticia empieza con el titular, sigue con la entrada que da lo esencial, luego desarrolla los detalles en el cuerpo y termina con un dato de cierre."
+      },
+      "seed": "4ea1bb9d-7df5-4514-9155-c9978fce7525:1",
+      "solved": {
+        "game": 2,
+        "match": null,
+        "order": [
+          3,
+          1,
+          4,
+          2
+        ],
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Elige la opción que completa el enunciado.",
+        "pairs": null,
+        "steps": null,
+        "stem": "En una obra dramática, las indicaciones del autor sobre gestos, movimientos o escenografía se llaman ___.",
+        "options": [
+          "titulares",
+          "estrofas",
+          "acotaciones",
+          "epígrafes"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": null,
+        "explanation": "Las acotaciones son los textos que el autor escribe, por lo general entre paréntesis o en cursiva, para indicar cómo actuar o cómo es el escenario."
+      },
+      "seed": "4ea1bb9d-7df5-4514-9155-c9978fce7525:2",
+      "solved": {
+        "game": 3,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 0,
+        "instruction": "Una de estas frases sobre el artículo periodístico es incorrecta. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "El titular de una noticia debe ser breve y llamar la atención del lector.",
+          "La entrada responde a preguntas como qué pasó, quién, cuándo y dónde.",
+          "Una noticia debe usar un lenguaje claro y objetivo.",
+          "En una noticia, el periodista debe incluir sus opiniones personales y exagerar los hechos."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 3,
+        "correction": "En una noticia, el periodista debe presentar los hechos con veracidad y sin exagerar ni mezclar sus opiniones personales.",
+        "calc": null,
+        "explanation": "La noticia informa de manera objetiva. Las opiniones personales y las exageraciones no corresponden a ella."
+      },
+      "seed": "4ea1bb9d-7df5-4514-9155-c9978fce7525:3",
+      "solved": {
+        "game": 4,
+        "match": null,
+        "order": null,
+        "choice": 4,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 1,
+        "instruction": "Une cada modo discursivo con el ejemplo que le corresponde.",
+        "pairs": [
+          {
+            "left": "Narración",
+            "right": "Ayer el equipo llegó al gimnasio, calentó y ganó el partido."
+          },
+          {
+            "left": "Descripción",
+            "right": "El gimnasio es amplio, de paredes blancas y piso de madera brillante."
+          },
+          {
+            "left": "Diálogo",
+            "right": "—¿A qué hora empieza el ensayo? —A las dos de la tarde."
+          },
+          {
+            "left": "Argumentación",
+            "right": "Creo que el colegio debe tener más zonas verdes porque mejoran el ánimo del estudiantado."
+          },
+          {
+            "left": "Explicación",
+            "right": "El reciclaje consiste en transformar residuos en materiales nuevos: primero se separan y luego se procesan."
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "La narración cuenta hechos, la descripción muestra cómo es algo, el diálogo reproduce la conversación, la argumentación defiende una opinión con razones y la explicación aclara cómo funciona algo."
+      },
+      "seed": "4ea1bb9d-7df5-4514-9155-c9978fce7525:4",
+      "solved": {
+        "game": 5,
+        "match": [
+          5,
+          2,
+          3,
+          4,
+          1
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 1,
+        "instruction": "Elige la opción que completa el enunciado.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Un texto de opinión que defiende una postura con razones para convencer al lector usa principalmente el modo ___.",
+        "options": [
+          "descriptivo",
+          "argumentativo",
+          "narrativo",
+          "dialogado"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": null,
+        "explanation": "Cuando se presentan razones para convencer a otra persona de una idea, el modo discursivo es la argumentación."
+      },
+      "seed": "4ea1bb9d-7df5-4514-9155-c9978fce7525:5",
+      "solved": {
+        "game": 6,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 1,
+        "instruction": "Elige la opción que completa el enunciado.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Cuando una noticia cuenta lo que ocurrió siguiendo el orden del tiempo, usa el modo discursivo de la ___.",
+        "options": [
+          "descripción",
+          "argumentación",
+          "explicación",
+          "narración"
+        ],
+        "answer_index": 3,
+        "correction": null,
+        "calc": null,
+        "explanation": "Relatar hechos en una secuencia de tiempo es narrar; por eso este es el modo de la narración."
+      },
+      "seed": "4ea1bb9d-7df5-4514-9155-c9978fce7525:6",
+      "solved": {
+        "game": 7,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 1,
+        "instruction": "Una de estas frases sobre los modos discursivos es incorrecta. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "La narración cuenta hechos que ocurren en una secuencia de tiempo.",
+          "La descripción presenta cómo es una persona, un lugar o un objeto.",
+          "En una obra de teatro, el diálogo se marca con el nombre del personaje antes de lo que dice.",
+          "La explicación busca convencer al lector de aceptar una opinión mediante argumentos."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 3,
+        "correction": "La explicación aclara o informa sobre un tema; la argumentación es la que busca convencer mediante argumentos.",
+        "calc": null,
+        "explanation": "Se confundieron dos modos: explicar es hacer comprensible un tema, y convencer con razones es argumentar."
+      },
+      "seed": "4ea1bb9d-7df5-4514-9155-c9978fce7525:7",
+      "solved": {
+        "game": 8,
+        "match": null,
+        "order": null,
+        "choice": 4,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    }
+  ],
+  "notes": "El programa no incluye contenidos específicos; las piezas se basaron en los criterios de aprendizaje y en las características generales de la noticia y la obra dramática."
+}

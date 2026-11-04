@@ -1,0 +1,347 @@
+{
+  "unitId": "a600d67d-6312-4f1b-b1dd-a7130f2cf874",
+  "createdAt": "2026-11-04T17:44:51.671Z",
+  "models": {
+    "games": "claude-sonnet-5-5",
+    "solve": "claude-sonnet-5-5"
+  },
+  "prompts": {
+    "games": "generate-games-system@1",
+    "solve": "solve-games-system@1"
+  },
+  "pieces": [
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 0,
+        "instruction": "Une cada tipo de documento con su propósito.",
+        "pairs": [
+          {
+            "left": "Carta de justificación de ausencia",
+            "right": "Explicar el motivo por el que faltaste"
+          },
+          {
+            "left": "Carta de solicitud de permiso",
+            "right": "Pedir autorización para realizar una actividad"
+          },
+          {
+            "left": "Carta de reclamo",
+            "right": "Expresar inconformidad por un servicio o situación y pedir solución"
+          },
+          {
+            "left": "Carta de apelación",
+            "right": "Pedir que se revise una decisión ya tomada"
+          },
+          {
+            "left": "Memorando",
+            "right": "Comunicar información breve dentro de una misma institución"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Cada documento tiene un propósito propio: la justificación explica una ausencia, la solicitud pide un permiso, el reclamo manifiesta una inconformidad, la apelación pide revisar una decisión y el memorando comunica información interna."
+      },
+      "seed": "a600d67d-6312-4f1b-b1dd-a7130f2cf874:0",
+      "solved": {
+        "game": 1,
+        "match": [
+          5,
+          4,
+          2,
+          1,
+          3
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 0,
+        "instruction": "Ordena las partes de una carta formal, de arriba hacia abajo.",
+        "pairs": null,
+        "steps": [
+          "Lugar y fecha",
+          "Nombre y cargo de la persona destinataria",
+          "Saludo (por ejemplo: Estimada señora:)",
+          "Cuerpo de la carta con el motivo y los detalles",
+          "Despedida de cortesía (por ejemplo: Atentamente,)",
+          "Firma y nombre de quien escribe"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "La carta formal empieza con el lugar y la fecha, sigue con la persona destinataria y el saludo, desarrolla el mensaje en el cuerpo, se despide con cortesía y termina con la firma."
+      },
+      "seed": "a600d67d-6312-4f1b-b1dd-a7130f2cf874:1",
+      "solved": {
+        "game": 2,
+        "match": null,
+        "order": [
+          5,
+          1,
+          4,
+          2,
+          6,
+          3
+        ],
+        "choice": null,
+        "problems": "Hay un posible desorden: en cartas formales el lugar y fecha va primero, luego el destinatario, saludo, cuerpo, despedida y firma. Es el orden estándar, sin ambigüedad relevante."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "Hay un posible desorden: en cartas formales el lugar y fecha va primero, luego el destinatario, saludo, cuerpo, despedida y firma. Es el orden estándar, sin ambigüedad relevante."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: Hay un posible desorden: en cartas formales el lugar y fecha va primero, luego el destinatario, saludo, cuerpo, despedida y firma. Es el orden estándar, sin ambigüedad relevante."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Elige la opción que completa bien la carta formal.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Una carta formal dirigida a la directora del colegio se despide con una fórmula de cortesía como «___».",
+        "options": [
+          "Chao",
+          "Nos vemos",
+          "Atentamente",
+          "Besos"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": null,
+        "explanation": "En una carta formal se usa un registro respetuoso. «Atentamente» es una despedida de cortesía; las otras opciones son informales."
+      },
+      "seed": "a600d67d-6312-4f1b-b1dd-a7130f2cf874:2",
+      "solved": {
+        "game": 3,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 0,
+        "instruction": "Estas frases forman una carta de justificación de ausencia. Encuentra la frase que no corresponde a una carta formal.",
+        "pairs": null,
+        "steps": [
+          "San José, 12 de marzo de 2025",
+          "Señora Ana Mora Solís, directora",
+          "Estimada señora:",
+          "Le escribo para justificar la ausencia de mi hijo el pasado 10 de marzo, pues tuvo una cita médica.",
+          "Bueno, ya me voy, ¡pura vida y nos vemos!",
+          "Adjunto el comprobante de la cita. Atentamente, Luis Araya"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 4,
+        "correction": "Agradezco de antemano su comprensión y quedo atento a cualquier consulta.",
+        "calc": null,
+        "explanation": "La carta formal usa un lenguaje respetuoso y cuidado. La frase «¡pura vida y nos vemos!» es coloquial y no es propia de este tipo de carta."
+      },
+      "seed": "a600d67d-6312-4f1b-b1dd-a7130f2cf874:3",
+      "solved": {
+        "game": 4,
+        "match": null,
+        "order": null,
+        "choice": 5,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 1,
+        "instruction": "Une cada propósito con el modo discursivo que lo cumple.",
+        "pairs": [
+          {
+            "left": "Contar hechos en el orden en que ocurrieron",
+            "right": "Narración"
+          },
+          {
+            "left": "Presentar cómo es una persona, un lugar o un objeto",
+            "right": "Descripción"
+          },
+          {
+            "left": "Defender una opinión con razones",
+            "right": "Argumentación"
+          },
+          {
+            "left": "Aclarar o informar cómo o por qué ocurre algo",
+            "right": "Explicación"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "La narración cuenta sucesos, la descripción presenta características, la argumentación defiende una idea con razones y la explicación aclara o informa sobre un tema."
+      },
+      "seed": "a600d67d-6312-4f1b-b1dd-a7130f2cf874:4",
+      "solved": {
+        "game": 5,
+        "match": [
+          3,
+          1,
+          2,
+          4
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 1,
+        "instruction": "Elige el modo discursivo que completa el enunciado.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Si en una carta de reclamo das razones para defender tu petición, usas el modo discursivo de la ___.",
+        "options": [
+          "narración",
+          "argumentación",
+          "descripción",
+          "exposición de la fecha"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": null,
+        "explanation": "Dar razones para respaldar lo que pides es argumentar. Contar sucesos sería narración y presentar características sería descripción."
+      },
+      "seed": "a600d67d-6312-4f1b-b1dd-a7130f2cf874:5",
+      "solved": {
+        "game": 6,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 1,
+        "instruction": "Cada frase tiene el nombre de su modo discursivo. Encuentra la frase con el modo mal identificado.",
+        "pairs": null,
+        "steps": [
+          "Explicación: El memorando sirve para comunicar información dentro de una institución.",
+          "Argumentación: Pido que se repare el techo porque, cuando llueve, se mojan los cuadernos.",
+          "Descripción: Ayer llamé a la oficina, esperé una hora y nadie me atendió.",
+          "Narración: Primero llené el formulario y luego lo entregué en la dirección."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "Narración: Ayer llamé a la oficina, esperé una hora y nadie me atendió.",
+        "calc": null,
+        "explanation": "La frase cuenta hechos en secuencia (llamé, esperé, nadie me atendió), por eso es narración y no descripción."
+      },
+      "seed": "a600d67d-6312-4f1b-b1dd-a7130f2cf874:6",
+      "solved": {
+        "game": 7,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    }
+  ],
+  "notes": "El programa no trae contenidos detallados; se trabajó con los criterios de aprendizaje. No se hizo «order» para la habilidad 1 porque los modos discursivos no siguen un orden único."
+}

@@ -1,0 +1,577 @@
+{
+  "unitId": "509905ec-99f5-4c1c-b319-fbb0df37f676",
+  "createdAt": "2026-11-04T17:47:02.280Z",
+  "models": {
+    "games": "claude-sonnet-5-5",
+    "solve": "claude-sonnet-5-5"
+  },
+  "prompts": {
+    "games": "generate-games-system@1",
+    "solve": "solve-games-system@1"
+  },
+  "pieces": [
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 0,
+        "instruction": "Une cada elemento del afiche con su función.",
+        "pairs": [
+          {
+            "left": "Eslogan",
+            "right": "Frase breve y fácil de recordar"
+          },
+          {
+            "left": "Imagen",
+            "right": "Llama la atención y refuerza el mensaje"
+          },
+          {
+            "left": "Datos de contacto",
+            "right": "Indican dónde, cuándo o con quién comunicarse"
+          },
+          {
+            "left": "Letras grandes",
+            "right": "Permiten leer el mensaje desde lejos"
+          },
+          {
+            "left": "Propósito",
+            "right": "Lo que el afiche busca lograr, como informar o convencer"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Cada parte del afiche cumple una función distinta, y reconocerla ayuda a analizar el mensaje."
+      },
+      "seed": "509905ec-99f5-4c1c-b319-fbb0df37f676:0",
+      "solved": {
+        "game": 1,
+        "match": [
+          1,
+          5,
+          4,
+          3,
+          2
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 0,
+        "instruction": "Ordena las fases para analizar un afiche pegado en tu colegio.",
+        "pairs": null,
+        "steps": [
+          "Fase natural: leo el afiche y anoto qué impresión me causa.",
+          "Fase de ubicación: identifico quién lo creó, a quién se dirige y dónde está pegado.",
+          "Fase analística: analizo la imagen, el eslogan, las letras y el lenguaje que usa.",
+          "Fase explicativa e interpretativa: explico los sentidos del mensaje y comparto mi opinión."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Primero se lee y se reacciona (natural), luego se ubica el texto, después se analizan sus partes y al final se explica e interpreta su sentido."
+      },
+      "seed": "509905ec-99f5-4c1c-b319-fbb0df37f676:1",
+      "solved": {
+        "game": 2,
+        "match": null,
+        "order": [
+          1,
+          2,
+          4,
+          3
+        ],
+        "choice": null,
+        "problems": "El término «analística» es poco usual; lo habitual es «analítica». No cambia la respuesta."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "El término «analística» es poco usual; lo habitual es «analítica». No cambia la respuesta."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: El término «analística» es poco usual; lo habitual es «analítica». No cambia la respuesta."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Elige la opción que completa el enunciado.",
+        "pairs": null,
+        "steps": null,
+        "stem": "La fase en la que identificas quién creó el afiche, a quién se dirige y dónde está pegado es la fase ___.",
+        "options": [
+          "explicativa e interpretativa",
+          "natural",
+          "analística",
+          "de ubicación"
+        ],
+        "answer_index": 3,
+        "correction": null,
+        "calc": null,
+        "explanation": "En la fase de ubicación se identifican el autor, el público y el lugar del texto. La natural es la primera impresión, la analística estudia las partes, y la explicativa e interpretativa busca los sentidos."
+      },
+      "seed": "509905ec-99f5-4c1c-b319-fbb0df37f676:2",
+      "solved": {
+        "game": 3,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 0,
+        "instruction": "Una de estas frases sobre el análisis de afiches es incorrecta. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "Un afiche combina imagen y texto breve para comunicar un mensaje.",
+          "El eslogan es una frase corta y fácil de recordar.",
+          "La fase natural consiste en leer el afiche por primera vez y decir qué impresión causa.",
+          "En la fase de ubicación se identifica quién lo creó, a quién se dirige y dónde está pegado.",
+          "El propósito de un afiche es contar una historia larga con muchos detalles."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 4,
+        "correction": "El propósito de un afiche es informar, convencer o sensibilizar con un mensaje breve y llamativo.",
+        "calc": null,
+        "explanation": "Un afiche usa pocas palabras e imágenes llamativas; no cuenta historias largas."
+      },
+      "seed": "509905ec-99f5-4c1c-b319-fbb0df37f676:3",
+      "solved": {
+        "game": 4,
+        "match": null,
+        "order": null,
+        "choice": 5,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 1,
+        "instruction": "Une cada momento de la escritura con lo que se hace en él.",
+        "pairs": [
+          {
+            "left": "Planificación",
+            "right": "Definir el propósito y a quién va dirigido el texto"
+          },
+          {
+            "left": "Textualización",
+            "right": "Escribir el borrador con las ideas organizadas"
+          },
+          {
+            "left": "Revisión del contenido",
+            "right": "Comprobar que el mensaje sea claro y completo"
+          },
+          {
+            "left": "Revisión de la forma",
+            "right": "Corregir ortografía, puntuación y conjugación de los verbos"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Planificar es pensar antes de escribir, textualizar es redactar, y revisar es mejorar tanto lo que dices (contenido) como cómo lo escribes (forma)."
+      },
+      "seed": "509905ec-99f5-4c1c-b319-fbb0df37f676:4",
+      "solved": {
+        "game": 5,
+        "match": [
+          1,
+          3,
+          4,
+          2
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 1,
+        "instruction": "Ordena los pasos para elaborar un afiche.",
+        "pairs": null,
+        "steps": [
+          "Defino el propósito, el público y el mensaje central.",
+          "Escribo el borrador con el eslogan y las frases breves.",
+          "Reviso que el contenido sea claro y completo.",
+          "Corrijo la ortografía, la puntuación y los verbos.",
+          "Paso el afiche en limpio y lo pego."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Se planifica, se escribe el borrador, se revisa el contenido, luego la forma y al final se presenta la versión final."
+      },
+      "seed": "509905ec-99f5-4c1c-b319-fbb0df37f676:5",
+      "solved": {
+        "game": 6,
+        "match": null,
+        "order": [
+          1,
+          3,
+          5,
+          2,
+          4
+        ],
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 1,
+        "instruction": "Elige la opción que completa el enunciado.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Cuando compruebas que no falten tildes y que los verbos estén bien escritos, estás en el momento de ___.",
+        "options": [
+          "revisión de la forma",
+          "planificación",
+          "textualización",
+          "lectura natural"
+        ],
+        "answer_index": 0,
+        "correction": null,
+        "calc": null,
+        "explanation": "Corregir tildes, ortografía y verbos es revisar la forma del texto, y eso se hace en la revisión."
+      },
+      "seed": "509905ec-99f5-4c1c-b319-fbb0df37f676:6",
+      "solved": {
+        "game": 7,
+        "match": null,
+        "order": null,
+        "choice": 0,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 1,
+        "instruction": "Una de estas frases sobre el proceso de escritura de un afiche es incorrecta. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "Planificación: defino a quién va dirigido el afiche y para qué lo hago.",
+          "Planificación: escribo la versión final con todos los detalles.",
+          "Textualización: escribo el borrador con frases breves y llamativas.",
+          "Revisión: compruebo que el mensaje sea claro y corrijo la ortografía."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 1,
+        "correction": "Planificación: elijo el mensaje central y pienso en la imagen que lo acompañará.",
+        "calc": null,
+        "explanation": "La versión final se escribe después de redactar y revisar el borrador, no durante la planificación."
+      },
+      "seed": "509905ec-99f5-4c1c-b319-fbb0df37f676:7",
+      "solved": {
+        "game": 8,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 2,
+        "instruction": "Une cada forma de tuteo con su forma de voseo.",
+        "pairs": [
+          {
+            "left": "tú comes",
+            "right": "vos comés"
+          },
+          {
+            "left": "tú vienes",
+            "right": "vos venís"
+          },
+          {
+            "left": "tú piensas",
+            "right": "vos pensás"
+          },
+          {
+            "left": "tú duermes",
+            "right": "vos dormís"
+          },
+          {
+            "left": "tú eres",
+            "right": "vos sos"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "En el voseo el verbo cambia su terminación y lleva el acento en la última sílaba: comés, venís, pensás, dormís. El verbo ser cambia a «sos»."
+      },
+      "seed": "509905ec-99f5-4c1c-b319-fbb0df37f676:8",
+      "solved": {
+        "game": 9,
+        "match": [
+          2,
+          1,
+          3,
+          5,
+          4
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 2,
+        "instruction": "Ordena los pasos para escribir una nota a la directora del colegio.",
+        "pairs": null,
+        "steps": [
+          "Identifico a quién le escribo y qué relación tengo con esa persona.",
+          "Elijo el tratamiento adecuado: usted.",
+          "Redacto la nota con los verbos conjugados para usted.",
+          "Reviso que no se haya colado ninguna forma de tú o de vos."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Primero se piensa en el destinatario, luego se elige el tratamiento, después se escribe y al final se revisa que el tratamiento sea coherente."
+      },
+      "seed": "509905ec-99f5-4c1c-b319-fbb0df37f676:9",
+      "solved": {
+        "game": 10,
+        "match": null,
+        "order": [
+          2,
+          1,
+          4,
+          3
+        ],
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 2,
+        "instruction": "Elige la forma verbal correcta para escribirle a una persona con quien usas «usted».",
+        "pairs": null,
+        "steps": null,
+        "stem": "Señora directora, ¿usted ___ firmar la nota de permiso?",
+        "options": [
+          "puedes",
+          "puede",
+          "podés",
+          "podéis"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": null,
+        "explanation": "Con «usted» el verbo va en tercera persona singular: «usted puede». «Puedes» es tuteo, «podés» es voseo y «podéis» es de vosotros."
+      },
+      "seed": "509905ec-99f5-4c1c-b319-fbb0df37f676:10",
+      "solved": {
+        "game": 11,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 2,
+        "instruction": "En esta nota formal se usa «usted», pero una frase mezcla otro tratamiento. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "Estimado señor Mora:",
+          "Le escribo para invitarlo a la feria del colegio.",
+          "Usted puede confirmar su asistencia por correo.",
+          "Si tienes dudas, puede llamarme al número de la institución.",
+          "Atentamente, Ana Rojas"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 3,
+        "correction": "Si tiene dudas, puede llamarme al número de la institución.",
+        "calc": null,
+        "explanation": "«Tienes» es tuteo. Como toda la nota usa «usted», el verbo debe ser «tiene»."
+      },
+      "seed": "509905ec-99f5-4c1c-b319-fbb0df37f676:11",
+      "solved": {
+        "game": 12,
+        "match": null,
+        "order": null,
+        "choice": 4,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    }
+  ],
+  "notes": ""
+}

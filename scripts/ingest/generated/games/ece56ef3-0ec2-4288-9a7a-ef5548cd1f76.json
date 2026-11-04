@@ -1,0 +1,321 @@
+{
+  "unitId": "ece56ef3-0ec2-4288-9a7a-ef5548cd1f76",
+  "createdAt": "2026-11-04T17:58:55.882Z",
+  "models": {
+    "games": "claude-sonnet-5-5",
+    "solve": "claude-sonnet-5-5"
+  },
+  "prompts": {
+    "games": "generate-games-system@1",
+    "solve": "solve-games-system@1"
+  },
+  "pieces": [
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 0,
+        "instruction": "Une cada término con la descripción que le corresponde.",
+        "pairs": [
+          {
+            "left": "Variable cuantitativa",
+            "right": "Se expresa con números y tiene sentido operar con ellos"
+          },
+          {
+            "left": "Variable cualitativa",
+            "right": "Expresa cualidades o categorías, como el color o el sabor"
+          },
+          {
+            "left": "Variable discreta",
+            "right": "Toma valores aislados que se obtienen al contar"
+          },
+          {
+            "left": "Variable continua",
+            "right": "Puede tomar cualquier valor dentro de un intervalo, y se obtiene al medir"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Cada término tiene una única descripción. Las discretas se cuentan y dan valores aislados. Las continuas se miden y pueden tomar cualquier valor de un intervalo. Las cualitativas son categorías, no números."
+      },
+      "seed": "ece56ef3-0ec2-4288-9a7a-ef5548cd1f76:0",
+      "solved": {
+        "game": 1,
+        "match": [
+          3,
+          4,
+          1,
+          2
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Elige la opción que completa bien la frase.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Una variable cuantitativa es continua cuando ___.",
+        "options": [
+          "solo toma valores enteros que se cuentan",
+          "expresa categorías como el color",
+          "puede tomar cualquier valor dentro de un intervalo",
+          "sus valores no se pueden ordenar"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": null,
+        "explanation": "Una variable continua puede tomar cualquier valor dentro de un intervalo, incluso decimales, porque se mide. Contar valores enteros es propio de las discretas, y las categorías son de las cualitativas."
+      },
+      "seed": "ece56ef3-0ec2-4288-9a7a-ef5548cd1f76:1",
+      "solved": {
+        "game": 2,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 0,
+        "instruction": "Una de estas afirmaciones es falsa. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "Las variables discretas y las continuas son cuantitativas.",
+          "Las variables discretas se obtienen generalmente al contar.",
+          "Entre dos valores de una variable discreta siempre existe otro valor posible.",
+          "Las variables continuas se obtienen generalmente al medir."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "Entre dos valores de una variable continua siempre existe otro valor posible; en una variable discreta los valores son aislados.",
+        "calc": null,
+        "explanation": "En una variable discreta los valores están separados. Por ejemplo, entre 2 y 3 hermanos no hay otro número posible de hermanos. Esa característica de tener siempre otro valor en medio es de las continuas."
+      },
+      "seed": "ece56ef3-0ec2-4288-9a7a-ef5548cd1f76:2",
+      "solved": {
+        "game": 3,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 1,
+        "instruction": "Elige la clasificación correcta de la variable.",
+        "pairs": null,
+        "steps": null,
+        "stem": "El tiempo que una persona tarda en llegar al colegio es una variable cuantitativa ___.",
+        "options": [
+          "cualitativa",
+          "continua",
+          "discreta",
+          "nominal"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": null,
+        "explanation": "El tiempo se mide y puede tomar valores como 12,5 minutos o 12,75 minutos, es decir, cualquier valor en un intervalo. Por eso es continua."
+      },
+      "seed": "ece56ef3-0ec2-4288-9a7a-ef5548cd1f76:3",
+      "solved": {
+        "game": 4,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": "La opción 0 (cualitativa) y la 3 (nominal) son incorrectas; solo 'continua' es correcta."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "La opción 0 (cualitativa) y la 3 (nominal) son incorrectas; solo 'continua' es correcta."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: La opción 0 (cualitativa) y la 3 (nominal) son incorrectas; solo 'continua' es correcta."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 1,
+        "instruction": "Elige la clasificación correcta de la variable.",
+        "pairs": null,
+        "steps": null,
+        "stem": "El número de estudiantes de un grupo de noveno año es una variable cuantitativa ___.",
+        "options": [
+          "discreta",
+          "continua",
+          "cualitativa",
+          "ordinal"
+        ],
+        "answer_index": 0,
+        "correction": null,
+        "calc": null,
+        "explanation": "El número de estudiantes se obtiene contando y solo puede ser un número entero: no hay 25,5 estudiantes. Por eso es discreta."
+      },
+      "seed": "ece56ef3-0ec2-4288-9a7a-ef5548cd1f76:4",
+      "solved": {
+        "game": 5,
+        "match": null,
+        "order": null,
+        "choice": 0,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 1,
+        "instruction": "Una de estas clasificaciones es incorrecta. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "Número de hermanos de una persona: discreta",
+          "Estatura de las personas de un grupo: continua",
+          "Número de páginas de un libro: continua",
+          "Tiempo que dura una carrera: continua"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "Número de páginas de un libro: discreta",
+        "calc": null,
+        "explanation": "Las páginas de un libro se cuentan y solo pueden ser números enteros, por eso la variable es discreta. La estatura y el tiempo se miden, así que son continuas."
+      },
+      "seed": "ece56ef3-0ec2-4288-9a7a-ef5548cd1f76:5",
+      "solved": {
+        "game": 6,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 1,
+        "instruction": "Ordena los pasos para clasificar una variable cuantitativa.",
+        "pairs": null,
+        "steps": [
+          "Identifica la variable que se estudia.",
+          "Verifica que sus valores sean números.",
+          "Pregúntate si se obtiene contando o midiendo.",
+          "Decide: es discreta si cuenta valores aislados, y continua si mide valores de un intervalo."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Primero se identifica la variable, luego se confirma que sea cuantitativa, después se analiza cómo se obtiene su valor y al final se decide si es discreta o continua."
+      },
+      "seed": "ece56ef3-0ec2-4288-9a7a-ef5548cd1f76:6",
+      "solved": {
+        "game": 7,
+        "match": null,
+        "order": [
+          2,
+          1,
+          4,
+          3
+        ],
+        "choice": null,
+        "problems": "Los pasos 1 y 2 podrían intercambiarse de forma defendible, pero el orden más lógico es identificar la variable y luego verificar que sus valores sean números."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "Los pasos 1 y 2 podrían intercambiarse de forma defendible, pero el orden más lógico es identificar la variable y luego verificar que sus valores sean números."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: Los pasos 1 y 2 podrían intercambiarse de forma defendible, pero el orden más lógico es identificar la variable y luego verificar que sus valores sean números."
+        ]
+      }
+    }
+  ],
+  "notes": "No se incluyó una pieza de parejas para la habilidad 1 porque las respuestas (discreta o continua) se repetirían y habría más de una unión posible."
+}

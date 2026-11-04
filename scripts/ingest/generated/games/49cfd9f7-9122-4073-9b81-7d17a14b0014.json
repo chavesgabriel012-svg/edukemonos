@@ -1,0 +1,764 @@
+{
+  "unitId": "49cfd9f7-9122-4073-9b81-7d17a14b0014",
+  "createdAt": "2026-11-04T17:53:04.936Z",
+  "models": {
+    "games": "claude-sonnet-5-5",
+    "solve": "claude-sonnet-5-5"
+  },
+  "prompts": {
+    "games": "generate-games-system@1",
+    "solve": "solve-games-system@1"
+  },
+  "pieces": [
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 0,
+        "instruction": "Une cada grupo de tres ángulos de un cuadrilátero convexo con la medida del cuarto ángulo.",
+        "pairs": [
+          {
+            "left": "80°, 100° y 120°",
+            "right": "60°"
+          },
+          {
+            "left": "90°, 90° y 90°",
+            "right": "90°"
+          },
+          {
+            "left": "70°, 110° y 100°",
+            "right": "80°"
+          },
+          {
+            "left": "50°, 150° y 60°",
+            "right": "100°"
+          },
+          {
+            "left": "85°, 95° y 105°",
+            "right": "75°"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Los cuatro ángulos internos suman 360°. Al cuarto ángulo le corresponde lo que falta para llegar a 360° después de sumar los otros tres."
+      },
+      "seed": "49cfd9f7-9122-4073-9b81-7d17a14b0014:0",
+      "solved": {
+        "game": 1,
+        "match": [
+          5,
+          4,
+          2,
+          1,
+          3
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 0,
+        "instruction": "Ordena los pasos para hallar el ángulo interno que falta en un cuadrilátero convexo.",
+        "pairs": null,
+        "steps": [
+          "Recordar que los ángulos internos de un cuadrilátero convexo suman 360°",
+          "Sumar las medidas de los tres ángulos conocidos",
+          "Restar esa suma a 360°",
+          "Escribir la respuesta con el símbolo de grados"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Primero se recuerda la propiedad, luego se suma lo que se conoce, después se resta de 360° y al final se escribe la respuesta."
+      },
+      "seed": "49cfd9f7-9122-4073-9b81-7d17a14b0014:1",
+      "solved": {
+        "game": 2,
+        "match": null,
+        "order": [
+          2,
+          1,
+          3,
+          4
+        ],
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Completa con la medida correcta del ángulo que falta.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Un cuadrilátero convexo tiene ángulos internos de 85°, 95° y 110°. El cuarto ángulo mide ___.",
+        "options": [
+          "60°",
+          "70°",
+          "80°",
+          "290°"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": "360-(85+95+110)",
+        "explanation": "85° + 95° + 110° = 290°. Como la suma total es 360°, el cuarto ángulo mide 360° − 290° = 70°. El 290° es solo la suma de los tres ángulos conocidos."
+      },
+      "seed": "49cfd9f7-9122-4073-9b81-7d17a14b0014:2",
+      "solved": {
+        "game": 3,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 0,
+        "instruction": "Encuentra el paso con error en esta resolución.",
+        "pairs": null,
+        "steps": [
+          "Los ángulos internos de un cuadrilátero convexo suman 360°",
+          "70° + 80° + 120° = 270°",
+          "x = 360° − 270° = 80°",
+          "Entonces el cuarto ángulo mide 90°"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "x = 360° − 270° = 90°",
+        "calc": null,
+        "explanation": "La resta 360° − 270° da 90°, no 80°. Por eso el paso 3 tiene el error."
+      },
+      "seed": "49cfd9f7-9122-4073-9b81-7d17a14b0014:3",
+      "solved": {
+        "game": 4,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 1,
+        "instruction": "Une cada ángulo interno con su ángulo externo (el que está junto a él sobre una recta).",
+        "pairs": [
+          {
+            "left": "Interno de 100°",
+            "right": "Externo de 80°"
+          },
+          {
+            "left": "Interno de 70°",
+            "right": "Externo de 110°"
+          },
+          {
+            "left": "Interno de 90°",
+            "right": "Externo de 90°"
+          },
+          {
+            "left": "Interno de 120°",
+            "right": "Externo de 60°"
+          },
+          {
+            "left": "Interno de 135°",
+            "right": "Externo de 45°"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Un ángulo interno y su ángulo externo forman una línea recta, así que suman 180°. El externo es 180° menos el interno."
+      },
+      "seed": "49cfd9f7-9122-4073-9b81-7d17a14b0014:4",
+      "solved": {
+        "game": 5,
+        "match": [
+          5,
+          4,
+          1,
+          2,
+          3
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 1,
+        "instruction": "Ordena los pasos para hallar el cuarto ángulo externo de un cuadrilátero convexo cuyos externos conocidos miden 80°, 100° y 90°.",
+        "pairs": null,
+        "steps": [
+          "Recordar que los ángulos externos de un cuadrilátero convexo suman 360°",
+          "Sumar los externos conocidos: 80° + 100° + 90° = 270°",
+          "Restar: 360° − 270°",
+          "Escribir que el cuarto ángulo externo mide 90°"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Se parte de la propiedad (suma 360°), se suman los datos, se resta de 360° y se da la respuesta."
+      },
+      "seed": "49cfd9f7-9122-4073-9b81-7d17a14b0014:5",
+      "solved": {
+        "game": 6,
+        "match": null,
+        "order": [
+          2,
+          1,
+          4,
+          3
+        ],
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 1,
+        "instruction": "Completa con la medida correcta del ángulo externo que falta.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Tres ángulos externos de un cuadrilátero convexo miden 85°, 105° y 95°. El cuarto ángulo externo mide ___.",
+        "options": [
+          "285°",
+          "95°",
+          "75°",
+          "105°"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": "360-(85+105+95)",
+        "explanation": "85° + 105° + 95° = 285°. Los ángulos externos suman 360°, así que el que falta mide 360° − 285° = 75°."
+      },
+      "seed": "49cfd9f7-9122-4073-9b81-7d17a14b0014:6",
+      "solved": {
+        "game": 7,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 1,
+        "instruction": "Encuentra el paso con error en esta resolución.",
+        "pairs": null,
+        "steps": [
+          "Los ángulos externos de un cuadrilátero convexo suman 180°",
+          "Tres ángulos externos miden 60°, 90° y 110°: 60° + 90° + 110° = 260°",
+          "El cuarto ángulo externo es 360° − 260° = 100°"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 0,
+        "correction": "Los ángulos externos de un cuadrilátero convexo suman 360°",
+        "calc": null,
+        "explanation": "Los ángulos externos de cualquier cuadrilátero convexo suman 360°, no 180°. Los otros pasos sí usan 360° y están bien calculados."
+      },
+      "seed": "49cfd9f7-9122-4073-9b81-7d17a14b0014:7",
+      "solved": {
+        "game": 8,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 2,
+        "instruction": "Une cada figura con su área.",
+        "pairs": [
+          {
+            "left": "Rectángulo de 6 cm por 5 cm",
+            "right": "30 cm²"
+          },
+          {
+            "left": "Cuadrado de lado 7 cm",
+            "right": "49 cm²"
+          },
+          {
+            "left": "Rombo con diagonales de 10 cm y 8 cm",
+            "right": "40 cm²"
+          },
+          {
+            "left": "Trapecio con bases de 6 cm y 4 cm y altura de 5 cm",
+            "right": "25 cm²"
+          },
+          {
+            "left": "Triángulo con base de 8 cm y altura de 5 cm",
+            "right": "20 cm²"
+          },
+          {
+            "left": "Paralelogramo con base de 9 cm y altura de 3 cm",
+            "right": "27 cm²"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Rectángulo: 6 × 5 = 30. Cuadrado: 7² = 49. Rombo: (10 × 8) ÷ 2 = 40. Trapecio: (6 + 4) × 5 ÷ 2 = 25. Triángulo: 8 × 5 ÷ 2 = 20. Paralelogramo: 9 × 3 = 27."
+      },
+      "seed": "49cfd9f7-9122-4073-9b81-7d17a14b0014:8",
+      "solved": {
+        "game": 9,
+        "match": [
+          1,
+          3,
+          5,
+          4,
+          6,
+          2
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 2,
+        "instruction": "Ordena los pasos para hallar el área de un lote con forma de trapecio.",
+        "pairs": null,
+        "steps": [
+          "Anotar las medidas de las dos bases y de la altura",
+          "Sumar las medidas de las dos bases",
+          "Multiplicar esa suma por la altura",
+          "Dividir el resultado entre 2",
+          "Escribir la respuesta en metros cuadrados (m²)"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "La fórmula del trapecio es (B + b) × h ÷ 2. Se siguen sus operaciones en ese orden y se termina con la unidad de área."
+      },
+      "seed": "49cfd9f7-9122-4073-9b81-7d17a14b0014:9",
+      "solved": {
+        "game": 10,
+        "match": null,
+        "order": [
+          4,
+          1,
+          2,
+          3,
+          5
+        ],
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 2,
+        "instruction": "Resuelve el problema y completa.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Los ángulos internos de un cuadrilátero convexo miden x, x + 20°, x + 40° y x + 60°. Entonces x = ___.",
+        "options": [
+          "50°",
+          "70°",
+          "80°",
+          "60°"
+        ],
+        "answer_index": 3,
+        "correction": null,
+        "calc": "(360-120)/4",
+        "explanation": "La suma es 4x + 120° = 360°. Entonces 4x = 240° y x = 60°. Los ángulos miden 60°, 80°, 100° y 120°, que suman 360°."
+      },
+      "seed": "49cfd9f7-9122-4073-9b81-7d17a14b0014:10",
+      "solved": {
+        "game": 11,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 2,
+        "instruction": "Encuentra el paso con error al calcular el área de un trapecio con bases de 9 cm y 5 cm y altura de 4 cm.",
+        "pairs": null,
+        "steps": [
+          "Fórmula: A = (B + b) × h ÷ 2",
+          "B + b = 9 + 5 = 15",
+          "15 × 4 = 60",
+          "60 ÷ 2 = 30 cm²"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 1,
+        "correction": "B + b = 9 + 5 = 14, y luego 14 × 4 = 56 y 56 ÷ 2 = 28 cm²",
+        "calc": null,
+        "explanation": "9 + 5 es 14, no 15. Con ese valor el área correcta es 28 cm²."
+      },
+      "seed": "49cfd9f7-9122-4073-9b81-7d17a14b0014:11",
+      "solved": {
+        "game": 12,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 3,
+        "instruction": "Une cada herramienta de un programa de geometría dinámica (como GeoGebra) con lo que sirve para hacer.",
+        "pairs": [
+          {
+            "left": "Polígono",
+            "right": "Construir un cuadrilátero uniendo sus vértices"
+          },
+          {
+            "left": "Ángulo",
+            "right": "Medir un ángulo de la figura"
+          },
+          {
+            "left": "Área",
+            "right": "Calcular cuánta superficie cubre la figura"
+          },
+          {
+            "left": "Mover",
+            "right": "Arrastrar un vértice para cambiar la figura"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Cada herramienta tiene un uso: Polígono construye, Ángulo mide ángulos, Área calcula la superficie y Mover permite arrastrar vértices para comprobar propiedades."
+      },
+      "seed": "49cfd9f7-9122-4073-9b81-7d17a14b0014:12",
+      "solved": {
+        "game": 13,
+        "match": [
+          4,
+          1,
+          2,
+          3
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 3,
+        "instruction": "Ordena los pasos para verificar con un programa de geometría dinámica que los ángulos internos de un cuadrilátero suman 360°.",
+        "pairs": null,
+        "steps": [
+          "Construir un cuadrilátero convexo con la herramienta Polígono",
+          "Medir sus cuatro ángulos internos con la herramienta Ángulo",
+          "Sumar las cuatro medidas",
+          "Mover un vértice y observar que la suma sigue siendo 360°"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Primero hay que tener la figura, luego medir, después sumar y por último mover un vértice para ver que la propiedad se cumple en otros cuadriláteros."
+      },
+      "seed": "49cfd9f7-9122-4073-9b81-7d17a14b0014:13",
+      "solved": {
+        "game": 14,
+        "match": null,
+        "order": [
+          1,
+          4,
+          2,
+          3
+        ],
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 3,
+        "instruction": "Completa la conclusión de la verificación.",
+        "pairs": null,
+        "steps": null,
+        "stem": "En un programa de geometría dinámica arrastras un vértice de un cuadrilátero, que sigue siendo convexo. La suma de sus ángulos internos ___.",
+        "options": [
+          "se mantiene en 360°",
+          "aumenta",
+          "disminuye",
+          "cambia a 180°"
+        ],
+        "answer_index": 0,
+        "correction": null,
+        "calc": null,
+        "explanation": "Aunque los ángulos cambien al mover el vértice, la suma de los ángulos internos de un cuadrilátero convexo siempre es 360°."
+      },
+      "seed": "49cfd9f7-9122-4073-9b81-7d17a14b0014:14",
+      "solved": {
+        "game": 15,
+        "match": null,
+        "order": null,
+        "choice": 0,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 3,
+        "instruction": "Encuentra la frase con error en esta verificación hecha con un programa de geometría dinámica.",
+        "pairs": null,
+        "steps": [
+          "Construyo un cuadrilátero convexo ABCD con la herramienta Polígono.",
+          "Mido sus cuatro ángulos internos con la herramienta Ángulo.",
+          "Sumo las medidas y obtengo 360°.",
+          "Arrastro un vértice, la figura sigue convexa y la suma cambia a 400°, así que la propiedad no siempre se cumple."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 3,
+        "correction": "Arrastro un vértice, la figura sigue convexa y la suma sigue siendo 360°, así que la propiedad se cumple.",
+        "calc": null,
+        "explanation": "En cualquier cuadrilátero convexo la suma de los ángulos internos es 360°. Si el programa mostrara otro valor, habría una medición mal hecha."
+      },
+      "seed": "49cfd9f7-9122-4073-9b81-7d17a14b0014:15",
+      "solved": {
+        "game": 16,
+        "match": null,
+        "order": null,
+        "choice": 4,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    }
+  ],
+  "notes": "Las piezas de la habilidad 3 suponen un programa como GeoGebra, con herramientas llamadas Polígono, Ángulo, Área y Mover. Los nombres pueden variar un poco según la versión."
+}

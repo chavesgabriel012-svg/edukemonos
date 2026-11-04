@@ -1,0 +1,386 @@
+{
+  "unitId": "1247bc55-97c0-42ca-9930-2460330f2e1f",
+  "createdAt": "2026-11-04T17:46:11.908Z",
+  "models": {
+    "games": "claude-sonnet-5-5",
+    "solve": "claude-sonnet-5-5"
+  },
+  "prompts": {
+    "games": "generate-games-system@1",
+    "solve": "solve-games-system@1"
+  },
+  "pieces": [
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 0,
+        "instruction": "Une cada fase de análisis de la tira cómica con lo que haces en ella.",
+        "pairs": [
+          {
+            "left": "Fase natural",
+            "right": "Compartes tu primera impresión y lo que sentiste al leer"
+          },
+          {
+            "left": "Fase de ubicación",
+            "right": "Reconoces el autor, la época, el tema y el contexto de la tira"
+          },
+          {
+            "left": "Fase analística",
+            "right": "Examinas viñetas, globos, onomatopeyas, personajes y colores"
+          },
+          {
+            "left": "Fase explicativa e interpretativa",
+            "right": "Explicas los sentidos del mensaje y das una opinión con argumentos"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Cada fase tiene una tarea propia: primero reaccionas, luego ubicas la tira, después analizas sus elementos y al final explicas e interpretas sus sentidos."
+      },
+      "seed": "1247bc55-97c0-42ca-9930-2460330f2e1f:0",
+      "solved": {
+        "game": 1,
+        "match": [
+          2,
+          4,
+          3,
+          1
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 0,
+        "instruction": "Ordena las cuatro fases para analizar una tira cómica.",
+        "pairs": null,
+        "steps": [
+          "Fase natural: comparto mi primera impresión",
+          "Fase de ubicación: reconozco autor, tema y contexto",
+          "Fase analística: examino los elementos de la tira",
+          "Fase explicativa e interpretativa: explico sus sentidos"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "El análisis va de lo más sencillo a lo más profundo: reacción personal, ubicación, análisis de los elementos y, por último, explicación e interpretación."
+      },
+      "seed": "1247bc55-97c0-42ca-9930-2460330f2e1f:1",
+      "solved": {
+        "game": 2,
+        "match": null,
+        "order": [
+          3,
+          1,
+          2,
+          4
+        ],
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Elige la fase que completa la oración.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Cuando identificas quién creó la tira, en qué época se hizo y de qué tema trata, estás en la fase ___.",
+        "options": [
+          "natural",
+          "de ubicación",
+          "analística",
+          "explicativa e interpretativa"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": null,
+        "explanation": "Reconocer autor, época, tema y contexto corresponde a la fase de ubicación."
+      },
+      "seed": "1247bc55-97c0-42ca-9930-2460330f2e1f:2",
+      "solved": {
+        "game": 3,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 0,
+        "instruction": "Una de estas descripciones de las fases es incorrecta. Encuentra cuál es.",
+        "pairs": null,
+        "steps": [
+          "Fase natural: comparto qué sentí y qué entendí en mi primera lectura.",
+          "Fase de ubicación: reconozco quién la creó, cuándo y sobre qué trata.",
+          "Fase analística: me limito a decir si me gustó o no, sin mirar los elementos.",
+          "Fase explicativa e interpretativa: explico los sentidos del mensaje y los justifico."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "Fase analística: examino los elementos de la tira, como viñetas, globos, onomatopeyas y personajes.",
+        "calc": null,
+        "explanation": "Decir si te gustó o no pertenece a la primera impresión. La fase analística exige observar y examinar los elementos de la tira."
+      },
+      "seed": "1247bc55-97c0-42ca-9930-2460330f2e1f:3",
+      "solved": {
+        "game": 4,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 1,
+        "instruction": "Une cada verbo en infinitivo con su participio correcto.",
+        "pairs": [
+          {
+            "left": "abrir",
+            "right": "abierto"
+          },
+          {
+            "left": "escribir",
+            "right": "escrito"
+          },
+          {
+            "left": "ver",
+            "right": "visto"
+          },
+          {
+            "left": "poner",
+            "right": "puesto"
+          },
+          {
+            "left": "volver",
+            "right": "vuelto"
+          },
+          {
+            "left": "decir",
+            "right": "dicho"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Estos verbos tienen participio irregular, que no termina en -ado ni -ido. Por eso no se dice «abrido» ni «escribido»."
+      },
+      "seed": "1247bc55-97c0-42ca-9930-2460330f2e1f:4",
+      "solved": {
+        "game": 5,
+        "match": [
+          5,
+          1,
+          2,
+          4,
+          6,
+          3
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 1,
+        "instruction": "Elige la forma correcta para completar el diálogo de la tira.",
+        "pairs": null,
+        "steps": null,
+        "stem": "—¿Ya terminaste la tira? —Sí, ya he ___ todos los dibujos.",
+        "options": [
+          "hacido",
+          "hado",
+          "hecho",
+          "haciendo"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": null,
+        "explanation": "El participio del verbo hacer es «hecho». Con «he» se forma el pretérito perfecto: «he hecho»."
+      },
+      "seed": "1247bc55-97c0-42ca-9930-2460330f2e1f:5",
+      "solved": {
+        "game": 6,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 1,
+        "instruction": "Elige la forma correcta del gerundio.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Ayer, mientras estaba ___ la tira cómica, me reí mucho.",
+        "options": [
+          "leyendo",
+          "leiendo",
+          "leendo",
+          "leyando"
+        ],
+        "answer_index": 0,
+        "correction": null,
+        "calc": null,
+        "explanation": "El gerundio de leer es «leyendo». Los verbos en -er cuya raíz termina en vocal cambian la i por y."
+      },
+      "seed": "1247bc55-97c0-42ca-9930-2460330f2e1f:6",
+      "solved": {
+        "game": 7,
+        "match": null,
+        "order": null,
+        "choice": 0,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 1,
+        "instruction": "Una de estas frases usa mal el gerundio o el participio. Encuentra cuál es.",
+        "pairs": null,
+        "steps": [
+          "Estoy dibujando la última viñeta.",
+          "Hemos escrito los diálogos en los globos.",
+          "Adjunto una hoja conteniendo los dibujos.",
+          "Caminando hacia el colegio, se me ocurrió el chiste."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "Adjunto una hoja que contiene los dibujos.",
+        "calc": null,
+        "explanation": "El gerundio no debe usarse para describir o calificar un sustantivo, como «hoja conteniendo». Se usa una oración con «que»: «que contiene»."
+      },
+      "seed": "1247bc55-97c0-42ca-9930-2460330f2e1f:7",
+      "solved": {
+        "game": 8,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": "El error es el paso 3: 'conteniendo' como gerundio con valor de adjetivo (gerundio de posterioridad), incorrecto. Además el paso 4 está bien. El número 3 es el único con error."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "El error es el paso 3: 'conteniendo' como gerundio con valor de adjetivo (gerundio de posterioridad), incorrecto. Además el paso 4 está bien. El número 3 es el único con error."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: El error es el paso 3: 'conteniendo' como gerundio con valor de adjetivo (gerundio de posterioridad), incorrecto. Además el paso 4 está bien. El número 3 es el único con error."
+        ]
+      }
+    }
+  ],
+  "notes": "El programa no detalla contenidos; las descripciones de las cuatro fases se redactaron de forma general."
+}

@@ -1,0 +1,721 @@
+{
+  "unitId": "e62bfca6-587f-4222-9e28-d50df4c9c63d",
+  "createdAt": "2026-11-04T17:55:59.887Z",
+  "models": {
+    "games": "claude-sonnet-5-5",
+    "solve": "claude-sonnet-5-5"
+  },
+  "prompts": {
+    "games": "generate-games-system@1",
+    "solve": "solve-games-system@1"
+  },
+  "pieces": [
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 0,
+        "instruction": "Une cada frase con su expresión algebraica.",
+        "pairs": [
+          {
+            "left": "El doble de un número",
+            "right": "2x"
+          },
+          {
+            "left": "Un número aumentado en 5",
+            "right": "x + 5"
+          },
+          {
+            "left": "El cuadrado de un número",
+            "right": "x²"
+          },
+          {
+            "left": "La mitad de un número",
+            "right": "x/2"
+          },
+          {
+            "left": "Cinco menos que un número",
+            "right": "x − 5"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "En una expresión algebraica la letra representa un número desconocido. Cada frase se traduce con una operación sobre esa letra: doble es 2x, aumentado en 5 es x + 5, cuadrado es x², mitad es x/2 y cinco menos que es x − 5."
+      },
+      "seed": "e62bfca6-587f-4222-9e28-d50df4c9c63d:0",
+      "solved": {
+        "game": 1,
+        "match": [
+          3,
+          4,
+          1,
+          5,
+          2
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Elige la palabra que completa el enunciado.",
+        "pairs": null,
+        "steps": null,
+        "stem": "En una expresión algebraica, la letra que representa un número desconocido se llama ___.",
+        "options": [
+          "constante",
+          "variable",
+          "exponente",
+          "igualdad"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": null,
+        "explanation": "Una variable es un símbolo o letra que se usa para representar un número desconocido. La constante es un número fijo, el exponente indica cuántas veces se multiplica la base y la igualdad es otra cosa.}"
+      },
+      "seed": "e62bfca6-587f-4222-9e28-d50df4c9c63d:1",
+      "solved": {
+        "game": 2,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 1,
+        "instruction": "Aplica la ley de potencias y completa el exponente.",
+        "pairs": null,
+        "steps": null,
+        "stem": "x³ · x⁴ = x^___",
+        "options": [
+          "12",
+          "1",
+          "7",
+          "6"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": "3+4",
+        "explanation": "Al multiplicar potencias de la misma base se suman los exponentes: 3 + 4 = 7. Por eso x³ · x⁴ = x⁷."
+      },
+      "seed": "e62bfca6-587f-4222-9e28-d50df4c9c63d:2",
+      "solved": {
+        "game": 3,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 1,
+        "instruction": "Una de estas simplificaciones tiene un error. Encuéntralo.",
+        "pairs": null,
+        "steps": [
+          "x² · x⁵ = x⁷",
+          "(x³)² = x⁶",
+          "x⁸ ÷ x² = x⁴",
+          "(2x)³ = 8x³"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "x⁸ ÷ x² = x⁶",
+        "calc": null,
+        "explanation": "Al dividir potencias de la misma base se restan los exponentes: 8 − 2 = 6, no 4. Los otros pasos están bien."
+      },
+      "seed": "e62bfca6-587f-4222-9e28-d50df4c9c63d:3",
+      "solved": {
+        "game": 4,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 2,
+        "instruction": "Sustituye el valor de la variable y calcula.",
+        "pairs": null,
+        "steps": null,
+        "stem": "El valor numérico de 2x² − 1 cuando x = 3 es ___.",
+        "options": [
+          "35",
+          "5",
+          "11",
+          "17"
+        ],
+        "answer_index": 3,
+        "correction": null,
+        "calc": "2*3^2-1",
+        "explanation": "Se sustituye x por 3: 2 × 3² − 1. Primero la potencia, 3² = 9. Luego 2 × 9 = 18 y 18 − 1 = 17."
+      },
+      "seed": "e62bfca6-587f-4222-9e28-d50df4c9c63d:4",
+      "solved": {
+        "game": 5,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 2,
+        "instruction": "Ordena los pasos para hallar el valor numérico de 2x + 3 cuando x = 5.",
+        "pairs": null,
+        "steps": [
+          "Escribir la expresión: 2x + 3",
+          "Sustituir x por 5: 2(5) + 3",
+          "Multiplicar: 10 + 3",
+          "Sumar: 13"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Primero se escribe la expresión y se sustituye la variable por su valor. Después se hacen las operaciones en orden: multiplicación y luego suma. El resultado es 13."
+      },
+      "seed": "e62bfca6-587f-4222-9e28-d50df4c9c63d:5",
+      "solved": {
+        "game": 6,
+        "match": null,
+        "order": [
+          2,
+          3,
+          4,
+          1
+        ],
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 3,
+        "instruction": "Une cada monomio con su monomio semejante.",
+        "pairs": [
+          {
+            "left": "5a",
+            "right": "−2a"
+          },
+          {
+            "left": "2a²b",
+            "right": "8ba²"
+          },
+          {
+            "left": "3ab²",
+            "right": "−ab²"
+          },
+          {
+            "left": "6xy",
+            "right": "10yx"
+          },
+          {
+            "left": "4x²",
+            "right": "−x²"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Dos monomios son semejantes si tienen el mismo factor literal, es decir, las mismas letras con los mismos exponentes. Solo cambia el factor numérico. El orden de las letras no importa."
+      },
+      "seed": "e62bfca6-587f-4222-9e28-d50df4c9c63d:6",
+      "solved": {
+        "game": 7,
+        "match": [
+          2,
+          4,
+          5,
+          1,
+          3
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 3,
+        "instruction": "Elige el monomio semejante.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Un monomio semejante a 7x²y es ___.",
+        "options": [
+          "3xy²",
+          "−2x²y",
+          "7x²",
+          "7xy"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": null,
+        "explanation": "El factor literal de 7x²y es x²y. Solo −2x²y tiene x² e y con los mismos exponentes. En 3xy² los exponentes están intercambiados, y los otros tienen letras o exponentes distintos."
+      },
+      "seed": "e62bfca6-587f-4222-9e28-d50df4c9c63d:7",
+      "solved": {
+        "game": 8,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 4,
+        "instruction": "Divide los monomios y elige el resultado.",
+        "pairs": null,
+        "steps": null,
+        "stem": "(12x⁵) ÷ (3x²) = ___",
+        "options": [
+          "4x³",
+          "4x⁷",
+          "9x³",
+          "4x¹⁰"
+        ],
+        "answer_index": 0,
+        "correction": null,
+        "calc": null,
+        "explanation": "Se dividen los factores numéricos: 12 ÷ 3 = 4. Se restan los exponentes de la misma base: 5 − 2 = 3. El resultado es 4x³."
+      },
+      "seed": "e62bfca6-587f-4222-9e28-d50df4c9c63d:8",
+      "solved": {
+        "game": 9,
+        "match": null,
+        "order": null,
+        "choice": 0,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 4,
+        "instruction": "Una de estas operaciones con monomios tiene un error. Encuéntralo.",
+        "pairs": null,
+        "steps": [
+          "3x + 5x = 8x",
+          "9a − 4a = 5a",
+          "(2b)(3b²) = 6b³",
+          "(4x²)(2x³) = 8x⁶"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 3,
+        "correction": "(4x²)(2x³) = 8x⁵",
+        "calc": null,
+        "explanation": "Al multiplicar monomios se multiplican los factores numéricos (4 × 2 = 8) y se suman los exponentes de la misma base (2 + 3 = 5). Por eso es 8x⁵, no 8x⁶."
+      },
+      "seed": "e62bfca6-587f-4222-9e28-d50df4c9c63d:9",
+      "solved": {
+        "game": 10,
+        "match": null,
+        "order": null,
+        "choice": 4,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 5,
+        "instruction": "Une cada expresión con su clasificación.",
+        "pairs": [
+          {
+            "left": "3x²y",
+            "right": "Monomio"
+          },
+          {
+            "left": "2a − 5b",
+            "right": "Binomio"
+          },
+          {
+            "left": "x² + 4x − 1",
+            "right": "Trinomio"
+          },
+          {
+            "left": "x³ − x² + x − 1",
+            "right": "Polinomio de más de tres términos"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Se cuentan los términos separados por + o −: uno es monomio, dos es binomio, tres es trinomio y más de tres es un polinomio de más de tres términos."
+      },
+      "seed": "e62bfca6-587f-4222-9e28-d50df4c9c63d:10",
+      "solved": {
+        "game": 11,
+        "match": [
+          4,
+          1,
+          2,
+          3
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 5,
+        "instruction": "Cuenta los términos y elige la clasificación.",
+        "pairs": null,
+        "steps": null,
+        "stem": "La expresión 4x² − 3x + 7 − x³ es un ___.",
+        "options": [
+          "monomio",
+          "binomio",
+          "trinomio",
+          "polinomio de más de tres términos"
+        ],
+        "answer_index": 3,
+        "correction": null,
+        "calc": null,
+        "explanation": "La expresión tiene cuatro términos: 4x², −3x, 7 y −x³. Con más de tres términos se clasifica como polinomio de más de tres términos."
+      },
+      "seed": "e62bfca6-587f-4222-9e28-d50df4c9c63d:11",
+      "solved": {
+        "game": 12,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 6,
+        "instruction": "Suma los polinomios y reduce términos semejantes.",
+        "pairs": null,
+        "steps": null,
+        "stem": "(2x + 3) + (x − 5) = ___",
+        "options": [
+          "3x + 2",
+          "x − 2",
+          "3x − 2",
+          "3x − 8"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": null,
+        "explanation": "Se suman los términos con x: 2x + x = 3x. Se suman las constantes: 3 + (−5) = −2. El resultado es 3x − 2."
+      },
+      "seed": "e62bfca6-587f-4222-9e28-d50df4c9c63d:12",
+      "solved": {
+        "game": 13,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 6,
+        "instruction": "Una de las líneas de esta resta de polinomios tiene un error. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "(3x² + 2x) − (x² − 5x) = 3x² + 2x − x² + 5x",
+          "3x² − x² = 2x²",
+          "2x + 5x = 7x",
+          "Resultado: 2x² − 3x"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 3,
+        "correction": "Resultado: 2x² + 7x",
+        "calc": null,
+        "explanation": "Los cálculos de los pasos anteriores dan 2x² y 7x. Al juntarlos el resultado es 2x² + 7x, no 2x² − 3x."
+      },
+      "seed": "e62bfca6-587f-4222-9e28-d50df4c9c63d:13",
+      "solved": {
+        "game": 14,
+        "match": null,
+        "order": null,
+        "choice": 4,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 7,
+        "instruction": "Usa el cuadrado de un binomio y completa.",
+        "pairs": null,
+        "steps": null,
+        "stem": "(m − 4)² = m² − 8m + ___",
+        "options": [
+          "16",
+          "−16",
+          "8",
+          "4"
+        ],
+        "answer_index": 0,
+        "correction": null,
+        "calc": "4^2",
+        "explanation": "En (a − b)² = a² − 2ab + b², el último término es el cuadrado del segundo término: 4² = 16. Siempre es positivo."
+      },
+      "seed": "e62bfca6-587f-4222-9e28-d50df4c9c63d:14",
+      "solved": {
+        "game": 15,
+        "match": null,
+        "order": null,
+        "choice": 0,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 7,
+        "instruction": "Uno de estos desarrollos de productos notables tiene un error. Encuéntralo.",
+        "pairs": null,
+        "steps": [
+          "(a + 2)² = a² + 4a + 4",
+          "(x − 3)² = x² − 6x + 9",
+          "(m + 5)(m − 5) = m² − 25",
+          "(y + 1)² = y² + 1"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 3,
+        "correction": "(y + 1)² = y² + 2y + 1",
+        "calc": null,
+        "explanation": "El cuadrado de un binomio tiene tres términos: el cuadrado del primero, el doble producto de ambos y el cuadrado del segundo. Faltó el término 2y."
+      },
+      "seed": "e62bfca6-587f-4222-9e28-d50df4c9c63d:15",
+      "solved": {
+        "game": 16,
+        "match": null,
+        "order": null,
+        "choice": 4,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    }
+  ],
+  "notes": ""
+}

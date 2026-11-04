@@ -1,0 +1,767 @@
+{
+  "unitId": "5362ee57-4af1-4559-b8ee-d445a4c5a110",
+  "createdAt": "2026-11-04T17:56:24.606Z",
+  "models": {
+    "games": "claude-sonnet-5-5",
+    "solve": "claude-sonnet-5-5"
+  },
+  "prompts": {
+    "games": "generate-games-system@1",
+    "solve": "solve-games-system@1"
+  },
+  "pieces": [
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 0,
+        "instruction": "Une cada término con su descripción.",
+        "pairs": [
+          {
+            "left": "Experimentación",
+            "right": "Repetir una acción y anotar lo que sucede"
+          },
+          {
+            "left": "Interrogación",
+            "right": "Hacer preguntas a las personas para obtener datos"
+          },
+          {
+            "left": "Dato",
+            "right": "Información recogida, como un número o una categoría"
+          },
+          {
+            "left": "Tabla de conteo",
+            "right": "Registro con marcas para contar cada resultado"
+          },
+          {
+            "left": "Pregunta cerrada",
+            "right": "Pregunta con opciones de respuesta ya definidas"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Cada término tiene una sola descripción: la experimentación repite una acción, la interrogación pregunta a personas, el dato es la información, la tabla de conteo cuenta con marcas y la pregunta cerrada ofrece opciones."
+      },
+      "seed": "5362ee57-4af1-4559-b8ee-d445a4c5a110:0",
+      "solved": {
+        "game": 1,
+        "match": [
+          5,
+          2,
+          3,
+          4,
+          1
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 0,
+        "instruction": "Ordena los pasos para recolectar datos mediante una encuesta en tu grupo.",
+        "pairs": null,
+        "steps": [
+          "Definir qué se quiere saber, por ejemplo, el deporte favorito",
+          "Escribir la pregunta con sus opciones de respuesta",
+          "Preguntar a cada persona y anotar su respuesta",
+          "Contar las respuestas con marcas en una tabla"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Primero se decide qué averiguar, luego se redacta la pregunta, después se pregunta a las personas y al final se cuentan las respuestas."
+      },
+      "seed": "5362ee57-4af1-4559-b8ee-d445a4c5a110:1",
+      "solved": {
+        "game": 2,
+        "match": null,
+        "order": [
+          1,
+          4,
+          2,
+          3
+        ],
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Elige la opción que completa el enunciado.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Lanzar un dado 40 veces y anotar la cara que sale cada vez es recolectar datos por ___.",
+        "options": [
+          "interrogación",
+          "experimentación",
+          "copia de datos",
+          "estimación"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": null,
+        "explanation": "En la experimentación se repite una acción, como lanzar un dado, y se anotan los resultados. En la interrogación se hacen preguntas a personas."
+      },
+      "seed": "5362ee57-4af1-4559-b8ee-d445a4c5a110:2",
+      "solved": {
+        "game": 3,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 0,
+        "instruction": "Encuentra la frase que tiene un error.",
+        "pairs": null,
+        "steps": [
+          "Para saber cuántos hermanos tiene cada estudiante del grupo, se puede usar la interrogación.",
+          "Lanzar una moneda 30 veces y anotar si sale cara o sello es experimentación.",
+          "Contar cuántas veces sale cada cara de un dado al lanzarlo se hace por interrogación.",
+          "En una encuesta, las respuestas de cada persona se anotan en una tabla de conteo."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "Contar cuántas veces sale cada cara de un dado al lanzarlo se hace por experimentación.",
+        "calc": null,
+        "explanation": "Lanzar un dado es repetir una acción y anotar resultados, es decir, experimentación. No se le pregunta nada a ninguna persona."
+      },
+      "seed": "5362ee57-4af1-4559-b8ee-d445a4c5a110:3",
+      "solved": {
+        "game": 4,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 1,
+        "instruction": "Une cada representación con su uso.",
+        "pairs": [
+          {
+            "left": "Gráfico de barras",
+            "right": "Compara las frecuencias de varias categorías"
+          },
+          {
+            "left": "Gráfico circular",
+            "right": "Muestra las partes de un total en porcentajes"
+          },
+          {
+            "left": "Gráfico lineal",
+            "right": "Muestra cómo cambian los datos a lo largo del tiempo"
+          },
+          {
+            "left": "Diagrama de puntos",
+            "right": "Coloca un punto por cada dato sobre una recta numérica"
+          },
+          {
+            "left": "Cuadro de frecuencia porcentual",
+            "right": "Tabla que indica qué porcentaje del total es cada categoría"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Cada representación sirve para algo distinto: las barras comparan, el círculo muestra partes del total, la línea muestra cambios en el tiempo, los puntos ubican cada dato y el cuadro porcentual da los porcentajes."
+      },
+      "seed": "5362ee57-4af1-4559-b8ee-d445a4c5a110:4",
+      "solved": {
+        "game": 5,
+        "match": [
+          2,
+          4,
+          5,
+          1,
+          3
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 1,
+        "instruction": "Ordena los pasos para construir un cuadro de frecuencias con porcentajes.",
+        "pairs": null,
+        "steps": [
+          "Recoger los datos",
+          "Contar cuántas veces aparece cada valor (frecuencia absoluta)",
+          "Sumar las frecuencias para obtener el total",
+          "Dividir cada frecuencia entre el total y multiplicar por 100"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Para calcular los porcentajes se necesitan las frecuencias absolutas y el total, así que esos pasos van antes de dividir y multiplicar por 100."
+      },
+      "seed": "5362ee57-4af1-4559-b8ee-d445a4c5a110:5",
+      "solved": {
+        "game": 6,
+        "match": null,
+        "order": [
+          3,
+          1,
+          2,
+          4
+        ],
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 1,
+        "instruction": "Elige la opción correcta.",
+        "pairs": null,
+        "steps": null,
+        "stem": "En un grupo de 40 estudiantes, 10 prefieren el fútbol. Su frecuencia porcentual es ___ %.",
+        "options": [
+          "4",
+          "10",
+          "25",
+          "40"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": "10 / 40 * 100",
+        "explanation": "Se divide la frecuencia absoluta entre el total y se multiplica por 100: 10 ÷ 40 × 100 = 25 %."
+      },
+      "seed": "5362ee57-4af1-4559-b8ee-d445a4c5a110:6",
+      "solved": {
+        "game": 7,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 1,
+        "instruction": "Encuentra el paso con error en este cuadro de frecuencias.",
+        "pairs": null,
+        "steps": [
+          "12 + 8 + 20 = 40",
+          "12 ÷ 40 × 100 = 30",
+          "8 ÷ 40 × 100 = 20",
+          "20 ÷ 40 × 100 = 40",
+          "Los porcentajes de un cuadro completo deben sumar 100 %"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 3,
+        "correction": "20 ÷ 40 × 100 = 50",
+        "calc": null,
+        "explanation": "20 ÷ 40 = 0,5 y 0,5 × 100 = 50. Así, 30 + 20 + 50 = 100 %."
+      },
+      "seed": "5362ee57-4af1-4559-b8ee-d445a4c5a110:7",
+      "solved": {
+        "game": 8,
+        "match": null,
+        "order": null,
+        "choice": 4,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 2,
+        "instruction": "Une cada elemento de la hoja de cálculo con lo que hace.",
+        "pairs": [
+          {
+            "left": "=SUMA(B2:B6)",
+            "right": "Suma los valores de las celdas de B2 a B6"
+          },
+          {
+            "left": "=PROMEDIO(B2:B6)",
+            "right": "Calcula la media aritmética de los valores"
+          },
+          {
+            "left": "=MAX(B2:B6)",
+            "right": "Da el mayor valor del rango"
+          },
+          {
+            "left": "=MIN(B2:B6)",
+            "right": "Da el menor valor del rango"
+          },
+          {
+            "left": "Celda",
+            "right": "Cruce de una fila con una columna, donde se escribe un dato"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Cada función hace un cálculo distinto: SUMA suma, PROMEDIO da la media, MAX el mayor y MIN el menor. La celda es el espacio donde se escribe un dato."
+      },
+      "seed": "5362ee57-4af1-4559-b8ee-d445a4c5a110:8",
+      "solved": {
+        "game": 9,
+        "match": [
+          4,
+          1,
+          2,
+          3,
+          5
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 2,
+        "instruction": "Ordena los pasos para hacer un gráfico de barras en una hoja de cálculo.",
+        "pairs": null,
+        "steps": [
+          "Escribir las categorías en una columna y sus frecuencias en otra",
+          "Seleccionar las celdas con los datos",
+          "Insertar un gráfico de barras desde el menú Insertar",
+          "Agregar el título y los nombres de los ejes"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Primero se escriben los datos, luego se seleccionan, después se inserta el gráfico y al final se le agregan el título y los rótulos."
+      },
+      "seed": "5362ee57-4af1-4559-b8ee-d445a4c5a110:9",
+      "solved": {
+        "game": 10,
+        "match": null,
+        "order": [
+          2,
+          3,
+          1,
+          4
+        ],
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 2,
+        "instruction": "Elige la fórmula correcta.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Para sumar en una hoja de cálculo los valores de las celdas B2 hasta B6 se escribe ___.",
+        "options": [
+          "=SUMA(B2+B6)",
+          "SUMA(B2:B6)",
+          "=MAX(B2:B6)",
+          "=SUMA(B2:B6)"
+        ],
+        "answer_index": 3,
+        "correction": null,
+        "calc": null,
+        "explanation": "La fórmula empieza con el signo =, y el rango B2:B6 incluye todas las celdas desde B2 hasta B6. B2+B6 sumaría solo dos celdas."
+      },
+      "seed": "5362ee57-4af1-4559-b8ee-d445a4c5a110:10",
+      "solved": {
+        "game": 11,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 2,
+        "instruction": "Encuentra el paso con error al trabajar en una hoja de cálculo.",
+        "pairs": null,
+        "steps": [
+          "En B6 se escribe =SUMA(B2:B5) para obtener el total de las frecuencias.",
+          "En C2 se calcula el porcentaje con =B2/B6*100.",
+          "Para un gráfico circular se seleccionan las categorías y sus frecuencias.",
+          "Para obtener el valor máximo del rango B2:B5 se escribe =MIN(B2:B5)."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 3,
+        "correction": "Para obtener el valor máximo del rango B2:B5 se escribe =MAX(B2:B5).",
+        "calc": null,
+        "explanation": "MIN da el menor valor del rango. Para el mayor valor se usa MAX."
+      },
+      "seed": "5362ee57-4af1-4559-b8ee-d445a4c5a110:11",
+      "solved": {
+        "game": 12,
+        "match": null,
+        "order": null,
+        "choice": 4,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 3,
+        "instruction": "Une cada medida estadística con su significado.",
+        "pairs": [
+          {
+            "left": "Moda",
+            "right": "Dato que más se repite"
+          },
+          {
+            "left": "Media aritmética",
+            "right": "Suma de los datos dividida entre la cantidad de datos"
+          },
+          {
+            "left": "Máximo",
+            "right": "Dato de mayor valor"
+          },
+          {
+            "left": "Mínimo",
+            "right": "Dato de menor valor"
+          },
+          {
+            "left": "Recorrido",
+            "right": "Diferencia entre el máximo y el mínimo"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Cada medida resume los datos de una forma distinta: la moda es el dato más repetido, la media es el promedio, el máximo y el mínimo son los extremos y el recorrido es su diferencia."
+      },
+      "seed": "5362ee57-4af1-4559-b8ee-d445a4c5a110:12",
+      "solved": {
+        "game": 13,
+        "match": [
+          5,
+          2,
+          3,
+          4,
+          1
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 3,
+        "instruction": "Ordena los pasos para calcular la media aritmética de un grupo de datos.",
+        "pairs": null,
+        "steps": [
+          "Sumar todos los datos",
+          "Contar cuántos datos hay",
+          "Dividir la suma entre la cantidad de datos",
+          "Escribir el resultado con su unidad"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Se necesitan la suma y la cantidad de datos antes de dividir. El resultado se escribe al final."
+      },
+      "seed": "5362ee57-4af1-4559-b8ee-d445a4c5a110:13",
+      "solved": {
+        "game": 14,
+        "match": null,
+        "order": [
+          3,
+          4,
+          1,
+          2
+        ],
+        "choice": null,
+        "problems": "Ambigüedad: los pasos 'Sumar todos los datos' y 'Contar cuántos datos hay' pueden hacerse en cualquier orden entre sí ([4,3,1,2] también es válido)."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "Ambigüedad: los pasos 'Sumar todos los datos' y 'Contar cuántos datos hay' pueden hacerse en cualquier orden entre sí ([4,3,1,2] también es válido)."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: Ambigüedad: los pasos 'Sumar todos los datos' y 'Contar cuántos datos hay' pueden hacerse en cualquier orden entre sí ([4,3,1,2] también es válido)."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 3,
+        "instruction": "Elige la opción correcta.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Las edades de un grupo son 12, 7, 9, 15, 7 y 11. El recorrido de estos datos es ___.",
+        "options": [
+          "8",
+          "7",
+          "15",
+          "22"
+        ],
+        "answer_index": 0,
+        "correction": null,
+        "calc": "15 - 7",
+        "explanation": "El máximo es 15 y el mínimo es 7. El recorrido es 15 − 7 = 8."
+      },
+      "seed": "5362ee57-4af1-4559-b8ee-d445a4c5a110:14",
+      "solved": {
+        "game": 15,
+        "match": null,
+        "order": null,
+        "choice": 0,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 3,
+        "instruction": "Encuentra el paso con error al resumir los datos 4, 6, 6, 8, 11.",
+        "pairs": null,
+        "steps": [
+          "Datos: 4, 6, 6, 8, 11",
+          "4 + 6 + 6 + 8 + 11 = 35",
+          "Media: 35 ÷ 5 = 7",
+          "Moda = 6, porque es el dato que más se repite",
+          "Recorrido: 11 − 4 = 8"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 4,
+        "correction": "Recorrido: 11 − 4 = 7",
+        "calc": null,
+        "explanation": "El máximo es 11 y el mínimo es 4, así que el recorrido es 11 − 4 = 7, no 8."
+      },
+      "seed": "5362ee57-4af1-4559-b8ee-d445a4c5a110:15",
+      "solved": {
+        "game": 16,
+        "match": null,
+        "order": null,
+        "choice": 5,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    }
+  ],
+  "notes": "En la pieza de hoja de cálculo se usan nombres de funciones en español (SUMA, PROMEDIO, MAX, MIN); en otros programas pueden aparecer en inglés."
+}

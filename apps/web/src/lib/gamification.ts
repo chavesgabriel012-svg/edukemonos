@@ -27,7 +27,7 @@ export interface CalendarInfo {
 
 export interface SectionGamification {
   summary: StreakSummary;
-  settings: { streakEnabled: boolean; weeklyTarget: number; goalEnabled: boolean; leaderboardEnabled: boolean };
+  settings: { streakEnabled: boolean; weeklyTarget: number; goalEnabled: boolean; leaderboardEnabled: boolean; gamesEnabled: boolean };
   goal: SectionGoal | null;
   /** How many take part in the table; never who is where. */
   leaderboard: { members: number; with_nickname: number; hidden: number } | null;
@@ -82,7 +82,7 @@ export async function calendarFor(supabase: SupabaseClient, institution: { id: s
 export async function sectionGamification(supabase: SupabaseClient, sectionId: string, teacherId: string): Promise<SectionGamification> {
   const [{ data: summary, error }, { data: settings }, { data: section }, { data: memberships }, { data: goal }, { data: board }] = await Promise.all([
     supabase.rpc("section_streak_summary", { p_section: sectionId }),
-    supabase.from("section_settings").select("streak_enabled, weekly_target, goal_enabled, leaderboard_enabled").eq("section_id", sectionId).maybeSingle(),
+    supabase.from("section_settings").select("streak_enabled, weekly_target, goal_enabled, leaderboard_enabled, games_enabled").eq("section_id", sectionId).maybeSingle(),
     supabase.from("sections").select("institution_id, institutions(id, name)").eq("id", sectionId).maybeSingle(),
     supabase.from("institution_members").select("role, institutions(id, name)").eq("profile_id", teacherId),
     supabase.rpc("section_goal", { p_section: sectionId }),
@@ -97,6 +97,7 @@ export async function sectionGamification(supabase: SupabaseClient, sectionId: s
       weeklyTarget: settings?.weekly_target ?? 5,
       goalEnabled: settings?.goal_enabled ?? true,
       leaderboardEnabled: settings?.leaderboard_enabled ?? true,
+      gamesEnabled: settings?.games_enabled ?? true,
     },
     goal: (goal as SectionGoal) ?? null,
     leaderboard: (board as SectionGamification["leaderboard"]) ?? null,
@@ -113,7 +114,7 @@ export async function sectionGamification(supabase: SupabaseClient, sectionId: s
 export async function demoGamification(supabase: SupabaseClient): Promise<SectionGamification> {
   return {
     summary: { ...DEMO_STREAK },
-    settings: { streakEnabled: true, weeklyTarget: 5, goalEnabled: true, leaderboardEnabled: true },
+    settings: { streakEnabled: true, weeklyTarget: 5, goalEnabled: true, leaderboardEnabled: true, gamesEnabled: true },
     goal: { ...DEMO_GOAL, history: [...DEMO_GOAL.history] },
     leaderboard: { ...DEMO_LEADERBOARD_SUMMARY },
     calendar: await calendarFor(supabase, null),

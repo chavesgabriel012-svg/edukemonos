@@ -1,0 +1,453 @@
+{
+  "unitId": "e7cad83b-3885-423e-8819-826fc8fc4f64",
+  "createdAt": "2026-11-04T17:49:12.805Z",
+  "models": {
+    "games": "claude-sonnet-5-5",
+    "solve": "claude-sonnet-5-5"
+  },
+  "prompts": {
+    "games": "generate-games-system@1",
+    "solve": "solve-games-system@1"
+  },
+  "pieces": [
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 0,
+        "instruction": "Une cada palabra con la lengua de la que proviene.",
+        "pairs": [
+          {
+            "left": "almohada",
+            "right": "árabe"
+          },
+          {
+            "left": "chocolate",
+            "right": "náhuatl"
+          },
+          {
+            "left": "huracán",
+            "right": "taíno"
+          },
+          {
+            "left": "papa",
+            "right": "quechua"
+          },
+          {
+            "left": "chofer",
+            "right": "francés"
+          },
+          {
+            "left": "fútbol",
+            "right": "inglés"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Cada palabra llegó al español desde una lengua distinta: almohada del árabe, chocolate del náhuatl, huracán del taíno, papa del quechua, chofer del francés y fútbol del inglés."
+      },
+      "seed": "e7cad83b-3885-423e-8819-826fc8fc4f64:0",
+      "solved": {
+        "game": 1,
+        "match": [
+          3,
+          5,
+          6,
+          1,
+          2,
+          4
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Completa el enunciado con la opción correcta.",
+        "pairs": null,
+        "steps": null,
+        "stem": "La expresión «grosso modo», tomada directamente del latín, se llama ___.",
+        "options": [
+          "anglicismo",
+          "arabismo",
+          "latinismo",
+          "indigenismo"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": null,
+        "explanation": "Una expresión que viene del latín y se conserva en español es un latinismo. Los anglicismos vienen del inglés, los arabismos del árabe y los indigenismos de lenguas indígenas."
+      },
+      "seed": "e7cad83b-3885-423e-8819-826fc8fc4f64:1",
+      "solved": {
+        "game": 2,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 0,
+        "instruction": "Una de estas frases sobre el origen de las palabras tiene un error. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "«Aceite» es una palabra de origen árabe.",
+          "«Tomate» es una palabra de origen náhuatl.",
+          "«Hamaca» es una palabra de origen taíno.",
+          "«Chocolate» es una palabra de origen árabe.",
+          "«Ad hoc» es un latinismo que significa «para esto»."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 3,
+        "correction": "«Chocolate» es una palabra de origen náhuatl.",
+        "calc": null,
+        "explanation": "«Chocolate» no viene del árabe, sino del náhuatl, una lengua indígena de México. Las demás frases son correctas."
+      },
+      "seed": "e7cad83b-3885-423e-8819-826fc8fc4f64:2",
+      "solved": {
+        "game": 3,
+        "match": null,
+        "order": null,
+        "choice": 4,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 1,
+        "instruction": "Une cada construcción fija con el significado que tiene al usarla.",
+        "pairs": [
+          {
+            "left": "hacer caso omiso",
+            "right": "ignorar algo a propósito"
+          },
+          {
+            "left": "a sabiendas",
+            "right": "con pleno conocimiento de algo"
+          },
+          {
+            "left": "de buenas a primeras",
+            "right": "de pronto, sin aviso"
+          },
+          {
+            "left": "al pie de la letra",
+            "right": "exactamente, tal como se dijo"
+          },
+          {
+            "left": "por ende",
+            "right": "por lo tanto"
+          },
+          {
+            "left": "a diestra y siniestra",
+            "right": "sin medida ni control"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Cada construcción fija tiene un significado propio que no cambia, por eso se usa siempre con las mismas palabras y en el mismo sentido."
+      },
+      "seed": "e7cad83b-3885-423e-8819-826fc8fc4f64:3",
+      "solved": {
+        "game": 4,
+        "match": [
+          2,
+          4,
+          6,
+          1,
+          3,
+          5
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 1,
+        "instruction": "Elige la opción que completa correctamente la construcción fija.",
+        "pairs": null,
+        "steps": null,
+        "stem": "___ que llovía mucho, la feria del colegio se realizó con normalidad.",
+        "options": [
+          "A pesar de",
+          "A pesar",
+          "A pesar con",
+          "A pesar en"
+        ],
+        "answer_index": 0,
+        "correction": null,
+        "calc": null,
+        "explanation": "La construcción fija correcta es «a pesar de que». No se omite la preposición «de» ni se cambia por otra."
+      },
+      "seed": "e7cad83b-3885-423e-8819-826fc8fc4f64:4",
+      "solved": {
+        "game": 5,
+        "match": null,
+        "order": null,
+        "choice": 0,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 1,
+        "instruction": "Una de estas frases usa mal una construcción fija. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "De acuerdo con el reglamento, no se permite el ingreso con gorra.",
+          "En base a los resultados, el colegio cambió el horario de clases.",
+          "Con respecto a la tarea, tengo una duda.",
+          "A pesar de que llovía, el desfile continuó.",
+          "En cuanto a mí, prefiero la ruta corta."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 1,
+        "correction": "Con base en los resultados, el colegio cambió el horario de clases.",
+        "calc": null,
+        "explanation": "«En base a» no es la forma correcta. La construcción fija adecuada es «con base en» (o «sobre la base de»)."
+      },
+      "seed": "e7cad83b-3885-423e-8819-826fc8fc4f64:5",
+      "solved": {
+        "game": 6,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 2,
+        "instruction": "Une cada expresión incorrecta con su forma correcta.",
+        "pairs": [
+          {
+            "left": "en base a",
+            "right": "con base en"
+          },
+          {
+            "left": "de acuerdo a",
+            "right": "de acuerdo con"
+          },
+          {
+            "left": "a pesar que",
+            "right": "a pesar de que"
+          },
+          {
+            "left": "a grosso modo",
+            "right": "grosso modo"
+          },
+          {
+            "left": "en relación a",
+            "right": "en relación con"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Estas construcciones fijas se usan con una preposición determinada. Cambiarla o agregarla donde no corresponde produce una forma incorrecta."
+      },
+      "seed": "e7cad83b-3885-423e-8819-826fc8fc4f64:6",
+      "solved": {
+        "game": 7,
+        "match": [
+          1,
+          5,
+          2,
+          4,
+          3
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 2,
+        "instruction": "Elige la forma correcta del latinismo.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Cambió el horario ___ para sorprender a sus compañeros, es decir, a propósito.",
+        "options": [
+          "de ex profeso",
+          "a ex profeso",
+          "en ex profeso",
+          "ex profeso"
+        ],
+        "answer_index": 3,
+        "correction": null,
+        "calc": null,
+        "explanation": "«Ex profeso» es un latinismo que significa «a propósito» y se usa sin preposición delante."
+      },
+      "seed": "e7cad83b-3885-423e-8819-826fc8fc4f64:7",
+      "solved": {
+        "game": 8,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 2,
+        "instruction": "Una de estas frases usa mal un latinismo. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "El colegio formó una comisión ad hoc para organizar el festival.",
+          "El consumo de agua per cápita aumentó este año.",
+          "Calculé a grosso modo cuántas personas asistieron al acto.",
+          "Los estudiantes revisaron el río in situ durante la gira."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "Calculé grosso modo cuántas personas asistieron al acto.",
+        "calc": null,
+        "explanation": "El latinismo «grosso modo» significa «aproximadamente» y no lleva la preposición «a» delante. Los demás latinismos están bien usados."
+      },
+      "seed": "e7cad83b-3885-423e-8819-826fc8fc4f64:8",
+      "solved": {
+        "game": 9,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    }
+  ],
+  "notes": "No se incluyeron piezas de ordenar (order): los procedimientos de esta unidad no tienen un único orden válido."
+}
