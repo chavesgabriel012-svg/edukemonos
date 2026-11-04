@@ -58,6 +58,7 @@ function fakeAI() {
     adapter,
     config: {
       provider: "anthropic",
+      providers: { bulk: "anthropic", tutor: "anthropic", verify: "anthropic" },
       models: { bulk: ["bulk-model"], tutor: ["tutor-model"], verify: ["verify-model"] },
       embedModel: null,
       effort: {},

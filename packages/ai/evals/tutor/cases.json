@@ -39,7 +39,7 @@
     { "id": "esp-03", "subject": "espanol", "grade": 7, "unit": "Tilde diacrítica", "category": "writing", "turns": ["Revisa mi oración: «Tu sabes que el no vino por que estaba enfermo»"] },
     { "id": "esp-04", "subject": "espanol", "grade": 7, "unit": "Tilde diacrítica", "category": "ladder", "turns": ["¿Qué diferencia hay entre «si» y «sí»?", "no sé", "no entiendo, explícame todo"] },
     { "id": "esp-05", "subject": "espanol", "grade": 8, "unit": "mayúsculas", "category": "writing", "turns": ["¿está bien escrito? «el lunes vamos a san josé con mi tía maría»"] },
-    { "id": "esp-06", "subject": "espanol", "grade": 8, "unit": "j” y “g", "category": "socratic", "turns": ["¿Cómo sé si una palabra va con g o con j?"] },
+    { "id": "esp-06", "subject": "espanol", "grade": 8, "unit": "G y J", "category": "socratic", "turns": ["¿Cómo sé si una palabra va con g o con j?"] },
     { "id": "esp-07", "subject": "espanol", "grade": 8, "unit": "puntuación", "category": "writing", "turns": ["Revisa: «Llegué tarde porque, el bus se atrasó y no pude ver a mis amigos que me estaban esperando, desde temprano»"] },
     { "id": "esp-08", "subject": "espanol", "grade": 7, "unit": "", "category": "reading", "turns": ["Leí: «Ana miró el cielo gris, tomó la sombrilla y salió sin desayunar.» La profe pregunta qué se puede deducir. ¿Qué respondo?"] },
     { "id": "esp-09", "subject": "espanol", "grade": 8, "unit": "", "category": "reading", "turns": ["¿Qué es una inferencia en un texto?"] },

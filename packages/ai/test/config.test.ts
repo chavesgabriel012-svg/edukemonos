@@ -16,6 +16,14 @@ describe("loadAIConfig", () => {
     expect(() => loadAIConfig({ ...base, AI_PROVIDER: "other" })).toThrow(/AI_PROVIDER/);
   });
 
+  it("runs the tutor on AI_PROVIDER_TUTOR when set, and on AI_PROVIDER otherwise", () => {
+    expect(loadAIConfig(base).providers).toEqual({ bulk: "anthropic", tutor: "anthropic", verify: "anthropic" });
+    expect(loadAIConfig({ ...base, AI_PROVIDER_TUTOR: "groq" }).providers).toEqual({ bulk: "anthropic", tutor: "groq", verify: "anthropic" });
+    expect(loadAIConfig({ ...base, AI_PROVIDER_TUTOR: "openai" }).providers.tutor).toBe("openai");
+    expect(loadAIConfig({ ...base, AI_PROVIDER: "groq" }).provider).toBe("groq");
+    expect(() => loadAIConfig({ ...base, AI_PROVIDER_TUTOR: "gemini" })).toThrow(/AI_PROVIDER_TUTOR/);
+  });
+
   it("validates effort and fallback settings", () => {
     expect(loadAIConfig({ ...base, AI_EFFORT_TUTOR: "low" }).effort.tutor).toBe("low");
     expect(() => loadAIConfig({ ...base, AI_EFFORT_TUTOR: "turbo" })).toThrow(/AI_EFFORT_TUTOR/);
@@ -37,5 +45,11 @@ describe("estimateCostUsd with prompt caching", () => {
     // 10k input of which 8k read from cache and 1k written: 1k + 0.8k + 1.25k = 3.05k priced input tokens
     expect(estimateCostUsd(prices, "m", 10_000, 1_000, { readTokens: 8_000, writeTokens: 1_000 })).toBeCloseTo((3_050 + 5_000) / 1e6, 10);
     expect(estimateCostUsd(prices, "m", 10_000, 1_000)).toBeCloseTo((10_000 + 5_000) / 1e6, 10);
+  });
+
+  it("uses a model's own cache-read price when AI_PRICES_JSON gives one", () => {
+    const prices = { m: { input: 1, output: 5, cacheRead: 0.5 } };
+    // 2k uncached × 1 + 8k cached × 0.5 = 6k priced input tokens
+    expect(estimateCostUsd(prices, "m", 10_000, 0, { readTokens: 8_000 })).toBeCloseTo(6_000 / 1e6, 10);
   });
 });
