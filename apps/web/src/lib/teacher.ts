@@ -1,7 +1,11 @@
 import "server-only";
 import {
   buildDemoSection,
+  computeSectionMetrics,
   DEMO_SECTION,
+  DEMO_TEACHER_SECTIONS,
+  type SectionSnapshot,
+  sectionSnapshot,
   type PanelUnit,
   type SectionData,
 } from "@edukemonos/curriculum";
@@ -244,4 +248,87 @@ export async function audit(
     .from("teacher_audit_log")
     .insert({ teacher_id: teacherId, action, section_id: sectionId, student_id: studentId ?? null });
   if (error) console.error("audit insert failed:", error.message);
+}
+
+/** One of the teacher's sections at a glance (the "Mis secciones" overview). */
+export interface SectionGlance {
+  id: string;
+  name: string;
+  /** Group name for a subject section; the section name otherwise. */
+  label: string;
+  subjectName: string | null;
+  gradeId: number;
+  joinCode: string;
+  href: string;
+  snapshot: SectionSnapshot;
+  goal: { target: number; progress: number; paused: boolean } | null;
+  /** To count each student once across sections (7-1 Math and 7-1 Spanish share students). */
+  studentIds: string[];
+  supportIds: string[];
+}
+
+/**
+ * Every section of the teacher with the same numbers as its panel (one teacher may teach Math in
+ * 7-1 and 8-3 and Science in 8-3). Each section is read with the teacher's session, so RLS applies.
+ */
+export async function teacherGlance(supabase: SupabaseClient, teacherId: string): Promise<SectionGlance[]> {
+  const { data: rows } = await supabase.from("sections").select("id").eq("teacher_id", teacherId).order("name");
+  const out = await Promise.all(
+    (rows ?? []).map(async ({ id }) => {
+      const [source, { data: goal }] = await Promise.all([
+        sectionSource(supabase, id, teacherId),
+        supabase.rpc("section_goal", { p_section: id }),
+      ]);
+      if (!source) return null;
+      const g = goal as { enabled: boolean; target?: number; progress?: number; paused?: boolean } | null;
+      return glanceOf(source, g?.enabled && g.target !== undefined ? { target: g.target, progress: g.progress ?? 0, paused: Boolean(g.paused) } : null);
+    }),
+  );
+  return out.filter((x): x is SectionGlance => x !== null);
+}
+
+function glanceOf(source: PanelSource, goal: SectionGlance["goal"]): SectionGlance {
+  const s = source.section;
+  const snapshot = sectionSnapshot(computeSectionMetrics(source.data));
+  return {
+    id: s.id,
+    name: s.name,
+    label: s.group && s.subjectId ? s.group.name : s.name,
+    subjectName: s.subjectName,
+    gradeId: s.gradeId,
+    joinCode: s.group && s.subjectId ? s.group.joinCode : s.joinCode,
+    href: source.base,
+    snapshot,
+    goal,
+    studentIds: source.data.students.map((x) => x.id),
+    supportIds: snapshot.support.map((x) => x.id),
+  };
+}
+
+/** Demo teacher with Math in 7-1 and 7-4 and Spanish in 7-1 (fictitious students, real units). */
+export async function demoGlance(): Promise<SectionGlance[]> {
+  const supabase = await createClient();
+  const today = new Date();
+  today.setUTCHours(18, 0, 0, 0);
+  return Promise.all(
+    DEMO_TEACHER_SECTIONS.map(async (d, k) => {
+      const units = await gradeUnits(supabase, DEMO_SECTION.gradeId, d.subjectId);
+      const data = buildDemoSection(units, today, d.students);
+      const snapshot = sectionSnapshot(computeSectionMetrics(data));
+      return {
+        id: d.id,
+        name: `${d.group} · ${d.subjectName}`,
+        label: d.group,
+        subjectName: d.subjectName,
+        gradeId: DEMO_SECTION.gradeId,
+        joinCode: DEMO_SECTION.joinCode,
+        href: "/docente/demo",
+        snapshot,
+        goal: { target: 12 + k * 2, progress: 8 + k * 3, paused: false },
+        // The same group shares its students across subjects; fictitious ids repeat across groups.
+        studentIds: data.students.map((x) => `${d.group}:${x.id}`),
+        supportIds: snapshot.support.map((x) => `${d.group}:${x.id}`),
+      };
+    }),
+  );
 }

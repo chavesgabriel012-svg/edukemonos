@@ -419,3 +419,35 @@ export function sectionCsv(m: SectionMetrics): string {
   ]);
   return "﻿" + [head, ...rows].map((row) => row.map(csvCell).join(",")).join("\n") + "\n";
 }
+
+/**
+ * One section at a glance, for a teacher with several groups (e.g. Math in 7-1 and 8-3): the same
+ * numbers as the section's own panel, so both always agree.
+ */
+export interface SectionSnapshot {
+  students: number;
+  active: number;
+  /** Share of the section active in the last 7 days; null without students. */
+  activeShare: number | null;
+  attempts7: number;
+  accuracy7: number | null;
+  mastery: number | null;
+  /** Students who could need support (same rule as the panel), most reasons first. */
+  support: { id: string; name: string; reasons: string[] }[];
+}
+
+export function sectionSnapshot(m: SectionMetrics): SectionSnapshot {
+  const o = m.overview;
+  return {
+    students: o.students,
+    active: o.active,
+    activeShare: o.students ? o.active / o.students : null,
+    attempts7: o.attempts7,
+    accuracy7: o.accuracy7,
+    mastery: o.mastery,
+    support: m.students
+      .filter((s) => s.support.length)
+      .sort((a, b) => b.support.length - a.support.length || (a.mastery ?? 1) - (b.mastery ?? 1) || a.name.localeCompare(b.name, "es"))
+      .map((s) => ({ id: s.id, name: s.name, reasons: s.support })),
+  };
+}
