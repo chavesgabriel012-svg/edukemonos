@@ -52,7 +52,10 @@ export default async function ReviewContentPage({ params }: PageProps<"/revisar/
     supabase.rpc("review_items", { p_unit_id: id }),
     supabase.from("skills").select("id, name").eq("unit_id", id).order("sort_order"),
   ]);
-  const itemRows = (itemData ?? []) as ItemRow[];
+  // Mini-game pieces (fase 3) are listed apart: this page reviews practice items and writing prompts.
+  const allRows = (itemData ?? []) as (ItemRow & { kind: string })[];
+  const gamePieces = allRows.filter((i) => i.kind.startsWith("game_"));
+  const itemRows = allRows.filter((i) => !i.kind.startsWith("game_")) as ItemRow[];
   const materials = currentMaterials(materialRows ?? []);
   const items = itemRows.filter((i) => i.status !== "rejected");
   const rejected = itemRows.length - items.length;
@@ -68,6 +71,8 @@ export default async function ReviewContentPage({ params }: PageProps<"/revisar/
           {unit.area ?? "Sin área"} · {unit.grade_id}.º · Material: {counts.materialsPublished} publicados, {counts.materialsDraft} en borrador ·
           Ítems: {counts.itemsPublished} publicados, {counts.itemsVerified} verificados, {counts.itemsDraft} en borrador
           {rejected ? ` · ${rejected} rechazados (ocultos)` : ""}
+          {gamePieces.length > 0 &&
+            ` · Piezas de juego: ${gamePieces.length} (${gamePieces.filter((g) => g.verified).length} verificadas, ${gamePieces.filter((g) => g.status === "published").length} publicadas; su revisión llega en una fase próxima)`}
         </p>
       </header>
 

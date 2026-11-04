@@ -310,39 +310,65 @@ grado de la sección. Con secciones por materia (§12) basta con cambiar esa fun
 
 ### 6.1 Mecánicas fijas
 
-El código de las mecánicas lo escriben y lo revisan personas. La IA **no genera código**: solo el contenido de cada
-mecánica.
+El código de las mecánicas lo escriben y lo revisan personas (`apps/web/src/app/unidad/[id]/games.tsx`). La IA **no
+genera código**: solo el contenido de cada pieza, que pasa las mismas verificaciones que los ejercicios.
 
-| Mecánica | Contenido (JSON) | Cómo se corrige |
-|---|---|---|
-| `pairs` (parejas) | 4–6 pares `{izquierda, derecha}` | Cada par bien unido es un acierto |
-| `order` (ordenar pasos) | 3–6 pasos en orden correcto | Orden exacto |
-| `fill` (completar) | Enunciado con un hueco y 4 opciones | Opción correcta |
-| `find_error` (encuentra el error) | 3–6 pasos o un texto, con un error marcado y su corrección | El paso o la palabra con error |
-| `ghost_race` (carrera contra el fantasma) | Sin contenido nuevo: usa ítems verificados de la unidad | Igual que la práctica |
+| Mecánica | Contenido | Cómo se juega en el celular | Cómo se corrige |
+|---|---|---|---|
+| `pairs` (parejas) | 4–6 parejas `{left, right}` | Por cada elemento, se toca la letra de su pareja (sin arrastrar) | Todas las parejas bien |
+| `order` (ordenar pasos) | 3–6 pasos en orden | Botones de subir y bajar, de 44 px | Orden exacto |
+| `fill` (completar) | Enunciado con «___» y 4 opciones | Opciones como en la práctica | Opción correcta |
+| `find_error` (encuentra el error) | 3–6 pasos o frases, uno con error, y su corrección | Se toca el paso | El paso con error |
+| `ghost_race` (carrera contra el fantasma) | Sin contenido propio | Preguntas de opción, con dos barras de avance | Igual que la práctica |
 
-- **Carrera contra el fantasma**: el rival es el propio récord del estudiante en esa unidad o el de un compañero
-  anónimo de nivel parecido. Gana quien **acierta más** de 8 preguntas; el tiempo no cuenta.
+- **Una partida** son 3 piezas de una mecánica (primero las que el estudiante todavía no resolvió bien), o hasta 8
+  preguntas en la carrera.
+- **Carrera contra el fantasma**: usa ejercicios verificados y piezas de «completar» de la unidad (hay unidades con
+  menos de 8 ejercicios, por eso se suman). El fantasma son las respuestas, acertadas o no, de la **mejor carrera
+  propia** en la unidad. La primera vez es la carrera de **un compañero de la misma sección con un dominio parecido**
+  en la unidad. Si no hay ninguno, el estudiante marca su récord. Del compañero solo llega la secuencia de aciertos,
+  nunca quién es.
+- **Nada premia la velocidad**: no hay reloj en ningún juego. La carrera avanza pregunta a pregunta y gana quien
+  acierta más. Si gana el fantasma: «Esta vez el fantasma acertó más. Cada intento suma a tu dominio».
 
 ### 6.2 Dónde se guarda
 
-Cada pieza de juego es un **ítem** con un tipo nuevo (`item_kind`: `game_pairs`, `game_order`, `game_fill`,
-`game_find_error`) y una columna `game_content jsonb`. Así se reutiliza todo lo que ya existe:
-
-- `skill_ids`, estado, verificación, «Generado con IA · pendiente de revisión», reportes de error y `/revisar`;
-- `submit_attempt` corrige en el servidor según el tipo; la clave de respuesta nunca llega al navegador antes de
-  responder (mismas reglas de columnas que `correct_index`);
-- los intentos llevan `context = 'game'` y actualizan `mastery` y `mastery_weekly`.
+- Cada pieza es un **ítem** de tipo `game_pairs`, `game_order`, `game_fill` o `game_find_error`. Lo que se le muestra
+  al estudiante (barajado, sin respuesta) va en `items.game_public`, que es legible como el resto del ítem. La
+  respuesta va en `items.game_answer`, que **no se puede leer por la API**.
+- Así se reutiliza lo que ya existe: habilidades, estado, verificación, «Generado con IA · pendiente de revisión» y
+  el botón de reportar error. En `/revisar` las piezas aparecen contadas aparte; su revisión detallada queda para más
+  adelante.
+- **Partidas** (`game_runs`): `start_game_run()` elige las piezas y el fantasma, `submit_attempt()` corrige cada
+  respuesta en la base de datos (contexto `game`, solo piezas de una partida abierta del propio estudiante y una vez
+  cada una) y `finish_game_run()` calcula el resultado **con las respuestas guardadas**, no con lo que diga el
+  navegador. Las partidas son privadas del estudiante.
+- Las respuestas cuentan para `mastery` y `mastery_weekly` igual que la práctica, así que suman a la racha, la meta y
+  la tabla. Las piezas de juego nunca entran al diagnóstico.
+- **Panel docente**: «Ejercicios esta semana» dice de dónde vino cada respuesta («práctica 120 · juegos 30 ·
+  diagnóstico 10»), y la línea de tiempo de cada estudiante separa práctica, juegos, diagnóstico y torneo.
+- **Docente**: puede apagar los juegos (`section_settings.games_enabled`). Como con la racha, se ocultan solo si
+  todas las secciones del estudiante los apagaron.
+- **Migraciones**: `20261106000100_game_enums.sql` va aparte y primero, porque Postgres no deja usar un valor nuevo de
+  un enum en la misma transacción que lo crea. Después va `20261106000200_games.sql`.
+- **Código de recuperación**: desde esta fase, las tablas nuevas se trasladan en `private.move_student_extras()`, así
+  que no hace falta reescribir `redeem_recovery_code()` en cada fase.
 
 ### 6.3 Generación y verificación
 
-- `MODEL_BULK` genera el contenido por habilidad, con un esquema `zod` por mecánica (`generateStructured`).
-- Verificación igual que los ejercicios: `MODEL_VERIFY` resuelve sin ver la respuesta y, si hay cálculo, `mathjs`
-  recalcula. Si no coinciden, queda en borrador y no se publica.
-- Solo entra lo verificado, como `published` con la etiqueta «Generado con IA · pendiente de revisión» y el botón
-  de reportar error.
-- **Alcance inicial**: las 96 unidades publicadas de Español y Matemáticas de 7.º a 9.º.
-- **Costo**: antes de generar se muestra la estimación (`--dry-run`). Si pasa de US$10, se pregunta al fundador.
+- `pnpm games generate|load|publish|status` (`scripts/ingest/src/games-cli.ts`). Sin `--yes` solo muestra la
+  estimación.
+- `MODEL_BULK` escribe, por unidad, hasta una pieza de cada mecánica por habilidad (solo las que encajan con la
+  habilidad), con un esquema plano y comprobaciones de forma en código.
+- **Verificación**:
+  - `MODEL_VERIFY` resuelve las piezas **barajadas y sin respuesta**, con esfuerzo `high`, y tiene que coincidir sin
+    señalar problemas.
+  - mathjs recalcula las piezas de «completar» con cálculo (`calc`), las parejas de operación y resultado, y los pasos
+    numéricos de «encuentra el error», incluidas las igualdades encadenadas y los superíndices.
+  - Lo que no pasa queda en borrador.
+- Solo se publica lo verificado, con «Generado con IA · pendiente de revisión».
+- **Alcance**: las 96 unidades publicadas de Español y Matemáticas de 7.º a 9.º (297 habilidades). Estimación
+  previa: US$6,39. Piloto de 2 unidades: US$0,105 (≈ US$0,05 por unidad).
 
 ## 7. Fase 4 · Torneo de los viernes
 

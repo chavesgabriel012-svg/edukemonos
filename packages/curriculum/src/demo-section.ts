@@ -95,7 +95,9 @@ export function buildDemoSection(units: PanelUnit[], now = new Date(), studentCo
         const itemDifficulty = Math.min(5, Math.max(1, Math.round(3 + normal(r) * 0.8)));
         const correct = r() < pCorrect(theta, itemDifficulty);
         const when = at(lastDay + Math.floor(r() * 24));
-        attempts.push({ studentId: id, unitId: unit.id, isCorrect: correct, createdAt: when, context: "practice" });
+        // About one in five answers comes from a mini-game (fase 3); chosen by position, not by the random
+        // generator, so the rest of the demo stays the same.
+        attempts.push({ studentId: id, unitId: unit.id, isCorrect: correct, createdAt: when, context: attempts.length % 5 === 4 ? "game" : "practice" });
         for (const skillId of unit.skillIds.slice(0, 1 + Math.floor(r() * unit.skillIds.length))) {
           const prev = scores.get(skillId) ?? { score: null, n: 0, last: when };
           scores.set(skillId, { score: updateMastery(prev.score, prev.n, itemDifficulty, correct), n: prev.n + 1, last: when > prev.last ? when : prev.last });

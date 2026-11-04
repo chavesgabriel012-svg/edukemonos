@@ -13,6 +13,8 @@ export type Purpose =
   | "bulk_items"
   | "verify_item"
   | "verify_material"
+  | "bulk_games"
+  | "verify_game"
   | "writing_feedback"
   | "teacher_summary"
   | "eval"

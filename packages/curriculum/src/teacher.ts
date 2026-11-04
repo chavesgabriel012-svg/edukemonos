@@ -112,6 +112,8 @@ export interface StudentRow {
   tutorSessions: number;
   writingErrors: number;
   support: string[];
+  /** Answers by where they came from (practice, diagnostic, game, tournament), last 120 days. */
+  byOrigin: Record<string, number>;
 }
 
 export interface UnitRow {
@@ -143,6 +145,8 @@ export interface SectionMetrics {
     mastery: number | null;
     diagnostics: number;
     tutorSessions7: number;
+    /** Answers of the last 7 days by where they came from. */
+    byOrigin7: Record<string, number>;
   };
   students: StudentRow[];
   units: UnitRow[];
@@ -229,6 +233,7 @@ export function computeSectionMetrics(d: SectionData): SectionMetrics {
       tutorSessions: tutor.length,
       writingErrors: d.writing.filter((w) => w.studentId === s.id).reduce((a, w) => a + w.count, 0),
       support,
+      byOrigin: countByOrigin(mine),
     };
   });
 
@@ -283,6 +288,7 @@ export function computeSectionMetrics(d: SectionData): SectionMetrics {
     mastery: mean(students.flatMap((s) => (s.mastery !== null ? [s.mastery] : []))),
     diagnostics: new Set(d.diagnostics.map((g) => g.studentId)).size,
     tutorSessions7: d.tutor.filter((t) => recent(t.startedAt)).length,
+    byOrigin7: countByOrigin(d.attempts.filter((a) => recent(a.createdAt))),
   };
 
   return {
@@ -450,4 +456,29 @@ export function sectionSnapshot(m: SectionMetrics): SectionSnapshot {
       .sort((a, b) => b.support.length - a.support.length || (a.mastery ?? 1) - (b.mastery ?? 1) || a.name.localeCompare(b.name, "es"))
       .map((s) => ({ id: s.id, name: s.name, reasons: s.support })),
   };
+}
+
+/**
+ * Where an answer came from: every answer counts for mastery, and the panel says which activity it
+ * was (docs/producto/gamificacion.md §1.7).
+ */
+export const ATTEMPT_ORIGINS: Record<string, string> = {
+  practice: "práctica",
+  diagnostic: "diagnóstico",
+  game: "juegos",
+  tournament: "torneo",
+};
+
+export function countByOrigin(attempts: { context: string }[]): Record<string, number> {
+  const out: Record<string, number> = {};
+  for (const a of attempts) out[a.context] = (out[a.context] ?? 0) + 1;
+  return out;
+}
+
+/** "práctica 12 · juegos 5 · diagnóstico 3" (only the origins with answers, in a fixed order). */
+export function originSummary(counts: Record<string, number>): string {
+  return Object.keys(ATTEMPT_ORIGINS)
+    .filter((k) => counts[k])
+    .map((k) => `${ATTEMPT_ORIGINS[k]} ${counts[k]}`)
+    .join(" · ");
 }

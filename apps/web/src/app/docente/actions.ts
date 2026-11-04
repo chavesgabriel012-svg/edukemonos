@@ -120,6 +120,7 @@ export async function saveSectionSettings(sectionId: string, _prev: SettingsStat
       weekly_target: target,
       goal_enabled: form.get("goal_enabled") === "on",
       leaderboard_enabled: form.get("leaderboard_enabled") === "on",
+      games_enabled: form.get("games_enabled") === "on",
       updated_at: new Date().toISOString(),
     });
   if (error) {

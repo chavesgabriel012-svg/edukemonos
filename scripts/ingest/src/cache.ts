@@ -11,6 +11,10 @@ export const paths = {
   extraction: (id: string, grade: number) => join(CACHE_DIR, "units", `${id}-g${grade}.json`),
   content: (unitId: string) => join(CACHE_DIR, "content", `${unitId}.json`),
   contentSteps: (unitId: string) => join(CACHE_DIR, "content", `${unitId}.steps.json`),
+  games: (unitId: string) => join(CACHE_DIR, "games", `${unitId}.json`),
+  /** Versioned copy of the generated pieces (scripts/ingest/generated/games): paid content survives a lost cache. */
+  gamesArchive: (unitId: string) => join(import.meta.dirname, "..", "generated", "games", `${unitId}.json`),
+  gameSteps: (unitId: string) => join(CACHE_DIR, "games", `${unitId}.steps.json`),
 };
 
 export function ensureDir(file: string): string {

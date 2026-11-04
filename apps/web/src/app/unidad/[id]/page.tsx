@@ -1,3 +1,4 @@
+import type { GameMode } from "@edukemonos/curriculum";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -9,6 +10,7 @@ import { subjectColor } from "@/lib/brand";
 import type { Material } from "@/lib/learn";
 import { createClient } from "@/lib/supabase/server";
 import { helpResources } from "@/lib/tutor-server";
+import { Games } from "./games";
 import { Practice } from "./practice";
 import { TutorChat } from "./tutor-chat";
 import { WritingTask } from "./writing-task";
@@ -24,6 +26,7 @@ const MATERIAL_LABEL = { summary: "Resumen", explanation: "Explicación paso a p
 const TABS = [
   { id: "aprender", label: "Aprender" },
   { id: "practicar", label: "Practicar" },
+  { id: "jugar", label: "Jugar" },
   { id: "tutor", label: "Preguntar a Kemo" },
 ] as const;
 
@@ -57,6 +60,27 @@ export default async function UnitPage({ params, searchParams }: PageProps<"/uni
     .eq("status", "published")
     .eq("kind", "open_writing");
 
+  // Mini-games: verified pieces per mechanic; the race uses verified exercises and fill pieces.
+  let games: Partial<Record<GameMode, number>> = {};
+  let gamesOn = true;
+  if (tab === "jugar") {
+    const [{ data: pieces }, { data: on }] = await Promise.all([
+      supabase.from("items").select("kind").eq("unit_id", id).eq("status", "published").eq("verified", true)
+        .in("kind", ["single_choice", "game_pairs", "game_order", "game_fill", "game_find_error"]),
+      supabase.rpc("games_enabled_for_me"),
+    ]);
+    gamesOn = on !== false;
+    const count = (k: string) => (pieces ?? []).filter((p: { kind: string }) => p.kind === k).length;
+    games = {
+      pairs: count("game_pairs"),
+      order: count("game_order"),
+      fill: count("game_fill"),
+      find_error: count("game_find_error"),
+      // A race needs at least 4 questions.
+      ghost_race: count("single_choice") + count("game_fill") >= 4 ? 1 : 0,
+    };
+  }
+
   return (
     <article className="space-y-6">
       <header className="space-y-3">
@@ -72,7 +96,7 @@ export default async function UnitPage({ params, searchParams }: PageProps<"/uni
         </div>
       </header>
 
-      <nav aria-label="Secciones de la unidad" className="grid grid-cols-3 border-b">
+      <nav aria-label="Secciones de la unidad" className="grid grid-cols-4 border-b">
         {TABS.map((t) => (
           <Link key={t.id} href={`/unidad/${id}?tab=${t.id}`} aria-current={t.id === tab ? "page" : undefined}
             className={`flex min-h-11 items-center justify-center border-b-2 px-1 py-2 text-center text-sm leading-tight font-medium ${t.id === tab ? "border-primary text-primary" : "border-transparent text-muted-foreground"}`}>
@@ -127,6 +151,10 @@ export default async function UnitPage({ params, searchParams }: PageProps<"/uni
           )}
         </div>
       )}
+
+      {tab === "jugar" && (gamesOn
+        ? <Games unitId={id} available={games} />
+        : <p className="text-muted-foreground">Tu docente no usa los juegos en tu sección. Puedes seguir practicando en «Practicar».</p>)}
 
       {tab === "tutor" && <TutorChat unitId={id} help={helpResources} />}
     </article>

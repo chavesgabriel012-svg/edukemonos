@@ -18,7 +18,8 @@
     "ingest": "pnpm --filter @edukemonos/ingest ingest",
     "content": "pnpm --filter @edukemonos/ingest content",
     "test:e2e": "playwright test -c e2e/playwright.config.ts",
-    "db:bundle": "bash supabase/bundle.sh"
+    "db:bundle": "bash supabase/bundle.sh",
+    "games": "pnpm --filter @edukemonos/ingest games"
   },
   "devDependencies": {
     "@playwright/test": "^1.63.0",

@@ -144,8 +144,8 @@ function cleanMath(text: string): string {
   // NFC, not NFKC: NFKC turns "5²" into "52".
   return text
     .normalize("NFC")
-    .replace(/²/g, "^2")
-    .replace(/³/g, "^3")
+    // Superscript exponents: 5² → 5^2, 2¹⁰ → 2^10.
+    .replace(/[⁰¹²³⁴⁵⁶⁷⁸⁹]+/g, (m) => `^${[...m].map((c) => "⁰¹²³⁴⁵⁶⁷⁸⁹".indexOf(c)).join("")}`)
     .replace(/[−–—]/g, "-")
     .replace(/[×·]/g, "*")
     .replace(/÷/g, "/")

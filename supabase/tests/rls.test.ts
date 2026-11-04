@@ -1,7 +1,7 @@
 import type pg from "pg";
 import { afterAll, beforeAll, describe, expect, inject, it } from "vitest";
 import { type Fixture, ids, loadFixture } from "./fixtures";
-import { addWeeks, classDays, computeStreak, estimateAbility, goalTarget, isSafeNickname, leaderboardWindow, levelOf, MEP_2027, NICKNAME_ADJECTIVES, NICKNAME_NOUNS, updateMastery, weekStartCR } from "@edukemonos/curriculum";
+import { addWeeks, classDays, computeStreak, estimateAbility, type GeneratedGame, goalTarget, splitGame, isSafeNickname, leaderboardWindow, levelOf, MEP_2027, NICKNAME_ADJECTIVES, NICKNAME_NOUNS, updateMastery, weekStartCR } from "@edukemonos/curriculum";
 import { anon, as, asActors, asSteps, connect, expectDenied, service, user } from "./helpers";
 
 let db: pg.Client;
@@ -540,7 +540,7 @@ describe("recovery codes", () => {
       where c.contype = 'f' and c.confrelid = 'public.students'::regclass
       order by 1`);
     const handled = [
-      "attempts", "diagnostics", "group_members", "mastery", "mastery_weekly", "section_members", "streak_repairs", "student_recovery_codes",
+      "attempts", "diagnostics", "game_runs", "group_members", "mastery", "mastery_weekly", "section_members", "streak_repairs", "student_recovery_codes",
       "tutor_sessions", "writing_feedback",
     ];
     expect(rows.map((r) => r.table.replace(/^public\./, "")).sort()).toEqual(handled);
@@ -1243,5 +1243,162 @@ describe("a subject teacher across several groups", () => {
     expect(out.sections).toEqual(["7-1 Matemáticas (7.º)", "8-3 Matemáticas (8.º)"]);
     expect(out.seen).toEqual([out.students["7-1"], out.students["8-3"]].sort());
     expect(out.names).toEqual(["Estudiante 7-1", "Estudiante 8-3"]);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Fase 3: mini-games
+// ---------------------------------------------------------------------------
+describe("mini-games", () => {
+  const order: GeneratedGame = {
+    mechanic: "order", skill_index: 0, instruction: "Ordena los pasos.", pairs: null,
+    steps: ["Paréntesis", "Potencias", "Multiplicaciones y divisiones", "Sumas y restas"],
+    stem: null, options: null, answer_index: null, correction: null, calc: null, explanation: "Jerarquía de operaciones.",
+  };
+  const pairs: GeneratedGame = {
+    ...order, mechanic: "pairs", instruction: "Une cada término.", steps: null,
+    pairs: [{ left: "Primo", right: "Dos divisores" }, { left: "Compuesto", right: "Más de dos divisores" }, { left: "Múltiplo", right: "Producto por un entero" }, { left: "Divisor", right: "Divide exacto" }],
+  };
+  const fill: GeneratedGame = { ...order, mechanic: "fill", instruction: "Completa.", steps: null, stem: "El MCD de 24 y 36 es ___.", options: ["6", "12", "18", "72"], answer_index: 1 };
+
+  /** Inserts published, verified pieces in the published unit; returns ids and answers. */
+  async function pieces(q: Q, games: GeneratedGame[]) {
+    const out: { id: string; answer: ReturnType<typeof splitGame>["answer"] }[] = [];
+    for (const [k, g] of games.entries()) {
+      const { pub, answer } = splitGame(g, `test:${k}`);
+      const [{ id }] = await q(
+        `insert into public.items (unit_id, skill_ids, kind, stem, explanation, difficulty, verified, status, game_public, game_answer)
+         values ($1, array[$2::uuid], $3::public.item_kind, $4, $5, 3, true, 'published', $6, $7) returning id`,
+        [ids.unitPublished, ids.skillPublished, `game_${g.mechanic}`, g.instruction, g.explanation, JSON.stringify(pub), JSON.stringify(answer)],
+      );
+      out.push({ id, answer });
+    }
+    return out;
+  }
+
+  it("the answer of a piece is never readable through the API; its public part is", async () => {
+    const out = await scenario(async (q, act) => {
+      await pieces(q, [order]);
+      await act(anon);
+      const pub = await q(`select game_public from public.items where kind = 'game_order'`);
+      await q("savepoint a");
+      const denied = await q(`select game_answer from public.items`).then(() => "ok", async (e) => { await q("rollback to savepoint a"); return (e as Error).message; });
+      return { pub, denied };
+    });
+    expect(out.pub).toHaveLength(1);
+    expect(out.pub[0].game_public.steps).toHaveLength(4);
+    expect(out.denied).toMatch(/permission denied/);
+  });
+
+  it("a play: the run gives no answers; answers are graded in the database and count for mastery as 'game'", async () => {
+    const out = await scenario(async (q, act) => {
+      const [p] = await pieces(q, [order]);
+      await act(user(ids.loner));
+      const [{ run }] = await q(`select public.start_game_run($1, 'order') as run`, [ids.unitPublished]);
+      const ord = (p.answer as { order: number[] }).order;
+      const [{ r }] = await q(`select public.submit_attempt($1, null, $2, null, 0::smallint, $3, 'game') as r`, [p.id, JSON.stringify(ord), run.run]);
+      await q("savepoint b");
+      const twice = await q(`select public.submit_attempt($1, null, $2, null, 0::smallint, $3, 'game')`, [p.id, JSON.stringify(ord), run.run]).then(() => "ok", async (e) => { await q("rollback to savepoint b"); return (e as Error).message; });
+      const noRun = await q(`select public.submit_attempt($1, null, $2, null, 0::smallint, null, 'game')`, [p.id, JSON.stringify(ord)]).then(() => "ok", async (e) => { await q("rollback to savepoint b"); return (e as Error).message; });
+      const [{ fin }] = await q(`select public.finish_game_run($1) as fin`, [run.run]);
+      const attempts = await q(`select context, is_correct from public.attempts where student_id = $1`, [ids.loner]);
+      const mastery = await q(`select attempts from public.mastery where student_id = $1`, [ids.loner]);
+      await act(null);
+      const ev = await q(`select props from public.events where actor_id = $1 and name = 'game_played'`, [ids.loner]);
+      return { run, r, twice, noRun, fin, attempts, mastery, ev };
+    });
+    expect(out.run).toMatchObject({ ok: true, mode: "order", rival: null });
+    expect(Object.keys(out.run.pieces[0]).sort()).toEqual(["game_public", "id", "kind", "options", "reviewed", "stem"]);
+    expect(JSON.stringify(out.run)).not.toContain('"order":[');
+    expect(out.r).toMatchObject({ is_correct: true, game_answer: { mechanic: "order" } });
+    expect(out.twice).toMatch(/already answered/);
+    expect(out.noRun).toMatch(/invalid game run/);
+    expect(out.fin).toMatchObject({ correct: 1, total: 1, pattern: [true], new_record: true });
+    expect(out.attempts).toEqual([{ context: "game", is_correct: true }]);
+    expect(out.mastery[0].attempts).toBe(1);
+    expect(out.ev).toEqual([{ props: { mechanic: "order", unit: ids.unitPublished, correct: 1, total: 1 } }]);
+  });
+
+  it("grades pairs strictly, rejects malformed answers and keeps game pieces out of the diagnostic", async () => {
+    const out = await scenario(async (q, act) => {
+      const [p, f] = await pieces(q, [pairs, fill]);
+      await act(user(ids.loner));
+      const [{ run }] = await q(`select public.start_game_run($1, 'pairs') as run`, [ids.unitPublished]);
+      const wrong = [...(p.answer as { match: number[] }).match].reverse();
+      const [{ r }] = await q(`select public.submit_attempt($1, null, $2, null, 0::smallint, $3, 'game') as r`, [p.id, JSON.stringify(wrong), run.run]);
+      const [{ diag }] = await q(`select public.start_diagnostic('matematicas', 7::smallint) as diag`);
+      await q("savepoint c");
+      const inDiag = await q(`select public.submit_attempt($1, 1::smallint, null, null, 0::smallint, null, 'diagnostic', $2)`, [f.id, diag]).then(() => "ok", async (e) => { await q("rollback to savepoint c"); return (e as Error).message; });
+      const [{ race }] = await q(`select public.start_game_run($1, 'ghost_race') as race`, [ids.unitPublished]);
+      const [{ bad }] = await q(`select public.submit_attempt($1, null, 'not json', null, 0::smallint, $2, 'game') as bad`, [p.id, race.run]).catch(() => [{ bad: "not in race" }]);
+      return { r, inDiag, race, bad };
+    });
+    expect(out.r.is_correct).toBe(false);
+    expect(out.inDiag).toMatch(/cannot be used in diagnostics/);
+    // The race uses verified exercises and fill pieces, never pairs.
+    expect(out.race.pieces.map((x: { kind: string }) => x.kind).sort()).toEqual(["game_fill", "single_choice"]);
+  });
+
+  it("ghost race: the first time a classmate of the section (anonymous), then the student's own record", async () => {
+    const out = await scenario(async (q, act) => {
+      const [f] = await pieces(q, [fill]);
+      const race = async (who: string, rightFill: boolean) => {
+        await act(user(who));
+        const [{ run }] = await q(`select public.start_game_run($1, 'ghost_race') as run`, [ids.unitPublished]);
+        for (const piece of run.pieces) {
+          const answer = piece.id === f.id ? (rightFill ? 1 : 0) : 2;   // itemVerified's key is 2
+          await q(`select public.submit_attempt($1, $2::smallint, null, null, 0::smallint, $3, 'game')`, [piece.id, answer, run.run]);
+        }
+        const [{ fin }] = await q(`select public.finish_game_run($1) as fin`, [run.run]);
+        await act(null);
+        return { run, fin };
+      };
+      const first = await race(ids.student1, true);
+      const second = await race(ids.student1b, false);   // student1b shares section 1 with student1
+      const again = await race(ids.student1b, true);
+      return { first, second, again };
+    });
+    expect(out.first.run.rival).toBeNull();
+    expect(out.second.run.rival).toMatchObject({ kind: "peer" });
+    expect(JSON.stringify(out.second.run.rival)).not.toContain(ids.student1);
+    expect(out.second.fin).toMatchObject({ correct: 1, total: 2 });
+    expect(out.again.run.rival).toMatchObject({ kind: "self", pattern: out.second.fin.pattern });
+    expect(out.again.fin).toMatchObject({ correct: 2, new_record: true, best_before: 1 });
+  });
+
+  it("the teacher can turn games off; a student outside sections always has them", async () => {
+    const out = await scenario(async (q, act) => {
+      await pieces(q, [order]);
+      await act(user(ids.teacher1));
+      await q(`insert into public.section_settings (section_id, games_enabled) values ($1, false)`, [ids.section1]);
+      await act(user(ids.student1));
+      const [{ off }] = await q(`select public.start_game_run($1, 'order') as off`, [ids.unitPublished]);
+      const [{ visible }] = await q(`select public.games_enabled_for_me() as visible`);
+      await act(user(ids.loner));
+      const [{ on }] = await q(`select public.start_game_run($1, 'order') as on`, [ids.unitPublished]);
+      return { off, visible, on };
+    });
+    expect(out.off).toEqual({ ok: false, error: "disabled" });
+    expect(out.visible).toBe(false);
+    expect(out.on.ok).toBe(true);
+  });
+
+  it("the teacher sees game answers labelled 'game'; runs are private to the student", async () => {
+    const out = await scenario(async (q, act) => {
+      const [p] = await pieces(q, [order]);
+      await act(user(ids.student1));
+      const [{ run }] = await q(`select public.start_game_run($1, 'order') as run`, [ids.unitPublished]);
+      await q(`select public.submit_attempt($1, null, '[0,1,2,3]', null, 0::smallint, $2, 'game')`, [p.id, run.run]);
+      await act(user(ids.teacher1));
+      const contexts = (await q(`select context from public.attempts where student_id = $1 order by context`, [ids.student1])).map((r) => r.context);
+      const runs = await q(`select * from public.game_runs`);
+      await act(user(ids.student2));
+      const others = await q(`select * from public.game_runs`);
+      return { contexts, runs, others };
+    });
+    expect(out.contexts).toContain("game");
+    expect(out.runs).toEqual([]);
+    expect(out.others).toEqual([]);
+    await expectDenied(db, s1, `insert into public.game_runs (student_id, unit_id, mode, item_ids) values ($1, $2, 'order', '{}')`, [ids.student1, ids.unitPublished], /permission denied/);
   });
 });

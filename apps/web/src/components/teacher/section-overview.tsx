@@ -1,4 +1,4 @@
-import { formatLevel, type SectionMetrics } from "@edukemonos/curriculum";
+import { formatLevel, originSummary, type SectionMetrics } from "@edukemonos/curriculum";
 import { Download } from "lucide-react";
 import Link from "next/link";
 import type { PanelSource } from "@/lib/teacher";
@@ -37,7 +37,12 @@ export function SectionOverview({ source, metrics, subjectId, summary }: {
       <StatTiles items={[
         { label: "Estudiantes en la sección", value: String(o.students) },
         { label: "Activos esta semana", value: `${o.active}`, hint: o.students ? `${pct(o.active / o.students)} de la sección` : undefined },
-        { label: "Ejercicios esta semana", value: String(o.attempts7), hint: o.accuracy7 !== null ? `${pct(o.accuracy7)} de aciertos` : undefined },
+        {
+          label: "Ejercicios esta semana",
+          value: String(o.attempts7),
+          // Every answer counts for mastery; the origin says in which activity it was given.
+          hint: [o.accuracy7 !== null ? `${pct(o.accuracy7)} de aciertos` : "", originSummary(o.byOrigin7)].filter(Boolean).join(" · ") || undefined,
+        },
         { label: "Dominio promedio", value: pct(o.mastery), hint: "Estimado con las respuestas a ejercicios" },
       ]} />
 

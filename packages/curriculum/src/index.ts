@@ -8,3 +8,4 @@ export * from "./teacher";
 export * from "./demo-section";
 export * from "./streak";
 export * from "./section-goal";
+export * from "./games";
