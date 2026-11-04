@@ -63,6 +63,15 @@ export default async function TeacherHomePage() {
   const { data: auth } = await supabase.auth.getUser();
   if (!auth.user || auth.user.is_anonymous) return <Landing />;
 
+  const { data: memberships } = await supabase
+    .from("institution_members")
+    .select("role, institutions(id, name)")
+    .eq("profile_id", auth.user.id);
+  const institutions = (memberships ?? []).flatMap((m) => {
+    const i = m.institutions as unknown as { id: string; name: string } | null;
+    return i ? [{ ...i, admin: m.role === "admin" }] : [];
+  });
+
   const { data: sections } = await supabase
     .from("sections")
     .select("id, name, grade_id, join_code, active, current_term, section_members(count)")
@@ -101,6 +110,21 @@ export default async function TeacherHomePage() {
           </ul>
         )}
       </section>
+      {institutions.length > 0 && (
+        <section className="space-y-3">
+          <h2 className="font-heading text-2xl font-bold">Mis instituciones</h2>
+          <ul className="grid gap-3 sm:grid-cols-2">
+            {institutions.map((i) => (
+              <li key={i.id}>
+                <Link href={`/docente/institucion/${i.id}`} className="flex min-h-11 items-center justify-between rounded-[22px] border bg-card p-4 transition hover:border-violeta">
+                  <span className="font-medium">{i.name}</span>
+                  <span className="text-xs text-muted-foreground">{i.admin ? "Administración" : "Docente"}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
       <section className="space-y-4 rounded-[22px] border bg-card p-5 sm:p-6">
         <h2 className="font-heading text-2xl font-bold">Crear una sección</h2>
         <NewSectionForm />

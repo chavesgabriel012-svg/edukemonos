@@ -2,6 +2,9 @@ import { busiestSubject, computeSectionMetrics } from "@edukemonos/curriculum";
 import type { Metadata } from "next";
 import { SectionHeader } from "@/components/teacher/section-header";
 import { SectionOverview } from "@/components/teacher/section-overview";
+import { StreakPanel } from "@/components/teacher/streak-panel";
+import { demoGamification } from "@/lib/gamification";
+import { createClient } from "@/lib/supabase/server";
 import { demoSource } from "@/lib/teacher";
 import { cachedSummary } from "@/lib/teacher-summary";
 
@@ -16,6 +19,7 @@ export default async function DemoSectionPage({ searchParams }: PageProps<"/doce
     <div className="space-y-6">
       <SectionHeader source={source} />
       <SectionOverview source={source} metrics={metrics} subjectId={subjectId} summary={await cachedSummary(metrics.findings)} />
+      <StreakPanel sectionId="demo" data={await demoGamification(await createClient())} demo />
     </div>
   );
 }

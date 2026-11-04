@@ -350,3 +350,31 @@ export async function writingFeedback(_prev: WritingState, form: FormData): Prom
     return { error: "No pudimos revisar tu texto ahora. Intenta de nuevo en un rato." };
   }
 }
+
+// ---------------------------------------------------------------------------
+// Weekly streak (docs/producto/gamificacion.md §4)
+// ---------------------------------------------------------------------------
+
+/** Uses this period's repair (comodín) on the last missed week. The database checks it is allowed. */
+export async function repairStreak(): Promise<ActionResult<null>> {
+  const supabase = await createClient();
+  const { data: auth } = await supabase.auth.getUser();
+  if (!auth.user?.is_anonymous) return fail("Primero resuelve un ejercicio para tener una racha.");
+  const { data, error } = await supabase.rpc("use_streak_repair");
+  if (error) {
+    console.error("use_streak_repair failed:", error.message);
+    return fail("No pudimos usar el comodín. Intenta de nuevo.");
+  }
+  if (!(data as { ok: boolean }).ok) return fail("El comodín ya no está disponible para esa semana.");
+  return { ok: true, data: null };
+}
+
+/** Records that the rest reminder was shown (minutes only, no personal data). */
+export async function logRestReminder(minutes: number): Promise<void> {
+  const supabase = await createClient();
+  const { data: auth } = await supabase.auth.getUser();
+  if (!auth.user) return;
+  const m = Math.min(600, Math.max(0, Math.round(Number(minutes) || 0)));
+  const { error } = await supabase.from("events").insert({ actor_id: auth.user.id, name: "rest_reminder_shown", props: { minutes: m } });
+  if (error) console.error("rest reminder event failed:", error.message);
+}

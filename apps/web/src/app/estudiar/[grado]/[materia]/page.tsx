@@ -3,8 +3,10 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { SubjectIcon } from "@/components/brand/subject-icon";
+import { StreakCard } from "@/components/learn/streak-card";
 import { subjectColor } from "@/lib/brand";
 import { currentUser, GRADE_LABEL, masteryMap, parseGrade, subjectName, unitsFor } from "@/lib/learn";
+import { streakStatus } from "@/lib/streak";
 
 export async function generateMetadata({ params }: PageProps<"/estudiar/[grado]/[materia]">): Promise<Metadata> {
   const { grado, materia } = await params;
@@ -46,6 +48,7 @@ export default async function SubjectPage({ params }: PageProps<"/estudiar/[grad
         .eq("subject_id", materia).eq("grade_id", grade).eq("status", "completed").order("completed_at", { ascending: false }).limit(1).maybeSingle()
     : { data: null };
 
+  const streak = await streakStatus();
   const strong = units.flatMap((u) => u.skills).filter((s) => (mastery.get(s.id) ?? 0) >= STRONG);
   const weak = units.flatMap((u) => u.skills).filter((s) => mastery.has(s.id) && mastery.get(s.id)! < WEAK);
 
@@ -58,6 +61,8 @@ export default async function SubjectPage({ params }: PageProps<"/estudiar/[grad
           <SubjectIcon subject={materia} className="size-7" />
         </div>
       </div>
+
+      <StreakCard status={streak} />
 
       <div className="space-y-3 rounded-xl border bg-secondary/40 p-5">
         {last ? (

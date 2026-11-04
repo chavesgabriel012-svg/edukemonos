@@ -126,3 +126,14 @@ export function buildDemoSection(units: PanelUnit[], now = new Date(), studentCo
   }
   return { students, units, mastery, attempts, diagnostics, tutor, writing, now };
 }
+
+/** Weekly streak of the demo section (fictitious, labelled as demo): aggregates only. */
+export const DEMO_STREAK = {
+  students: 26,
+  met_this_week: 15,
+  with_streak: 18,
+  longest: 7,
+  target: 5,
+  enabled: true,
+  paused: false,
+} as const;

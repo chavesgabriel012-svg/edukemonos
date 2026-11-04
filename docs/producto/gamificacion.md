@@ -1,12 +1,12 @@
 # Eduka v2 · Gamificación y funciones para colegios
 
-Diseño de la rama `producto/eduka-v2`. Cada fase va en su propia rama, sale de `producto/eduka-v2` y vuelve a ella
-con un PR. Nada pasa a `main` sin aprobación del fundador.
+Diseño de la rama `producto/eduka-v2`. Todo lo nuevo va en una rama nueva que sale de `producto/eduka-v2` y vuelve a
+ella con un PR. Nada pasa a `main` sin aprobación del fundador.
 
 | Fase | Rama | Qué entrega |
 |---|---|---|
 | 0 | `producto/fase-0-requisitos` | Este documento, código personal de recuperación, salida del tutor a 2 048 tokens, `.env.example` |
-| 1 | `producto/fase-1-racha` | Racha semanal de dominio, calendario escolar, comodín, aviso de descanso |
+| 1 | `fase-1` | Racha semanal de dominio, calendario escolar, comodín, aviso de descanso |
 | 2 | `producto/fase-2-meta-seccion` | Meta colectiva semanal y tabla con apodos |
 | 3 | `producto/fase-3-minijuegos` | Mecánicas fijas con contenido generado y verificado |
 | 4 | `producto/fase-4-torneo` | Torneo automático de los viernes |
@@ -83,51 +83,73 @@ El docente no configura nada para que todo funcione. Solo puede apagar funciones
 ```sql
 create table public.section_settings (
   section_id uuid primary key references public.sections on delete cascade,
-  streak_enabled      boolean not null default true,
-  goal_enabled        boolean not null default true,
-  leaderboard_enabled boolean not null default true,
-  games_enabled       boolean not null default true,
-  tournament_enabled  boolean not null default true,
-  weekly_target       smallint not null default 5 check (weekly_target between 1 and 50),
-  calendar_id         uuid references public.school_calendars,  -- null = calendario MEP del año
+  streak_enabled boolean not null default true,                                  -- fase 1
+  weekly_target  smallint not null default 5 check (weekly_target between 1 and 50),  -- fase 1
+  -- goal_enabled, leaderboard_enabled, games_enabled, tournament_enabled: cada fase agrega la suya
   updated_at timestamptz not null default now()
 );
 ```
 
-Una sección sin fila usa los valores por defecto. Solo el docente dueño de la sección la lee y la escribe.
+Una sección sin fila usa los valores por defecto. Solo el docente dueño de la sección la lee y la escribe. La
+sección no elige calendario: usa el de su institución (§2.6).
 
-### 2.6 Calendario escolar
+### 2.6 Instituciones y calendario escolar
+
+**Instituciones (decisión del fundador, 3 nov).** Para crear un Eduka por institución, cada una tiene su id en la base
+de datos:
+
+```sql
+create table public.institutions (
+  id uuid primary key default gen_random_uuid(),
+  name text not null,
+  slug text unique,           -- opcional, para una dirección propia en el futuro (eduka.cr/liceo-x)
+  calendar_id uuid,           -- su calendario del año en curso
+  created_at timestamptz not null default now()
+);
+create table public.institution_members (     -- quién pertenece y con qué papel
+  institution_id uuid references public.institutions on delete cascade,
+  profile_id uuid references public.profiles on delete cascade,
+  role public.institution_role not null default 'teacher',   -- 'admin' | 'teacher'
+  primary key (institution_id, profile_id)
+);
+alter table public.sections add column institution_id uuid references public.institutions on delete set null;
+```
+
+- Las instituciones las crea por ahora un administrador de la plataforma. Quien administra una institución agrega
+  docentes por su correo (`add_institution_member`), edita su calendario y ve sus miembros.
+- El docente asocia su sección a una institución desde los ajustes de la sección, y solo a una de la que es miembro.
+  `institution_text` se mantiene como texto libre para quien no tiene institución.
+
+**Calendario.** Uno por año, con vacaciones y **periodos editables**:
 
 ```sql
 create table public.school_calendars (
   id uuid primary key default gen_random_uuid(),
-  name text not null,                 -- 'MEP 2027' o el nombre que le dé el colegio
+  name text not null,                 -- 'MEP 2027' o '<institución> 2027'
   school_year smallint not null,
   classes_start date not null,        -- MEP 2027: 2027-03-01
   classes_end   date not null,        -- MEP 2027: 2027-11-30
-  owner_teacher_id uuid references public.profiles on delete cascade,  -- null = calendario oficial
+  institution_id uuid references public.institutions on delete cascade,  -- null = oficial del MEP
   created_at timestamptz not null default now()
 );
-create table public.school_calendar_breaks (
-  calendar_id uuid references public.school_calendars on delete cascade,
-  starts_on date not null,            -- MEP 2027: 2027-07-02
-  ends_on   date not null,            -- MEP 2027: 2027-07-16
-  label text not null                 -- 'Vacaciones de medio año'
-);
+create table public.school_calendar_breaks  (calendar_id, starts_on, ends_on, label);   -- MEP 2027: 2–16 jul
+create table public.school_calendar_periods (calendar_id, starts_on, ends_on, label, sort_order);
 ```
 
-- El calendario oficial (MEP 2027) se carga en una migración. Así, sin que nadie haga nada, todas las secciones
-  quedan con clases del 1 de marzo al 30 de noviembre de 2027 y vacaciones del 2 al 16 de julio.
-- **«El colegio puede cambiarlo»:** hoy no existe una entidad «colegio» (la sección solo tiene `institution_text`).
-  Por eso el calendario propio lo crea el docente, se asigna a sus secciones y puede compartirse entre ellas.
-  Cuando exista una cuenta de colegio, ese calendario pasará a ser del colegio.
-- **Semana de vacaciones**: una semana (lunes a domingo) en la que no hay ningún día de clases. Hay que decidir el
-  caso de la semana parcial (la del 2 de julio de 2027 empieza un viernes): **una semana con al menos un día de
-  clases cuenta normalmente**, porque pedir N ejercicios en una semana con clases es razonable.
-- **Antes del 1 de marzo y después del 30 de noviembre** también se considera vacaciones: la racha se congela.
+- El calendario oficial MEP 2027 se carga en una migración, con dos semestres (1 mar–1 jul y 17 jul–30 nov). Sin que
+  nadie haga nada, todas las secciones lo usan.
+- **Periodos editables (decisión del fundador, 3 nov):** cada institución define los suyos. Pueden ser 2 semestres, 3
+  trimestres o lo que use, de 1 a 4. El formulario los propone con un toque («2 semestres», «3 trimestres»), cortando
+  en las vacaciones, y se pueden ajustar a mano.
+- **Qué calendario usa una sección:** el de su institución para ese año; si no tiene, el oficial del MEP.
+- **Semana de vacaciones**: una semana (lunes a domingo) sin ningún día de clases (lunes a viernes, dentro del año
+  lectivo y fuera de vacaciones). Una semana con al menos un día de clases cuenta normalmente; por ejemplo, la del
+  28 de junio de 2027, aunque las vacaciones empiecen el viernes 2 de julio.
+- **Antes del inicio y después del fin de clases** también es vacaciones: la racha se congela. **Un año sin
+  calendario cargado** (por ejemplo, 2026, antes de MEP 2027) no pausa nada: todas las semanas cuentan.
 - **Estudiante sin sección**: usa el calendario MEP del año. **Estudiante en varias secciones**: una semana se
   pausa si es de vacaciones en *cualquiera* de sus calendarios. Es la regla más generosa y evita perder la racha
-  por un calendario ajeno.
+  por un calendario ajeno. El periodo del comodín sale del calendario de la primera sección a la que se unió.
 
 ### 2.7 Eventos
 
@@ -138,10 +160,9 @@ lleva nombres, apodos, texto del estudiante ni respuestas. Nombres previstos:
 |---|---|
 | `recovery_code_created` | `{}` |
 | `recovery_code_redeemed` | `{ "moved": { "attempts": 12, … } }` (solo conteos) |
-| `streak_week_completed` | `{ "week": "2027-03-08", "length": 3 }` |
+| `streak_week_completed` | `{ "week": "2027-03-08", "target": 5 }` |
 | `streak_repaired` | `{ "week": "2027-03-15" }` |
-| `streak_ended` | `{ "length": 4, "record": 6 }` |
-| `rest_reminder_shown` | `{ "minutes": 45 }` |
+| `rest_reminder_shown` | `{ "minutes": 61 }` |
 | `nickname_chosen` / `leaderboard_hidden` | `{ "section": "<uuid>" }` |
 | `game_played` | `{ "mechanic": "pairs", "unit": "<uuid>", "correct": 5, "total": 6 }` |
 | `tournament_joined` | `{ "tournament": "<uuid>" }` |
@@ -207,9 +228,9 @@ Se sugiere `TUTOR_MAX_MESSAGES_PER_DAY=5`. Es solo documentación: el valor de p
 - **Racha en curso**: semanas cumplidas seguidas, hasta la última semana cerrada, saltando las semanas de
   vacaciones, que ni suman ni rompen. La semana actual suma si ya se cumplió y **nunca rompe la racha mientras no
   termine**.
-- **Comodín**: uno por periodo. Hay dos periodos por año escolar, de marzo hasta las vacaciones de medio año y de las
-  vacaciones a noviembre. Repara una semana no cumplida, y solo la última semana cerrada (no se acumulan
-  reparaciones hacia atrás). Se guarda en `streak_repairs(student_id, week_start, period_key)`, con único
+- **Comodín**: uno por periodo del calendario (§2.6): dos semestres en el oficial, o los periodos que defina la
+  institución. Repara la última semana cerrada si no se cumplió y antes había racha (no se acumulan reparaciones
+  hacia atrás). Se guarda en `streak_repairs(student_id, week_start, period_key)`, con único
   `(student_id, period_key)`.
 - **Récord**: la racha más larga que tuvo. No se pierde nunca.
 - **Cálculo**: la racha se calcula desde `attempts` en una función SQL (`streak_status()`) que devuelve racha en
@@ -217,12 +238,16 @@ Se sugiere `TUTOR_MAX_MESSAGES_PER_DAY=5`. Es solo documentación: el valor de p
   contadores que se puedan desincronizar. Para que sea rápida: índice `(student_id, created_at) where is_correct`.
 - **Si la racha se rompe**: «Tu récord es de 6 semanas. ¡Empecemos una nueva esta semana!». Sin «perdiste»,
   sin cuenta regresiva y sin avisos fuera de la app.
-- **Aviso de descanso**: después de **40 minutos** de actividad continua en práctica, juegos o tutor (pausas de
+- **Aviso de descanso**: después de **1 hora** de actividad continua en práctica, juegos o tutor (pausas de
   menos de 5 minutos no cortan la sesión), una tarjeta amable: «Llevas un buen rato. Un descanso corto ayuda a
   recordar mejor. Tu progreso queda guardado». Una vez por sesión, sin bloquear nada. Se calcula en el cliente, y
   solo el evento va a `events`.
-- **Docente**: puede apagar la racha (`streak_enabled`). Apagada, el estudiante no ve la racha; el dominio sigue
-  igual.
+- **Docente**: puede apagar la racha (`streak_enabled`) y cambiar la meta semanal. Apagada, el estudiante no ve la
+  racha, salvo que esté en otra sección que la tenga encendida; el dominio sigue igual. En el panel ve solo datos
+  agregados: cuántos cumplieron la meta, cuántos tienen racha y la racha más larga, sin decir de quién es.
+- **Eventos**: `streak_week_completed` (lo escribe un trigger al llegar a la meta, una vez por semana),
+  `streak_repaired` y `rest_reminder_shown`. `streak_ended` no se registra: la racha se calcula al leerla, así que
+  no hay un momento en que «se rompa».
 
 ## 5. Fase 2 · Meta colectiva y tabla con apodos
 
@@ -345,10 +370,11 @@ Cada pieza de juego es un **ítem** con un tipo nuevo (`item_kind`: `game_pairs`
 - Todo se diseña primero para celular: objetivos táctiles de 44 px, sin desplazamiento horizontal y
   arrastrar-y-soltar con alternativa de tocar para las mecánicas de juego.
 
-## 11. Decisiones abiertas para el fundador
+## 11. Decisiones del fundador
 
-1. **Comodín «por periodo»**: lo interpreté como dos periodos por año (antes y después de las vacaciones de medio
-   año). Si prefieres trimestres, es un cambio de configuración.
-2. **Calendario «del colegio»**: hoy es del docente, porque no existe la entidad colegio.
-3. **Duración del aviso de descanso**: 40 minutos.
+Resueltas el 3 de noviembre de 2026:
+
+1. **Comodín por periodo**: dos semestres por defecto, editables por institución (por ejemplo, 3 trimestres).
+2. **Calendario de la institución**: cada institución tiene un id en la base de datos y su propio calendario (§2.6).
+3. **Aviso de descanso**: después de 1 hora.
 4. **Ítems sin verificar en la racha**: cuentan, igual que en la práctica de hoy.

@@ -1,7 +1,7 @@
 import type pg from "pg";
 import { afterAll, beforeAll, describe, expect, inject, it } from "vitest";
 import { type Fixture, ids, loadFixture } from "./fixtures";
-import { estimateAbility, levelOf, updateMastery } from "@edukemonos/curriculum";
+import { addWeeks, classDays, computeStreak, estimateAbility, levelOf, MEP_2027, updateMastery, weekStartCR } from "@edukemonos/curriculum";
 import { anon, as, asActors, asSteps, connect, expectDenied, service, user } from "./helpers";
 
 let db: pg.Client;
@@ -540,9 +540,236 @@ describe("recovery codes", () => {
       where c.contype = 'f' and c.confrelid = 'public.students'::regclass
       order by 1`);
     const handled = [
-      "attempts", "diagnostics", "mastery", "section_members", "student_recovery_codes",
+      "attempts", "diagnostics", "mastery", "section_members", "streak_repairs", "student_recovery_codes",
       "tutor_sessions", "writing_feedback",
     ];
     expect(rows.map((r) => r.table.replace(/^public\./, "")).sort()).toEqual(handled);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Fase 1: institutions, calendars and the weekly mastery streak
+// ---------------------------------------------------------------------------
+
+/** Runs a scenario in one transaction that is always rolled back. `act` switches the API role. */
+async function scenario<T>(fn: (q: (sql: string, params?: unknown[]) => Promise<pg.QueryResultRow[]>, act: (a: ReturnType<typeof user> | typeof anon | typeof service | null) => Promise<void>) => Promise<T>): Promise<T> {
+  await db.query("begin");
+  try {
+    const q = async (sql: string, params: unknown[] = []) => (await db.query(sql, params)).rows;
+    const act = async (a: ReturnType<typeof user> | typeof anon | typeof service | null) => {
+      await db.query("reset role");
+      if (!a) return;
+      const role = a.kind === "anon" ? "anon" : a.kind === "service" ? "service_role" : "authenticated";
+      await db.query(`set local role ${role}`);
+      await db.query("select set_config('request.jwt.claims', $1, true)", [JSON.stringify(a.kind === "user" ? { sub: a.id, role } : { role })]);
+    };
+    return await fn(q, act);
+  } finally {
+    await db.query("rollback");
+  }
+}
+
+/** Creates `n` published items in the published unit and returns their ids (inside a scenario). */
+async function makeItems(q: (sql: string, params?: unknown[]) => Promise<pg.QueryResultRow[]>, n: number): Promise<string[]> {
+  const rows = await q(
+    `insert into public.items (unit_id, stem, options, correct_index, explanation, distractor_explanations, difficulty, verified, status)
+     select $1, 'racha ' || g, array['a','b','c','d'], 0, 'e', array['x','x','x','x'], 3, true, 'published' from generate_series(1, $2) g
+     returning id`,
+    [ids.unitPublished, n],
+  );
+  return rows.map((r) => r.id as string);
+}
+
+/** Right answers to `count` distinct items at a Costa Rica date-time ("2027-03-03 10:00"). */
+async function rightAnswers(q: (sql: string, params?: unknown[]) => Promise<pg.QueryResultRow[]>, student: string, items: string[], count: number, crLocal: string) {
+  await q(
+    `insert into public.attempts (student_id, item_id, is_correct, created_at)
+     select $1, i, true, ($3::timestamp + interval '6 hours') at time zone 'UTC' from unnest($2::uuid[]) with ordinality t(i, k) where k <= $4`,
+    [student, items, crLocal, count],
+  );
+}
+
+describe("weekly mastery streak", () => {
+  it("matches the TypeScript reference, with the MEP 2027 mid-year break paused", async () => {
+    const plan: [string, number][] = [["2027-06-21", 5], ["2027-06-28", 6], ["2027-07-05", 0], ["2027-07-12", 0], ["2027-07-19", 5], ["2027-07-26", 2]];
+    const state = await scenario(async (q) => {
+      const items = await makeItems(q, 6);
+      for (const [week, n] of plan) if (n) await rightAnswers(q, ids.loner, items, n, `${week} 10:00`);
+      // A repeated right answer in the same week does not count twice.
+      await rightAnswers(q, ids.loner, items, 2, "2027-07-27 09:00");
+      const [{ s }] = await q(`select private.streak_state($1, '2027-07-28 18:00Z') as s`, [ids.loner]);
+      return s;
+    });
+    const ref = computeStreak(
+      plan.map(([week, count]) => ({ week, count, paused: classDays(MEP_2027, week) === 0, repaired: false })),
+      5,
+      weekStartCR(new Date("2027-07-28T18:00:00Z")),
+    );
+    expect(ref).toMatchObject({ current: 3, record: 3, weekCount: 2, paused: false });
+    expect(state).toMatchObject({ current: ref.current, record: ref.record, week_count: ref.weekCount, week_done: false, paused: false, broken: false, target: 5 });
+  });
+
+  it("pauses during a vacation week", async () => {
+    const state = await scenario(async (q) => {
+      const items = await makeItems(q, 5);
+      await rightAnswers(q, ids.loner, items, 5, "2027-06-29 10:00");
+      const [{ s }] = await q(`select private.streak_state($1, '2027-07-07 18:00Z') as s`, [ids.loner]);
+      return s;
+    });
+    expect(state).toMatchObject({ current: 1, paused: true, broken: false });
+  });
+
+  it("shows the record and offers the period's repair after a missed week; one repair per period", async () => {
+    const now = new Date();
+    const cur = weekStartCR(now);
+    const day = (week: string) => `${week} 10:00`;
+    const out = await scenario(async (q, act) => {
+      const items = await makeItems(q, 5);
+      // Met three and two weeks ago, missed last week.
+      await rightAnswers(q, ids.loner, items, 5, day(addWeeks(cur, -3)));
+      await rightAnswers(q, ids.loner, items, 5, day(addWeeks(cur, -2)));
+      await rightAnswers(q, ids.loner, items, 1, day(addWeeks(cur, -1)));
+      await act(user(ids.loner));
+      const [{ before }] = await q(`select public.streak_status() as before`);
+      const [{ used }] = await q(`select public.use_streak_repair() as used`);
+      const [{ again }] = await q(`select public.use_streak_repair() as again`);
+      const direct = await q(`select count(*)::int as n from public.streak_repairs where student_id = $1`, [ids.loner]);
+      await act(null);
+      const events = await q(`select name, props from public.events where actor_id = $1 and name = 'streak_repaired'`, [ids.loner]);
+      return { before, used, again, direct, events };
+    });
+    expect(out.before).toMatchObject({ current: 0, record: 2, broken: true, can_repair: true, repair_week: addWeeks(cur, -1) });
+    expect(out.used).toMatchObject({ ok: true, status: { current: 3, broken: false, can_repair: false } });
+    expect(out.again).toEqual({ ok: false, error: "not_available" });
+    expect(out.direct[0].n).toBe(1);
+    expect(out.events).toEqual([{ name: "streak_repaired", props: { week: addWeeks(cur, -1) } }]);
+  });
+
+  it("uses the section's weekly target and hides the streak only when every section turns it off", async () => {
+    const out = await scenario(async (q, act) => {
+      const items = await makeItems(q, 2);
+      await rightAnswers(q, ids.student1b, items, 2, `${weekStartCR(new Date())} 10:00`);
+      await act(user(ids.teacher1));
+      await q(`insert into public.section_settings (section_id, weekly_target) values ($1, 2)`, [ids.section1]);
+      await act(user(ids.student1b));
+      const [{ on }] = await q(`select public.streak_status() as on`);
+      await act(user(ids.teacher1));
+      await q(`update public.section_settings set streak_enabled = false where section_id = $1`, [ids.section1]);
+      await act(user(ids.student1b));
+      const [{ off }] = await q(`select public.streak_status() as off`);
+      await act(user(ids.loner));
+      const [{ alone }] = await q(`select public.streak_status() as alone`);
+      return { on, off, alone };
+    });
+    expect(out.on).toMatchObject({ target: 2, week_count: 2, week_done: true, current: 1, visible: true });
+    expect(out.off.visible).toBe(false);
+    expect(out.alone).toMatchObject({ visible: true, target: 5 });
+  });
+
+  it("logs the week as completed once, with no personal data", async () => {
+    const events = await scenario(async (q) => {
+      const items = await makeItems(q, 6);
+      await rightAnswers(q, ids.loner, items, 6, `${weekStartCR(new Date())} 10:00`);
+      return q(`select props from public.events where actor_id = $1 and name = 'streak_week_completed'`, [ids.loner]);
+    });
+    expect(events).toEqual([{ props: { week: weekStartCR(new Date()), target: 5 } }]);
+  });
+
+  it("students cannot write repairs or read section settings directly", async () => {
+    await expectDenied(db, loner, `insert into public.streak_repairs (student_id, week_start, period_key) values ($1, '2027-03-01', 'x')`, [ids.loner], /permission denied/);
+    const rows = await as(db, s1, `select * from public.section_settings`);
+    expect(rows).toEqual([]);
+    await expectDenied(db, anon, `select public.streak_status()`, [], /permission denied/);
+  });
+
+  it("the teacher sees aggregates of own sections only, and only they change the settings", async () => {
+    const [summary] = await as<{ s: { students: number; enabled: boolean; target: number } }>(db, t1, `select public.section_streak_summary($1) as s`, [ids.section1]);
+    expect(summary.s).toMatchObject({ students: 2, enabled: true, target: 5 });
+    await expectDenied(db, t2, `select public.section_streak_summary($1)`, [ids.section1], /not your section/);
+    await expectDenied(db, t2, `insert into public.section_settings (section_id, streak_enabled) values ($1, false)`, [ids.section1], /row-level security/);
+    await expectDenied(db, s1, `insert into public.section_settings (section_id, streak_enabled) values ($1, false)`, [ids.section1], /row-level security|permission denied/);
+  });
+});
+
+describe("institutions and school calendars", () => {
+  const trimesters = JSON.stringify([
+    { starts_on: "2027-02-08", ends_on: "2027-05-07", label: "Primer trimestre" },
+    { starts_on: "2027-05-10", ends_on: "2027-08-27", label: "Segundo trimestre" },
+    { starts_on: "2027-08-30", ends_on: "2027-12-03", label: "Tercer trimestre" },
+  ]);
+  const breaks = JSON.stringify([{ starts_on: "2027-07-05", ends_on: "2027-07-16", label: "Vacaciones de medio año" }]);
+  const save = `select public.save_institution_calendar($1, 2027::smallint, '2027-02-08', '2027-12-03', $2, $3) as cal`;
+
+  it("only platform admins create institutions; members see theirs", async () => {
+    await expectDenied(db, t1, `insert into public.institutions (name) values ('Liceo de prueba')`, [], /row-level security/);
+    const out = await scenario(async (q, act) => {
+      await act(admin);
+      const [{ id }] = await q(`insert into public.institutions (name, slug) values ('Liceo de prueba', 'liceo-prueba') returning id`);
+      await q(`insert into public.institution_members (institution_id, profile_id, role) values ($1, $2, 'admin')`, [id, ids.teacher1]);
+      await act(user(ids.teacher1));
+      const mine = await q(`select name from public.institutions`);
+      await act(user(ids.teacher2));
+      const theirs = await q(`select name from public.institutions`);
+      return { mine, theirs };
+    });
+    expect(out.mine).toEqual([{ name: "Liceo de prueba" }]);
+    expect(out.theirs).toEqual([]);
+  });
+
+  it("an institution admin sets its calendar with 3 trimesters; it pauses its sections' students", async () => {
+    const out = await scenario(async (q, act) => {
+      const [{ id }] = await q(`insert into public.institutions (name) values ('Liceo de prueba') returning id`);
+      await q(`insert into public.institution_members (institution_id, profile_id, role) values ($1, $2, 'admin'), ($1, $3, 'teacher')`, [id, ids.teacher1, ids.teacher2]);
+      await act(user(ids.teacher2));
+      let teacherError = "";
+      await q("savepoint s");
+      try { await q(save, [id, breaks, trimesters]); } catch (e) { teacherError = (e as Error).message; await q("rollback to savepoint s"); }
+      await act(user(ids.teacher1));
+      const [{ cal }] = await q(save, [id, breaks, trimesters]);
+      await q(`update public.sections set institution_id = $1 where id = $2`, [id, ids.section1]);
+      await act(null);
+      const periods = await q(`select label from public.school_calendar_periods where calendar_id = $1 order by sort_order`, [cal]);
+      // 12 July 2027 is a class week for MEP but a break for this institution.
+      const [{ inst }] = await q(`select private.week_paused($1, '2027-07-12') as inst`, [ids.student1]);
+      const [{ mep }] = await q(`select private.week_paused($1, '2027-07-19') as mep`, [ids.student1]);
+      const [{ per }] = await q(`select (private.week_period($1, '2027-06-07')).label as per`, [ids.student1]);
+      return { teacherError, periods, inst, mep, per };
+    });
+    expect(out.teacherError).toMatch(/not an admin/);
+    expect(out.periods.map((p) => p.label)).toEqual(["Primer trimestre", "Segundo trimestre", "Tercer trimestre"]);
+    expect(out.inst).toBe(true);
+    // Student1's only section follows the institution's calendar, not the official one.
+    expect(out.mep).toBe(false);
+    expect(out.per).toBe("Segundo trimestre");
+  });
+
+  it("rejects overlapping periods and dates outside the school year", async () => {
+    const bad = JSON.stringify([
+      { starts_on: "2027-02-08", ends_on: "2027-06-30", label: "Periodo A" },
+      { starts_on: "2027-06-01", ends_on: "2027-12-03", label: "Periodo B" },
+    ]);
+    const err = await scenario(async (q, act) => {
+      const [{ id }] = await q(`insert into public.institutions (name) values ('Liceo de prueba') returning id`);
+      await q(`insert into public.institution_members (institution_id, profile_id, role) values ($1, $2, 'admin')`, [id, ids.teacher1]);
+      await act(user(ids.teacher1));
+      try { await q(save, [id, breaks, bad]); return ""; } catch (e) { return (e as Error).message; }
+    });
+    expect(err).toMatch(/must not overlap/);
+  });
+
+  it("a teacher can only attach a section to an institution they belong to", async () => {
+    const err = await scenario(async (q, act) => {
+      const [{ id }] = await q(`insert into public.institutions (name) values ('Otro liceo') returning id`);
+      await act(user(ids.teacher1));
+      try { await q(`update public.sections set institution_id = $1 where id = $2`, [id, ids.section1]); return ""; } catch (e) { return (e as Error).message; }
+    });
+    expect(err).toMatch(/not a member/);
+  });
+
+  it("calendars are public school dates; nobody writes them through the API", async () => {
+    const rows = await as<{ name: string }>(db, anon, `select name from public.school_calendars where institution_id is null`);
+    expect(rows).toEqual([{ name: "MEP 2027" }]);
+    await expectDenied(db, t1, `insert into public.school_calendars (name, school_year, classes_start, classes_end) values ('x', 2028, '2028-03-01', '2028-11-30')`, [], /permission denied/);
+    await expectDenied(db, t1, `delete from public.school_calendar_breaks`, [], /permission denied/);
   });
 });

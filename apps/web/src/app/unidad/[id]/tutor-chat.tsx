@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Kemo } from "@/components/brand/logo";
+import { markActivity } from "@/lib/activity";
 import { brand } from "@/lib/brand";
 import { Markdown } from "@/components/learn/markdown";
 import { ReportButton } from "@/components/learn/report-button";
@@ -75,6 +76,7 @@ export function TutorChat({ unitId, help }: { unitId: string; help: Help }) {
     setBusy(true);
     setError(null);
     setInput("");
+    markActivity();
     setMessages((m) => [...m, { id: null, role: "user", content: text, flags: [] }, { id: null, role: "assistant", content: "", flags: [] }]);
     try {
       const res = await fetch("/api/tutor", {

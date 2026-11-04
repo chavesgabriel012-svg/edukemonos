@@ -2,15 +2,17 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { SubjectIcon } from "@/components/brand/subject-icon";
+import { StreakCard } from "@/components/learn/streak-card";
 import { subjectColor } from "@/lib/brand";
 import { GRADE_LABEL, parseGrade, subjectsForGrade } from "@/lib/learn";
+import { streakStatus } from "@/lib/streak";
 
 export const metadata: Metadata = { title: "Elige una materia" };
 
 export default async function GradePage({ params }: PageProps<"/estudiar/[grado]">) {
   const grade = parseGrade((await params).grado);
   if (!grade) notFound();
-  const subjects = await subjectsForGrade(grade);
+  const [subjects, streak] = await Promise.all([subjectsForGrade(grade), streakStatus()]);
 
   return (
     <section className="space-y-6">
@@ -18,6 +20,7 @@ export default async function GradePage({ params }: PageProps<"/estudiar/[grado]
         <Link href="/" className="text-sm underline underline-offset-2">← Cambiar de año</Link>
         <h1 className="text-2xl font-bold">{GRADE_LABEL[grade]} año: elige una materia</h1>
       </div>
+      <StreakCard status={streak} />
       <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3">
         {subjects.map((s) => (
           <li key={s.id}>
