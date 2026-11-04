@@ -142,17 +142,34 @@ export function evaluateCalc(expression: string): number | null {
 /** School notation → mathjs syntax: 2,5 → 2.5; × → *; ÷ → /; − → -; ² → ^2; √ → sqrt. */
 function cleanMath(text: string): string {
   // NFC, not NFKC: NFKC turns "5²" into "52".
-  return text
-    .normalize("NFC")
+  const nfc = text.normalize("NFC");
+  return nfc
+    // With ÷ in the text, "/" is a fraction bar: 3/5 ÷ 3/10 is (3/5) ÷ (3/10), not ((3/5) ÷ 3)/10.
+    .replace(nfc.includes("÷") ? /(?<![\d.,^])(\d+)\s*\/\s*(\d+)(?![\d.,^])/g : /$^/, "($1/$2)")
     // Superscript exponents: 5² → 5^2, 2¹⁰ → 2^10.
     .replace(/[⁰¹²³⁴⁵⁶⁷⁸⁹]+/g, (m) => `^${[...m].map((c) => "⁰¹²³⁴⁵⁶⁷⁸⁹".indexOf(c)).join("")}`)
     .replace(/[−–—]/g, "-")
     .replace(/[×·]/g, "*")
     .replace(/÷/g, "/")
     .replace(/(\d)\s+(?=\d{3}(?!\d))/g, "$1") // 1 000 → 1000 (space as thousands separator)
-    .replace(/(\d),(\d)/g, "$1.$2") // decimal comma
     .replace(/√\s*\(/g, "sqrt(")
-    .replace(/√\s*(\d+(?:\.\d+)?)/g, "sqrt($1)");
+    .replace(/√\s*(\d+(?:\.\d+)?)/g, "sqrt($1)")
+    .split("")
+    .reduce(decimalCommas(), "");
+}
+
+/**
+ * 2,5 → 2.5, except directly inside a function call, where the comma separates arguments:
+ * gcd(42,56) stays gcd(42, 56) instead of becoming gcd(42.56).
+ */
+function decimalCommas() {
+  const calls: boolean[] = []; // per open parenthesis: does it open a function call?
+  return (out: string, c: string, i: number, all: string[]): string => {
+    if (c === "(") calls.push(/[A-Za-z_]$/.test(out));
+    else if (c === ")") calls.pop();
+    else if (c === "," && /\d$/.test(out) && /\d/.test(all[i + 1] ?? "") && !calls.at(-1)) return `${out}.`;
+    return out + c;
+  };
 }
 
 /**

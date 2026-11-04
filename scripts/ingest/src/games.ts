@@ -128,11 +128,11 @@ export function readUnitGames(unitId: string): UnitGames | null {
   return null;
 }
 
-/** Copies a unit's generated pieces to the versioned archive (no AI, no database). */
-export function archiveUnitGames(unitId: string): boolean {
-  const file = paths.games(unitId);
-  if (!existsSync(file)) return false;
-  writeFileSync(ensureDir(paths.gamesArchive(unitId)), readFileSync(file, "utf8"));
+/** Writes a unit's pieces, re-verified with the current checks, to the versioned archive (no AI). */
+export function archiveUnitGames(u: ContentUnit): boolean {
+  const g = readUnitGames(u.id);
+  if (!g) return false;
+  writeFileSync(ensureDir(paths.gamesArchive(u.id)), JSON.stringify(reverifyGames(u, g), null, 2));
   return true;
 }
 

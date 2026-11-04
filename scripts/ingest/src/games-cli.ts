@@ -4,8 +4,8 @@
  *   pnpm games generate [--subject espanol|matematicas] [--grade 7|8|9] [--unit <id>] [--limit N] [--yes]
  *   pnpm games load     [same filters]   (cached results → draft items of kind game_*)
  *   pnpm games publish  [same filters]   (only what passed every check)
- *   pnpm games status   [same filters]
- *   pnpm games archive  [same filters]   (copy the cache to scripts/ingest/generated/games, versioned)
+ *   pnpm games status   [same filters]   (re-runs the fixed checks, free)
+ *   pnpm games archive  [same filters]   (re-verified copy to scripts/ingest/generated/games, versioned)
  *
  * Without filters: every published unit of Español and Matemáticas (7.º a 9.º).
  * `generate` spends money: without --yes it only prints an estimate. Units already in the cache are
@@ -20,7 +20,7 @@ import { gameTarget } from "@edukemonos/curriculum";
 import { scriptAI } from "./ai";
 import { type ContentUnit, publishedUnits, unitBlock } from "./content";
 import { dbFromEnv } from "./db";
-import { archiveUnitGames, generateUnitGames, loadUnitGames, publishVerifiedGames, readUnitGames, saveUnitGames } from "./games";
+import { archiveUnitGames, generateUnitGames, loadUnitGames, publishVerifiedGames, readUnitGames, reverifyGames, saveUnitGames } from "./games";
 
 const envFile = join(import.meta.dirname, "../../../apps/web/.env.local");
 if (existsSync(envFile)) process.loadEnvFile(envFile);
@@ -135,7 +135,7 @@ async function status() {
   const units = await selectUnits();
   const cached = units.flatMap((u) => {
     const g = readUnitGames(u.id);
-    return g ? [g] : [];
+    return g ? [reverifyGames(u, g)] : [];
   });
   const pieces = cached.flatMap((g) => g.pieces);
   const byMechanic = new Map<string, [number, number]>();
@@ -166,7 +166,7 @@ async function main() {
     case "status":
       return status();
     case "archive": {
-      const n = (await selectUnits()).filter((u) => archiveUnitGames(u.id)).length;
+      const n = (await selectUnits()).filter((u) => archiveUnitGames(u)).length;
       return console.log(`${n} unidades copiadas a scripts/ingest/generated/games.`);
     }
     default:
