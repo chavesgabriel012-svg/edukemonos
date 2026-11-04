@@ -23,7 +23,8 @@ export default async function DemoSectionPage({ searchParams }: PageProps<"/doce
       <SectionHeader source={source} />
       <p className="text-sm">
         <Link href="/docente/demo/guia" className="font-medium underline underline-offset-2">Ver cómo lo ve la persona guía del grupo</Link>
-        {" "}(todas las materias).
+        {" "}(todas las materias) o{" "}
+        <Link href="/docente/demo/resumen" className="font-medium underline underline-offset-2">todas las secciones de un docente</Link>.
       </p>
       <SectionOverview source={source} metrics={metrics} subjectId={subjectId} summary={await cachedSummary(metrics.findings)} />
       <GoalPanel data={demo} />

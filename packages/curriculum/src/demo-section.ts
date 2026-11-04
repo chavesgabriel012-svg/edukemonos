@@ -152,3 +152,13 @@ export const DEMO_GOAL = {
 } as const;
 
 export const DEMO_LEADERBOARD_SUMMARY = { members: 26, with_nickname: 21, hidden: 3 } as const;
+
+/**
+ * Demo of a teacher with several groups: Math in 7-1 and 7-4, Spanish in 7-1 (fictitious data,
+ * labelled as demo). Each section is a demo section of a different size.
+ */
+export const DEMO_TEACHER_SECTIONS = [
+  { id: "demo-71-mat", group: "7-1", subjectId: "matematicas", subjectName: "Matemáticas", students: 28 },
+  { id: "demo-74-mat", group: "7-4", subjectId: "matematicas", subjectName: "Matemáticas", students: 22 },
+  { id: "demo-71-esp", group: "7-1", subjectId: "espanol", subjectName: "Español", students: 28 },
+] as const;

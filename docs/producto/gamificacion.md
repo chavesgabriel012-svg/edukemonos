@@ -9,6 +9,7 @@ ella con un PR. Nada pasa a `main` sin aprobación del fundador.
 | 1 | `fase-1` | Racha semanal de dominio, calendario escolar, comodín, aviso de descanso |
 | 2 | `fase-2` | Meta colectiva semanal y tabla con apodos |
 | — | `secciones-por-materia` | Grupos con un código, docente = materia, guía = grupo (§12) |
+| — | `panel-docente-grupos` | «Mis secciones»: los grupos del docente lado a lado, por materia (§12) |
 | 3 | `fase-3` | Mecánicas fijas con contenido generado y verificado |
 | 4 | `fase-4` | Torneo automático de los viernes |
 | 5 | `fase-5` | Insignias, certificado de dominio y equipo destacado |
@@ -458,6 +459,17 @@ grupo.
   - `/docente/grupo/[id]/panel`: la vista de la persona guía.
   - `/docente/demo` muestra la sección de Matemáticas de un 7-3 y `/docente/demo/guia` la vista de la persona guía,
     las dos con datos ficticios.
+
+### Un docente en varios grupos
+
+«Docente = materia» no quiere decir una materia en todo el nivel, sino **una sección por cada grupo donde el docente da
+su materia**. Quien da Matemáticas solo en 7-1 y 8-3 tiene dos secciones y solo ve esos dos grupos, nunca el 7-2. Una
+prueba de RLS lo verifica. También puede dar materias distintas en grupos distintos.
+
+En «Mis secciones» el docente ve sus grupos **lado a lado, ordenados por materia**: estudiantes, activos en 7 días,
+dominio, meta de la semana y quiénes podrían necesitar apoyo, con enlace a cada estudiante. Usa los mismos números que el
+panel de cada sección (`sectionSnapshot()` sobre `computeSectionMetrics()`). En el total, cada estudiante cuenta una
+sola vez aunque esté en dos materias del mismo grupo. La demo está en `/docente/demo/resumen`.
 
 ### Efecto en las fases que siguen
 

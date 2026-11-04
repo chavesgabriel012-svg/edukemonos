@@ -1,10 +1,12 @@
 import { BarChart3, Download, Grid3x3, ShieldCheck, Sparkles, UserRoundSearch } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Suspense } from "react";
 import { Kemo } from "@/components/brand/logo";
 import { brand } from "@/lib/brand";
 import { createClient } from "@/lib/supabase/server";
-import { formatCode } from "@/lib/teacher";
+import { SectionsGlance } from "@/components/teacher/sections-glance";
+import { formatCode, teacherGlance } from "@/lib/teacher";
 import { NewGroupForm } from "./new-group-form";
 import { NewSectionForm } from "./new-section-form";
 
@@ -86,40 +88,47 @@ export default async function TeacherHomePage() {
   const role = (g: { guide_id: string | null; created_by: string; sections: { teacher_id: string }[] }) =>
     g.guide_id === auth.user!.id ? "Guía" : g.sections.some((x) => x.teacher_id === auth.user!.id) ? "Doy una materia" : g.created_by === auth.user!.id ? "Lo creé" : "De mi institución";
 
+  // Shown while the overview of every section (same numbers as each panel) is computed.
+  const simple = (
+    <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+      {(sections ?? []).map((s) => {
+        const members = (s.section_members as unknown as { count: number }[])[0]?.count ?? 0;
+        return (
+          <li key={s.id}>
+            <Link href={`/docente/seccion/${s.id}`} className="flex h-full flex-col gap-2 rounded-[22px] border bg-card p-5 transition hover:border-violeta">
+              <span className="font-mono text-xs text-muted-foreground">{s.grade_id}.º AÑO</span>
+              <span className="font-heading text-2xl leading-none font-bold">{s.name}</span>
+              <span className="text-sm text-muted-foreground">
+                {(s.subjects as unknown as { name: string } | null)?.name ?? "Todas las materias"} · {members} {members === 1 ? "estudiante" : "estudiantes"}
+              </span>
+              <span className="mt-auto flex items-center justify-between pt-2 text-sm">
+                <span className="font-mono font-semibold tracking-wider">
+                  {formatCode((s.groups as unknown as { join_code: string } | null)?.join_code ?? s.join_code)}
+                </span>
+                {!s.active && <span className="rounded-full bg-secondary px-2 py-0.5 text-xs">código desactivado</span>}
+              </span>
+            </Link>
+          </li>
+        );
+      })}
+    </ul>
+  );
+
   return (
     <div className="space-y-8">
       <section className="space-y-4">
         <div className="flex flex-wrap items-baseline justify-between gap-2">
           <h1 className="font-heading text-4xl font-bold">Mis secciones</h1>
-          <Link href="/docente/demo" className="text-sm font-medium underline underline-offset-2">Ver la sección de demostración</Link>
+          <Link href="/docente/demo/resumen" className="text-sm font-medium underline underline-offset-2">Ver la demostración</Link>
         </div>
         {!sections?.length ? (
           <p className="rounded-[22px] border border-dashed p-5 text-muted-foreground">
             Todavía no tiene secciones. Cree la primera abajo: Eduka le da un código para que sus estudiantes se unan.
           </p>
         ) : (
-          <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {sections.map((s) => {
-              const members = (s.section_members as unknown as { count: number }[])[0]?.count ?? 0;
-              return (
-                <li key={s.id}>
-                  <Link href={`/docente/seccion/${s.id}`} className="flex h-full flex-col gap-2 rounded-[22px] border bg-card p-5 transition hover:border-violeta">
-                    <span className="font-mono text-xs text-muted-foreground">{s.grade_id}.º AÑO</span>
-                    <span className="font-heading text-2xl leading-none font-bold">{s.name}</span>
-                    <span className="text-sm text-muted-foreground">
-                      {(s.subjects as unknown as { name: string } | null)?.name ?? "Todas las materias"} · {members} {members === 1 ? "estudiante" : "estudiantes"}
-                    </span>
-                    <span className="mt-auto flex items-center justify-between pt-2 text-sm">
-                      <span className="font-mono font-semibold tracking-wider">
-                        {formatCode((s.groups as unknown as { join_code: string } | null)?.join_code ?? s.join_code)}
-                      </span>
-                      {!s.active && <span className="rounded-full bg-secondary px-2 py-0.5 text-xs">código desactivado</span>}
-                    </span>
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
+          <Suspense fallback={simple}>
+            <Glance teacherId={auth.user.id} />
+          </Suspense>
         )}
       </section>
       {(groups ?? []).length > 0 && (
@@ -167,4 +176,10 @@ export default async function TeacherHomePage() {
       </section>
     </div>
   );
+}
+
+/** Every section of the teacher, side by side by subject, with who could need support in each. */
+async function Glance({ teacherId }: { teacherId: string }) {
+  const supabase = await createClient();
+  return <SectionsGlance sections={await teacherGlance(supabase, teacherId)} />;
 }
