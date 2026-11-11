@@ -6,8 +6,14 @@ import { defineTool } from "../tools";
 import type { ChatMessage, ToolDefinition } from "../types";
 import { safetyNote, type SafetyFlag } from "./safety";
 
-export { assumedGenderWords, filterTutorOutput, toNeutral, stripUnverifiedPhones, toTuteo, tutorOutputStream } from "./output";
-export { safetyNote, screenStudentMessage, type SafetyFlag, type ScreenedInput } from "./safety";
+export { assumedGenderWords, filterTutorOutput, stripMetaNotes, toNeutral, stripUnverifiedPhones, toTuteo, tutorOutputStream } from "./output";
+export { RISK_FLAGS, safetyNote, screenStudentMessage, type SafetyFlag, type ScreenedInput } from "./safety";
+
+/**
+ * Output cap of one tutor turn, reasoning included. With 1,024, 6 of 276 turns of the second round of
+ * 2026-11-02 stopped while the model was still reasoning and reached the student empty or cut short.
+ */
+export const TUTOR_MAX_OUTPUT_TOKENS = 2_048;
 
 /** Exact arithmetic for the tutor (SPEC §10): the model must not compute from memory. */
 export const calculatorTool: ToolDefinition = defineTool({
@@ -91,7 +97,14 @@ export function tutorMessages(
   flags: SafetyFlag[],
   maxHistory = 12,
 ): ChatMessage[] {
-  const recent = history.slice(-maxHistory);
+  // A reply that was cut before any text is dropped together with its question: an empty turn would make
+  // the API reject the whole conversation, and a question left without an answer would break alternation.
+  const answered: ChatMessage[] = [];
+  for (const m of history) {
+    if (m.content.trim()) answered.push(m);
+    else if (m.role === "assistant" && answered.at(-1)?.role === "user") answered.pop();
+  }
+  const recent = answered.slice(-maxHistory);
   // The API needs the conversation to start with a user turn.
   while (recent.length && recent[0].role !== "user") recent.shift();
   const context = renderPrompt(tutorTurnContext, { mastery, note: safetyNote(flags) ?? "" });

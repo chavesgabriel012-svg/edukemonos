@@ -14,8 +14,10 @@ import { consumeQuota, helpResources, serverAI, TUTOR_LIMITS, tutorUnit } from "
 
 /**
  * One tutor turn, streamed as NDJSON:
- *   {"type":"session","sessionId"} → {"type":"delta","text"}… → {"type":"done","messageId","flags"}
- *   or {"type":"error","message"}.
+ *   {"type":"session","sessionId","flags"} → {"type":"delta","text"}… →
+ *   {"type":"done","messageId","flags","truncated","used","limit"} or {"type":"error","message"}.
+ * `truncated` is true when the reply hit the output cap; `used`/`limit` count the student's messages
+ * in this conversation.
  * The student's name never reaches the model: only the unit, the screened message and mastery.
  */
 export const runtime = "nodejs";
@@ -51,12 +53,14 @@ export async function POST(request: Request) {
 
   // Session: reuse the student's own, or open one for this unit.
   let sid = sessionId;
+  let previousCount = 0;
   if (sid) {
     const { data: s } = await admin.from("tutor_sessions").select("id, student_id, unit_id, message_count").eq("id", sid).maybeSingle();
     if (!s || s.student_id !== user.id || s.unit_id !== unitId) return errorResponse("Solicitud inválida.");
     if (s.message_count >= TUTOR_LIMITS.perSession * 2) {
       return errorResponse("Llegaste al máximo de mensajes de esta conversación. Empieza una nueva para seguir.", 429);
     }
+    previousCount = s.message_count;
   }
   if (!(await consumeQuota(`tutor:day:${user.id}`, TUTOR_LIMITS.perDay, 86_400))) {
     return errorResponse("Por hoy ya usaste todos tus mensajes con el tutor. Mañana puedes seguir; mientras tanto, practica con los ejercicios.", 429);
@@ -92,6 +96,7 @@ export async function POST(request: Request) {
       send({ type: "session", sessionId: sid, flags: screened.flags });
       let answer = "";
       let afterTool = false;
+      let stopReason = "unknown";
       // Tuteo and verified phone numbers only, fixed in code before anything reaches the student.
       const filter = tutorOutputStream(allowedPhones(helpResources));
       const emit = (text: string) => {
@@ -119,17 +124,28 @@ export async function POST(request: Request) {
           } else if (event.type === "tool_result") {
             emit(filter.flush());
             afterTool = true;
+          } else if (event.type === "done") {
+            stopReason = event.stopReason;
           }
         }
         emit(filter.flush());
+        // The output cap also counts the model's reasoning: a turn can end before any text. An empty
+        // reply is never stored (it would break the conversation) and the student is told to retry.
+        if (!answer.trim()) {
+          console.warn(`tutor reply was empty (stop: ${stopReason})`);
+          send({ type: "error", message: "Kemo se quedó pensando y no alcanzó a responder. Intenta de nuevo; si tu mensaje es largo, envíalo por partes." });
+          return;
+        }
+        const truncated = stopReason === "max_tokens" || stopReason === "length";
         const { data: saved } = await admin
           .from("tutor_messages")
           .insert({ session_id: sid, role: "assistant", content: answer, safety_flags: screened.flags })
           .select("id")
           .single();
         const { data: s } = await admin.from("tutor_sessions").select("message_count").eq("id", sid).single();
-        await admin.from("tutor_sessions").update({ message_count: (s?.message_count ?? 0) + 2, last_message_at: new Date().toISOString() }).eq("id", sid);
-        send({ type: "done", messageId: saved?.id ?? null, flags: screened.flags });
+        const count = (s?.message_count ?? previousCount) + 2;
+        await admin.from("tutor_sessions").update({ message_count: count, last_message_at: new Date().toISOString() }).eq("id", sid);
+        send({ type: "done", messageId: saved?.id ?? null, flags: screened.flags, truncated, used: count / 2, limit: TUTOR_LIMITS.perSession });
       } catch (error) {
         let msg = "El tutor no pudo responder ahora. Intenta de nuevo en un momento.";
         if (error instanceof AIBudgetExceededError) {

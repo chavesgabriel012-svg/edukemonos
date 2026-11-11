@@ -1,6 +1,6 @@
 import "server-only";
 import { type AI, createAI, createBudgetGuard, loadAIConfig, supabaseSpendSource, supabaseUsageSink } from "@edukemonos/ai";
-import type { HelpResources, TutorUnit } from "@edukemonos/ai/tutor";
+import { type HelpResources, TUTOR_MAX_OUTPUT_TOKENS, type TutorUnit } from "@edukemonos/ai/tutor";
 import helpResourcesJson from "../../../../config/help-resources.json";
 import { adminClient } from "@/lib/supabase/admin";
 
@@ -14,7 +14,7 @@ export const TUTOR_LIMITS = {
   perSession: Number(process.env.TUTOR_MAX_MESSAGES_PER_SESSION ?? 30),
   perDay: Number(process.env.TUTOR_MAX_MESSAGES_PER_DAY ?? 60),
   writingPerDay: Number(process.env.WRITING_FEEDBACK_MAX_PER_DAY ?? 20),
-  maxOutputTokens: 1_024,
+  maxOutputTokens: TUTOR_MAX_OUTPUT_TOKENS,
 };
 
 let cached: AI | null = null;
