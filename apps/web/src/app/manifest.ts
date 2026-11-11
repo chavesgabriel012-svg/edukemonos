@@ -9,7 +9,7 @@ export default function manifest(): MetadataRoute.Manifest {
     short_name: site.name,
     description: site.description,
     lang: "es-CR",
-    start_url: "/",
+    start_url: "/estudiar",
     display: "standalone",
     background_color: brand.papel,
     theme_color: brand.violeta,

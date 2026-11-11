@@ -5,15 +5,18 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { cn } from "cn";
+import { action } from "@/components/ui/action";
 
 const LINKS = [
-  { href: "/#grado", label: "Estudiar" },
-  { href: "/como-funciona", label: "¿Cómo funciona?" },
-  { href: "/ia", label: "Kemo y la IA" },
-  { href: "/docente", label: "Para docentes" },
+  { href: "/estudiar", label: "Estudiar", match: ["/estudiar", "/unidad"] },
+  { href: "/como-funciona", label: "Cómo funciona", match: ["/como-funciona"] },
+  { href: "/ia", label: "Kemo y la IA", match: ["/ia"] },
+  { href: "/#familias", label: "Familias", match: [] },
+  { href: "/docente", label: "Docentes", match: ["/docente"] },
+  { href: "/#colegios", label: "Colegios y aliados", match: [] },
 ] as const;
 
-/** Main menu: inline on wide screens, a toggled panel on phones. */
+/** Main menu: inline on wide screens, a toggled panel on phones and tablets. */
 export function SiteNav() {
   const pathname = usePathname();
   // Remember the page the menu was opened on, so it closes by itself after any navigation.
@@ -22,13 +25,13 @@ export function SiteNav() {
   const setOpen = (value: boolean | ((o: boolean) => boolean)) =>
     setOpenOn((typeof value === "function" ? value(open) : value) ? pathname : null);
 
-  const link = (href: string, label: string, mobile = false) => {
-    const current = href === pathname;
+  const link = ({ href, label, match }: (typeof LINKS)[number], mobile = false) => {
+    const current = match.some((m) => pathname === m || pathname.startsWith(`${m}/`));
     return (
       <Link key={href} href={href} aria-current={current ? "page" : undefined} onClick={() => setOpen(false)}
         className={cn(
           "rounded-[10px] font-medium transition focus-visible:outline-2",
-          mobile ? "block px-3 py-3 text-base hover:bg-secondary" : "px-3 py-2 text-sm hover:bg-secondary",
+          mobile ? "block px-3 py-3 text-base hover:bg-secondary" : "px-2.5 py-2 text-sm hover:bg-secondary",
           current && "text-violeta",
         )}>
         {label}
@@ -38,20 +41,24 @@ export function SiteNav() {
 
   return (
     <nav aria-label="Menú principal" className="flex items-center gap-1">
-      <div className="hidden items-center gap-1 md:flex">{LINKS.map((l) => link(l.href, l.label))}</div>
-      <Link href="/unirme"
-        className="ml-1 hidden h-10 items-center rounded-[12px] bg-lima px-4 text-sm font-semibold text-tinta transition hover:bg-[#b5e51f] focus-visible:outline-2 sm:inline-flex">
-        Únete a tu sección
+      <div className="hidden items-center gap-0.5 lg:flex">{LINKS.map((l) => link(l))}</div>
+      <Link href="/unirme" className={cn(action({ variant: "soft", size: "md" }), "ml-1 hidden sm:inline-flex")}>
+        Tengo un código
+      </Link>
+      <Link href="/estudiar" className={cn(action({ variant: "lima", size: "md" }), "ml-1")}>
+        Empezar
       </Link>
       <button type="button" onClick={() => setOpen((o) => !o)} aria-expanded={open} aria-controls="menu-movil"
-        className="ml-1 inline-flex size-10 items-center justify-center rounded-[12px] hover:bg-secondary focus-visible:outline-2 md:hidden">
+        className="ml-1 inline-flex size-11 items-center justify-center rounded-[12px] hover:bg-secondary focus-visible:outline-2 lg:hidden">
         {open ? <X aria-hidden className="size-5" /> : <Menu aria-hidden className="size-5" />}
         <span className="sr-only">{open ? "Cerrar menú" : "Abrir menú"}</span>
       </button>
       {open && (
-        <div id="menu-movil" className="absolute inset-x-0 top-full z-50 border-b bg-card px-4 pb-4 shadow-[0_12px_32px_-12px_rgba(23,19,42,0.25)] md:hidden">
-          {LINKS.map((l) => link(l.href, l.label, true))}
-          {link("/unirme", "Únete a tu sección", true)}
+        <div id="menu-movil" className="absolute inset-x-0 top-full z-50 border-b bg-card px-4 pb-4 shadow-[0_12px_32px_-12px_rgba(23,19,42,0.25)] lg:hidden">
+          {LINKS.map((l) => link(l, true))}
+          <Link href="/unirme" onClick={() => setOpen(false)} className="block rounded-[10px] px-3 py-3 text-base font-medium hover:bg-secondary sm:hidden">
+            Tengo un código de mi docente
+          </Link>
         </div>
       )}
     </nav>
