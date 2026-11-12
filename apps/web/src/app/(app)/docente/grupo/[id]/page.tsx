@@ -3,10 +3,12 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { regenerateGroupCode } from "@/app/(app)/docente/actions";
 import { CopyButton } from "@/components/teacher/copy-button";
+import { BackLink } from "@/components/ui/back-link";
 import { requireStaff } from "@/lib/staff";
 import { formatCode } from "@/lib/teacher";
 import { AddSubjectForm } from "./add-subject-form";
 import { GuideForm } from "./guide-form";
+import { action } from "@/components/ui/action";
 
 export const metadata: Metadata = { title: "Grupo" };
 
@@ -44,9 +46,9 @@ export default async function GroupPage({ params }: PageProps<"/docente/grupo/[i
   return (
     <div className="space-y-6">
       <div className="space-y-1">
-        <Link href="/docente" className="text-sm underline underline-offset-2">← Mis secciones</Link>
+        <BackLink href="/docente">Mis secciones</BackLink>
         <p className="font-mono text-xs text-muted-foreground uppercase">{g.grade_id}.º año · grupo{g.institution ? ` · ${g.institution}` : ""}</p>
-        <h1 className="font-heading text-4xl font-bold">{g.name}</h1>
+        <h1 className="font-heading text-4xl leading-none font-bold sm:text-5xl">{g.name}</h1>
         <p className="text-sm text-muted-foreground">{g.students} {g.students === 1 ? "estudiante" : "estudiantes"}</p>
       </div>
 
@@ -89,7 +91,7 @@ export default async function GroupPage({ params }: PageProps<"/docente/grupo/[i
         <h2 className="font-heading text-2xl font-bold">Persona guía</h2>
         <p className="text-sm">{g.guide ? `Guía: ${g.guide}.` : "Este grupo no tiene guía."}</p>
         {g.is_guide && (
-          <Link href={`/docente/grupo/${g.id}/panel`} className="inline-flex min-h-11 items-center rounded-md bg-primary px-4 py-2 font-medium text-primary-foreground">
+          <Link href={`/docente/grupo/${g.id}/panel`} className={action({ size: "md" })}>
             Ver el rendimiento de todo el grupo
           </Link>
         )}

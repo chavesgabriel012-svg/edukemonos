@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import {
   contentCounts,
@@ -14,15 +13,18 @@ import {
 import { requireReviewer } from "@/lib/staff";
 import { NotReviewer } from "../../forbidden";
 import { approveAllChecked, type ContentAction, saveMaterial, setContentStatus } from "./actions";
+import { action } from "@/components/ui/action";
+import { textarea as textareaClass } from "@/components/ui/styles";
+import { BackLink } from "@/components/ui/back-link";
 
 export const metadata: Metadata = { title: "Revisar material e ítems" };
 
-const field = "w-full rounded-md border bg-background px-3 py-2 text-sm";
+const field = `${textareaClass} text-sm`;
 
 function StatusButtons({ unitId, table, id, status }: { unitId: string; table: "materials" | "items"; id: string; status: string }) {
   const button = (action: ContentAction, label: string, cls: string, disabled = false) => (
     <form action={setContentStatus.bind(null, unitId, table, id, action)}>
-      <button disabled={disabled} className={`rounded-md px-3 py-1.5 text-xs disabled:opacity-50 ${cls}`}>{label}</button>
+      <button disabled={disabled} className={`inline-flex min-h-9 items-center rounded-[10px] px-3 py-1.5 text-xs font-semibold disabled:opacity-50 ${cls}`}>{label}</button>
     </form>
   );
   return (
@@ -65,8 +67,8 @@ export default async function ReviewContentPage({ params }: PageProps<"/revisar/
   return (
     <article id="top" className="space-y-8">
       <header className="space-y-1">
-        <Link href={`/revisar/${id}`} className="text-sm underline underline-offset-2">← Volver a la unidad</Link>
-        <h1 className="text-2xl font-bold">Material e ítems · {unit.title}</h1>
+        <BackLink href={`/revisar/${id}`}>Volver a la unidad</BackLink>
+        <h1 className="font-heading text-3xl leading-tight font-bold">Material e ítems · {unit.title}</h1>
         <p className="text-sm text-muted-foreground">
           {unit.area ?? "Sin área"} · {unit.grade_id}.º · Material: {counts.materialsPublished} publicados, {counts.materialsDraft} en borrador ·
           Ítems: {counts.itemsPublished} publicados, {counts.itemsVerified} verificados, {counts.itemsDraft} en borrador
@@ -93,12 +95,12 @@ export default async function ReviewContentPage({ params }: PageProps<"/revisar/
             Aprueba de una vez el material sin errores de la revisión automática y los ítems verificados. Lo que no pasó las
             verificaciones se queda como está.
           </p>
-          <button className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground">Aprobar todo lo verificado</button>
+          <button className={action({ size: "md" })}>Aprobar todo lo verificado</button>
         </form>
       )}
 
       <section aria-labelledby="materiales" className="space-y-4">
-        <h2 id="materiales" className="text-xl font-semibold">Material de estudio</h2>
+        <h2 id="materiales" className="font-heading text-2xl font-bold">Material de estudio</h2>
         {materials.map((m) => {
           const problems = m.verification.problems ?? [];
           return (
@@ -108,7 +110,7 @@ export default async function ReviewContentPage({ params }: PageProps<"/revisar/
                 <span className="rounded bg-muted px-2 py-0.5 text-xs">{contentLabel(m)}</span>
               </div>
               {problems.length > 0 && (
-                <ul className="list-disc space-y-1 rounded-md bg-amber-50 p-3 pl-6 text-sm text-amber-950">
+                <ul className="list-disc space-y-1 rounded-[14px] bg-amber-50 p-3 pl-6 text-sm text-amber-950">
                   {problems.map((p, k) => (
                     <li key={k}><strong>{p.severity === "error" ? "Error" : "Sugerencia"}:</strong> {p.explanation} {p.quote && <em>(“{p.quote}”)</em>}</li>
                   ))}
@@ -117,7 +119,7 @@ export default async function ReviewContentPage({ params }: PageProps<"/revisar/
               <form action={saveMaterial.bind(null, id, m.id)} className="space-y-2">
                 <textarea name="content" rows={Math.min(24, Math.max(6, m.content.split("\n").length + 1))} defaultValue={m.content}
                   aria-label={`Texto de ${MATERIAL_LABEL[m.kind]}`} className={`${field} font-mono text-xs leading-relaxed`} />
-                <button className="rounded-md border px-3 py-1.5 text-xs">Guardar cambios (cuenta como revisado)</button>
+                <button className={action({ variant: "soft", size: "sm" })}>Guardar cambios (cuenta como revisado)</button>
               </form>
               <StatusButtons unitId={id} table="materials" id={m.id} status={m.status} />
             </div>
@@ -126,7 +128,7 @@ export default async function ReviewContentPage({ params }: PageProps<"/revisar/
       </section>
 
       <section aria-labelledby="items" className="space-y-4">
-        <h2 id="items" className="text-xl font-semibold">Ítems de práctica</h2>
+        <h2 id="items" className="font-heading text-2xl font-bold">Ítems de práctica</h2>
         <p className="text-sm text-muted-foreground">
           Solo los ítems verificados entran al diagnóstico. Un ítem aprobado sin verificar sirve para practicar, pero no para el diagnóstico.
         </p>

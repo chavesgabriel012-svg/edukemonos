@@ -5,7 +5,7 @@ export default function ReviewLayout({ children }: LayoutProps<"/revisar">) {
   return (
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-2 border-b pb-3">
-        <Link href="/revisar" className="text-lg font-semibold">
+        <Link href="/revisar" className="font-heading text-xl font-bold">
           Revisión del currículo
         </Link>
         <form action={signOut}>

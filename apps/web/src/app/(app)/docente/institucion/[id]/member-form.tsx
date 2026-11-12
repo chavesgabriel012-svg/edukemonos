@@ -2,6 +2,8 @@
 
 import { useActionState } from "react";
 import { addInstitutionMember, type SettingsState } from "@/app/(app)/docente/actions";
+import { action as actionClass } from "@/components/ui/action";
+import { field } from "@/components/ui/styles";
 
 export function MemberForm({ institutionId }: { institutionId: string }) {
   const [state, action, pending] = useActionState<SettingsState, FormData>(addInstitutionMember.bind(null, institutionId), {});
@@ -10,16 +12,16 @@ export function MemberForm({ institutionId }: { institutionId: string }) {
       <div className="grid gap-2 sm:grid-cols-[2fr_1fr_auto] sm:items-end">
         <label className="space-y-1">
           <span className="text-sm font-medium">Correo con que entra a Eduka</span>
-          <input type="email" name="email" required className="w-full rounded-md border bg-background px-3 py-2 text-base" />
+          <input type="email" name="email" required className={field} />
         </label>
         <label className="space-y-1">
           <span className="text-sm font-medium">Papel</span>
-          <select name="role" defaultValue="teacher" className="w-full rounded-md border bg-background px-3 py-2 text-base">
+          <select name="role" defaultValue="teacher" className={field}>
             <option value="teacher">Docente</option>
             <option value="admin">Administración</option>
           </select>
         </label>
-        <button disabled={pending} className="inline-flex min-h-11 items-center justify-center rounded-md bg-primary px-4 py-2 font-medium text-primary-foreground disabled:opacity-50">
+        <button disabled={pending} className={actionClass({ size: "md" })}>
           {pending ? "Agregando…" : "Agregar"}
         </button>
       </div>
