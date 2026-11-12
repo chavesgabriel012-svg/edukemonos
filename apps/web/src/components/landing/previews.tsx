@@ -1,36 +1,6 @@
-import { Kemo } from "@/components/brand/logo";
 import { MASTERY_BINS, masteryColor, NO_DATA_STYLE } from "@/components/teacher/scale";
-import { brand } from "@/lib/brand";
 
-/** Product previews for the landing, drawn with the same pieces as the app (Kemo, chat bubbles, the mastery scale). */
-
-const CHAT: { from: "student" | "kemo"; text: string }[] = [
-  { from: "student", text: "No sé cómo empezar 3 + 4 × 2" },
-  { from: "kemo", text: "Vamos paso a paso. Antes de calcular: ¿qué operación crees que va primero, la suma o la multiplicación?" },
-  { from: "student", text: "¿La multiplicación?" },
-  { from: "kemo", text: "¡Eso! La multiplicación va primero. Entonces, ¿cuánto te da 4 × 2?" },
-];
-
-/** A short Socratic exchange: a question back, then the next small step. */
-export function ChatPreview() {
-  return (
-    <figure className="w-full max-w-md rounded-[28px] bg-papel p-4 text-tinta shadow-[0_32px_64px_-24px_rgba(23,19,42,0.55)] sm:p-5">
-      <figcaption className="mb-3 flex items-center gap-2.5">
-        <Kemo size={34} background={brand.lima} />
-        <span className="font-heading text-lg font-bold">Kemo</span>
-      </figcaption>
-      <ol className="space-y-2.5 text-[15px] leading-snug">
-        {CHAT.map((m, i) =>
-          m.from === "student" ? (
-            <li key={i} className="ml-10 rounded-[18px_18px_6px_18px] bg-violeta px-4 py-3 text-white">{m.text}</li>
-          ) : (
-            <li key={i} className="mr-6 rounded-[18px_18px_18px_6px] border bg-card px-4 py-3">{m.text}</li>
-          ),
-        )}
-      </ol>
-    </figure>
-  );
-}
+/** The teacher panel preview for the landing, drawn with the app's own mastery scale. The chat is in chat-preview.tsx. */
 
 // Fixed values so the picture never changes between renders: eight students, ten topics.
 const HEAT: (number | null)[][] = [

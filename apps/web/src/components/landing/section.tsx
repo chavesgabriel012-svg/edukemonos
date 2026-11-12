@@ -1,4 +1,5 @@
 import { cn } from "cn";
+import { Reveal } from "@/components/landing/reveal";
 import { SHELL } from "@/components/site/page-shell";
 
 const TONE = {
@@ -18,7 +19,7 @@ export function Section({ id, tone = "papel", className, children, labelledBy }:
 }) {
   return (
     <section id={id} aria-labelledby={labelledBy} className={cn(TONE[tone], "scroll-mt-16")}>
-      <div className={cn(SHELL, "py-14 *:min-w-0 sm:py-20", className)}>{children}</div>
+      <Reveal className={cn(SHELL, "py-14 *:min-w-0 sm:py-20", className)}>{children}</Reveal>
     </section>
   );
 }

@@ -2,7 +2,7 @@ import { Calculator, Flag, MessageCircleQuestion, NotebookPen } from "lucide-rea
 import type { Metadata } from "next";
 import Link from "next/link";
 import { AudienceHero, ClosingBand, Feature, Questions, SafetyGrid, Steps } from "@/components/landing/blocks";
-import { ChatPreview } from "@/components/landing/previews";
+import { ChatPreview } from "@/components/landing/chat-preview";
 import { Section, SectionHeading } from "@/components/landing/section";
 import { action } from "@/components/ui/action";
 import { RETENTION_DAYS_CHAT, TUTOR_LIMITS } from "@/lib/tutor-server";

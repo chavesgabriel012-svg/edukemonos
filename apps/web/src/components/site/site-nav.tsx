@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { cn } from "cn";
-import { action } from "@/components/ui/action";
+import { TryMenu } from "@/components/site/try-menu";
 
 const LINKS = [
   { href: "/como-funciona", label: "Cómo funciona", match: ["/como-funciona"] },
@@ -41,9 +41,7 @@ export function SiteNav() {
   return (
     <nav aria-label="Menú principal" className="flex items-center gap-1">
       <div className="hidden items-center gap-0.5 lg:flex">{LINKS.map((l) => link(l))}</div>
-      <Link href="/estudiar" className={cn(action({ variant: "lima", size: "md" }), "ml-1")}>
-        Probar
-      </Link>
+      <TryMenu />
       <button type="button" onClick={() => setOpen((o) => !o)} aria-expanded={open} aria-controls="menu-movil"
         className="ml-1 inline-flex size-11 items-center justify-center rounded-[12px] hover:bg-secondary focus-visible:outline-2 lg:hidden">
         {open ? <X aria-hidden className="size-5" /> : <Menu aria-hidden className="size-5" />}

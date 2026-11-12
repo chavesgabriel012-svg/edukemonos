@@ -59,7 +59,7 @@ export function SiteFooter() {
         ))}
       </div>
       <div className="border-t border-white/10">
-        <div className={`${SHELL} space-y-2 py-5 text-sm text-papel/75`}>
+        <div className={`${SHELL} space-y-2 pt-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] text-sm text-papel/75`}>
           <p className="font-medium text-papel">{site.independenceNotice}</p>
           <p>
             {site.curriculumCredit}{" "}

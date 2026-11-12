@@ -8,6 +8,7 @@ import { Markdown } from "@/components/learn/markdown";
 import { ReportButton } from "@/components/learn/report-button";
 import { action } from "@/components/ui/action";
 import { Notice } from "@/components/ui/notice";
+import { Loading, Skeleton } from "@/components/ui/skeleton";
 import { textarea } from "@/components/ui/styles";
 import { markActivity } from "@/lib/activity";
 import { brand } from "@/lib/brand";
@@ -175,6 +176,12 @@ export function TutorChat({ unitId, help, limits }: { unitId: string; help: Help
       {showHelp && <HelpCard help={help} />}
 
       <div className="space-y-3" aria-live="polite">
+        {!ready && (
+          <Loading label="Abriendo tu conversación…" className="space-y-3">
+            <Skeleton className="mr-12 h-20 rounded-[20px_20px_20px_6px]" />
+            <Skeleton className="ml-24 h-14 rounded-[20px_20px_6px_20px]" />
+          </Loading>
+        )}
         {ready && messages.length === 0 && (
           <div className="flex items-start gap-3 rounded-[22px] border border-dashed bg-card p-4 sm:p-5">
             <Kemo size={52} mood="normal" background={brand.lima} />
