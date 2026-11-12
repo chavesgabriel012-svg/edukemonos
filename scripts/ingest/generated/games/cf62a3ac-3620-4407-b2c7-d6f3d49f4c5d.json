@@ -1,0 +1,333 @@
+{
+  "unitId": "cf62a3ac-3620-4407-b2c7-d6f3d49f4c5d",
+  "createdAt": "2026-11-04T17:49:18.727Z",
+  "models": {
+    "games": "claude-sonnet-5-5",
+    "solve": "claude-sonnet-5-5"
+  },
+  "prompts": {
+    "games": "generate-games-system@1",
+    "solve": "solve-games-system@1"
+  },
+  "pieces": [
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 0,
+        "instruction": "Une cada tipo de párrafo de desarrollo con lo que hace.",
+        "pairs": [
+          {
+            "left": "Comparación/contraste",
+            "right": "Señala semejanzas y diferencias entre dos ideas o elementos"
+          },
+          {
+            "left": "Causa/efecto",
+            "right": "Explica por qué ocurre un hecho y qué resulta de él"
+          },
+          {
+            "left": "Cronológico",
+            "right": "Presenta los hechos según el orden en que ocurrieron en el tiempo"
+          },
+          {
+            "left": "Problema-solución",
+            "right": "Plantea una dificultad y propone cómo resolverla"
+          },
+          {
+            "left": "Analogía",
+            "right": "Aclara una idea comparándola con algo conocido de otro ámbito"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Cada tipo de párrafo se reconoce por su función: comparar, explicar causas y consecuencias, seguir el tiempo, resolver un problema o aclarar con una analogía."
+      },
+      "seed": "cf62a3ac-3620-4407-b2c7-d6f3d49f4c5d:0",
+      "solved": {
+        "game": 1,
+        "match": [
+          5,
+          4,
+          3,
+          1,
+          2
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 0,
+        "instruction": "Ordena las partes de un ensayo, de la primera a la última.",
+        "pairs": null,
+        "steps": [
+          "Párrafo de introducción que presenta el tema y la tesis",
+          "Primer párrafo de desarrollo con una idea y sus ejemplos",
+          "Párrafo de transición que enlaza con la siguiente idea",
+          "Segundo párrafo de desarrollo con otra idea que apoya la tesis",
+          "Párrafo de conclusión que cierra el ensayo"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "El ensayo empieza con la introducción, sigue con el desarrollo (unido por transiciones) y termina con la conclusión."
+      },
+      "seed": "cf62a3ac-3620-4407-b2c7-d6f3d49f4c5d:1",
+      "solved": {
+        "game": 2,
+        "match": null,
+        "order": [
+          3,
+          4,
+          1,
+          5,
+          2
+        ],
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Elige la opción que completa el enunciado.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Un párrafo de desarrollo que explica por qué aumenta la basura en un barrio y qué problemas trae es un párrafo de ___.",
+        "options": [
+          "comparación/contraste",
+          "causa/efecto",
+          "enumeración",
+          "cronológico"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": null,
+        "explanation": "Explica las razones (causas) y las consecuencias (efectos) de un hecho, por eso es de causa/efecto."
+      },
+      "seed": "cf62a3ac-3620-4407-b2c7-d6f3d49f4c5d:2",
+      "solved": {
+        "game": 3,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 0,
+        "instruction": "Una de estas frases sobre el ensayo tiene un error. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "El párrafo de introducción presenta el tema del ensayo y orienta al lector.",
+          "El párrafo de desarrollo de causa/efecto explica por qué sucede un hecho y qué consecuencias tiene.",
+          "El párrafo de transición sirve para enlazar una idea con la siguiente.",
+          "La conclusión con exhortación invita al lector a actuar o a reflexionar.",
+          "El párrafo de conclusión debe presentar un tema completamente nuevo que no se trató antes."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 4,
+        "correction": "El párrafo de conclusión retoma lo tratado en el ensayo y lo cierra; no introduce un tema nuevo.",
+        "calc": null,
+        "explanation": "La conclusión sirve para cerrar con una síntesis, una exhortación, una cita u otro recurso sobre lo ya desarrollado, no para abrir un tema nuevo."
+      },
+      "seed": "cf62a3ac-3620-4407-b2c7-d6f3d49f4c5d:3",
+      "solved": {
+        "game": 4,
+        "match": null,
+        "order": null,
+        "choice": 5,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 1,
+        "instruction": "Ordena los pasos de la escritura de un ensayo, desde el inicio hasta el final.",
+        "pairs": null,
+        "steps": [
+          "Elegir el tema y definir el propósito del ensayo",
+          "Hacer un esquema con la tesis y las ideas principales",
+          "Escribir el primer borrador siguiendo el esquema",
+          "Revisar el contenido: ideas claras, sin repeticiones y bien apoyadas",
+          "Revisar la forma: ortografía, puntuación y uso de conectores"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Primero se planifica, luego se textualiza (se escribe el borrador) y al final se revisa el contenido y la forma."
+      },
+      "seed": "cf62a3ac-3620-4407-b2c7-d6f3d49f4c5d:4",
+      "solved": {
+        "game": 5,
+        "match": null,
+        "order": [
+          2,
+          3,
+          1,
+          4,
+          5
+        ],
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 1,
+        "instruction": "Elige la opción que completa el enunciado.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Hacer una lluvia de ideas y un esquema antes de escribir corresponde al momento de ___.",
+        "options": [
+          "revisión de la forma",
+          "textualización",
+          "planificación",
+          "revisión del contenido"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": null,
+        "explanation": "Organizar las ideas antes de escribir el borrador es parte de la planificación."
+      },
+      "seed": "cf62a3ac-3620-4407-b2c7-d6f3d49f4c5d:5",
+      "solved": {
+        "game": 6,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 1,
+        "instruction": "Una de estas frases sobre los momentos de escritura tiene un error. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "En la planificación defino el tema, el propósito y las ideas principales.",
+          "En la textualización escribo el borrador siguiendo mi esquema.",
+          "En la planificación corrijo las tildes y la puntuación del texto terminado.",
+          "En la revisión del contenido compruebo que las ideas estén claras y bien apoyadas.",
+          "En la revisión de la forma verifico la ortografía y la redacción de las oraciones."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "En la revisión de la forma corrijo las tildes y la puntuación del texto.",
+        "calc": null,
+        "explanation": "Corregir tildes y puntuación se hace al revisar la forma del texto, no al planificar, cuando todavía no hay texto escrito."
+      },
+      "seed": "cf62a3ac-3620-4407-b2c7-d6f3d49f4c5d:6",
+      "solved": {
+        "game": 7,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    }
+  ],
+  "notes": "El programa no trae contenidos específicos, así que me basé en los criterios de aprendizaje. Para la habilidad 1 no hice «pairs» porque varias actividades corresponden al mismo momento y las parejas no tendrían una única forma de unirse."
+}

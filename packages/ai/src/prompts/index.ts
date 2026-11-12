@@ -11,5 +11,6 @@ export {
   reviewMaterialsUser,
 } from "./generate-materials";
 export { generateItemsSystem, generateItemsUser, solveItemsSystem, solveItemsUser } from "./generate-items";
+export { generateGamesSystem, generateGamesUser, solveGamesSystem, solveGamesUser } from "./generate-games";
 export { tutorSystem, tutorTurnContext, writingFeedbackSystem } from "./tutor";
 export { teacherSummarySystem, teacherSummaryUser } from "./teacher";

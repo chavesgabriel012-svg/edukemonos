@@ -56,7 +56,14 @@ describe("evaluateCalc", () => {
     expect(evaluateCalc("(5 + 7)^2")).toBe(144);
     expect(evaluateCalc("2,5 × 4")).toBe(10);
     expect(evaluateCalc("sqrt(81) - 3")).toBe(6);
-  });
+    // Inside a function call the comma separates arguments; elsewhere it is a decimal comma.
+    expect(evaluateCalc("gcd(42,56)")).toBe(14);
+    expect(evaluateCalc("lcm(8, 12)")).toBe(24);
+    expect(evaluateCalc("(1,5 + 2) × 2")).toBe(7);
+    // With ÷, a slash is a fraction bar.
+    expect(evaluateCalc("3/5 ÷ 3/10")).toBeCloseTo(2);
+    expect(evaluateCalc("3 − 1/2 ÷ 1/4")).toBeCloseTo(1);
+    expect(evaluateCalc("2^6/4")).toBe(16);  });
 
   it("refuses anything that is not a finite number or tries to escape the sandbox", () => {
     expect(evaluateCalc("1/0")).toBeNull();

@@ -1,0 +1,711 @@
+{
+  "unitId": "49137643-b460-4826-8922-dff7c5836f10",
+  "createdAt": "2026-11-04T17:52:00.414Z",
+  "models": {
+    "games": "claude-sonnet-5-5",
+    "solve": "claude-sonnet-5-5"
+  },
+  "prompts": {
+    "games": "generate-games-system@1",
+    "solve": "solve-games-system@1"
+  },
+  "pieces": [
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Completa con el saldo correcto de Pedro.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Pedro debe ₡250 000 a Juan y le cancela ₡110 000. Ahora su saldo es ₡___ (el signo − indica deuda).",
+        "options": [
+          "−140 000",
+          "−360 000",
+          "140 000",
+          "−110 000"
+        ],
+        "answer_index": 0,
+        "correction": null,
+        "calc": "-250000+110000",
+        "explanation": "La deuda es −250 000. Al pagar 110 000 se suma: −250 000 + 110 000 = −140 000. Pedro todavía debe ₡140 000."
+      },
+      "seed": "49137643-b460-4826-8922-dff7c5836f10:0",
+      "solved": {
+        "game": 1,
+        "match": null,
+        "order": null,
+        "choice": 0,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 0,
+        "instruction": "Ana lleva el saldo de su cuenta en colones. Encuentra el paso con error.",
+        "pairs": null,
+        "steps": [
+          "Saldo inicial de Ana: −5 000",
+          "−5 000 + 8 000 = 3 000",
+          "3 000 − 7 000 = −4 000",
+          "−4 000 − 2 000 = −2 000"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 3,
+        "correction": "−4 000 − 2 000 = −6 000",
+        "calc": null,
+        "explanation": "Restar 2 000 a −4 000 aumenta la deuda: −4 000 − 2 000 = −6 000, no −2 000."
+      },
+      "seed": "49137643-b460-4826-8922-dff7c5836f10:1",
+      "solved": {
+        "game": 2,
+        "match": null,
+        "order": null,
+        "choice": 4,
+        "problems": "El paso 4 tiene el error: −4 000 − 2 000 = −6 000, no −2 000."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "El paso 4 tiene el error: −4 000 − 2 000 = −6 000, no −2 000."
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": [
+          "el verificador señaló: El paso 4 tiene el error: −4 000 − 2 000 = −6 000, no −2 000."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 1,
+        "instruction": "Une cada propiedad con el ejemplo que la cumple.",
+        "pairs": [
+          {
+            "left": "Conmutativa de la suma",
+            "right": "−3 + 8 = 8 + (−3)"
+          },
+          {
+            "left": "Asociativa de la suma",
+            "right": "(2 + 5) + (−5) = 2 + (5 + (−5))"
+          },
+          {
+            "left": "Conmutativa de la multiplicación",
+            "right": "(−4) × 9 = 9 × (−4)"
+          },
+          {
+            "left": "Asociativa de la multiplicación",
+            "right": "(2 × (−5)) × 7 = 2 × ((−5) × 7)"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "La conmutativa cambia el orden de los números. La asociativa cambia la forma de agrupar con paréntesis sin cambiar el orden."
+      },
+      "seed": "49137643-b460-4826-8922-dff7c5836f10:2",
+      "solved": {
+        "game": 3,
+        "match": [
+          2,
+          4,
+          1,
+          3
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 1,
+        "instruction": "Elige el resultado que se obtiene al agrupar con inteligencia.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Para calcular 25 × 7 × 4 con facilidad, se agrupa (25 × 4) × 7 y da ___.",
+        "options": [
+          "70",
+          "7 000",
+          "700",
+          "280"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": "(25*4)*7",
+        "explanation": "Con la conmutativa y la asociativa se multiplica primero 25 × 4 = 100, y luego 100 × 7 = 700."
+      },
+      "seed": "49137643-b460-4826-8922-dff7c5836f10:3",
+      "solved": {
+        "game": 4,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": "(25×4)×7 = 100×7 = 700, y la opción correcta es 700, que está en la posición 2, no en la 1. Corrijo: choice debe ser 2."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": false,
+          "problems": "(25×4)×7 = 100×7 = 700, y la opción correcta es 700, que está en la posición 2, no en la 1. Corrijo: choice debe ser 2."
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": [
+          "el verificador dio otra respuesta"
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 2,
+        "instruction": "Calcula la potencia.",
+        "pairs": null,
+        "steps": null,
+        "stem": "(−2)⁵ = ___",
+        "options": [
+          "32",
+          "−32",
+          "−10",
+          "10"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": "(-2)^5",
+        "explanation": "Se multiplica −2 cinco veces: el resultado es 32 en valor, pero con exponente impar el signo es negativo. Por eso (−2)⁵ = −32."
+      },
+      "seed": "49137643-b460-4826-8922-dff7c5836f10:4",
+      "solved": {
+        "game": 5,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 2,
+        "instruction": "Ordena los pasos para calcular (−2)³.",
+        "pairs": null,
+        "steps": [
+          "Escribe la base como factor tres veces: (−2) × (−2) × (−2)",
+          "Multiplica los dos primeros: (−2) × (−2) = 4",
+          "Multiplica el resultado por el último factor: 4 × (−2) = −8",
+          "Resultado: (−2)³ = −8"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Primero se escribe el producto repetido, luego se multiplica de dos en dos y al final se da el resultado."
+      },
+      "seed": "49137643-b460-4826-8922-dff7c5836f10:5",
+      "solved": {
+        "game": 6,
+        "match": null,
+        "order": [
+          1,
+          3,
+          4,
+          2
+        ],
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 2,
+        "instruction": "Encuentra la potencia mal calculada.",
+        "pairs": null,
+        "steps": [
+          "(−3)² = 9",
+          "(−4)² = 16",
+          "(−2)³ = −8",
+          "(−5)² = −25"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 3,
+        "correction": "(−5)² = 25",
+        "calc": null,
+        "explanation": "Con exponente par, el producto de dos negativos es positivo: (−5) × (−5) = 25."
+      },
+      "seed": "49137643-b460-4826-8922-dff7c5836f10:6",
+      "solved": {
+        "game": 7,
+        "match": null,
+        "order": null,
+        "choice": 4,
+        "problems": "El paso 4 es incorrecto: (−5)² = 25, no −25."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "El paso 4 es incorrecto: (−5)² = 25, no −25."
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": [
+          "el verificador señaló: El paso 4 es incorrecto: (−5)² = 25, no −25."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 3,
+        "instruction": "Completa el exponente usando las propiedades de las potencias.",
+        "pairs": null,
+        "steps": null,
+        "stem": "5⁴ × 5³ = 5^___",
+        "options": [
+          "12",
+          "1",
+          "5",
+          "7"
+        ],
+        "answer_index": 3,
+        "correction": null,
+        "calc": "4+3",
+        "explanation": "En un producto de potencias de igual base se conserva la base y se suman los exponentes: 4 + 3 = 7."
+      },
+      "seed": "49137643-b460-4826-8922-dff7c5836f10:7",
+      "solved": {
+        "game": 8,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 3,
+        "instruction": "Une cada operación con su resultado escrito como una sola potencia.",
+        "pairs": [
+          {
+            "left": "2³ × 2⁴",
+            "right": "2⁷"
+          },
+          {
+            "left": "3⁸ ÷ 3⁵",
+            "right": "3³"
+          },
+          {
+            "left": "5⁶ ÷ 5²",
+            "right": "5⁴"
+          },
+          {
+            "left": "4² × 4³",
+            "right": "4⁵"
+          },
+          {
+            "left": "(−2)⁵ × (−2)²",
+            "right": "(−2)⁷"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Al multiplicar potencias de igual base se suman los exponentes; al dividir se restan."
+      },
+      "seed": "49137643-b460-4826-8922-dff7c5836f10:8",
+      "solved": {
+        "game": 9,
+        "match": [
+          5,
+          2,
+          1,
+          4,
+          3
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 4,
+        "instruction": "Une cada potencia con la raíz que la deshace.",
+        "pairs": [
+          {
+            "left": "5² = 25",
+            "right": "√25 = 5"
+          },
+          {
+            "left": "8² = 64",
+            "right": "√64 = 8"
+          },
+          {
+            "left": "10² = 100",
+            "right": "√100 = 10"
+          },
+          {
+            "left": "12² = 144",
+            "right": "√144 = 12"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "La raíz cuadrada es la operación inversa de elevar al cuadrado: devuelve la base de la potencia."
+      },
+      "seed": "49137643-b460-4826-8922-dff7c5836f10:9",
+      "solved": {
+        "game": 10,
+        "match": [
+          1,
+          4,
+          3,
+          2
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 4,
+        "instruction": "Encuentra la raíz mal calculada.",
+        "pairs": null,
+        "steps": [
+          "√9 = 3 porque 3² = 9",
+          "√81 = 9 porque 9² = 81",
+          "√16 = 8 porque 8² = 16",
+          "√121 = 11 porque 11² = 121"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "√16 = 4 porque 4² = 16",
+        "calc": null,
+        "explanation": "8² = 64, no 16. El número que elevado al cuadrado da 16 es 4."
+      },
+      "seed": "49137643-b460-4826-8922-dff7c5836f10:10",
+      "solved": {
+        "game": 11,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": "El paso 3 es incorrecto: √16 = 4, porque 4² = 16; 8² = 64."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "El paso 3 es incorrecto: √16 = 4, porque 4² = 16; 8² = 64."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: El paso 3 es incorrecto: √16 = 4, porque 4² = 16; 8² = 64."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 5,
+        "instruction": "Calcula la raíz.",
+        "pairs": null,
+        "steps": null,
+        "stem": "√144 = ___",
+        "options": [
+          "72",
+          "12",
+          "14",
+          "11"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": "sqrt(144)",
+        "explanation": "12 × 12 = 144, por eso √144 = 12. No se divide entre 2."
+      },
+      "seed": "49137643-b460-4826-8922-dff7c5836f10:11",
+      "solved": {
+        "game": 12,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 5,
+        "instruction": "Une cada raíz con su valor.",
+        "pairs": [
+          {
+            "left": "√36",
+            "right": "6"
+          },
+          {
+            "left": "√81",
+            "right": "9"
+          },
+          {
+            "left": "√121",
+            "right": "11"
+          },
+          {
+            "left": "√169",
+            "right": "13"
+          },
+          {
+            "left": "√225",
+            "right": "15"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Cada valor multiplicado por sí mismo da el número de la raíz: 6², 9², 11², 13² y 15²."
+      },
+      "seed": "49137643-b460-4826-8922-dff7c5836f10:12",
+      "solved": {
+        "game": 13,
+        "match": [
+          5,
+          1,
+          3,
+          2,
+          4
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 6,
+        "instruction": "Resuelve respetando la jerarquía de las operaciones.",
+        "pairs": null,
+        "steps": null,
+        "stem": "5 − 2 × (−3) = ___",
+        "options": [
+          "11",
+          "−9",
+          "−1",
+          "1"
+        ],
+        "answer_index": 0,
+        "correction": null,
+        "calc": "5-2*(-3)",
+        "explanation": "Primero se multiplica: 2 × (−3) = −6. Luego 5 − (−6) = 5 + 6 = 11."
+      },
+      "seed": "49137643-b460-4826-8922-dff7c5836f10:13",
+      "solved": {
+        "game": 14,
+        "match": null,
+        "order": null,
+        "choice": 0,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 6,
+        "instruction": "Ordena los pasos para calcular 2 + (7 − 10)² × 3.",
+        "pairs": null,
+        "steps": [
+          "Resuelve el paréntesis: 7 − 10 = −3",
+          "Calcula la potencia: (−3)² = 9",
+          "Multiplica: 9 × 3 = 27",
+          "Suma: 2 + 27 = 29"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Se resuelve primero el paréntesis, luego la potencia, después la multiplicación y al final la suma."
+      },
+      "seed": "49137643-b460-4826-8922-dff7c5836f10:14",
+      "solved": {
+        "game": 15,
+        "match": null,
+        "order": [
+          1,
+          3,
+          4,
+          2
+        ],
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    }
+  ],
+  "notes": "Se omitieron las piezas de parejas y de orden donde no había una sola forma de unir u ordenar, y se limitó a 16 piezas. Las raíces se limitan a raíces cuadradas exactas."
+}

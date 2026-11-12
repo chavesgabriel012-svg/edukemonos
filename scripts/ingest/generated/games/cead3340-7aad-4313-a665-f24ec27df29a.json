@@ -1,0 +1,699 @@
+{
+  "unitId": "cead3340-7aad-4313-a665-f24ec27df29a",
+  "createdAt": "2026-11-04T17:55:15.640Z",
+  "models": {
+    "games": "claude-sonnet-5-5",
+    "solve": "claude-sonnet-5-5"
+  },
+  "prompts": {
+    "games": "generate-games-system@1",
+    "solve": "solve-games-system@1"
+  },
+  "pieces": [
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 0,
+        "instruction": "Une cada razón de homotecia con lo que le pasa a la figura.",
+        "pairs": [
+          {
+            "left": "Razón 2",
+            "right": "Cada lado mide el doble"
+          },
+          {
+            "left": "Razón 1/2",
+            "right": "Cada lado mide la mitad"
+          },
+          {
+            "left": "Razón 3",
+            "right": "Cada lado mide el triple"
+          },
+          {
+            "left": "Razón 1/3",
+            "right": "Cada lado mide la tercera parte"
+          },
+          {
+            "left": "Razón 1",
+            "right": "La figura queda igual a la original"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "En una homotecia de razón k, cada lado de la figura nueva mide k veces el lado original. Con k mayor que 1 la figura se agranda, con k menor que 1 se achica y con k = 1 queda igual."
+      },
+      "seed": "cead3340-7aad-4313-a665-f24ec27df29a:0",
+      "solved": {
+        "game": 1,
+        "match": [
+          5,
+          4,
+          1,
+          3,
+          2
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Completa con el número correcto.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Un triángulo de lados 3 cm, 4 cm y 5 cm se transforma con una homotecia de razón 2. El lado mayor del nuevo triángulo mide ___ cm.",
+        "options": [
+          "7",
+          "10",
+          "8",
+          "2,5"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": "5*2",
+        "explanation": "Con razón 2 cada lado se multiplica por 2. El lado mayor era 5, entonces 5 × 2 = 10."
+      },
+      "seed": "cead3340-7aad-4313-a665-f24ec27df29a:1",
+      "solved": {
+        "game": 2,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 0,
+        "instruction": "Ordena los pasos para construir la imagen de un triángulo con una homotecia de razón k.",
+        "pairs": null,
+        "steps": [
+          "Elige el centro O de la homotecia y marca los vértices A, B y C del triángulo.",
+          "Traza una semirrecta desde O que pase por cada vértice.",
+          "Sobre cada semirrecta marca el punto A', B' o C' a una distancia de O igual a k veces la distancia original.",
+          "Une los puntos A', B' y C' para formar el nuevo triángulo."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Primero se necesita el centro y el triángulo. Luego se trazan las semirrectas, se ubican los puntos con la razón k y al final se unen para obtener la figura semejante."
+      },
+      "seed": "cead3340-7aad-4313-a665-f24ec27df29a:2",
+      "solved": {
+        "game": 3,
+        "match": null,
+        "order": [
+          2,
+          4,
+          1,
+          3
+        ],
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 1,
+        "instruction": "Un paso tiene un error. Encuéntralo.",
+        "pairs": null,
+        "steps": [
+          "Se aplica una homotecia de razón 1 a un triángulo de lados 5, 7 y 9.",
+          "5 × 1 = 5",
+          "7 × 1 = 8",
+          "9 × 1 = 9",
+          "Los lados son iguales, así que el triángulo imagen es congruente al original."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "7 × 1 = 7",
+        "calc": null,
+        "explanation": "Multiplicar por 1 no cambia el número, así que 7 × 1 = 7. Con razón 1 todos los lados quedan iguales y la figura es congruente."
+      },
+      "seed": "cead3340-7aad-4313-a665-f24ec27df29a:3",
+      "solved": {
+        "game": 4,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 2,
+        "instruction": "Elige la opción que completa el enunciado.",
+        "pairs": null,
+        "steps": null,
+        "stem": "El rectángulo de 4 cm × 6 cm es semejante al rectángulo de ___ (en cm).",
+        "options": [
+          "6 × 8",
+          "8 × 10",
+          "5 × 7",
+          "8 × 12"
+        ],
+        "answer_index": 3,
+        "correction": null,
+        "calc": null,
+        "explanation": "Para ser semejantes, los lados deben ser proporcionales. 8 es el doble de 4 y 12 es el doble de 6, entonces la razón es 2 en ambos lados."
+      },
+      "seed": "cead3340-7aad-4313-a665-f24ec27df29a:4",
+      "solved": {
+        "game": 5,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 2,
+        "instruction": "Una de las frases es falsa. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "Dos cuadrados cualesquiera son semejantes.",
+          "Dos círculos cualesquiera son semejantes.",
+          "Dos triángulos equiláteros cualesquiera son semejantes.",
+          "Dos rectángulos cualesquiera son semejantes."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 3,
+        "correction": "Dos rectángulos son semejantes solo si sus lados correspondientes son proporcionales.",
+        "calc": null,
+        "explanation": "Un rectángulo de 2 × 4 y otro de 2 × 6 no son semejantes porque sus lados no son proporcionales. Los cuadrados, los círculos y los triángulos equiláteros siempre tienen la misma forma."
+      },
+      "seed": "cead3340-7aad-4313-a665-f24ec27df29a:5",
+      "solved": {
+        "game": 6,
+        "match": null,
+        "order": null,
+        "choice": 4,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 3,
+        "instruction": "Elige la opción que completa el enunciado.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Los rectángulos de 3 cm × 5 cm y ___ son congruentes.",
+        "options": [
+          "6 cm × 10 cm",
+          "3 cm × 6 cm",
+          "5 cm × 3 cm",
+          "4 cm × 4 cm"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": null,
+        "explanation": "Las figuras congruentes tienen la misma forma y el mismo tamaño. Un rectángulo de 5 × 3 es el de 3 × 5 girado, así que coinciden exactamente."
+      },
+      "seed": "cead3340-7aad-4313-a665-f24ec27df29a:6",
+      "solved": {
+        "game": 7,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 4,
+        "instruction": "Une cada criterio o concepto de semejanza con su descripción.",
+        "pairs": [
+          {
+            "left": "Criterio LLL",
+            "right": "Los tres lados son proporcionales"
+          },
+          {
+            "left": "Criterio LAL",
+            "right": "Dos lados son proporcionales y el ángulo entre ellos es igual"
+          },
+          {
+            "left": "Criterio AAA",
+            "right": "Los tres ángulos correspondientes son iguales"
+          },
+          {
+            "left": "Razón de semejanza",
+            "right": "Cociente entre dos lados correspondientes"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Cada criterio dice qué datos bastan para asegurar que dos triángulos son semejantes. La razón de semejanza es el cociente entre lados correspondientes."
+      },
+      "seed": "cead3340-7aad-4313-a665-f24ec27df29a:7",
+      "solved": {
+        "game": 8,
+        "match": [
+          4,
+          1,
+          2,
+          3
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 4,
+        "instruction": "Elige el criterio que justifica la semejanza.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Un triángulo tiene lados de 3, 4 y 5 cm, y otro tiene lados de 6, 8 y 10 cm. Son semejantes por el criterio ___.",
+        "options": [
+          "LLL",
+          "LAL",
+          "AAA",
+          "ALA"
+        ],
+        "answer_index": 0,
+        "correction": null,
+        "calc": null,
+        "explanation": "Los tres cocientes 6/3, 8/4 y 10/5 valen 2, así que los tres lados son proporcionales. Eso es el criterio LLL."
+      },
+      "seed": "cead3340-7aad-4313-a665-f24ec27df29a:8",
+      "solved": {
+        "game": 9,
+        "match": null,
+        "order": null,
+        "choice": 0,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 5,
+        "instruction": "Un paso de esta prueba tiene un error. Encuéntralo.",
+        "pairs": null,
+        "steps": [
+          "Triángulo ABC: AB = 6 cm, AC = 8 cm y ángulo A = 50°.",
+          "Triángulo DEF: DE = 6 cm, DF = 8 cm y ángulo D = 50°.",
+          "Dos lados y el ángulo entre ellos son iguales.",
+          "Por el criterio AAA, los triángulos son congruentes."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 3,
+        "correction": "Por el criterio LAL, los triángulos son congruentes.",
+        "calc": null,
+        "explanation": "Los datos son dos lados y el ángulo entre ellos, que es el criterio LAL. Además, AAA no sirve para congruencia, porque triángulos de distinto tamaño pueden tener los mismos ángulos."
+      },
+      "seed": "cead3340-7aad-4313-a665-f24ec27df29a:9",
+      "solved": {
+        "game": 10,
+        "match": null,
+        "order": null,
+        "choice": 4,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 5,
+        "instruction": "Elige el criterio de congruencia que se aplica.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Dos triángulos tienen un lado de 8 cm y los dos ángulos junto a ese lado miden 40° y 70° en ambos. Son congruentes por el criterio ___.",
+        "options": [
+          "LLL",
+          "ALA",
+          "AAA",
+          "LAL"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": null,
+        "explanation": "Hay dos ángulos y el lado entre ellos iguales, que es el criterio ALA. AAA no asegura congruencia."
+      },
+      "seed": "cead3340-7aad-4313-a665-f24ec27df29a:10",
+      "solved": {
+        "game": 11,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 6,
+        "instruction": "Resuelve el problema y completa.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Un poste de 2 m proyecta una sombra de 3 m. En el mismo momento, un árbol proyecta una sombra de 12 m. La altura del árbol es ___ m.",
+        "options": [
+          "6",
+          "18",
+          "8",
+          "10"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": "2*12/3",
+        "explanation": "Los triángulos formados por el objeto y su sombra son semejantes, así que 2/3 = altura/12. Entonces altura = 2 × 12 ÷ 3 = 8 m."
+      },
+      "seed": "cead3340-7aad-4313-a665-f24ec27df29a:11",
+      "solved": {
+        "game": 12,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 6,
+        "instruction": "Un paso de la resolución tiene un error. Encuéntralo.",
+        "pairs": null,
+        "steps": [
+          "Los triángulos ABC y DEF son semejantes, con AB = 4, DE = 6 y BC = 10. Se busca EF.",
+          "Razón de DEF a ABC: 6 ÷ 4 = 1,5",
+          "EF = 10 × 1,5 = 16"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "EF = 10 × 1,5 = 15",
+        "calc": null,
+        "explanation": "Como la razón es 1,5, se multiplica BC por 1,5: 10 × 1,5 = 15, no 16."
+      },
+      "seed": "cead3340-7aad-4313-a665-f24ec27df29a:12",
+      "solved": {
+        "game": 13,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 7,
+        "instruction": "Elige la opción correcta.",
+        "pairs": null,
+        "steps": null,
+        "stem": "En un software de geometría dinámica aplicas una homotecia de razón 2 a un triángulo y mides la imagen. Verás que los lados ___.",
+        "options": [
+          "miden la mitad y los ángulos cambian",
+          "miden lo mismo y los ángulos se duplican",
+          "miden el doble y los ángulos también se duplican",
+          "miden el doble y los ángulos no cambian"
+        ],
+        "answer_index": 3,
+        "correction": null,
+        "calc": null,
+        "explanation": "La homotecia produce una figura semejante: los lados se multiplican por la razón, pero los ángulos se mantienen iguales."
+      },
+      "seed": "cead3340-7aad-4313-a665-f24ec27df29a:13",
+      "solved": {
+        "game": 14,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 8,
+        "instruction": "Aplica el teorema de Thales y completa.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Tres rectas paralelas cortan a dos transversales. En la primera, los segmentos miden 4 cm y 6 cm. En la segunda, el primer segmento mide 6 cm. El segundo segmento mide ___ cm.",
+        "options": [
+          "9",
+          "4",
+          "10",
+          "12"
+        ],
+        "answer_index": 0,
+        "correction": null,
+        "calc": "6*6/4",
+        "explanation": "Por Thales, 4/6 = 6/x. Entonces x = 6 × 6 ÷ 4 = 9 cm."
+      },
+      "seed": "cead3340-7aad-4313-a665-f24ec27df29a:14",
+      "solved": {
+        "game": 15,
+        "match": null,
+        "order": null,
+        "choice": 0,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 8,
+        "instruction": "Un paso de la resolución tiene un error. Encuéntralo.",
+        "pairs": null,
+        "steps": [
+          "En el triángulo ABC, DE es paralela a BC, con D en AB y E en AC.",
+          "Datos: AD = 3, DB = 6 y AE = 4. Se busca EC.",
+          "Por Thales: AD/DB = AE/EC, es decir, 3/6 = 4/EC.",
+          "EC = 3 × 4 ÷ 6 = 2"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 3,
+        "correction": "EC = 4 × 6 ÷ 3 = 8",
+        "calc": null,
+        "explanation": "De 3/6 = 4/EC se obtiene EC = 4 × 6 ÷ 3 = 8. El error fue multiplicar 3 × 4 y dividir entre 6."
+      },
+      "seed": "cead3340-7aad-4313-a665-f24ec27df29a:15",
+      "solved": {
+        "game": 16,
+        "match": null,
+        "order": null,
+        "choice": 4,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    }
+  ],
+  "notes": "Se generaron 16 piezas que cubren las 9 habilidades. No se incluyó 'pairs' ni 'order' en varias habilidades donde no hay una única forma de unir u ordenar."
+}

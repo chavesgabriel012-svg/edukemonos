@@ -1,0 +1,329 @@
+{
+  "unitId": "ca16fbae-833a-434a-a14d-102a44d71d6d",
+  "createdAt": "2026-11-04T17:55:49.828Z",
+  "models": {
+    "games": "claude-sonnet-5-5",
+    "solve": "claude-sonnet-5-5"
+  },
+  "prompts": {
+    "games": "generate-games-system@1",
+    "solve": "solve-games-system@1"
+  },
+  "pieces": [
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 0,
+        "instruction": "Une cada situación con sus resultados posibles.",
+        "pairs": [
+          {
+            "left": "Lanzar una moneda",
+            "right": "Cara o cruz"
+          },
+          {
+            "left": "Lanzar un dado común",
+            "right": "1, 2, 3, 4, 5 o 6"
+          },
+          {
+            "left": "Sacar una bola de una bolsa con bolas rojas y azules",
+            "right": "Roja o azul"
+          },
+          {
+            "left": "Girar una ruleta con tres colores: verde, amarillo y rojo",
+            "right": "Verde, amarillo o rojo"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "En cada situación se conocen los resultados posibles, pero no se sabe cuál va a ocurrir. Eso es lo que hace que haya azar."
+      },
+      "seed": "ca16fbae-833a-434a-a14d-102a44d71d6d:0",
+      "solved": {
+        "game": 1,
+        "match": [
+          3,
+          4,
+          1,
+          2
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 1,
+        "instruction": "Une cada término con su descripción.",
+        "pairs": [
+          {
+            "left": "Situación aleatoria",
+            "right": "Se conocen los resultados posibles, pero no se sabe cuál ocurrirá"
+          },
+          {
+            "left": "Situación determinista",
+            "right": "Se puede predecir con certeza el resultado antes de hacerla"
+          },
+          {
+            "left": "Azar",
+            "right": "Lo que hace que un resultado no se pueda predecir"
+          },
+          {
+            "left": "Resultado posible",
+            "right": "Cada cosa que puede ocurrir en una situación"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Una situación aleatoria depende del azar y su resultado no se predice. En una determinista el resultado se conoce con certeza. Cada resultado posible es una de las cosas que pueden ocurrir."
+      },
+      "seed": "ca16fbae-833a-434a-a14d-102a44d71d6d:1",
+      "solved": {
+        "game": 2,
+        "match": [
+          3,
+          4,
+          2,
+          1
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Elige la opción que completa el enunciado.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Al lanzar una moneda no se sabe si saldrá cara o cruz, porque el resultado depende del ___.",
+        "options": [
+          "azar",
+          "tamaño de la moneda",
+          "orden de las cifras",
+          "cálculo exacto"
+        ],
+        "answer_index": 0,
+        "correction": null,
+        "calc": null,
+        "explanation": "Al lanzar una moneda interviene el azar: no se puede saber de antemano cuál lado quedará hacia arriba."
+      },
+      "seed": "ca16fbae-833a-434a-a14d-102a44d71d6d:2",
+      "solved": {
+        "game": 3,
+        "match": null,
+        "order": null,
+        "choice": 0,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Elige la opción correcta.",
+        "pairs": null,
+        "steps": null,
+        "stem": "De las siguientes situaciones, la que tiene azar es ___.",
+        "options": [
+          "calcular el área de un cuadrado de lado 4 cm",
+          "contar los días de una semana",
+          "sacar una ficha sin mirar de una bolsa con fichas de varios colores",
+          "sumar 8 + 9"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": null,
+        "explanation": "Al sacar una ficha sin mirar no se sabe de qué color saldrá. En las demás opciones el resultado siempre es el mismo."
+      },
+      "seed": "ca16fbae-833a-434a-a14d-102a44d71d6d:3",
+      "solved": {
+        "game": 4,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 1,
+        "instruction": "Elige la opción que completa el enunciado.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Sacar una bola de una caja que tiene solo bolas rojas es una situación ___, porque siempre saldrá roja.",
+        "options": [
+          "aleatoria",
+          "determinista",
+          "azarosa",
+          "incierta"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": null,
+        "explanation": "Como todas las bolas son rojas, el resultado se conoce con certeza antes de sacarla. Por eso es determinista."
+      },
+      "seed": "ca16fbae-833a-434a-a14d-102a44d71d6d:4",
+      "solved": {
+        "game": 5,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 1,
+        "instruction": "Elige la situación determinista.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Una situación determinista es ___.",
+        "options": [
+          "rifar una bicicleta entre 30 personas",
+          "adivinar de qué color saldrá una bola de una bolsa con bolas de varios colores",
+          "girar una ruleta con varios números",
+          "calcular 6 × 7"
+        ],
+        "answer_index": 3,
+        "correction": null,
+        "calc": null,
+        "explanation": "6 × 7 siempre da 42, así que el resultado se conoce con certeza. En las otras opciones no se sabe cuál será el resultado."
+      },
+      "seed": "ca16fbae-833a-434a-a14d-102a44d71d6d:5",
+      "solved": {
+        "game": 6,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 1,
+        "instruction": "Una de estas frases tiene un error. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "Lanzar un dado y anotar el número que sale es una situación aleatoria.",
+          "Calcular el perímetro de un cuadrado de lado 5 cm da siempre 20 cm, por lo que es una situación determinista.",
+          "Rifar un premio entre 30 personas es una situación determinista, porque se sabe quién va a ganar.",
+          "Al lanzar una moneda no se sabe de antemano si saldrá cara o cruz."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "Rifar un premio entre 30 personas es una situación aleatoria, porque no se sabe de antemano quién va a ganar.",
+        "calc": null,
+        "explanation": "En una rifa no se puede predecir quién ganará; depende del azar. Por eso es aleatoria y no determinista."
+      },
+      "seed": "ca16fbae-833a-434a-a14d-102a44d71d6d:6",
+      "solved": {
+        "game": 7,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    }
+  ],
+  "notes": "No se incluyó ninguna pieza de ordenar pasos porque en esta unidad no hay procedimientos con un único orden válido."
+}

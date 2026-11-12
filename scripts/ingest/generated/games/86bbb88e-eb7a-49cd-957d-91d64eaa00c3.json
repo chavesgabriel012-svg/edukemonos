@@ -1,0 +1,301 @@
+{
+  "unitId": "86bbb88e-eb7a-49cd-957d-91d64eaa00c3",
+  "createdAt": "2026-11-04T17:45:33.168Z",
+  "models": {
+    "games": "claude-sonnet-5-5",
+    "solve": "claude-sonnet-5-5"
+  },
+  "prompts": {
+    "games": "generate-games-system@1",
+    "solve": "solve-games-system@1"
+  },
+  "pieces": [
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 0,
+        "instruction": "Une cada palabra con su función o significado.",
+        "pairs": [
+          {
+            "left": "té",
+            "right": "Sustantivo: infusión que se toma caliente"
+          },
+          {
+            "left": "tu",
+            "right": "Adjetivo posesivo: tu cuaderno"
+          },
+          {
+            "left": "tú",
+            "right": "Pronombre personal de segunda persona: tú cantas"
+          },
+          {
+            "left": "dé",
+            "right": "Forma del verbo dar: ojalá nos dé tiempo"
+          },
+          {
+            "left": "de",
+            "right": "Preposición: el libro de Ana"
+          },
+          {
+            "left": "más",
+            "right": "Adverbio de cantidad: quiero más agua"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "La tilde diacrítica distingue palabras que se escriben igual pero cumplen funciones distintas: té, tú, dé y más llevan tilde; tu y de no la llevan."
+      },
+      "seed": "86bbb88e-eb7a-49cd-957d-91d64eaa00c3:0",
+      "solved": {
+        "game": 1,
+        "match": [
+          3,
+          5,
+          1,
+          6,
+          2,
+          4
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Elige la palabra que completa bien la oración.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Ojalá que la profesora nos ___ más tiempo para terminar el trabajo.",
+        "options": [
+          "de",
+          "dé",
+          "te",
+          "sé"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": null,
+        "explanation": "Aquí se necesita una forma del verbo dar (que nos dé), y esa forma lleva tilde para diferenciarse de la preposición de."
+      },
+      "seed": "86bbb88e-eb7a-49cd-957d-91d64eaa00c3:1",
+      "solved": {
+        "game": 2,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Elige la opción bien escrita para completar la oración.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Pregunté ___ iba a ser la actividad cívica del colegio.",
+        "options": [
+          "cuando",
+          "cuanto",
+          "cuánto",
+          "cuándo"
+        ],
+        "answer_index": 3,
+        "correction": null,
+        "calc": null,
+        "explanation": "Es una pregunta indirecta sobre el tiempo (¿cuándo?), por eso se usa cuándo con tilde. Cuánto se refiere a cantidad."
+      },
+      "seed": "86bbb88e-eb7a-49cd-957d-91d64eaa00c3:2",
+      "solved": {
+        "game": 3,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": "Pregunté cuándo iba a ser: interrogativa indirecta, correcta 'cuándo'. Sin problemas."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "Pregunté cuándo iba a ser: interrogativa indirecta, correcta 'cuándo'. Sin problemas."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: Pregunté cuándo iba a ser: interrogativa indirecta, correcta 'cuándo'. Sin problemas."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 0,
+        "instruction": "Una de estas oraciones tiene un error de tilde diacrítica. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "Tú eres muy amable con todos.",
+          "Esa carta es para mí.",
+          "Si estudias, aprobarás el examen.",
+          "Quiero mas arroz, por favor."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 3,
+        "correction": "Quiero más arroz, por favor.",
+        "calc": null,
+        "explanation": "Aquí más indica cantidad (adverbio), así que lleva tilde. Mas sin tilde es una conjunción que equivale a pero."
+      },
+      "seed": "86bbb88e-eb7a-49cd-957d-91d64eaa00c3:3",
+      "solved": {
+        "game": 4,
+        "match": null,
+        "order": null,
+        "choice": 4,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 1,
+        "instruction": "Une cada técnica de comunicación oral con su característica.",
+        "pairs": [
+          {
+            "left": "Entrevista",
+            "right": "Una persona pregunta y otra responde"
+          },
+          {
+            "left": "Exposición oral",
+            "right": "Una persona presenta un tema de forma organizada ante un público"
+          },
+          {
+            "left": "Debate",
+            "right": "Dos grupos defienden posturas opuestas sobre un tema"
+          },
+          {
+            "left": "Mesa redonda",
+            "right": "Varias personas conversan sobre un tema con un moderador, sin buscar vencer a nadie"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Cada técnica oral tiene sus propias características: en la entrevista hay preguntas y respuestas, en la exposición habla una sola persona, en el debate se confrontan posturas y en la mesa redonda se intercambian puntos de vista."
+      },
+      "seed": "86bbb88e-eb7a-49cd-957d-91d64eaa00c3:4",
+      "solved": {
+        "game": 5,
+        "match": [
+          3,
+          4,
+          2,
+          1
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 1,
+        "instruction": "Elige la técnica oral que corresponde a la descripción.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Dos equipos defienden posturas contrarias sobre un tema ante un moderador: esa técnica oral es ___.",
+        "options": [
+          "la entrevista",
+          "la exposición oral",
+          "el debate",
+          "el monólogo"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": null,
+        "explanation": "En el debate hay posturas opuestas y un moderador que organiza los turnos para hablar."
+      },
+      "seed": "86bbb88e-eb7a-49cd-957d-91d64eaa00c3:5",
+      "solved": {
+        "game": 6,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    }
+  ],
+  "notes": "El programa no detalla las técnicas orales; para la habilidad 1 se usaron técnicas comunes (entrevista, exposición, debate, mesa redonda). No se hizo 'order' porque ninguna habilidad tiene un procedimiento de orden único."
+}

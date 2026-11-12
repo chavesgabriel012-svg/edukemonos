@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Geist_Mono, League_Spartan, Outfit } from "next/font/google";
 import { SiteFooter } from "@/components/site/site-footer";
+import { RestReminder } from "@/components/learn/rest-reminder";
 import { SiteHeader } from "@/components/site/site-header";
 import { brand } from "@/lib/brand";
 import { site } from "@/lib/site";
@@ -54,6 +55,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           {children}
         </main>
         <SiteFooter />
+        <RestReminder />
       </body>
     </html>
   );

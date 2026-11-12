@@ -9,6 +9,7 @@ import { ReportButton } from "@/components/learn/report-button";
 import { action } from "@/components/ui/action";
 import { Notice } from "@/components/ui/notice";
 import { textarea } from "@/components/ui/styles";
+import { markActivity } from "@/lib/activity";
 import { brand } from "@/lib/brand";
 
 interface Help {
@@ -103,6 +104,7 @@ export function TutorChat({ unitId, help, limits }: { unitId: string; help: Help
     setBusy(true);
     setError(null);
     setInput("");
+    markActivity();
     setMessages((m) => [...m, { id: null, role: "user", content: text, flags: [] }, { id: null, role: "assistant", content: "", flags: [] }]);
     // When nothing was answered, the question goes back to the box so it is not lost.
     let received = false;

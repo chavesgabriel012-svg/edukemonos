@@ -1,0 +1,409 @@
+{
+  "unitId": "2a2678d3-b676-4ebc-b118-9b68ce8a4028",
+  "createdAt": "2026-11-04T17:47:54.965Z",
+  "models": {
+    "games": "claude-sonnet-5-5",
+    "solve": "claude-sonnet-5-5"
+  },
+  "prompts": {
+    "games": "generate-games-system@1",
+    "solve": "solve-games-system@1"
+  },
+  "pieces": [
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 0,
+        "instruction": "Une cada ejemplo con la categoría que explica por qué lleva mayúscula.",
+        "pairs": [
+          {
+            "left": "Asamblea Legislativa",
+            "right": "Nombre de una institución"
+          },
+          {
+            "left": "Saturno",
+            "right": "Nombre de un astro"
+          },
+          {
+            "left": "Na",
+            "right": "Símbolo de un elemento químico"
+          },
+          {
+            "left": "Cartago",
+            "right": "Nombre de un lugar geográfico"
+          },
+          {
+            "left": "Mariana",
+            "right": "Nombre de una persona"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Los nombres de instituciones, astros, lugares y personas, y los símbolos de los elementos químicos, se escriben con mayúscula inicial."
+      },
+      "seed": "2a2678d3-b676-4ebc-b118-9b68ce8a4028:0",
+      "solved": {
+        "game": 1,
+        "match": [
+          2,
+          3,
+          1,
+          5,
+          4
+        ],
+        "order": null,
+        "choice": null,
+        "problems": "Pareja 3 (Na): símbolo químico. Saturno: astro. Cartago: lugar. Mariana: persona. Asamblea Legislativa: institución. Sin ambigüedad."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "Pareja 3 (Na): símbolo químico. Saturno: astro. Cartago: lugar. Mariana: persona. Asamblea Legislativa: institución. Sin ambigüedad."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: Pareja 3 (Na): símbolo químico. Saturno: astro. Cartago: lugar. Mariana: persona. Asamblea Legislativa: institución. Sin ambigüedad."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Completa con el nombre de la institución bien escrito.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Mi mamá trabaja en el ___, que se encarga de la educación del país.",
+        "options": [
+          "ministerio de Educación Pública",
+          "Ministerio de educación pública",
+          "Ministerio de Educación Pública",
+          "Ministerio de Educación pública"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": null,
+        "explanation": "En el nombre de una institución llevan mayúscula inicial todos los elementos significativos: Ministerio, Educación y Pública."
+      },
+      "seed": "2a2678d3-b676-4ebc-b118-9b68ce8a4028:1",
+      "solved": {
+        "game": 2,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": "Según la RAE, los nombres de ministerios (Ministerio de Educación Pública) llevan mayúscula en todos los elementos significativos cuando se trata de la institución concreta. Solo la opción 2 es correcta."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [
+          "opciones repetidas"
+        ],
+        "solver": null,
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "opciones repetidas"
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Elige la opción correcta para completar.",
+        "pairs": null,
+        "steps": null,
+        "stem": "El símbolo del punto cardinal oeste se escribe ___.",
+        "options": [
+          "o",
+          "O",
+          "Oe",
+          "oeste"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": null,
+        "explanation": "Los símbolos de los puntos cardinales (N, S, E, O) se escriben con mayúscula. La palabra oeste, en cambio, se escribe con minúscula."
+      },
+      "seed": "2a2678d3-b676-4ebc-b118-9b68ce8a4028:2",
+      "solved": {
+        "game": 3,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": "El símbolo del oeste es O (mayúscula, sin punto). Solo la opción 1 es correcta."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [
+          "opciones repetidas"
+        ],
+        "solver": null,
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "opciones repetidas"
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 0,
+        "instruction": "Una de estas reglas sobre las mayúsculas es incorrecta. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "Los nombres de los astros, como Júpiter, llevan mayúscula inicial.",
+          "Los símbolos de los elementos químicos, como Fe, llevan mayúscula inicial.",
+          "Los nombres de las instituciones llevan mayúscula inicial en todos sus elementos significativos.",
+          "Los nombres de los días de la semana llevan siempre mayúscula inicial."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 3,
+        "correction": "Los nombres de los días de la semana se escriben con minúscula inicial, salvo al comienzo de un texto o después de punto.",
+        "calc": null,
+        "explanation": "Los días de la semana son sustantivos comunes; solo llevan mayúscula si inician la oración o van después de punto."
+      },
+      "seed": "2a2678d3-b676-4ebc-b118-9b68ce8a4028:3",
+      "solved": {
+        "game": 4,
+        "match": null,
+        "order": null,
+        "choice": 4,
+        "problems": "El paso 4 es erróneo: los días de la semana se escriben con minúscula salvo al inicio de oración o tras punto. Los pasos 1, 2 y 3 son correctos."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "El paso 4 es erróneo: los días de la semana se escriben con minúscula salvo al inicio de oración o tras punto. Los pasos 1, 2 y 3 son correctos."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: El paso 4 es erróneo: los días de la semana se escriben con minúscula salvo al inicio de oración o tras punto. Los pasos 1, 2 y 3 son correctos."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 1,
+        "instruction": "Completa con el símbolo bien escrito, como en un informe de Química.",
+        "pairs": null,
+        "steps": null,
+        "stem": "En el informe de laboratorio escribiste el símbolo del calcio: ___.",
+        "options": [
+          "ca",
+          "CA",
+          "cA",
+          "Ca"
+        ],
+        "answer_index": 3,
+        "correction": null,
+        "calc": null,
+        "explanation": "El símbolo de un elemento químico lleva solo la primera letra en mayúscula. Si tiene dos letras, la segunda va en minúscula: Ca."
+      },
+      "seed": "2a2678d3-b676-4ebc-b118-9b68ce8a4028:4",
+      "solved": {
+        "game": 5,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": "El símbolo del calcio es Ca. Solo la opción 3 es correcta."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [
+          "opciones repetidas"
+        ],
+        "solver": null,
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "opciones repetidas"
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 1,
+        "instruction": "Elige el nombre del lugar bien escrito.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Mi familia viajó a ___ en vacaciones.",
+        "options": [
+          "Puerto Viejo de Talamanca",
+          "Puerto viejo de Talamanca",
+          "puerto Viejo de Talamanca",
+          "Puerto Viejo de talamanca"
+        ],
+        "answer_index": 0,
+        "correction": null,
+        "calc": null,
+        "explanation": "Los nombres propios de lugares llevan mayúscula inicial en todos sus elementos significativos: Puerto, Viejo y Talamanca."
+      },
+      "seed": "2a2678d3-b676-4ebc-b118-9b68ce8a4028:5",
+      "solved": {
+        "game": 6,
+        "match": null,
+        "order": null,
+        "choice": 0,
+        "problems": "Puerto Viejo de Talamanca es la forma correcta: topónimo con mayúscula en Puerto y Viejo y preposición en minúscula. Hay una única opción correcta."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [
+          "opciones repetidas"
+        ],
+        "solver": null,
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "opciones repetidas"
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 1,
+        "instruction": "Una de estas frases tiene un error de mayúsculas. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "El Ministerio de Educación Pública publicó el calendario escolar.",
+          "Sofía viajará a Guanacaste el sábado.",
+          "El telescopio permitió observar a marte y a Júpiter.",
+          "En la clase de química, anotamos que el símbolo del hierro es Fe."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "El telescopio permitió observar a Marte y a Júpiter.",
+        "calc": null,
+        "explanation": "Marte es el nombre de un astro, así que lleva mayúscula inicial, igual que Júpiter."
+      },
+      "seed": "2a2678d3-b676-4ebc-b118-9b68ce8a4028:6",
+      "solved": {
+        "game": 7,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": "El error está en la frase 3: 'marte' debe escribirse 'Marte' cuando se refiere al planeta. Las demás frases son correctas."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "El error está en la frase 3: 'marte' debe escribirse 'Marte' cuando se refiere al planeta. Las demás frases son correctas."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: El error está en la frase 3: 'marte' debe escribirse 'Marte' cuando se refiere al planeta. Las demás frases son correctas."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 2,
+        "instruction": "Elige la razón que valora mejor el uso de las mayúsculas.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Usar bien las mayúsculas en un trabajo escrito es importante porque ___.",
+        "options": [
+          "solo sirve para que el texto se vea más largo",
+          "permite identificar con claridad nombres propios e instituciones y facilita la comprensión",
+          "es opcional si el texto es para otra asignatura",
+          "depende del gusto de quien escribe"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": null,
+        "explanation": "Las mayúsculas siguen una norma que ayuda al lector a reconocer nombres y entender mejor el texto, en cualquier asignatura."
+      },
+      "seed": "2a2678d3-b676-4ebc-b118-9b68ce8a4028:7",
+      "solved": {
+        "game": 8,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 2,
+        "instruction": "Una de estas valoraciones sobre las mayúsculas es incorrecta. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "Las mayúsculas ayudan a distinguir un nombre propio de uno común.",
+          "Respetar la norma de las mayúsculas da seriedad a un texto formal.",
+          "La norma de las mayúsculas vale en todas las asignaturas, no solo en Español.",
+          "Si el texto es para una asignatura distinta de Español, se pueden poner mayúsculas al azar."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 3,
+        "correction": "Aunque el texto sea para otra asignatura, se deben respetar las normas de uso de las mayúsculas.",
+        "calc": null,
+        "explanation": "La norma ortográfica se aplica siempre que escribimos, sin importar la materia."
+      },
+      "seed": "2a2678d3-b676-4ebc-b118-9b68ce8a4028:8",
+      "solved": {
+        "game": 9,
+        "match": null,
+        "order": null,
+        "choice": 4,
+        "problems": "La afirmación 4 es falsa: la norma ortográfica aplica en todas las asignaturas. Las otras son correctas."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "La afirmación 4 es falsa: la norma ortográfica aplica en todas las asignaturas. Las otras son correctas."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: La afirmación 4 es falsa: la norma ortográfica aplica en todas las asignaturas. Las otras son correctas."
+        ]
+      }
+    }
+  ],
+  "notes": "No se incluyeron piezas de ordenar pasos ni más parejas para las habilidades 1 y 2, porque no hay un orden único ni parejas con una sola unión posible. Se evitaron casos discutibles, como asignaturas, ríos y volcanes."
+}

@@ -4,10 +4,12 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Kemo } from "@/components/brand/logo";
 import { SubjectIcon } from "@/components/brand/subject-icon";
+import { StreakCard } from "@/components/learn/streak-card";
 import { action } from "@/components/ui/action";
 import { BackLink } from "@/components/ui/back-link";
 import { eyebrow } from "@/components/ui/styles";
 import { brand, subjectColor } from "@/lib/brand";
+import { streakStatus } from "@/lib/streak";
 import { currentUser, GRADE_LABEL, masteryMap, parseGrade, subjectName, unitsFor } from "@/lib/learn";
 
 export async function generateMetadata({ params }: PageProps<"/estudiar/[grado]/[materia]">): Promise<Metadata> {
@@ -53,6 +55,7 @@ export default async function SubjectPage({ params }: PageProps<"/estudiar/[grad
   const strong = units.flatMap((u) => u.skills).filter((s) => (mastery.get(s.id) ?? 0) >= STRONG);
   const weak = units.flatMap((u) => u.skills).filter((s) => mastery.has(s.id) && mastery.get(s.id)! < WEAK);
   const hasProgress = mastery.size > 0;
+  const streak = await streakStatus();
 
   return (
     <section className="space-y-8">
@@ -66,6 +69,8 @@ export default async function SubjectPage({ params }: PageProps<"/estudiar/[grad
           <SubjectIcon subject={materia} className="size-10 shrink-0 sm:size-14" />
         </div>
       </div>
+
+      <StreakCard status={streak} />
 
       <div className="flex flex-col gap-4 rounded-[22px] bg-tinta p-5 text-papel sm:flex-row sm:items-center sm:p-6">
         <Kemo size={64} mood={last ? "happy" : "down"} background={brand.lima} className="hidden sm:block" />

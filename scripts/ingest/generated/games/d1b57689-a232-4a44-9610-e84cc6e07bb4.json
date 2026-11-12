@@ -1,0 +1,478 @@
+{
+  "unitId": "d1b57689-a232-4a44-9610-e84cc6e07bb4",
+  "createdAt": "2026-11-04T17:48:57.064Z",
+  "models": {
+    "games": "claude-sonnet-5-5",
+    "solve": "claude-sonnet-5-5"
+  },
+  "prompts": {
+    "games": "generate-games-system@1",
+    "solve": "solve-games-system@1"
+  },
+  "pieces": [
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 0,
+        "instruction": "Une cada locución preposicional con su significado.",
+        "pairs": [
+          {
+            "left": "debido a",
+            "right": "por causa de"
+          },
+          {
+            "left": "a pesar de",
+            "right": "sin que importe un obstáculo"
+          },
+          {
+            "left": "en vez de",
+            "right": "en lugar de"
+          },
+          {
+            "left": "acerca de",
+            "right": "sobre un tema"
+          },
+          {
+            "left": "junto a",
+            "right": "al lado de"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Cada locución preposicional funciona como una sola preposición y tiene un sentido propio: causa, oposición, sustitución, tema o cercanía."
+      },
+      "seed": "d1b57689-a232-4a44-9610-e84cc6e07bb4:0",
+      "solved": {
+        "game": 1,
+        "match": [
+          4,
+          5,
+          2,
+          3,
+          1
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 0,
+        "instruction": "Ordena los pasos para reconocer una locución preposicional en una oración.",
+        "pairs": null,
+        "steps": [
+          "Lee la oración completa.",
+          "Busca un grupo de palabras que funcione como una sola preposición.",
+          "Comprueba que el grupo suela terminar con una preposición (a, de, con, en).",
+          "Verifica que después venga la palabra o el grupo que completa el sentido."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Primero se lee todo para entender el sentido. Luego se busca el grupo de palabras, se revisa su forma y por último se mira qué palabra lo completa."
+      },
+      "seed": "d1b57689-a232-4a44-9610-e84cc6e07bb4:1",
+      "solved": {
+        "game": 2,
+        "match": null,
+        "order": [
+          4,
+          1,
+          3,
+          2
+        ],
+        "choice": null,
+        "problems": "El orden de los pasos 3 y 2 es algo discutible, pero el orden dado es el más natural."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "El orden de los pasos 3 y 2 es algo discutible, pero el orden dado es el más natural."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: El orden de los pasos 3 y 2 es algo discutible, pero el orden dado es el más natural."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Elige la locución preposicional que completa bien la oración.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Marta no fue al paseo ___ la lluvia.",
+        "options": [
+          "debido de",
+          "debido con",
+          "debido a",
+          "debido en"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": null,
+        "explanation": "La locución para expresar causa es «debido a». Las otras opciones no existen en español."
+      },
+      "seed": "d1b57689-a232-4a44-9610-e84cc6e07bb4:2",
+      "solved": {
+        "game": 3,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 1,
+        "instruction": "Une cada inicio con el final que completa bien la correlación de preposiciones.",
+        "pairs": [
+          {
+            "left": "Estudié desde las seis",
+            "right": "hasta las ocho de la noche"
+          },
+          {
+            "left": "La clínica atiende de lunes",
+            "right": "a viernes"
+          },
+          {
+            "left": "El viento sopló desde el mar",
+            "right": "hacia la montaña"
+          },
+          {
+            "left": "Leí desde la página 10",
+            "right": "a la página 25"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Se usan las correlaciones desde…hasta, de…a, desde…hacia y desde…a. Cada final tiene sentido con un solo inicio."
+      },
+      "seed": "d1b57689-a232-4a44-9610-e84cc6e07bb4:3",
+      "solved": {
+        "game": 4,
+        "match": [
+          1,
+          3,
+          4,
+          2
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 1,
+        "instruction": "Completa con la preposición que forma la correlación correcta.",
+        "pairs": null,
+        "steps": null,
+        "stem": "La feria estará abierta desde el jueves ___ el domingo.",
+        "options": [
+          "de",
+          "hasta",
+          "por",
+          "con"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": null,
+        "explanation": "«Desde» se correlaciona con «hasta» (o con «a»). Aquí la opción correcta es «hasta»."
+      },
+      "seed": "d1b57689-a232-4a44-9610-e84cc6e07bb4:4",
+      "solved": {
+        "game": 5,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 1,
+        "instruction": "Completa con la preposición que forma la correlación correcta.",
+        "pairs": null,
+        "steps": null,
+        "stem": "El horario de atención es ___ lunes a viernes.",
+        "options": [
+          "de",
+          "por",
+          "sobre",
+          "tras"
+        ],
+        "answer_index": 0,
+        "correction": null,
+        "calc": null,
+        "explanation": "La correlación correcta es «de… a»: de lunes a viernes. Las otras preposiciones no forman pareja con «a»."
+      },
+      "seed": "d1b57689-a232-4a44-9610-e84cc6e07bb4:5",
+      "solved": {
+        "game": 6,
+        "match": null,
+        "order": null,
+        "choice": 0,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 1,
+        "instruction": "Una de estas frases tiene mal la correlación de preposiciones. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "El recorrido va desde Cartago hasta Puntarenas.",
+          "Practicamos desde las dos hasta las cuatro.",
+          "Atendemos de lunes hacia viernes.",
+          "El viento sopló desde el norte hacia el sur."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "Atendemos de lunes a viernes.",
+        "calc": null,
+        "explanation": "«De» se correlaciona con «a». «Hacia» indica dirección y no sirve para marcar el límite de un periodo."
+      },
+      "seed": "d1b57689-a232-4a44-9610-e84cc6e07bb4:6",
+      "solved": {
+        "game": 7,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 2,
+        "instruction": "Una de estas frases usa mal una locución preposicional. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "Con respecto a la tarea, hay dudas.",
+          "Llegamos tarde debido que había presa.",
+          "Enviamos el trabajo a través de la plataforma del colegio.",
+          "Acerca de la gira, la profesora dará detalles."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 1,
+        "correction": "Llegamos tarde debido a que había presa.",
+        "calc": null,
+        "explanation": "La forma correcta es «debido a que». No se puede omitir la preposición «a»."
+      },
+      "seed": "d1b57689-a232-4a44-9610-e84cc6e07bb4:7",
+      "solved": {
+        "game": 8,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 2,
+        "instruction": "Elige la forma bien escrita de la locución.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Envié la tarea ___ la plataforma del colegio.",
+        "options": [
+          "através de",
+          "a travéz de",
+          "atraves de",
+          "a través de"
+        ],
+        "answer_index": 3,
+        "correction": null,
+        "calc": null,
+        "explanation": "La locución se escribe en tres palabras separadas y con tilde: «a través de»."
+      },
+      "seed": "d1b57689-a232-4a44-9610-e84cc6e07bb4:8",
+      "solved": {
+        "game": 9,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 2,
+        "instruction": "Une cada forma incorrecta con su forma correcta.",
+        "pairs": [
+          {
+            "left": "en base a",
+            "right": "con base en"
+          },
+          {
+            "left": "debido que",
+            "right": "debido a que"
+          },
+          {
+            "left": "a pesar que",
+            "right": "a pesar de que"
+          },
+          {
+            "left": "de acuerdo a",
+            "right": "de acuerdo con"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Cada locución tiene una forma correcta. Cambiar o quitar la preposición produce errores muy comunes al escribir."
+      },
+      "seed": "d1b57689-a232-4a44-9610-e84cc6e07bb4:9",
+      "solved": {
+        "game": 10,
+        "match": [
+          3,
+          2,
+          4,
+          1
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    }
+  ],
+  "notes": "Se omitieron las piezas de «order» para las habilidades 1 y 2 y de «find_error» para la habilidad 0 porque no tienen un orden único o no encajan bien. Se evitó «de…hasta» y «desde…a» como distractores para no generar ambigüedad."
+}

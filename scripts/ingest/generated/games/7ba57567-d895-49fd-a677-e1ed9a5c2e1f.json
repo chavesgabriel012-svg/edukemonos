@@ -1,0 +1,740 @@
+{
+  "unitId": "7ba57567-d895-49fd-a677-e1ed9a5c2e1f",
+  "createdAt": "2026-11-04T17:56:53.957Z",
+  "models": {
+    "games": "claude-sonnet-5-5",
+    "solve": "claude-sonnet-5-5"
+  },
+  "prompts": {
+    "games": "generate-games-system@1",
+    "solve": "solve-games-system@1"
+  },
+  "pieces": [
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Elige la opción que es una ecuación.",
+        "pairs": null,
+        "steps": null,
+        "stem": "De las siguientes opciones, la única que es una ecuación es ___.",
+        "options": [
+          "3x + 7",
+          "2x − 5 = 9",
+          "4(x − 1)",
+          "x² + 6x"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": null,
+        "explanation": "Una ecuación tiene un signo igual (=) que une dos expresiones. Las otras opciones son expresiones algebraicas porque no tienen igualdad."
+      },
+      "seed": "7ba57567-d895-49fd-a677-e1ed9a5c2e1f:0",
+      "solved": {
+        "game": 1,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 0,
+        "instruction": "Una de estas frases es falsa. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "5x − 2 es una expresión algebraica porque no tiene signo igual.",
+          "x + 4 = 9 es una ecuación porque tiene una igualdad con una incógnita.",
+          "3x = 12 es una expresión algebraica porque tiene una variable.",
+          "2(a + 1) es una expresión algebraica porque no es una igualdad."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "3x = 12 es una ecuación porque tiene un signo igual.",
+        "calc": null,
+        "explanation": "Tener una variable no basta para ser expresión. Si hay un signo igual, como en 3x = 12, se trata de una ecuación."
+      },
+      "seed": "7ba57567-d895-49fd-a677-e1ed9a5c2e1f:1",
+      "solved": {
+        "game": 2,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 1,
+        "instruction": "Une cada ecuación con el valor de x que es su solución.",
+        "pairs": [
+          {
+            "left": "2x + 1 = 9",
+            "right": "x = 4"
+          },
+          {
+            "left": "3x − 5 = 10",
+            "right": "x = 5"
+          },
+          {
+            "left": "x/2 = 6",
+            "right": "x = 12"
+          },
+          {
+            "left": "4x + 3 = −5",
+            "right": "x = −2"
+          },
+          {
+            "left": "10 − x = 3",
+            "right": "x = 7"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Al sustituir cada valor en su ecuación, los dos lados dan el mismo resultado. Por ejemplo, 2 × 4 + 1 = 9 y 3 × 5 − 5 = 10."
+      },
+      "seed": "7ba57567-d895-49fd-a677-e1ed9a5c2e1f:2",
+      "solved": {
+        "game": 3,
+        "match": [
+          1,
+          3,
+          4,
+          2,
+          5
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 1,
+        "instruction": "Sustituye y completa.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Al sustituir x = 5 en la ecuación 4x − 7 = 12, el lado izquierdo vale ___, así que 5 no es solución.",
+        "options": [
+          "27",
+          "−8",
+          "13",
+          "12"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": "4*5-7",
+        "explanation": "4 × 5 − 7 = 20 − 7 = 13. Como 13 no es igual a 12, el número 5 no es solución de la ecuación."
+      },
+      "seed": "7ba57567-d895-49fd-a677-e1ed9a5c2e1f:3",
+      "solved": {
+        "game": 4,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 2,
+        "instruction": "Une cada ecuación con una ecuación equivalente que se obtiene al simplificarla.",
+        "pairs": [
+          {
+            "left": "2x + 6 = 10",
+            "right": "2x = 4"
+          },
+          {
+            "left": "3x − 2 = 7",
+            "right": "3x = 9"
+          },
+          {
+            "left": "x/3 + 1 = 4",
+            "right": "x/3 = 3"
+          },
+          {
+            "left": "4x + 8 = 24",
+            "right": "4x = 16"
+          },
+          {
+            "left": "6 + x = 2x",
+            "right": "x = 6"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Al sumar o restar el mismo número en ambos lados se obtiene una ecuación equivalente, con la misma solución. Por ejemplo, restar 6 en 2x + 6 = 10 da 2x = 4."
+      },
+      "seed": "7ba57567-d895-49fd-a677-e1ed9a5c2e1f:4",
+      "solved": {
+        "game": 5,
+        "match": [
+          2,
+          4,
+          3,
+          5,
+          1
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 2,
+        "instruction": "Una de estas equivalencias es incorrecta. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "x + 3 = 8 es equivalente a x = 5",
+          "2x = 10 es equivalente a x = 5",
+          "x − 4 = 1 es equivalente a x = 3",
+          "3x = 12 es equivalente a x = 4"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "x − 4 = 1 es equivalente a x = 5, porque se suma 4 en ambos lados.",
+        "calc": null,
+        "explanation": "Para pasar de x − 4 = 1 a x = ..., se suma 4 en ambos lados: x = 1 + 4 = 5, no 3."
+      },
+      "seed": "7ba57567-d895-49fd-a677-e1ed9a5c2e1f:5",
+      "solved": {
+        "game": 6,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 3,
+        "instruction": "Ordena los pasos para resolver un problema con una ecuación.",
+        "pairs": null,
+        "steps": [
+          "Lee el problema e identifica qué cantidad no conoces.",
+          "Representa esa cantidad con una letra.",
+          "Plantea la ecuación con los datos del problema.",
+          "Resuelve la ecuación.",
+          "Comprueba que la solución cumple lo que dice el problema."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Primero hay que entender el problema y nombrar la incógnita. Después se plantea la ecuación, se resuelve y al final se comprueba la solución."
+      },
+      "seed": "7ba57567-d895-49fd-a677-e1ed9a5c2e1f:6",
+      "solved": {
+        "game": 7,
+        "match": null,
+        "order": [
+          3,
+          5,
+          1,
+          2,
+          4
+        ],
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 3,
+        "instruction": "Resuelve el problema y completa.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Ana compra 3 cuadernos iguales y una regla de 500 colones. Paga 2 900 colones en total. Con la ecuación 3x + 500 = 2 900, el precio de cada cuaderno es x = ___ colones.",
+        "options": [
+          "800",
+          "700",
+          "2400",
+          "1000"
+        ],
+        "answer_index": 0,
+        "correction": null,
+        "calc": "(2900-500)/3",
+        "explanation": "Se resta 500 en ambos lados: 3x = 2 400. Luego se divide entre 3: x = 800. Comprobación: 3 × 800 + 500 = 2 900."
+      },
+      "seed": "7ba57567-d895-49fd-a677-e1ed9a5c2e1f:7",
+      "solved": {
+        "game": 8,
+        "match": null,
+        "order": null,
+        "choice": 0,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 4,
+        "instruction": "Une cada función con su cero, el valor de x donde y = 0.",
+        "pairs": [
+          {
+            "left": "y = 2x + 4",
+            "right": "x = −2"
+          },
+          {
+            "left": "y = 3x − 6",
+            "right": "x = 2"
+          },
+          {
+            "left": "y = x + 5",
+            "right": "x = −5"
+          },
+          {
+            "left": "y = 2x − 10",
+            "right": "x = 5"
+          },
+          {
+            "left": "y = −x + 3",
+            "right": "x = 3"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "El cero de la función es la solución de la ecuación que se obtiene al igualar la expresión a 0. Por ejemplo, 2x + 4 = 0 da x = −2."
+      },
+      "seed": "7ba57567-d895-49fd-a677-e1ed9a5c2e1f:8",
+      "solved": {
+        "game": 9,
+        "match": [
+          1,
+          2,
+          4,
+          5,
+          3
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 4,
+        "instruction": "Relaciona la ecuación con la función lineal.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Para resolver 3x − 4 = 8 con la función y = 3x − 4, se busca el valor de x para el cual y = ___.",
+        "options": [
+          "−4",
+          "3",
+          "0",
+          "8"
+        ],
+        "answer_index": 3,
+        "correction": null,
+        "calc": null,
+        "explanation": "La ecuación 3x − 4 = 8 pregunta para qué x la función y = 3x − 4 vale 8. Por eso se busca el x donde y = 8."
+      },
+      "seed": "7ba57567-d895-49fd-a677-e1ed9a5c2e1f:9",
+      "solved": {
+        "game": 10,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 5,
+        "instruction": "Ordena los pasos para resolver 3(x − 2) = 2x + 5.",
+        "pairs": null,
+        "steps": [
+          "Aplica la propiedad distributiva: 3x − 6 = 2x + 5",
+          "Junta los términos con x a un lado: 3x − 2x = 5 + 6",
+          "Reduce: x = 11",
+          "Comprueba: 3(11 − 2) = 27 y 2 × 11 + 5 = 27"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Primero se quitan los paréntesis. Luego se agrupan los términos con x y los números, se reduce para hallar x y al final se comprueba la solución."
+      },
+      "seed": "7ba57567-d895-49fd-a677-e1ed9a5c2e1f:10",
+      "solved": {
+        "game": 11,
+        "match": null,
+        "order": [
+          3,
+          2,
+          4,
+          1
+        ],
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 5,
+        "instruction": "Una de las líneas de esta resolución tiene un error. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "4(x + 1) = 3x + 9",
+          "4x + 4 = 3x + 9",
+          "4x − 3x = 9 − 4",
+          "x = 9 − 4 = 6"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 3,
+        "correction": "x = 9 − 4 = 5",
+        "calc": null,
+        "explanation": "9 − 4 es 5, no 6. Comprobación: 4(5 + 1) = 24 y 3 × 5 + 9 = 24."
+      },
+      "seed": "7ba57567-d895-49fd-a677-e1ed9a5c2e1f:11",
+      "solved": {
+        "game": 12,
+        "match": null,
+        "order": null,
+        "choice": 4,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 6,
+        "instruction": "Resuelve la ecuación fraccionaria.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Al resolver 12/x = 3, con x distinto de 0, se obtiene x = ___.",
+        "options": [
+          "36",
+          "4",
+          "9",
+          "15"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": "12/3",
+        "explanation": "Se multiplica ambos lados por x: 12 = 3x. Luego se divide entre 3: x = 4. Comprobación: 12/4 = 3."
+      },
+      "seed": "7ba57567-d895-49fd-a677-e1ed9a5c2e1f:12",
+      "solved": {
+        "game": 13,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 6,
+        "instruction": "Ordena los pasos para resolver (x + 2)/3 = (x − 1)/2.",
+        "pairs": null,
+        "steps": [
+          "Elimina los denominadores multiplicando en cruz: 2(x + 2) = 3(x − 1)",
+          "Aplica la propiedad distributiva: 2x + 4 = 3x − 3",
+          "Junta términos: 4 + 3 = 3x − 2x",
+          "Despeja: x = 7",
+          "Comprueba: 9/3 = 3 y 6/2 = 3"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Se eliminan los denominadores para obtener una ecuación de primer grado. Luego se resuelve y se comprueba que ambos lados dan 3."
+      },
+      "seed": "7ba57567-d895-49fd-a677-e1ed9a5c2e1f:13",
+      "solved": {
+        "game": 14,
+        "match": null,
+        "order": [
+          3,
+          1,
+          4,
+          5,
+          2
+        ],
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 7,
+        "instruction": "Despeja la letra pedida.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Al despejar x en la ecuación literal ax + b = c, con a distinto de 0, se obtiene x = ___.",
+        "options": [
+          "(c + b)/a",
+          "c − b/a",
+          "(c − b)/a",
+          "a(c − b)"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": null,
+        "explanation": "Primero se resta b en ambos lados: ax = c − b. Después se divide todo entre a: x = (c − b)/a."
+      },
+      "seed": "7ba57567-d895-49fd-a677-e1ed9a5c2e1f:14",
+      "solved": {
+        "game": 15,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 7,
+        "instruction": "Una de las líneas al despejar a tiene un error. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "Se parte de P = 2a + 2b",
+          "Se resta 2b en ambos lados: P − 2b = 2a",
+          "Se divide entre 2 en ambos lados: a = (P − 2b)/2",
+          "Por lo tanto, a = P/2 − 2b"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 3,
+        "correction": "a = P/2 − b",
+        "calc": null,
+        "explanation": "Al dividir (P − 2b) entre 2, cada término se divide entre 2: P/2 − 2b/2 = P/2 − b."
+      },
+      "seed": "7ba57567-d895-49fd-a677-e1ed9a5c2e1f:15",
+      "solved": {
+        "game": 16,
+        "match": null,
+        "order": null,
+        "choice": 4,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    }
+  ],
+  "notes": "En habilidad 7 se usó una pieza de opción múltiple y una de encontrar el error. No se hizo pairs ni order para las habilidades donde el orden o la unión no son únicos."
+}

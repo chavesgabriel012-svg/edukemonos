@@ -1,0 +1,745 @@
+{
+  "unitId": "78b9931a-9c58-4e06-ace1-ff3f33c2a143",
+  "createdAt": "2026-11-04T17:54:55.194Z",
+  "models": {
+    "games": "claude-sonnet-5-5",
+    "solve": "claude-sonnet-5-5"
+  },
+  "prompts": {
+    "games": "generate-games-system@1",
+    "solve": "solve-games-system@1"
+  },
+  "pieces": [
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Completa el enunciado con la opción correcta.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Ana tenía 3/4 de litro de jugo y se tomó 1/3 de litro. Le quedan ___ de litro.",
+        "options": [
+          "2/1",
+          "5/12",
+          "13/12",
+          "1/4"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": null,
+        "explanation": "Se resta 3/4 − 1/3 con denominador común 12: 9/12 − 4/12 = 5/12. No se restan numeradores con numeradores ni denominadores con denominadores.way"
+      },
+      "seed": "78b9931a-9c58-4e06-ace1-ff3f33c2a143:0",
+      "solved": {
+        "game": 1,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 0,
+        "instruction": "Una de estas operaciones tiene un error. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "1/2 + 1/3 = 5/6",
+          "−3/4 + 1/2 = −1/4",
+          "2/3 − 1/6 = 1/3",
+          "−1/5 − 2/5 = −3/5"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "2/3 − 1/6 = 4/6 − 1/6 = 3/6 = 1/2",
+        "calc": null,
+        "explanation": "Al restar 2/3 − 1/6 se escribe 2/3 como 4/6 y queda 3/6, que se simplifica a 1/2, no a 1/3."
+      },
+      "seed": "78b9931a-9c58-4e06-ace1-ff3f33c2a143:1",
+      "solved": {
+        "game": 2,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 1,
+        "instruction": "Une cada operación con su resultado.",
+        "pairs": [
+          {
+            "left": "2/3 × 3/4",
+            "right": "1/2"
+          },
+          {
+            "left": "3/5 ÷ 3/10",
+            "right": "2"
+          },
+          {
+            "left": "−4/9 × 3/2",
+            "right": "−2/3"
+          },
+          {
+            "left": "−1/2 ÷ 1/4",
+            "right": "−2"
+          },
+          {
+            "left": "0,5 × 0,4",
+            "right": "0,2"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Al multiplicar se multiplican numeradores y denominadores; al dividir se multiplica por el inverso. Se aplica la regla de los signos en cada caso."
+      },
+      "seed": "78b9931a-9c58-4e06-ace1-ff3f33c2a143:2",
+      "solved": {
+        "game": 3,
+        "match": [
+          5,
+          2,
+          1,
+          3,
+          4
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 1,
+        "instruction": "Resuelve el problema y completa.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Una cinta mide 3/4 de metro y se corta en pedazos de 1/8 de metro cada uno. Se obtienen ___ pedazos.",
+        "options": [
+          "3/32",
+          "5/8",
+          "6",
+          "24"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": "(3/4)/(1/8)",
+        "explanation": "Hay que dividir 3/4 ÷ 1/8 = 3/4 × 8/1 = 24/4 = 6 pedazos."
+      },
+      "seed": "78b9931a-9c58-4e06-ace1-ff3f33c2a143:3",
+      "solved": {
+        "game": 4,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 2,
+        "instruction": "Elige la opción que completa el enunciado.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Al calcular 2/5 + 7/9 + 3/5, la forma más cómoda es agrupar ___, porque su suma es 1.",
+        "options": [
+          "2/5 y 3/5",
+          "2/5 y 7/9",
+          "7/9 y 3/5",
+          "los tres sumandos a la vez"
+        ],
+        "answer_index": 0,
+        "correction": null,
+        "calc": null,
+        "explanation": "Por conmutatividad y asociatividad se puede hacer (2/5 + 3/5) + 7/9 = 1 + 7/9 = 16/9, sin buscar denominador común al inicio."
+      },
+      "seed": "78b9931a-9c58-4e06-ace1-ff3f33c2a143:4",
+      "solved": {
+        "game": 5,
+        "match": null,
+        "order": null,
+        "choice": 0,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 2,
+        "instruction": "Une cada igualdad con la propiedad que usa.",
+        "pairs": [
+          {
+            "left": "3/4 + 1/2 = 1/2 + 3/4",
+            "right": "Conmutatividad de la suma"
+          },
+          {
+            "left": "(1/2 + 1/3) + 2/3 = 1/2 + (1/3 + 2/3)",
+            "right": "Asociatividad de la suma"
+          },
+          {
+            "left": "2/3 × 5/7 = 5/7 × 2/3",
+            "right": "Conmutatividad de la multiplicación"
+          },
+          {
+            "left": "(1/2 × 4) × 3/4 = 1/2 × (4 × 3/4)",
+            "right": "Asociatividad de la multiplicación"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "La conmutatividad cambia el orden de los números; la asociatividad cambia la forma de agruparlos con paréntesis."
+      },
+      "seed": "78b9931a-9c58-4e06-ace1-ff3f33c2a143:5",
+      "solved": {
+        "game": 6,
+        "match": [
+          3,
+          1,
+          2,
+          4
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 3,
+        "instruction": "Una de estas operaciones tiene un error. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "0,75 − 1/4 = 1/2",
+          "1,5 + 1/2 = 2",
+          "2/5 × 0,5 = 1/5",
+          "3 ÷ 0,5 = 1,5"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 3,
+        "correction": "3 ÷ 0,5 = 6",
+        "calc": null,
+        "explanation": "Dividir entre 0,5 es lo mismo que dividir entre 1/2, es decir, multiplicar por 2. Entonces 3 ÷ 0,5 = 6."
+      },
+      "seed": "78b9931a-9c58-4e06-ace1-ff3f33c2a143:6",
+      "solved": {
+        "game": 7,
+        "match": null,
+        "order": null,
+        "choice": 4,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 4,
+        "instruction": "Une cada potencia con su valor.",
+        "pairs": [
+          {
+            "left": "(2/3)²",
+            "right": "4/9"
+          },
+          {
+            "left": "(1/2)⁻³",
+            "right": "8"
+          },
+          {
+            "left": "(−1/3)²",
+            "right": "1/9"
+          },
+          {
+            "left": "(3/4)⁰",
+            "right": "1"
+          },
+          {
+            "left": "(2/5)⁻¹",
+            "right": "5/2"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Un exponente negativo invierte la base; un exponente 0 da 1; un número negativo elevado a exponente par da positivo."
+      },
+      "seed": "78b9931a-9c58-4e06-ace1-ff3f33c2a143:7",
+      "solved": {
+        "game": 8,
+        "match": [
+          4,
+          1,
+          2,
+          3,
+          5
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 4,
+        "instruction": "Elige el valor correcto de la potencia.",
+        "pairs": null,
+        "steps": null,
+        "stem": "(2/3)⁻² = ___",
+        "options": [
+          "4/9",
+          "−4/9",
+          "9/4",
+          "−9/4"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": null,
+        "explanation": "Con exponente negativo se invierte la base: (2/3)⁻² = (3/2)² = 9/4."
+      },
+      "seed": "78b9931a-9c58-4e06-ace1-ff3f33c2a143:8",
+      "solved": {
+        "game": 9,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 5,
+        "instruction": "Une cada raíz con su resultado.",
+        "pairs": [
+          {
+            "left": "√(9/16)",
+            "right": "3/4"
+          },
+          {
+            "left": "∛(−8)",
+            "right": "−2"
+          },
+          {
+            "left": "∛(1/27)",
+            "right": "1/3"
+          },
+          {
+            "left": "√0,25",
+            "right": "0,5"
+          },
+          {
+            "left": "∜(16/81)",
+            "right": "2/3"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Cada resultado, elevado al índice de la raíz, da el número de adentro: (3/4)² = 9/16, (−2)³ = −8, (1/3)³ = 1/27, 0,5² = 0,25 y (2/3)⁴ = 16/81."
+      },
+      "seed": "78b9931a-9c58-4e06-ace1-ff3f33c2a143:9",
+      "solved": {
+        "game": 10,
+        "match": [
+          1,
+          5,
+          4,
+          3,
+          2
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 5,
+        "instruction": "Completa con el valor correcto.",
+        "pairs": null,
+        "steps": null,
+        "stem": "∛(−27/8) = ___",
+        "options": [
+          "3/2",
+          "−9/4",
+          "−9/2",
+          "−3/2"
+        ],
+        "answer_index": 3,
+        "correction": null,
+        "calc": null,
+        "explanation": "(−3/2)³ = −27/8, porque un número negativo elevado a un exponente impar da negativo."
+      },
+      "seed": "78b9931a-9c58-4e06-ace1-ff3f33c2a143:10",
+      "solved": {
+        "game": 11,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 6,
+        "instruction": "Ordena los pasos para resolver 2 + 3 × (5 − 1)² ÷ 6.",
+        "pairs": null,
+        "steps": [
+          "Calcular el paréntesis: 5 − 1 = 4",
+          "Calcular la potencia: 4² = 16",
+          "Multiplicar: 3 × 16 = 48",
+          "Dividir: 48 ÷ 6 = 8",
+          "Sumar: 2 + 8 = 10"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Primero van los paréntesis, luego las potencias, después multiplicaciones y divisiones de izquierda a derecha, y al final sumas y restas."
+      },
+      "seed": "78b9931a-9c58-4e06-ace1-ff3f33c2a143:11",
+      "solved": {
+        "game": 12,
+        "match": null,
+        "order": [
+          4,
+          3,
+          1,
+          5,
+          2
+        ],
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 6,
+        "instruction": "Una de estas operaciones tiene un error. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "(1/2 + 1/2) × 4 = 4",
+          "1/2 + 1/2 × 4 = 4",
+          "3 − 1/2 ÷ 1/4 = 1",
+          "(3 − 1/2) ÷ 1/4 = 10"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 1,
+        "correction": "1/2 + 1/2 × 4 = 1/2 + 2 = 5/2",
+        "calc": null,
+        "explanation": "Sin paréntesis, la multiplicación se hace antes que la suma: 1/2 × 4 = 2 y luego 1/2 + 2 = 5/2."
+      },
+      "seed": "78b9931a-9c58-4e06-ace1-ff3f33c2a143:12",
+      "solved": {
+        "game": 13,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 7,
+        "instruction": "Elige la mejor estrategia de cálculo mental.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Para calcular mentalmente 0,25 × 36, conviene pensar en ___ de 36.",
+        "options": [
+          "la mitad",
+          "un cuarto",
+          "un quinto",
+          "un octavo"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": null,
+        "explanation": "0,25 es igual a 1/4, así que 0,25 × 36 es la cuarta parte de 36, que es 9."
+      },
+      "seed": "78b9931a-9c58-4e06-ace1-ff3f33c2a143:13",
+      "solved": {
+        "game": 14,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 8,
+        "instruction": "Elige el método más adecuado.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Quieres saber rápido, sin calculadora, aproximadamente cuánto es 4,9 × 2,1. Lo más adecuado es ___.",
+        "options": [
+          "redondear a 5 × 2 = 10",
+          "sumar 4,9 + 2,1 = 7",
+          "restar 4,9 − 2,1 = 2,8",
+          "buscar un denominador común y sumar"
+        ],
+        "answer_index": 0,
+        "correction": null,
+        "calc": null,
+        "explanation": "Para estimar un producto se redondean los factores a números fáciles: 4,9 ≈ 5 y 2,1 ≈ 2, y 5 × 2 = 10."
+      },
+      "seed": "78b9931a-9c58-4e06-ace1-ff3f33c2a143:14",
+      "solved": {
+        "game": 15,
+        "match": null,
+        "order": null,
+        "choice": 0,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 9,
+        "instruction": "Resuelve el problema y elige la respuesta.",
+        "pairs": null,
+        "steps": null,
+        "stem": "En una finca, 3/5 del terreno tiene café y 1/4 del terreno tiene frijol. La parte del terreno que está libre es ___.",
+        "options": [
+          "5/9",
+          "17/20",
+          "3/20",
+          "1/20"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": null,
+        "explanation": "Lo sembrado es 3/5 + 1/4 = 12/20 + 5/20 = 17/20. Lo libre es 1 − 17/20 = 3/20."
+      },
+      "seed": "78b9931a-9c58-4e06-ace1-ff3f33c2a143:15",
+      "solved": {
+        "game": 16,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    }
+  ],
+  "notes": ""
+}

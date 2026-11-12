@@ -1,0 +1,398 @@
+{
+  "unitId": "a8510140-0396-48a8-9166-7d614c5cce5c",
+  "createdAt": "2026-11-04T17:49:12.555Z",
+  "models": {
+    "games": "claude-sonnet-5-5",
+    "solve": "claude-sonnet-5-5"
+  },
+  "prompts": {
+    "games": "generate-games-system@1",
+    "solve": "solve-games-system@1"
+  },
+  "pieces": [
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 1,
+        "instruction": "Une cada técnica de comunicación oral con su característica.",
+        "pairs": [
+          {
+            "left": "Debate",
+            "right": "Dos grupos defienden posturas contrarias con argumentos"
+          },
+          {
+            "left": "Mesa redonda",
+            "right": "Especialistas exponen sus puntos de vista sobre un tema, sin buscar vencer a nadie"
+          },
+          {
+            "left": "Entrevista",
+            "right": "Una persona hace preguntas a otra para obtener información"
+          },
+          {
+            "left": "Exposición oral",
+            "right": "Una persona presenta un tema preparado ante un público"
+          },
+          {
+            "left": "Foro",
+            "right": "El público participa con preguntas y opiniones sobre un tema ya presentado"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Cada técnica tiene un propósito propio: el debate confronta posturas, la mesa redonda presenta distintos puntos de vista, la entrevista obtiene información mediante preguntas, la exposición presenta un tema y el foro abre la participación del público."
+      },
+      "seed": "a8510140-0396-48a8-9166-7d614c5cce5c:0",
+      "solved": {
+        "game": 1,
+        "match": [
+          2,
+          4,
+          1,
+          3,
+          5
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 1,
+        "instruction": "Ordena los pasos para preparar una exposición oral.",
+        "pairs": null,
+        "steps": [
+          "Elige el tema y define el propósito de tu exposición.",
+          "Investiga en fuentes confiables.",
+          "Elabora un esquema con introducción, desarrollo y cierre.",
+          "Ensaya en voz alta cuidando el volumen y la claridad.",
+          "Presenta el tema ante tu grupo."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Primero se decide qué se va a decir, luego se busca información, se organiza, se practica y por último se presenta ante el público."
+      },
+      "seed": "a8510140-0396-48a8-9166-7d614c5cce5c:1",
+      "solved": {
+        "game": 2,
+        "match": null,
+        "order": [
+          3,
+          5,
+          1,
+          4,
+          2
+        ],
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 1,
+        "instruction": "Elige la opción que completa el enunciado.",
+        "pairs": null,
+        "steps": null,
+        "stem": "En un ___, dos posturas opuestas se defienden con argumentos y una persona moderadora da la palabra por turnos.",
+        "options": [
+          "foro",
+          "entrevista",
+          "debate",
+          "exposición oral"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": null,
+        "explanation": "El debate se caracteriza por confrontar posturas contrarias con argumentos, bajo la guía de una persona moderadora."
+      },
+      "seed": "a8510140-0396-48a8-9166-7d614c5cce5c:2",
+      "solved": {
+        "game": 3,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 1,
+        "instruction": "Una de estas frases sobre el debate tiene un error. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "El debate trata un tema sobre el que existen posturas distintas.",
+          "La persona moderadora da la palabra por turnos.",
+          "Cada participante defiende su postura con argumentos.",
+          "La persona moderadora debe apoyar una de las posturas y defenderla.",
+          "Al final se presentan las conclusiones."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 3,
+        "correction": "La persona moderadora debe ser imparcial: dirige el debate y respeta los turnos sin apoyar ninguna postura.",
+        "calc": null,
+        "explanation": "La función de quien modera es organizar la discusión de manera neutral. Quienes defienden las posturas son los participantes."
+      },
+      "seed": "a8510140-0396-48a8-9166-7d614c5cce5c:3",
+      "solved": {
+        "game": 4,
+        "match": null,
+        "order": null,
+        "choice": 4,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 0,
+        "instruction": "Une cada estrategia de lectura con lo que haces al aplicarla.",
+        "pairs": [
+          {
+            "left": "Predecir",
+            "right": "Imaginar qué pasará a partir de pistas como el título o la portada"
+          },
+          {
+            "left": "Inferir",
+            "right": "Deducir lo que el texto no dice de forma directa"
+          },
+          {
+            "left": "Resumir",
+            "right": "Decir lo esencial de lo leído con pocas palabras"
+          },
+          {
+            "left": "Visualizar",
+            "right": "Imaginar en tu mente imágenes de lo que lees"
+          },
+          {
+            "left": "Releer",
+            "right": "Volver a leer un fragmento que no quedó claro"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Cada estrategia ayuda a comprender mejor el libro mientras lo disfrutas: predecir anticipa, inferir deduce, resumir sintetiza, visualizar crea imágenes y releer aclara dudas."
+      },
+      "seed": "a8510140-0396-48a8-9166-7d614c5cce5c:4",
+      "solved": {
+        "game": 5,
+        "match": [
+          5,
+          2,
+          4,
+          1,
+          3
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 0,
+        "instruction": "Ordena los pasos de una sesión de lectura diaria.",
+        "pairs": null,
+        "steps": [
+          "Escoge un lugar tranquilo y separa cincuenta minutos.",
+          "Recuerda dónde te quedaste la última vez.",
+          "Lee con atención y anota las palabras que no conoces.",
+          "Busca su significado por el contexto o en el diccionario.",
+          "Al terminar, cuenta con tus palabras lo que leíste."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Se prepara el momento de lectura, se lee, se resuelven las dudas de vocabulario y al final se comprueba la comprensión contando lo leído."
+      },
+      "seed": "a8510140-0396-48a8-9166-7d614c5cce5c:5",
+      "solved": {
+        "game": 6,
+        "match": null,
+        "order": [
+          4,
+          3,
+          5,
+          2,
+          1
+        ],
+        "choice": null,
+        "problems": "Los pasos 2 y 1 podrían intercambiarse un poco, porque buscar el significado puede hacerse durante o después de la lectura. Sin embargo, 'Al terminar' indica que el paso 1 va al final."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "Los pasos 2 y 1 podrían intercambiarse un poco, porque buscar el significado puede hacerse durante o después de la lectura. Sin embargo, 'Al terminar' indica que el paso 1 va al final."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: Los pasos 2 y 1 podrían intercambiarse un poco, porque buscar el significado puede hacerse durante o después de la lectura. Sin embargo, 'Al terminar' indica que el paso 1 va al final."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Elige la mejor opción para completar el enunciado.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Si mientras lees tu libro aparece una palabra que no conoces, una buena estrategia es ___.",
+        "options": [
+          "saltar toda la página y no volver a ella",
+          "deducir su significado por el contexto y, si hace falta, buscarla en el diccionario",
+          "dejar de leer el libro por ese día",
+          "inventar un significado sin revisar las otras frases"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": null,
+        "explanation": "Leer las frases cercanas ayuda a deducir el significado, y el diccionario confirma la duda. Así se mantiene la comprensión sin perder el gusto por leer."
+      },
+      "seed": "a8510140-0396-48a8-9166-7d614c5cce5c:6",
+      "solved": {
+        "game": 7,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Elige la opción correcta.",
+        "pairs": null,
+        "steps": null,
+        "stem": "La meta de lectura diaria de tu libro favorito es de ___ minutos.",
+        "options": [
+          "10",
+          "20",
+          "30",
+          "50"
+        ],
+        "answer_index": 3,
+        "correction": null,
+        "calc": null,
+        "explanation": "El criterio de aprendizaje indica leer diariamente cincuenta minutos, de forma comprensiva y con gozo."
+      },
+      "seed": "a8510140-0396-48a8-9166-7d614c5cce5c:7",
+      "solved": {
+        "game": 8,
+        "match": null,
+        "order": null,
+        "choice": null,
+        "problems": "La pieza no da ningún dato para decidir la meta de lectura diaria, así que depende de información externa y es una opinión personal. Ninguna opción es verificable. Ese dato solo aparece en otra pieza (50 minutos), pero esta no puede resolverse por sí sola."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": false,
+          "problems": "La pieza no da ningún dato para decidir la meta de lectura diaria, así que depende de información externa y es una opinión personal. Ninguna opción es verificable. Ese dato solo aparece en otra pieza (50 minutos), pero esta no puede resolverse por sí sola."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador dio otra respuesta"
+        ]
+      }
+    }
+  ],
+  "notes": "El programa no incluye contenidos específicos para esta unidad, así que las piezas se basaron en los dos criterios de aprendizaje y en características generales de técnicas orales y estrategias de lectura."
+}

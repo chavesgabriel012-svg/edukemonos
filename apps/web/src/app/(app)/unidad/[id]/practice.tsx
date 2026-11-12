@@ -9,6 +9,7 @@ import { ReportButton } from "@/components/learn/report-button";
 import { type AnswerFeedback, answerItem, nextPracticeItem } from "@/app/(app)/estudiar/actions";
 import { action } from "@/components/ui/action";
 import { card } from "@/components/ui/styles";
+import { markActivity } from "@/lib/activity";
 import { brand } from "@/lib/brand";
 import type { PublicItem } from "@/lib/learn";
 
@@ -44,6 +45,7 @@ export function Practice({ unitId }: { unitId: string }) {
       const r = await answerItem(item.id, selected, Date.now() - shownAt.current);
       if (!r.ok) return setError(r.error);
       setFeedback(r.data);
+      markActivity();
       setCount((c) => ({ answered: c.answered + 1, correct: c.correct + (r.data.is_correct ? 1 : 0) }));
     });
   }

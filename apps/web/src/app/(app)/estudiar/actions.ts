@@ -7,7 +7,10 @@ import {
   pickPracticeItem,
   practiceTarget,
 } from "@edukemonos/curriculum";
+import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
+import { studentClient } from "@/lib/student-session";
+import type { GameResult, GameRunView, PieceFeedback } from "@/lib/games";
 import type { PublicItem } from "@/lib/learn";
 
 /**
@@ -23,22 +26,6 @@ export type ActionResult<T> = { ok: true; data: T } | { ok: false; error: string
 
 function fail(error: string): { ok: false; error: string } {
   return { ok: false, error };
-}
-
-/**
- * Students study without an account: the first time they answer, they get an anonymous session
- * that keeps their progress on this device.
- */
-async function studentClient() {
-  const supabase = await createClient();
-  const { data } = await supabase.auth.getUser();
-  if (data.user) return { supabase, userId: data.user.id, error: null };
-  const { data: signed, error } = await supabase.auth.signInAnonymously();
-  if (error || !signed.user) {
-    console.error("anonymous sign-in failed:", error?.message);
-    return { supabase, userId: null, error: "No pudimos guardar tu progreso en este momento. Intenta de nuevo en un rato." };
-  }
-  return { supabase, userId: signed.user.id, error: null };
 }
 
 // ---------------------------------------------------------------------------
@@ -218,7 +205,8 @@ export async function finishDiagnostic(diagnosticId: string): Promise<ActionResu
 
 export interface JoinState {
   error?: string;
-  joined?: { section_name: string; grade_id: number };
+  /** A group (every subject of it) or a standalone section. */
+  joined?: { kind: "group" | "section"; name: string; grade_id: number; subjects: string[] };
 }
 
 export async function joinSection(_prev: JoinState, form: FormData): Promise<JoinState> {
@@ -230,15 +218,15 @@ export async function joinSection(_prev: JoinState, form: FormData): Promise<Joi
   if (!consent) return { error: "Para unirte necesitamos tu consentimiento." };
   const { supabase, error: sessionError } = await studentClient();
   if (sessionError) return { error: sessionError };
-  const { data, error } = await supabase.rpc("join_section", { p_code: code, p_display_name: name, p_consent: consent });
+  // One code for everything: a group code puts the student in every subject of the group.
+  const { data, error } = await supabase.rpc("join_with_code", { p_code: code, p_display_name: name, p_consent: consent });
   if (error) {
     if (/invalid or inactive code/.test(error.message)) return { error: "Ese código no existe o la sección ya no está activa. Revísalo con tu docente." };
     if (/staff accounts/.test(error.message)) return { error: "Las cuentas de docente o revisor no pueden unirse como estudiantes." };
     console.error("join_section failed:", error.message);
     return { error: "No pudimos unirte a la sección. Intenta de nuevo." };
   }
-  const row = (data as { section_name: string; grade_id: number }[])[0];
-  return { joined: row };
+  return { joined: data as NonNullable<JoinState["joined"]> };
 }
 
 export interface ReportState {
@@ -364,4 +352,124 @@ export async function writingFeedback(_prev: WritingState, form: FormData): Prom
     console.error("writing feedback failed:", (error as Error).message);
     return { error: "No pudimos revisar tu texto ahora. Intenta de nuevo en un rato." };
   }
+}
+
+// ---------------------------------------------------------------------------
+// Weekly streak (docs/producto/gamificacion.md §4)
+// ---------------------------------------------------------------------------
+
+/** Uses this period's repair (comodín) on the last missed week. The database checks it is allowed. */
+export async function repairStreak(): Promise<ActionResult<null>> {
+  const supabase = await createClient();
+  const { data: auth } = await supabase.auth.getUser();
+  if (!auth.user?.is_anonymous) return fail("Primero resuelve un ejercicio para tener una racha.");
+  const { data, error } = await supabase.rpc("use_streak_repair");
+  if (error) {
+    console.error("use_streak_repair failed:", error.message);
+    return fail("No pudimos usar el comodín. Intenta de nuevo.");
+  }
+  if (!(data as { ok: boolean }).ok) return fail("El comodín ya no está disponible para esa semana.");
+  return { ok: true, data: null };
+}
+
+/** Records that the rest reminder was shown (minutes only, no personal data). */
+export async function logRestReminder(minutes: number): Promise<void> {
+  const supabase = await createClient();
+  const { data: auth } = await supabase.auth.getUser();
+  if (!auth.user) return;
+  const m = Math.min(600, Math.max(0, Math.round(Number(minutes) || 0)));
+  const { error } = await supabase.from("events").insert({ actor_id: auth.user.id, name: "rest_reminder_shown", props: { minutes: m } });
+  if (error) console.error("rest reminder event failed:", error.message);
+}
+
+// ---------------------------------------------------------------------------
+// Nickname and the week's table (docs/producto/gamificacion.md §5)
+// ---------------------------------------------------------------------------
+
+export interface NicknameState {
+  error?: string;
+  saved?: boolean;
+}
+
+export async function chooseNickname(_prev: NicknameState, form: FormData): Promise<NicknameState> {
+  const nickname = String(form.get("nickname") ?? "");
+  if (!nickname) return { error: "Elige uno de los apodos." };
+  const supabase = await createClient();
+  const { data: auth } = await supabase.auth.getUser();
+  if (!auth.user?.is_anonymous) return { error: "Primero resuelve un ejercicio o únete a tu sección." };
+  const { data, error } = await supabase.rpc("choose_nickname", { p_nickname: nickname });
+  if (error) {
+    console.error("choose_nickname failed:", error.message);
+    return { error: "No pudimos guardar tu apodo. Intenta de nuevo." };
+  }
+  const r = data as { ok: boolean; error?: string };
+  if (!r.ok) return { error: r.error === "taken" ? "Alguien acaba de elegir ese apodo. Elige otro." : "Elige uno de los apodos de la lista." };
+  revalidatePath("/mis-secciones");
+  return { saved: true };
+}
+
+export async function setLeaderboardHidden(hidden: boolean): Promise<ActionResult<null>> {
+  const supabase = await createClient();
+  const { data: auth } = await supabase.auth.getUser();
+  if (!auth.user?.is_anonymous) return fail("Primero únete a tu sección.");
+  const { error } = await supabase.rpc("set_leaderboard_hidden", { p_hidden: hidden });
+  if (error) {
+    console.error("set_leaderboard_hidden failed:", error.message);
+    return fail("No pudimos guardar el cambio. Intenta de nuevo.");
+  }
+  revalidatePath("/mis-secciones");
+  return { ok: true, data: null };
+}
+
+// ---------------------------------------------------------------------------
+// Mini-games (docs/producto/gamificacion.md §6). The database picks the pieces, grades every answer
+// (context 'game', it counts for mastery like practice) and computes the result.
+// ---------------------------------------------------------------------------
+
+const GAME_MODES = ["pairs", "order", "fill", "find_error", "ghost_race"] as const;
+
+export async function startGame(unitId: string, mode: string): Promise<ActionResult<GameRunView>> {
+  if (!UUID.test(unitId) || !GAME_MODES.includes(mode as (typeof GAME_MODES)[number])) return fail("Juego inválido.");
+  const { supabase, error: sessionError } = await studentClient();
+  if (sessionError) return fail(sessionError);
+  const { data, error } = await supabase.rpc("start_game_run", { p_unit: unitId, p_mode: mode });
+  if (error) {
+    console.error("start_game_run failed:", error.message);
+    return fail("No pudimos empezar el juego. Intenta de nuevo.");
+  }
+  const r = data as { ok: boolean; error?: string } & GameRunView;
+  if (!r.ok) return fail(r.error === "disabled" ? "Tu docente no usa los juegos en tu sección." : "Este juego todavía no tiene contenido en esta unidad.");
+  return { ok: true, data: { run: r.run, mode: r.mode, rival: r.rival, pieces: r.pieces } };
+}
+
+/** `answer`: an option or step index (fill, find_error, race) or a list (pairs, order). */
+export async function answerGamePiece(runId: string, itemId: string, answer: number | number[]): Promise<ActionResult<PieceFeedback>> {
+  if (!UUID.test(runId) || !UUID.test(itemId)) return fail("Pieza inválida.");
+  const list = Array.isArray(answer) ? answer.filter((x) => Number.isInteger(x) && x >= 0 && x < 20).slice(0, 10) : null;
+  const index = !Array.isArray(answer) && Number.isInteger(answer) && answer >= 0 && answer < 20 ? answer : null;
+  if (list === null && index === null) return fail("Respuesta inválida.");
+  const supabase = await createClient();
+  const { data, error } = await supabase.rpc("submit_attempt", {
+    p_item_id: itemId,
+    p_answer_index: index,
+    p_answer_text: list ? JSON.stringify(list) : null,
+    p_session_id: runId,
+    p_context: "game",
+  });
+  if (error) {
+    console.error("game answer failed:", error.message);
+    return fail(/already answered/.test(error.message) ? "Ya respondiste esta pieza." : "No pudimos revisar tu respuesta. Intenta de nuevo.");
+  }
+  return { ok: true, data: data as PieceFeedback };
+}
+
+export async function finishGame(runId: string): Promise<ActionResult<GameResult>> {
+  if (!UUID.test(runId)) return fail("Juego inválido.");
+  const supabase = await createClient();
+  const { data, error } = await supabase.rpc("finish_game_run", { p_run: runId });
+  if (error) {
+    console.error("finish_game_run failed:", error.message);
+    return fail("No pudimos cerrar el juego, pero tus respuestas quedaron guardadas.");
+  }
+  return { ok: true, data: data as GameResult };
 }

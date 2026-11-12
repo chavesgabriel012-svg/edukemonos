@@ -1,0 +1,593 @@
+{
+  "unitId": "7c3a63c2-a7cd-4e13-ae6e-79a0b728785d",
+  "createdAt": "2026-11-04T17:53:01.342Z",
+  "models": {
+    "games": "claude-sonnet-5-5",
+    "solve": "claude-sonnet-5-5"
+  },
+  "prompts": {
+    "games": "generate-games-system@1",
+    "solve": "solve-games-system@1"
+  },
+  "pieces": [
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 0,
+        "instruction": "Une cada punto con el lugar del plano cartesiano donde se ubica.",
+        "pairs": [
+          {
+            "left": "(3, 0)",
+            "right": "Sobre el eje x"
+          },
+          {
+            "left": "(0, −4)",
+            "right": "Sobre el eje y"
+          },
+          {
+            "left": "(2, 6)",
+            "right": "Primer cuadrante"
+          },
+          {
+            "left": "(−2, 5)",
+            "right": "Segundo cuadrante"
+          },
+          {
+            "left": "(−3, −3)",
+            "right": "Tercer cuadrante"
+          },
+          {
+            "left": "(4, −1)",
+            "right": "Cuarto cuadrante"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Si la segunda coordenada es 0, el punto está sobre el eje x; si la primera es 0, está sobre el eje y. Si ninguna es 0, los signos de las coordenadas indican el cuadrante: (+,+) primero, (−,+) segundo, (−,−) tercero y (+,−) cuarto."
+      },
+      "seed": "7c3a63c2-a7cd-4e13-ae6e-79a0b728785d:0",
+      "solved": {
+        "game": 1,
+        "match": [
+          4,
+          2,
+          1,
+          3,
+          5,
+          6
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 0,
+        "instruction": "Ordena los pasos para representar el punto P(3, −2) en el plano cartesiano.",
+        "pairs": null,
+        "steps": [
+          "Dibujar los ejes x e y y ubicar el origen (0, 0).",
+          "Desde el origen, avanzar 3 unidades a la derecha sobre el eje x, porque la primera coordenada es 3.",
+          "Desde ese lugar, bajar 2 unidades, porque la segunda coordenada es −2.",
+          "Marcar el punto y escribir su nombre: P(3, −2)."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Siempre se parte del origen. Primero se lee la coordenada x (movimiento horizontal) y después la coordenada y (movimiento vertical). Al final se marca el punto y se nombra."
+      },
+      "seed": "7c3a63c2-a7cd-4e13-ae6e-79a0b728785d:1",
+      "solved": {
+        "game": 2,
+        "match": null,
+        "order": [
+          4,
+          1,
+          3,
+          2
+        ],
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Elige el vértice que falta para formar el rectángulo.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Un rectángulo tiene los vértices A(1, 1), B(5, 1) y C(5, 4). El cuarto vértice D es ___.",
+        "options": [
+          "(1, 4)",
+          "(4, 1)",
+          "(5, 4)",
+          "(1, 5)"
+        ],
+        "answer_index": 0,
+        "correction": null,
+        "calc": null,
+        "explanation": "D queda arriba de A y a la izquierda de C. Por eso tiene la misma x de A (1) y la misma y de C (4): D(1, 4)."
+      },
+      "seed": "7c3a63c2-a7cd-4e13-ae6e-79a0b728785d:2",
+      "solved": {
+        "game": 3,
+        "match": null,
+        "order": null,
+        "choice": 0,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 0,
+        "instruction": "Encuentra el paso con error al representar el punto P(−2, 4).",
+        "pairs": null,
+        "steps": [
+          "Se parte del origen (0, 0).",
+          "La primera coordenada es −2, así que se avanzan 2 unidades a la izquierda sobre el eje x.",
+          "La segunda coordenada es 4, así que se suben 4 unidades en la dirección del eje y.",
+          "Se marca P, que queda en el cuarto cuadrante."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 3,
+        "correction": "Se marca P, que queda en el segundo cuadrante.",
+        "calc": null,
+        "explanation": "Con x negativa y y positiva, el punto está a la izquierda del eje y y arriba del eje x. Esa zona es el segundo cuadrante, no el cuarto."
+      },
+      "seed": "7c3a63c2-a7cd-4e13-ae6e-79a0b728785d:3",
+      "solved": {
+        "game": 4,
+        "match": null,
+        "order": null,
+        "choice": 4,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 1,
+        "instruction": "Une cada segmento con su punto medio.",
+        "pairs": [
+          {
+            "left": "A(2, 4) y B(6, 8)",
+            "right": "M(4, 6)"
+          },
+          {
+            "left": "A(0, 0) y B(6, 2)",
+            "right": "M(3, 1)"
+          },
+          {
+            "left": "A(−2, 3) y B(4, 5)",
+            "right": "M(1, 4)"
+          },
+          {
+            "left": "A(−4, −2) y B(2, 6)",
+            "right": "M(−1, 2)"
+          },
+          {
+            "left": "A(1, −3) y B(5, 1)",
+            "right": "M(3, −1)"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "El punto medio se calcula sumando las coordenadas correspondientes de los extremos y dividiendo cada suma entre 2. Por ejemplo, para A(−2, 3) y B(4, 5): (−2 + 4) ÷ 2 = 1 y (3 + 5) ÷ 2 = 4."
+      },
+      "seed": "7c3a63c2-a7cd-4e13-ae6e-79a0b728785d:4",
+      "solved": {
+        "game": 5,
+        "match": [
+          4,
+          1,
+          2,
+          5,
+          3
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 1,
+        "instruction": "Ordena los pasos para hallar el punto medio del segmento con extremos A(2, 6) y B(8, 2).",
+        "pairs": null,
+        "steps": [
+          "Identificar las coordenadas de los extremos: A(2, 6) y B(8, 2).",
+          "Sumar las coordenadas correspondientes: 2 + 8 = 10 y 6 + 2 = 8.",
+          "Dividir cada suma entre 2: 10 ÷ 2 = 5 y 8 ÷ 2 = 4.",
+          "Escribir el resultado como punto: M(5, 4)."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Primero se identifican los datos, luego se suman las coordenadas, después se divide entre 2 (se saca el promedio) y al final se escribe el punto medio."
+      },
+      "seed": "7c3a63c2-a7cd-4e13-ae6e-79a0b728785d:5",
+      "solved": {
+        "game": 6,
+        "match": null,
+        "order": [
+          3,
+          4,
+          2,
+          1
+        ],
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 1,
+        "instruction": "Completa con la coordenada correcta del punto medio.",
+        "pairs": null,
+        "steps": null,
+        "stem": "El punto medio del segmento con extremos A(−3, 2) y B(5, 6) es M(1, ___).",
+        "options": [
+          "2",
+          "3",
+          "4",
+          "8"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": "(2+6)/2",
+        "explanation": "La coordenada y del punto medio es (2 + 6) ÷ 2 = 8 ÷ 2 = 4. La coordenada x es (−3 + 5) ÷ 2 = 1, que coincide con el dato dado."
+      },
+      "seed": "7c3a63c2-a7cd-4e13-ae6e-79a0b728785d:6",
+      "solved": {
+        "game": 7,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 1,
+        "instruction": "Encuentra el paso con error al hallar el punto medio de A(−4, 1) y B(6, 7).",
+        "pairs": null,
+        "steps": [
+          "Los extremos son A(−4, 1) y B(6, 7).",
+          "(−4 + 6) ÷ 2 = 1",
+          "(1 + 7) ÷ 2 = 4",
+          "El punto medio es M(4, 1)."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 3,
+        "correction": "El punto medio es M(1, 4).",
+        "calc": null,
+        "explanation": "Los cálculos dan 1 para la coordenada x y 4 para la coordenada y. Al escribir el punto, la x va primero: M(1, 4). En el último paso se cambió el orden de las coordenadas."
+      },
+      "seed": "7c3a63c2-a7cd-4e13-ae6e-79a0b728785d:7",
+      "solved": {
+        "game": 8,
+        "match": null,
+        "order": null,
+        "choice": 4,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 2,
+        "instruction": "El rectángulo tiene vértices (1, 1), (7, 1), (7, 5) y (1, 5). Une cada punto con su posición respecto al rectángulo.",
+        "pairs": [
+          {
+            "left": "(3, 3)",
+            "right": "Interior"
+          },
+          {
+            "left": "(8, 3)",
+            "right": "Exterior, a la derecha"
+          },
+          {
+            "left": "(0, 3)",
+            "right": "Exterior, a la izquierda"
+          },
+          {
+            "left": "(3, 6)",
+            "right": "Exterior, arriba"
+          },
+          {
+            "left": "(3, 0)",
+            "right": "Exterior, abajo"
+          },
+          {
+            "left": "(1, 3)",
+            "right": "Sobre el borde (lado izquierdo)"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Un punto es interior si su x está entre 1 y 7 y su y está entre 1 y 5. Si se sale de esos valores, es exterior. Si x vale 1 o 7, o y vale 1 o 5, y está dentro del rango del otro lado, queda sobre el borde."
+      },
+      "seed": "7c3a63c2-a7cd-4e13-ae6e-79a0b728785d:8",
+      "solved": {
+        "game": 9,
+        "match": [
+          4,
+          6,
+          3,
+          2,
+          5,
+          1
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 2,
+        "instruction": "Ordena los pasos para decidir si el punto P(3, 2) está dentro del cuadrado de vértices (0, 0), (4, 0), (4, 4) y (0, 4).",
+        "pairs": null,
+        "steps": [
+          "Dibujar los ejes cartesianos.",
+          "Ubicar los cuatro vértices del cuadrado.",
+          "Unir los vértices con segmentos para formar la figura cerrada.",
+          "Ubicar el punto P(3, 2) en el plano.",
+          "Observar que P queda dentro de los lados: es un punto interior."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Primero hay que tener la figura cerrada dibujada y después ubicar el punto. Solo entonces se puede comparar su posición con el borde de la figura."
+      },
+      "seed": "7c3a63c2-a7cd-4e13-ae6e-79a0b728785d:9",
+      "solved": {
+        "game": 10,
+        "match": null,
+        "order": [
+          5,
+          1,
+          3,
+          4,
+          2
+        ],
+        "choice": null,
+        "problems": "El orden de ubicar los vértices y el punto P admite variantes (por ejemplo, el paso 4 podría ir antes del 1 o del 3), pero el orden dado es el más natural."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "El orden de ubicar los vértices y el punto P admite variantes (por ejemplo, el paso 4 podría ir antes del 1 o del 3), pero el orden dado es el más natural."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: El orden de ubicar los vértices y el punto P admite variantes (por ejemplo, el paso 4 podría ir antes del 1 o del 3), pero el orden dado es el más natural."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 2,
+        "instruction": "Elige el punto que está en el interior de la figura.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Un cuadrado tiene vértices (0, 0), (6, 0), (6, 6) y (0, 6). El punto ___ está en su interior.",
+        "options": [
+          "(7, 3)",
+          "(3, 3)",
+          "(6, 2)",
+          "(−1, 2)"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": null,
+        "explanation": "Un punto es interior si su x y su y están entre 0 y 6 sin tocar esos valores. (3, 3) cumple. (7, 3) y (−1, 2) están afuera, y (6, 2) está sobre el borde."
+      },
+      "seed": "7c3a63c2-a7cd-4e13-ae6e-79a0b728785d:10",
+      "solved": {
+        "game": 11,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 2,
+        "instruction": "Un rectángulo tiene lados sobre x = 2, x = 8, y = 1 y y = 5. Encuentra la frase con error.",
+        "pairs": null,
+        "steps": [
+          "El punto (5, 3) es interior, porque 5 está entre 2 y 8 y 3 está entre 1 y 5.",
+          "El punto (9, 3) es exterior, porque 9 es mayor que 8.",
+          "El punto (5, 6) es exterior, porque 6 es mayor que 5.",
+          "El punto (4, 2) es exterior, porque 2 es menor que 4.",
+          "El punto (2, 4) está sobre el borde, porque su x es 2."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 3,
+        "correction": "El punto (4, 2) es interior, porque 4 está entre 2 y 8 y 2 está entre 1 y 5.",
+        "calc": null,
+        "explanation": "Para saber si un punto es interior se compara cada coordenada con los límites del rectángulo, no una coordenada con la otra. En (4, 2), la x está entre 2 y 8 y la y está entre 1 y 5, así que es interior."
+      },
+      "seed": "7c3a63c2-a7cd-4e13-ae6e-79a0b728785d:11",
+      "solved": {
+        "game": 12,
+        "match": null,
+        "order": null,
+        "choice": 4,
+        "problems": "La frase 4 es errónea: (4, 2) es interior porque 4 está entre 2 y 8 y 2 está entre 1 y 5. La frase 3 tiene una justificación poco clara (6 > 5, pero se refiere al límite y = 5, no a la x), aunque su conclusión es correcta."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "La frase 4 es errónea: (4, 2) es interior porque 4 está entre 2 y 8 y 2 está entre 1 y 5. La frase 3 tiene una justificación poco clara (6 > 5, pero se refiere al límite y = 5, no a la x), aunque su conclusión es correcta."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: La frase 4 es errónea: (4, 2) es interior porque 4 está entre 2 y 8 y 2 está entre 1 y 5. La frase 3 tiene una justificación poco clara (6 > 5, pero se refiere al límite y = 5, no a la x), aunque su conclusión es correcta."
+        ]
+      }
+    }
+  ],
+  "notes": ""
+}

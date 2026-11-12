@@ -1,0 +1,355 @@
+{
+  "unitId": "126f7343-1bf0-479b-b932-e6d46359c100",
+  "createdAt": "2026-11-04T17:43:46.781Z",
+  "models": {
+    "games": "claude-sonnet-5-5",
+    "solve": "claude-sonnet-5-5"
+  },
+  "prompts": {
+    "games": "generate-games-system@1",
+    "solve": "solve-games-system@1"
+  },
+  "pieces": [
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 0,
+        "instruction": "Une cada forma de tratamiento con el verbo conjugado que le corresponde.",
+        "pairs": [
+          {
+            "left": "Tú (comer)",
+            "right": "comes"
+          },
+          {
+            "left": "Vos (comer)",
+            "right": "comés"
+          },
+          {
+            "left": "Usted (comer)",
+            "right": "come"
+          },
+          {
+            "left": "Vos (vivir)",
+            "right": "vivís"
+          },
+          {
+            "left": "Tú (vivir)",
+            "right": "vives"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Con tú el verbo termina en -es (comes, vives); con vos lleva tilde en la última sílaba (comés, vivís); con usted el verbo va como en tercera persona (come)."
+      },
+      "seed": "126f7343-1bf0-479b-b932-e6d46359c100:0",
+      "solved": {
+        "game": 1,
+        "match": [
+          5,
+          1,
+          4,
+          2,
+          3
+        ],
+        "order": null,
+        "choice": null,
+        "problems": "Tú comes→5; Vos comés→1; Usted come→4; Vos vivís→2; Tú vives→3. Todo es consistente y tiene una única respuesta."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "Tú comes→5; Vos comés→1; Usted come→4; Vos vivís→2; Tú vives→3. Todo es consistente y tiene una única respuesta."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: Tú comes→5; Vos comés→1; Usted come→4; Vos vivís→2; Tú vives→3. Todo es consistente y tiene una única respuesta."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Elige la forma verbal que corresponde al trato de respeto.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Don Luis, usted ___ muy amable con todos.",
+        "options": [
+          "eres",
+          "es",
+          "sos",
+          "sois"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": null,
+        "explanation": "Con usted se usa el verbo en tercera persona: «usted es». «Eres» es del tuteo y «sos» es del voseo."
+      },
+      "seed": "126f7343-1bf0-479b-b932-e6d46359c100:1",
+      "solved": {
+        "game": 2,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": "Solo 'es' concuerda con usted. 'eres' y 'sos' son para tú y vos, y 'sois' es de vosotros. Hay una sola respuesta correcta."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "Solo 'es' concuerda con usted. 'eres' y 'sos' son para tú y vos, y 'sois' es de vosotros. Hay una sola respuesta correcta."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: Solo 'es' concuerda con usted. 'eres' y 'sos' son para tú y vos, y 'sois' es de vosotros. Hay una sola respuesta correcta."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 0,
+        "instruction": "Encuentra la frase en la que el verbo no concuerda con la forma de tratamiento.",
+        "pairs": null,
+        "steps": [
+          "Tú lees mucho.",
+          "Vos leés mucho.",
+          "Usted lee mucho.",
+          "Ustedes leen mucho.",
+          "Usted lees mucho."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 4,
+        "correction": "Usted lee mucho.",
+        "calc": null,
+        "explanation": "Con usted el verbo va en tercera persona: «lee». La forma «lees» corresponde al tuteo (tú lees)."
+      },
+      "seed": "126f7343-1bf0-479b-b932-e6d46359c100:2",
+      "solved": {
+        "game": 3,
+        "match": null,
+        "order": null,
+        "choice": 5,
+        "problems": "Solo la frase 5 ('Usted lees') tiene error de concordancia. Las demás son correctas."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "Solo la frase 5 ('Usted lees') tiene error de concordancia. Las demás son correctas."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: Solo la frase 5 ('Usted lees') tiene error de concordancia. Las demás son correctas."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 1,
+        "instruction": "Une cada técnica de comunicación oral con su característica.",
+        "pairs": [
+          {
+            "left": "Entrevista",
+            "right": "Una persona hace preguntas y otra las responde"
+          },
+          {
+            "left": "Debate",
+            "right": "Se defienden posturas opuestas sobre un tema con argumentos"
+          },
+          {
+            "left": "Exposición oral",
+            "right": "Una persona presenta un tema ante un público"
+          },
+          {
+            "left": "Declamación",
+            "right": "Se recita un poema con entonación y gestos"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Cada técnica oral tiene su propósito: la entrevista se basa en preguntas y respuestas, el debate en posturas opuestas, la exposición en presentar un tema y la declamación en recitar un poema."
+      },
+      "seed": "126f7343-1bf0-479b-b932-e6d46359c100:3",
+      "solved": {
+        "game": 4,
+        "match": [
+          2,
+          4,
+          3,
+          1
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 1,
+        "instruction": "Completa con la palabra correcta.",
+        "pairs": null,
+        "steps": null,
+        "stem": "En una entrevista, la persona que hace las preguntas se llama ___.",
+        "options": [
+          "entrevistado",
+          "moderador",
+          "entrevistador",
+          "expositor"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": null,
+        "explanation": "El entrevistador es quien pregunta; el entrevistado es quien responde."
+      },
+      "seed": "126f7343-1bf0-479b-b932-e6d46359c100:4",
+      "solved": {
+        "game": 5,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": "Solo 'entrevistador' es correcta. El moderador es propio del debate."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "Solo 'entrevistador' es correcta. El moderador es propio del debate."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: Solo 'entrevistador' es correcta. El moderador es propio del debate."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 1,
+        "instruction": "Ordena los pasos para preparar una exposición oral.",
+        "pairs": null,
+        "steps": [
+          "Elegir el tema",
+          "Investigar en fuentes confiables",
+          "Organizar las ideas en un esquema",
+          "Practicar la exposición en voz alta",
+          "Presentar el tema ante el grupo"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Primero se elige el tema, luego se investiga, después se ordenan las ideas, se practica y al final se presenta."
+      },
+      "seed": "126f7343-1bf0-479b-b932-e6d46359c100:5",
+      "solved": {
+        "game": 6,
+        "match": null,
+        "order": [
+          4,
+          5,
+          1,
+          3,
+          2
+        ],
+        "choice": null,
+        "problems": "El orden lógico es elegir el tema, investigar, esquematizar, practicar y presentar. Es defendible, aunque investigar y organizar podrían intercambiarse levemente; la secuencia dada es la más natural."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "El orden lógico es elegir el tema, investigar, esquematizar, practicar y presentar. Es defendible, aunque investigar y organizar podrían intercambiarse levemente; la secuencia dada es la más natural."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: El orden lógico es elegir el tema, investigar, esquematizar, practicar y presentar. Es defendible, aunque investigar y organizar podrían intercambiarse levemente; la secuencia dada es la más natural."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 1,
+        "instruction": "Encuentra la frase incorrecta sobre el debate.",
+        "pairs": null,
+        "steps": [
+          "El debate es una técnica oral en la que se discuten posturas distintas sobre un tema.",
+          "Cada participante defiende su postura con argumentos.",
+          "Un moderador da la palabra y cuida el orden.",
+          "En el debate se debe respetar el turno para hablar.",
+          "En un debate se vale interrumpir y gritar para ganar."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 4,
+        "correction": "En un debate se debe escuchar con respeto y esperar el turno para hablar, sin gritar ni interrumpir.",
+        "calc": null,
+        "explanation": "El debate exige respeto y orden; interrumpir y gritar no forma parte de esta técnica oral."
+      },
+      "seed": "126f7343-1bf0-479b-b932-e6d46359c100:6",
+      "solved": {
+        "game": 7,
+        "match": null,
+        "order": null,
+        "choice": 5,
+        "problems": "Solo la frase 5 es incorrecta, porque en un debate se debe respetar el turno y no gritar ni interrumpir."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "Solo la frase 5 es incorrecta, porque en un debate se debe respetar el turno y no gritar ni interrumpir."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: Solo la frase 5 es incorrecta, porque en un debate se debe respetar el turno y no gritar ni interrumpir."
+        ]
+      }
+    }
+  ],
+  "notes": "El programa no detalla qué técnica oral se trabaja, por eso se usaron técnicas generales (entrevista, debate, exposición, declamación). Los tres tipos de tratamiento son tuteo, voseo y ustedeo; no se hizo una pieza de order para la habilidad 0 porque no tiene un orden único."
+}

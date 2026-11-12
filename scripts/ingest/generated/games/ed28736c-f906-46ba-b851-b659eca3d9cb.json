@@ -1,0 +1,382 @@
+{
+  "unitId": "ed28736c-f906-46ba-b851-b659eca3d9cb",
+  "createdAt": "2026-11-04T17:41:59.342Z",
+  "models": {
+    "games": "claude-sonnet-5-5",
+    "solve": "claude-sonnet-5-5"
+  },
+  "prompts": {
+    "games": "generate-games-system@1",
+    "solve": "solve-games-system@1"
+  },
+  "pieces": [
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 0,
+        "instruction": "Une cada palabra con la razón por la que se escribe con mayúscula inicial.",
+        "pairs": [
+          {
+            "left": "Costa Rica",
+            "right": "Nombre de un país"
+          },
+          {
+            "left": "Limón",
+            "right": "Nombre de una provincia"
+          },
+          {
+            "left": "Navidad",
+            "right": "Nombre de una festividad"
+          },
+          {
+            "left": "Ministerio de Salud",
+            "right": "Nombre de una institución"
+          },
+          {
+            "left": "Canela (mi perra)",
+            "right": "Nombre propio de un animal"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Los nombres propios de países, provincias, festividades, instituciones y animales con nombre siempre se escriben con mayúscula inicial."
+      },
+      "seed": "ed28736c-f906-46ba-b851-b659eca3d9cb:0",
+      "solved": {
+        "game": 1,
+        "match": [
+          5,
+          1,
+          2,
+          3,
+          4
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Completa el enunciado con la opción correcta.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Al escribir con mayúscula inicial la palabra «África», la A ___.",
+        "options": [
+          "no lleva tilde porque es mayúscula",
+          "lleva tilde, porque la mayúscula se tilda cuando la norma lo requiere",
+          "lleva diéresis",
+          "lleva dos tildes"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": null,
+        "explanation": "Las vocales en mayúscula se tildan igual que las minúsculas cuando la norma lo requiere. «África» es esdrújula, así que lleva tilde: Á."
+      },
+      "seed": "ed28736c-f906-46ba-b851-b659eca3d9cb:1",
+      "solved": {
+        "game": 2,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 0,
+        "instruction": "Una de estas afirmaciones sobre las mayúsculas es falsa. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "Las vocales en mayúscula llevan tilde cuando la norma lo requiere, como en Ángel.",
+          "Después de un punto, la siguiente oración empieza con mayúscula.",
+          "Los días de la semana siempre se escriben con mayúscula inicial, como Lunes.",
+          "Los nombres de países, como Panamá, se escriben con mayúscula inicial."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "Los días de la semana se escriben con minúscula inicial, como lunes, salvo que estén al inicio de una oración o después de un punto.",
+        "calc": null,
+        "explanation": "Los días de la semana no son nombres propios, por eso se escriben con minúscula. Las demás afirmaciones son correctas."
+      },
+      "seed": "ed28736c-f906-46ba-b851-b659eca3d9cb:2",
+      "solved": {
+        "game": 3,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": "Los días de la semana se escriben con minúscula, salvo al inicio de oración o tras punto. La afirmación 3 es falsa."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "Los días de la semana se escriben con minúscula, salvo al inicio de oración o tras punto. La afirmación 3 es falsa."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: Los días de la semana se escriben con minúscula, salvo al inicio de oración o tras punto. La afirmación 3 es falsa."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 1,
+        "instruction": "Une cada escritura incorrecta con su forma corregida.",
+        "pairs": [
+          {
+            "left": "alvaro",
+            "right": "Álvaro"
+          },
+          {
+            "left": "costa rica",
+            "right": "Costa Rica"
+          },
+          {
+            "left": "navidad (la fiesta)",
+            "right": "Navidad"
+          },
+          {
+            "left": "ministerio de educación pública",
+            "right": "Ministerio de Educación Pública"
+          },
+          {
+            "left": "oscar",
+            "right": "Óscar"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Los nombres propios llevan mayúscula inicial, y si la norma pide tilde, la mayúscula también la lleva (Álvaro, Óscar). En los nombres de instituciones se escribe con mayúscula cada palabra importante."
+      },
+      "seed": "ed28736c-f906-46ba-b851-b659eca3d9cb:3",
+      "solved": {
+        "game": 4,
+        "match": [
+          4,
+          5,
+          2,
+          1,
+          3
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 1,
+        "instruction": "Elige la opción que completa bien el texto.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Ayer llovió mucho. ___ no fuimos al parque.",
+        "options": [
+          "por eso",
+          "por Eso",
+          "POR eso",
+          "Por eso"
+        ],
+        "answer_index": 3,
+        "correction": null,
+        "calc": null,
+        "explanation": "Después de un punto, la nueva oración empieza con mayúscula, y solo la primera letra va en mayúscula: «Por eso»."
+      },
+      "seed": "ed28736c-f906-46ba-b851-b659eca3d9cb:4",
+      "solved": {
+        "game": 5,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": false,
+        "structural": [
+          "opciones repetidas"
+        ],
+        "solver": null,
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "opciones repetidas"
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 1,
+        "instruction": "Lee el texto. Una oración tiene un error de mayúsculas. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "Ayer Marta y yo fuimos a San José.",
+          "Compramos pan, leche y huevos en el mercado.",
+          "luego regresamos a casa en bus.",
+          "Mi mamá nos preparó café."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "Luego regresamos a casa en bus.",
+        "calc": null,
+        "explanation": "La oración viene después de un punto, así que debe empezar con mayúscula: «Luego». Los demás pasos están bien escritos."
+      },
+      "seed": "ed28736c-f906-46ba-b851-b659eca3d9cb:5",
+      "solved": {
+        "game": 6,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 2,
+        "instruction": "Completa el enunciado con la opción más adecuada.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Usar bien las mayúsculas en un texto es importante porque ___.",
+        "options": [
+          "hace que el texto se vea más largo",
+          "solo se necesita en los exámenes",
+          "ayuda a que el lector entienda mejor y muestra cuidado al escribir",
+          "permite no usar puntos"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": null,
+        "explanation": "Las mayúsculas señalan el inicio de las oraciones y los nombres propios, lo que facilita la lectura. Además, muestran cuidado y respeto hacia quien lee."
+      },
+      "seed": "ed28736c-f906-46ba-b851-b659eca3d9cb:6",
+      "solved": {
+        "game": 7,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 2,
+        "instruction": "Una de estas valoraciones sobre las mayúsculas no es correcta. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "Escribir bien las mayúsculas ayuda al lector a saber dónde empieza cada oración.",
+          "La mayúscula en los nombres propios permite distinguirlos de otras palabras.",
+          "Cuidar la escritura, incluidas las mayúsculas, muestra respeto por quien lee un mensaje formal.",
+          "Las mayúsculas no importan fuera de la clase de Español, porque solo se evalúan ahí."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 3,
+        "correction": "Las mayúsculas importan en cualquier texto que escribamos, no solo en la clase de Español.",
+        "calc": null,
+        "explanation": "El uso correcto de la mayúscula es necesario en todos los textos, como mensajes, cartas o trabajos de otras materias, no solo en Español."
+      },
+      "seed": "ed28736c-f906-46ba-b851-b659eca3d9cb:7",
+      "solved": {
+        "game": 8,
+        "match": null,
+        "order": null,
+        "choice": 4,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    }
+  ],
+  "notes": "No se hicieron piezas de ordenar (order) porque en esta unidad no hay procedimientos con un único orden válido. Tampoco se hizo una pieza de parejas para la habilidad 2 porque valorar no tiene emparejamientos de una sola forma."
+}

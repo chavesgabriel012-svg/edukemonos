@@ -33,7 +33,10 @@ const LETTERS = "ABCDEFGHJKLMNPRSTV";
 
 export const DEMO_SECTION = {
   id: "demo",
-  name: "7-3 (demostración)",
+  name: "7-3 · Matemáticas (demostración)",
+  groupName: "7-3 (demostración)",
+  subjectId: "matematicas",
+  subjectName: "Matemáticas",
   gradeId: 7,
   institution: "Liceo de demostración",
   term: 2,
@@ -92,7 +95,9 @@ export function buildDemoSection(units: PanelUnit[], now = new Date(), studentCo
         const itemDifficulty = Math.min(5, Math.max(1, Math.round(3 + normal(r) * 0.8)));
         const correct = r() < pCorrect(theta, itemDifficulty);
         const when = at(lastDay + Math.floor(r() * 24));
-        attempts.push({ studentId: id, unitId: unit.id, isCorrect: correct, createdAt: when, context: "practice" });
+        // About one in five answers comes from a mini-game (fase 3); chosen by position, not by the random
+        // generator, so the rest of the demo stays the same.
+        attempts.push({ studentId: id, unitId: unit.id, isCorrect: correct, createdAt: when, context: attempts.length % 5 === 4 ? "game" : "practice" });
         for (const skillId of unit.skillIds.slice(0, 1 + Math.floor(r() * unit.skillIds.length))) {
           const prev = scores.get(skillId) ?? { score: null, n: 0, last: when };
           scores.set(skillId, { score: updateMastery(prev.score, prev.n, itemDifficulty, correct), n: prev.n + 1, last: when > prev.last ? when : prev.last });
@@ -126,3 +131,36 @@ export function buildDemoSection(units: PanelUnit[], now = new Date(), studentCo
   }
   return { students, units, mastery, attempts, diagnostics, tutor, writing, now };
 }
+
+/** Weekly streak of the demo section (fictitious, labelled as demo): aggregates only. */
+export const DEMO_STREAK = {
+  students: 26,
+  met_this_week: 15,
+  with_streak: 18,
+  longest: 7,
+  target: 5,
+  enabled: true,
+  paused: false,
+} as const;
+
+/** Weekly goal and table of the demo section (fictitious, labelled as demo). */
+export const DEMO_GOAL = {
+  enabled: true,
+  target: 15,
+  progress: 11,
+  paused: false,
+  active_students: 24,
+  history: [12, 14, 13, 15],
+} as const;
+
+export const DEMO_LEADERBOARD_SUMMARY = { members: 26, with_nickname: 21, hidden: 3 } as const;
+
+/**
+ * Demo of a teacher with several groups: Math in 7-1 and 7-4, Spanish in 7-1 (fictitious data,
+ * labelled as demo). Each section is a demo section of a different size.
+ */
+export const DEMO_TEACHER_SECTIONS = [
+  { id: "demo-71-mat", group: "7-1", subjectId: "matematicas", subjectName: "Matemáticas", students: 28 },
+  { id: "demo-74-mat", group: "7-4", subjectId: "matematicas", subjectName: "Matemáticas", students: 22 },
+  { id: "demo-71-esp", group: "7-1", subjectId: "espanol", subjectName: "Español", students: 28 },
+] as const;

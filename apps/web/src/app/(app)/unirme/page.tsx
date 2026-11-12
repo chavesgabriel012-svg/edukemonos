@@ -14,7 +14,8 @@ export default function JoinPage() {
         <div className="space-y-1">
           <h1 className="font-heading text-4xl leading-none font-bold">Únete a tu sección</h1>
           <p className="text-muted-foreground">
-            Escribe el código que te dio tu docente y tu nombre. Así podrá ver tu avance y ayudarte mejor.
+            Escribe el código que te dio tu docente o tu docente guía, junto con tu nombre. Con el código de tu grupo entras una
+            sola vez a todas tus materias, y cada docente podrá ver tu avance en la suya.
           </p>
         </div>
       </div>

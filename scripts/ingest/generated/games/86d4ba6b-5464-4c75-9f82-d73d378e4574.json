@@ -1,0 +1,530 @@
+{
+  "unitId": "86d4ba6b-5464-4c75-9f82-d73d378e4574",
+  "createdAt": "2026-11-04T17:57:49.159Z",
+  "models": {
+    "games": "claude-sonnet-5-5",
+    "solve": "claude-sonnet-5-5"
+  },
+  "prompts": {
+    "games": "generate-games-system@1",
+    "solve": "solve-games-system@1"
+  },
+  "pieces": [
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 0,
+        "instruction": "Une cada raíz con el número entero más cercano a su valor.",
+        "pairs": [
+          {
+            "left": "√26",
+            "right": "5"
+          },
+          {
+            "left": "√50",
+            "right": "7"
+          },
+          {
+            "left": "√82",
+            "right": "9"
+          },
+          {
+            "left": "√99",
+            "right": "10"
+          },
+          {
+            "left": "√120",
+            "right": "11"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Se busca el cuadrado perfecto más cercano: 26 está cerca de 25 (5²), 50 de 49 (7²), 82 de 81 (9²), 99 de 100 (10²) y 120 de 121 (11²)."
+      },
+      "seed": "86d4ba6b-5464-4c75-9f82-d73d378e4574:0",
+      "solved": {
+        "game": 1,
+        "match": [
+          5,
+          1,
+          2,
+          3,
+          4
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 0,
+        "instruction": "Ordena los pasos para estimar √50.",
+        "pairs": null,
+        "steps": [
+          "Busca los cuadrados perfectos que encierran a 50: 49 < 50 < 64",
+          "Calcula la raíz de cada uno: √49 = 7 y √64 = 8",
+          "Concluye que 7 < √50 < 8",
+          "Compara: 50 está mucho más cerca de 49 que de 64",
+          "Estima que √50 ≈ 7,1"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Primero se encierra el número entre dos cuadrados perfectos, luego se sacan sus raíces, se ubica la raíz entre dos enteros y al final se afina la estimación según cuál esté más cerca."
+      },
+      "seed": "86d4ba6b-5464-4c75-9f82-d73d378e4574:1",
+      "solved": {
+        "game": 2,
+        "match": null,
+        "order": [
+          2,
+          4,
+          5,
+          1,
+          3
+        ],
+        "choice": null,
+        "problems": "El orden de los pasos 5 y 1 es algo ambiguo: también sería defendible comparar (paso 1) antes de concluir (paso 5), es decir 2,4,1,5,3."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "El orden de los pasos 5 y 1 es algo ambiguo: también sería defendible comparar (paso 1) antes de concluir (paso 5), es decir 2,4,1,5,3."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: El orden de los pasos 5 y 1 es algo ambiguo: también sería defendible comparar (paso 1) antes de concluir (paso 5), es decir 2,4,1,5,3."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Elige los dos enteros consecutivos entre los que está la raíz.",
+        "pairs": null,
+        "steps": null,
+        "stem": "√70 está entre ___.",
+        "options": [
+          "7 y 8",
+          "8 y 9",
+          "9 y 10",
+          "35 y 36"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": null,
+        "explanation": "Como 8² = 64 y 9² = 81, y 64 < 70 < 81, entonces 8 < √70 < 9."
+      },
+      "seed": "86d4ba6b-5464-4c75-9f82-d73d378e4574:2",
+      "solved": {
+        "game": 3,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 0,
+        "instruction": "Una resolución para estimar √85 tiene un error. Encuentra el paso incorrecto.",
+        "pairs": null,
+        "steps": [
+          "9² = 81",
+          "10² = 100",
+          "81 < 85 < 100",
+          "Entonces 8 < √85 < 9"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 3,
+        "correction": "Entonces 9 < √85 < 10",
+        "calc": null,
+        "explanation": "Como 85 está entre 9² y 10², su raíz está entre 9 y 10, no entre 8 y 9."
+      },
+      "seed": "86d4ba6b-5464-4c75-9f82-d73d378e4574:3",
+      "solved": {
+        "game": 4,
+        "match": null,
+        "order": null,
+        "choice": 4,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 1,
+        "instruction": "Une cada número irracional con los dos enteros consecutivos entre los que se ubica.",
+        "pairs": [
+          {
+            "left": "√7",
+            "right": "2 y 3"
+          },
+          {
+            "left": "√12",
+            "right": "3 y 4"
+          },
+          {
+            "left": "√17",
+            "right": "4 y 5"
+          },
+          {
+            "left": "√28",
+            "right": "5 y 6"
+          },
+          {
+            "left": "√45",
+            "right": "6 y 7"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Se ubica cada radicando entre cuadrados perfectos: 4<7<9, 9<12<16, 16<17<25, 25<28<36 y 36<45<49."
+      },
+      "seed": "86d4ba6b-5464-4c75-9f82-d73d378e4574:4",
+      "solved": {
+        "game": 5,
+        "match": [
+          1,
+          3,
+          2,
+          4,
+          5
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 1,
+        "instruction": "Elige el número irracional que cumple la condición.",
+        "pairs": null,
+        "steps": null,
+        "stem": "El número irracional que está entre 5 y 6 es ___.",
+        "options": [
+          "√20",
+          "√36",
+          "√30",
+          "√40"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": null,
+        "explanation": "Entre 5 y 6 están las raíces de números entre 25 y 36. √30 cumple porque 25 < 30 < 36. √36 = 6 es entero, √20 está entre 4 y 5 y √40 está entre 6 y 7."
+      },
+      "seed": "86d4ba6b-5464-4c75-9f82-d73d378e4574:5",
+      "solved": {
+        "game": 6,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 1,
+        "instruction": "Completa con el entero que falta.",
+        "pairs": null,
+        "steps": null,
+        "stem": "El número irracional √90 está entre ___ y 10.",
+        "options": [
+          "9",
+          "8",
+          "10",
+          "11"
+        ],
+        "answer_index": 0,
+        "correction": null,
+        "calc": "sqrt(81)",
+        "explanation": "Como 9² = 81 y 10² = 100, y 81 < 90 < 100, entonces 9 < √90 < 10."
+      },
+      "seed": "86d4ba6b-5464-4c75-9f82-d73d378e4574:6",
+      "solved": {
+        "game": 7,
+        "match": null,
+        "order": null,
+        "choice": 0,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 1,
+        "instruction": "Una de estas ubicaciones de números irracionales es incorrecta. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "√5: 4 < 5 < 9, entonces 2 < √5 < 3",
+          "√11: 9 < 11 < 16, entonces 3 < √11 < 4",
+          "√20: 16 < 20 < 25, entonces 4 < √20 < 5",
+          "√30: 25 < 30 < 36, entonces 6 < √30 < 7"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 3,
+        "correction": "√30: 25 < 30 < 36, entonces 5 < √30 < 6",
+        "calc": null,
+        "explanation": "Las raíces de 25 y 36 son 5 y 6, así que √30 está entre 5 y 6, no entre 6 y 7."
+      },
+      "seed": "86d4ba6b-5464-4c75-9f82-d73d378e4574:7",
+      "solved": {
+        "game": 8,
+        "match": null,
+        "order": null,
+        "choice": 4,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 2,
+        "instruction": "Usa la calculadora y une cada expresión con su valor aproximado a las centésimas.",
+        "pairs": [
+          {
+            "left": "√10",
+            "right": "3,16"
+          },
+          {
+            "left": "√3 + √2",
+            "right": "3,15"
+          },
+          {
+            "left": "3√2",
+            "right": "4,24"
+          },
+          {
+            "left": "2√5",
+            "right": "4,47"
+          },
+          {
+            "left": "√50",
+            "right": "7,07"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Al calcular con la calculadora y redondear a las centésimas se obtiene: √10 ≈ 3,16; √3 + √2 ≈ 3,15; 3√2 ≈ 4,24; 2√5 ≈ 4,47; √50 ≈ 7,07."
+      },
+      "seed": "86d4ba6b-5464-4c75-9f82-d73d378e4574:8",
+      "solved": {
+        "game": 9,
+        "match": [
+          2,
+          4,
+          3,
+          1,
+          5
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 2,
+        "instruction": "Elige cómo se digita la operación en la calculadora.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Para calcular 3√5 se digita ___.",
+        "options": [
+          "√(3 + 5)",
+          "√(3 × 5)",
+          "3 + √5",
+          "3 × √5"
+        ],
+        "answer_index": 3,
+        "correction": null,
+        "calc": null,
+        "explanation": "3√5 significa 3 multiplicado por √5, por eso se digita 3 × √5. Meter el 3 dentro de la raíz o sumarlo cambia el resultado."
+      },
+      "seed": "86d4ba6b-5464-4c75-9f82-d73d378e4574:9",
+      "solved": {
+        "game": 10,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 2,
+        "instruction": "Una de estas operaciones con radicales tiene un resultado incorrecto. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "√64 = 8",
+          "√9 + √16 = 3 + 4 = 7",
+          "√25 + √144 = √169 = 13",
+          "√100 − √36 = 10 − 6 = 4"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "√25 + √144 = 5 + 12 = 17",
+        "calc": null,
+        "explanation": "La suma de raíces no es la raíz de la suma: √25 + √144 = 5 + 12 = 17, mientras que √169 = 13."
+      },
+      "seed": "86d4ba6b-5464-4c75-9f82-d73d378e4574:10",
+      "solved": {
+        "game": 11,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    }
+  ],
+  "notes": ""
+}

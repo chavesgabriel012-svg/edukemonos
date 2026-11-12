@@ -16,6 +16,7 @@ import {
   finishDiagnostic,
   startDiagnostic,
 } from "@/app/(app)/estudiar/actions";
+import { markActivity } from "@/lib/activity";
 import { brand } from "@/lib/brand";
 
 /**
@@ -60,6 +61,7 @@ export function DiagnosticRunner({ subject, grade }: { subject: string; grade: n
       setError(null);
       const a = await answerItem(item.id, selected, Date.now() - shownAt.current, diagnosticId);
       if (!a.ok) return setError(a.error);
+      markActivity();
       const next = await diagnosticStep(diagnosticId);
       if (!next.ok) return setError(next.error);
       show(next.data);

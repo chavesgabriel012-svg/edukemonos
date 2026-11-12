@@ -1,0 +1,481 @@
+{
+  "unitId": "09ce4349-d824-48fa-bfae-5a44a71fb32d",
+  "createdAt": "2026-11-04T17:48:20.767Z",
+  "models": {
+    "games": "claude-sonnet-5-5",
+    "solve": "claude-sonnet-5-5"
+  },
+  "prompts": {
+    "games": "generate-games-system@1",
+    "solve": "solve-games-system@1"
+  },
+  "pieces": [
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 0,
+        "instruction": "Une cada oración con el uso del signo de puntuación que aparece en ella.",
+        "pairs": [
+          {
+            "left": "Sin embargo, llegamos a tiempo.",
+            "right": "Coma que delimita un conector"
+          },
+          {
+            "left": "Mi padre es de Limón y mi madre, de Heredia.",
+            "right": "Coma que marca un verbo omitido"
+          },
+          {
+            "left": "Ana compró pan; Luis, leche.",
+            "right": "Punto y coma antes de una oración con el verbo suprimido"
+          },
+          {
+            "left": "Mi vecino (quien trabaja en Cartago) llegó.",
+            "right": "Paréntesis que aíslan un inciso"
+          },
+          {
+            "left": "2. Los conectores",
+            "right": "Punto después del número en un índice"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Cada oración muestra un solo uso: la coma tras «Sin embargo» delimita el conector; la coma de «y mi madre, de Heredia» reemplaza el verbo «es»; el punto y coma separa dos oraciones con verbo omitido en la segunda; los paréntesis encierran información extra; y el punto sigue al número en un índice."
+      },
+      "seed": "09ce4349-d824-48fa-bfae-5a44a71fb32d:0",
+      "solved": {
+        "game": 1,
+        "match": [
+          5,
+          1,
+          3,
+          2,
+          4
+        ],
+        "order": null,
+        "choice": null,
+        "problems": "La oración 2 tiene también un verbo omitido (\"mi madre, de Heredia\"), y la coma marca la omisión, así que la pareja 1 es correcta. La oración 3 usa punto y coma y también una coma por verbo omitido; la opción 3 es la más específica para ella. Hay cierto solapamiento entre las opciones 1 y 3, pero la correspondencia es resoluble."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "La oración 2 tiene también un verbo omitido (\"mi madre, de Heredia\"), y la coma marca la omisión, así que la pareja 1 es correcta. La oración 3 usa punto y coma y también una coma por verbo omitido; la opción 3 es la más específica para ella. Hay cierto solapamiento entre las opciones 1 y 3, pero la correspondencia es resoluble."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: La oración 2 tiene también un verbo omitido (\"mi madre, de Heredia\"), y la coma marca la omisión, así que la pareja 1 es correcta. La oración 3 usa punto y coma y también una coma por verbo omitido; la opción 3 es la más específica para ella. Hay cierto solapamiento entre las opciones 1 y 3, pero la correspondencia es resoluble."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Elige la opción que explica el uso de la coma en la oración.",
+        "pairs": null,
+        "steps": null,
+        "stem": "En «Por lo tanto, debemos ahorrar agua», la coma se usa para ___.",
+        "options": [
+          "marcar un verbo omitido",
+          "delimitar el conector",
+          "separar el sujeto del verbo",
+          "introducir una lista"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": null,
+        "explanation": "«Por lo tanto» es un conector y, cuando va al inicio del enunciado, se separa del resto con coma. No hay verbo omitido, ni lista, ni sujeto separado del verbo."
+      },
+      "seed": "09ce4349-d824-48fa-bfae-5a44a71fb32d:1",
+      "solved": {
+        "game": 2,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 0,
+        "instruction": "Una de estas oraciones tiene un error de puntuación. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "Sin embargo, el bus llegó tarde.",
+          "Los estudiantes, llegaron temprano al colegio.",
+          "Mi abuela (la de Nicoya) nos visitó ayer.",
+          "Mi hermano estudia de noche; mi hermana, de día."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 1,
+        "correction": "Los estudiantes llegaron temprano al colegio.",
+        "calc": null,
+        "explanation": "No se debe escribir coma entre el sujeto («Los estudiantes») y el verbo («llegaron»). Las otras oraciones usan bien la coma tras el conector, los paréntesis para el inciso y el punto y coma con verbo omitido."
+      },
+      "seed": "09ce4349-d824-48fa-bfae-5a44a71fb32d:2",
+      "solved": {
+        "game": 3,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 1,
+        "instruction": "Elige el signo que completa bien la oración.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Ana pidió gallo pinto___ Luis, tortillas con queso.",
+        "options": [
+          "dos puntos (:)",
+          "paréntesis de apertura (",
+          "punto y coma (;)",
+          "signo de interrogación (¿)"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": null,
+        "explanation": "La segunda oración omite el verbo («pidió»), por eso se separa de la primera con punto y coma, y la coma ocupa el lugar del verbo suprimido."
+      },
+      "seed": "09ce4349-d824-48fa-bfae-5a44a71fb32d:3",
+      "solved": {
+        "game": 4,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 1,
+        "instruction": "Completa el enunciado sobre el uso del punto.",
+        "pairs": null,
+        "steps": null,
+        "stem": "En un índice, el número del capítulo va seguido de ___: «2. Los conectores».",
+        "options": [
+          "dos puntos",
+          "punto y coma",
+          "un paréntesis",
+          "un punto"
+        ],
+        "answer_index": 3,
+        "correction": null,
+        "calc": null,
+        "explanation": "En los índices se escribe un punto después de la numeración de cada capítulo o apartado, como en «2. Los conectores»."
+      },
+      "seed": "09ce4349-d824-48fa-bfae-5a44a71fb32d:4",
+      "solved": {
+        "game": 5,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 1,
+        "instruction": "Estas frases forman parte de un texto sobre una feria del colegio. Encuentra la que tiene un error de puntuación.",
+        "pairs": null,
+        "steps": [
+          "La feria del colegio fue un éxito.",
+          "Los de séptimo vendieron comida; los de octavo, artesanías.",
+          "Además la feria dejó ganancias para la biblioteca.",
+          "Mi profesora (la de Español) felicitó al grupo."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "Además, la feria dejó ganancias para la biblioteca.",
+        "calc": null,
+        "explanation": "El conector «Además» al inicio del enunciado debe ir seguido de coma. Las demás frases están bien puntuadas."
+      },
+      "seed": "09ce4349-d824-48fa-bfae-5a44a71fb32d:5",
+      "solved": {
+        "game": 6,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": "El error está en \"Además la feria...\": falta la coma después del conector \"Además\"."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "El error está en \"Además la feria...\": falta la coma después del conector \"Además\"."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: El error está en \"Además la feria...\": falta la coma después del conector \"Además\"."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 1,
+        "instruction": "Ordena los pasos para escribir una oración con un inciso entre paréntesis.",
+        "pairs": null,
+        "steps": [
+          "Escribe la oración principal completa.",
+          "Elige la información extra que quieres agregar.",
+          "Abre el paréntesis y escribe el inciso.",
+          "Cierra el paréntesis.",
+          "Relee y comprueba que, sin el inciso, la oración sigue teniendo sentido."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Primero tienes la oración base, luego decides qué información extra va, la encierras entre los dos paréntesis y al final compruebas que la oración funciona sin el inciso."
+      },
+      "seed": "09ce4349-d824-48fa-bfae-5a44a71fb32d:6",
+      "solved": {
+        "game": 7,
+        "match": null,
+        "order": [
+          2,
+          3,
+          4,
+          1,
+          5
+        ],
+        "choice": null,
+        "problems": "El orden de los pasos 2 y 3 es discutible (se podría escribir primero la oración principal y luego elegir la información extra), pero el orden dado es defendible."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": false,
+          "problems": "El orden de los pasos 2 y 3 es discutible (se podría escribir primero la oración principal y luego elegir la información extra), pero el orden dado es defendible."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador dio otra respuesta"
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 2,
+        "instruction": "Une cada problema de puntuación con la corrección que debes aplicar.",
+        "pairs": [
+          {
+            "left": "Coma entre sujeto y verbo",
+            "right": "Eliminar la coma"
+          },
+          {
+            "left": "Falta de coma tras «además» al inicio",
+            "right": "Escribir coma después del conector"
+          },
+          {
+            "left": "Verbo omitido sin ninguna marca",
+            "right": "Marcar la omisión con una coma"
+          },
+          {
+            "left": "Inciso sin aislar",
+            "right": "Encerrarlo entre paréntesis"
+          },
+          {
+            "left": "Índice sin punto tras el número",
+            "right": "Escribir punto después de la numeración"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Cada problema tiene una única corrección normativa: quitar la coma que separa sujeto y verbo, delimitar el conector, marcar el verbo omitido con coma, aislar el inciso con paréntesis y poner el punto en el índice."
+      },
+      "seed": "09ce4349-d824-48fa-bfae-5a44a71fb32d:7",
+      "solved": {
+        "game": 8,
+        "match": [
+          4,
+          3,
+          5,
+          2,
+          1
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 2,
+        "instruction": "Ordena los pasos para revisar la puntuación de tu texto antes de entregarlo.",
+        "pairs": null,
+        "steps": [
+          "Escribe el borrador completo del texto.",
+          "Lee el texto en voz alta y marca las pausas.",
+          "Revisa las comas junto a los conectores y los verbos omitidos.",
+          "Aísla los incisos con paréntesis.",
+          "Pasa en limpio el texto corregido."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Primero necesitas un borrador; luego lo lees y revisas cada uso de los signos, y solo al final pasas en limpio la versión corregida."
+      },
+      "seed": "09ce4349-d824-48fa-bfae-5a44a71fb32d:8",
+      "solved": {
+        "game": 9,
+        "match": null,
+        "order": [
+          2,
+          5,
+          4,
+          3,
+          1
+        ],
+        "choice": null,
+        "problems": "Los pasos 3, 4 y 5 podrían ordenarse de otra forma (por ejemplo, aislar los incisos antes de revisar las comas), así que el orden de la revisión admite más de una secuencia defendible."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "Los pasos 3, 4 y 5 podrían ordenarse de otra forma (por ejemplo, aislar los incisos antes de revisar las comas), así que el orden de la revisión admite más de una secuencia defendible."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: Los pasos 3, 4 y 5 podrían ordenarse de otra forma (por ejemplo, aislar los incisos antes de revisar las comas), así que el orden de la revisión admite más de una secuencia defendible."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 2,
+        "instruction": "Elige la actitud más adecuada al escribir.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Antes de entregar tu texto, lo más recomendable es ___ para evitar confusiones al lector.",
+        "options": [
+          "revisar la puntuación según las normas",
+          "poner comas al azar",
+          "omitir los signos si el texto es corto",
+          "dejar que el lector adivine las pausas"
+        ],
+        "answer_index": 0,
+        "correction": null,
+        "calc": null,
+        "explanation": "Usar los signos según las normas hace que el texto se entienda mejor, por eso conviene revisarlos siempre, sin importar el largo del texto."
+      },
+      "seed": "09ce4349-d824-48fa-bfae-5a44a71fb32d:9",
+      "solved": {
+        "game": 10,
+        "match": null,
+        "order": null,
+        "choice": 0,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    }
+  ],
+  "notes": "No se incluyeron piezas sobre dedicatorias ni comillas por falta de reglas con una única respuesta clara a este nivel. Se priorizaron los casos de la unidad."
+}

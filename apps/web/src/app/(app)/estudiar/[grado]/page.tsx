@@ -2,17 +2,19 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { SubjectIcon } from "@/components/brand/subject-icon";
+import { StreakCard } from "@/components/learn/streak-card";
 import { BackLink } from "@/components/ui/back-link";
 import { eyebrow } from "@/components/ui/styles";
 import { subjectColor } from "@/lib/brand";
 import { GRADE_LABEL, parseGrade, subjectsForGrade } from "@/lib/learn";
+import { streakStatus } from "@/lib/streak";
 
 export const metadata: Metadata = { title: "Elige una materia" };
 
 export default async function GradePage({ params }: PageProps<"/estudiar/[grado]">) {
   const grade = parseGrade((await params).grado);
   if (!grade) notFound();
-  const subjects = await subjectsForGrade(grade);
+  const [subjects, streak] = await Promise.all([subjectsForGrade(grade), streakStatus()]);
   const available = subjects.filter((s) => s.available);
   const upcoming = subjects.filter((s) => !s.available);
 
@@ -23,6 +25,8 @@ export default async function GradePage({ params }: PageProps<"/estudiar/[grado]
         <p className={eyebrow}>{GRADE_LABEL[grade]} año</p>
         <h1 className="font-heading text-4xl leading-none font-bold sm:text-5xl">Elige una materia</h1>
       </div>
+
+      <StreakCard status={streak} />
 
       {available.length === 0 ? (
         <p className="rounded-[22px] border border-dashed p-5 text-muted-foreground">Todavía no hay materias publicadas para este año.</p>
@@ -59,6 +63,19 @@ export default async function GradePage({ params }: PageProps<"/estudiar/[grado]
           </ul>
         </div>
       )}
+
+      <div className="space-y-1 text-sm text-muted-foreground">
+        {streak && (
+          <p>
+            ¿Estás en una sección? Mira{" "}
+            <Link href="/mis-secciones" className="font-medium underline underline-offset-2">la meta de la semana de tu sección</Link>.
+          </p>
+        )}
+        <p>
+          ¿Vas a cambiar de celular?{" "}
+          <Link href="/mi-codigo" className="font-medium underline underline-offset-2">Guarda tu progreso con un código</Link>.
+        </p>
+      </div>
     </section>
   );
 }

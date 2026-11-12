@@ -1,0 +1,541 @@
+{
+  "unitId": "61ee78d2-5886-44c4-a3aa-b9eb25426a8d",
+  "createdAt": "2026-11-04T17:49:57.230Z",
+  "models": {
+    "games": "claude-sonnet-5-5",
+    "solve": "claude-sonnet-5-5"
+  },
+  "prompts": {
+    "games": "generate-games-system@1",
+    "solve": "solve-games-system@1"
+  },
+  "pieces": [
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 0,
+        "instruction": "Une cada fase de análisis con lo que haces en ella.",
+        "pairs": [
+          {
+            "left": "Fase natural",
+            "right": "Lees y expresas tus primeras impresiones y emociones"
+          },
+          {
+            "left": "Fase de ubicación",
+            "right": "Investigas el autor, la época y el contexto de la obra"
+          },
+          {
+            "left": "Fase analística",
+            "right": "Estudias personajes, ambiente, estructura y recursos del texto"
+          },
+          {
+            "left": "Fase explicativa e interpretativa",
+            "right": "Explicas los sentidos del texto y compartes tu interpretación"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Cada fase tiene un propósito distinto: la natural es la primera lectura, la de ubicación busca el contexto, la analística estudia los elementos y la última explica e interpreta los sentidos."
+      },
+      "seed": "61ee78d2-5886-44c4-a3aa-b9eb25426a8d:0",
+      "solved": {
+        "game": 1,
+        "match": [
+          2,
+          1,
+          4,
+          3
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 0,
+        "instruction": "Ordena las fases del análisis crítico de un texto.",
+        "pairs": null,
+        "steps": [
+          "Fase natural: leo y anoto mis primeras impresiones",
+          "Fase de ubicación: investigo autor, época y contexto",
+          "Fase analística: estudio personajes, ambiente y estructura",
+          "Fase explicativa e interpretativa: explico y comparto los sentidos del texto"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Se empieza con la lectura espontánea, luego se ubica la obra, después se analizan sus elementos y al final se explica e interpreta su sentido."
+      },
+      "seed": "61ee78d2-5886-44c4-a3aa-b9eb25426a8d:1",
+      "solved": {
+        "game": 2,
+        "match": null,
+        "order": [
+          1,
+          4,
+          3,
+          2
+        ],
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Elige la opción que completa el enunciado.",
+        "pairs": null,
+        "steps": null,
+        "stem": "La fase en que investigas quién escribió la obra, cuándo se creó y en qué contexto se ubica es la fase ___.",
+        "options": [
+          "natural",
+          "de ubicación",
+          "analística",
+          "explicativa e interpretativa"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": null,
+        "explanation": "Investigar autor, época y contexto es lo propio de la fase de ubicación."
+      },
+      "seed": "61ee78d2-5886-44c4-a3aa-b9eb25426a8d:2",
+      "solved": {
+        "game": 3,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 0,
+        "instruction": "Una de estas frases sobre las fases del análisis tiene un error. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "En la fase natural, lees la novela gráfica y expresas tus primeras impresiones.",
+          "En la fase de ubicación, investigas el autor, la época y el contexto de la obra.",
+          "En la fase analística, estudias elementos como personajes, ambiente y estructura.",
+          "En la fase explicativa e interpretativa, evitas dar tu opinión y solo copias el argumento."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 3,
+        "correction": "En la fase explicativa e interpretativa, explicas los sentidos del texto y compartes tu interpretación con argumentos.",
+        "calc": null,
+        "explanation": "Esta última fase no consiste en copiar el argumento, sino en explicar e interpretar los sentidos del texto y compartirlos."
+      },
+      "seed": "61ee78d2-5886-44c4-a3aa-b9eb25426a8d:3",
+      "solved": {
+        "game": 4,
+        "match": null,
+        "order": null,
+        "choice": 4,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 1,
+        "instruction": "Une cada forma verbal con su infinitivo.",
+        "pairs": [
+          {
+            "left": "hube",
+            "right": "haber"
+          },
+          {
+            "left": "cupo",
+            "right": "caber"
+          },
+          {
+            "left": "puse",
+            "right": "poner"
+          },
+          {
+            "left": "dijeron",
+            "right": "decir"
+          },
+          {
+            "left": "quiso",
+            "right": "querer"
+          },
+          {
+            "left": "supe",
+            "right": "saber"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Estos verbos cambian su raíz al conjugarse en pretérito (hube, cupo, puse, dijeron, quiso, supe), pero cada forma viene de un solo infinitivo."
+      },
+      "seed": "61ee78d2-5886-44c4-a3aa-b9eb25426a8d:4",
+      "solved": {
+        "game": 5,
+        "match": [
+          5,
+          2,
+          1,
+          3,
+          6,
+          4
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 1,
+        "instruction": "Elige la forma verbal correcta.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Ayer yo ___ la tarea antes de la cena.",
+        "options": [
+          "hací",
+          "hizo",
+          "hice",
+          "hiciste"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": null,
+        "explanation": "El pretérito del verbo hacer con «yo» es «hice». «Hizo» es de él o ella y «hiciste» es de tú."
+      },
+      "seed": "61ee78d2-5886-44c4-a3aa-b9eb25426a8d:5",
+      "solved": {
+        "game": 6,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 1,
+        "instruction": "Una de estas oraciones tiene un verbo mal conjugado. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "Ayer yo puse la mochila sobre la silla.",
+          "Mis primos vinieron a visitarnos el domingo.",
+          "Yo no cabí en el asiento del bus lleno.",
+          "Ayer Ana dijo la verdad a su familia."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "Yo no cupe en el asiento del bus lleno.",
+        "calc": null,
+        "explanation": "El pretérito de caber con «yo» es «cupe», no «cabí»."
+      },
+      "seed": "61ee78d2-5886-44c4-a3aa-b9eb25426a8d:6",
+      "solved": {
+        "game": 7,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": "El error es 'cabí': la forma correcta del pretérito de caber es 'cupe'. Las demás oraciones están bien conjugadas."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "El error es 'cabí': la forma correcta del pretérito de caber es 'cupe'. Las demás oraciones están bien conjugadas."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: El error es 'cabí': la forma correcta del pretérito de caber es 'cupe'. Las demás oraciones están bien conjugadas."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 2,
+        "instruction": "Ordena los pasos para escribir una novela gráfica.",
+        "pairs": null,
+        "steps": [
+          "Elegir el tema y el argumento de la historia",
+          "Crear los personajes y el escenario",
+          "Escribir el guion dividido en escenas",
+          "Hacer el boceto de las viñetas",
+          "Dibujar y colocar los globos de texto",
+          "Revisar y corregir la obra"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Primero se planea la historia, luego se escribe el guion, después se diseña y dibuja, y al final se revisa."
+      },
+      "seed": "61ee78d2-5886-44c4-a3aa-b9eb25426a8d:7",
+      "solved": {
+        "game": 8,
+        "match": null,
+        "order": [
+          2,
+          4,
+          6,
+          1,
+          3,
+          5
+        ],
+        "choice": null,
+        "problems": "El orden de los pasos 4 y 6 es discutible (crear personajes antes o después del guion), así que hay un poco de ambigüedad, aunque el orden dado es el más natural."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "El orden de los pasos 4 y 6 es discutible (crear personajes antes o después del guion), así que hay un poco de ambigüedad, aunque el orden dado es el más natural."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: El orden de los pasos 4 y 6 es discutible (crear personajes antes o después del guion), así que hay un poco de ambigüedad, aunque el orden dado es el más natural."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 2,
+        "instruction": "Une cada elemento de la novela gráfica con su función.",
+        "pairs": [
+          {
+            "left": "Viñeta",
+            "right": "Cuadro que encierra una escena de la historia"
+          },
+          {
+            "left": "Globo de texto",
+            "right": "Espacio donde aparece lo que dice o piensa un personaje"
+          },
+          {
+            "left": "Cartucho",
+            "right": "Recuadro con la voz del narrador"
+          },
+          {
+            "left": "Onomatopeya",
+            "right": "Palabra que imita un sonido, como ¡PAM!"
+          },
+          {
+            "left": "Medianil",
+            "right": "Espacio en blanco entre dos viñetas"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Cada elemento cumple una función propia al contar la historia con texto e imágenes."
+      },
+      "seed": "61ee78d2-5886-44c4-a3aa-b9eb25426a8d:8",
+      "solved": {
+        "game": 9,
+        "match": [
+          4,
+          5,
+          3,
+          1,
+          2
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 2,
+        "instruction": "Elige la opción que completa el enunciado.",
+        "pairs": null,
+        "steps": null,
+        "stem": "En una novela gráfica, el recuadro donde aparece la voz del narrador se llama ___.",
+        "options": [
+          "globo",
+          "viñeta",
+          "onomatopeya",
+          "cartucho"
+        ],
+        "answer_index": 3,
+        "correction": null,
+        "calc": null,
+        "explanation": "El cartucho es el recuadro del narrador. El globo es para los personajes y la onomatopeya imita sonidos."
+      },
+      "seed": "61ee78d2-5886-44c4-a3aa-b9eb25426a8d:9",
+      "solved": {
+        "game": 10,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 2,
+        "instruction": "Una de estas frases sobre los elementos de la novela gráfica tiene un error. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "La viñeta es el cuadro que encierra una escena de la historia.",
+          "El globo de texto contiene lo que dicen o piensan los personajes.",
+          "Las onomatopeyas representan sonidos, como ¡PAM!",
+          "El cartucho es el espacio vacío entre dos viñetas."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 3,
+        "correction": "El cartucho es el recuadro donde aparece la voz del narrador.",
+        "calc": null,
+        "explanation": "El espacio vacío entre viñetas se llama medianil. El cartucho es el recuadro del narrador."
+      },
+      "seed": "61ee78d2-5886-44c4-a3aa-b9eb25426a8d:10",
+      "solved": {
+        "game": 11,
+        "match": null,
+        "order": null,
+        "choice": 4,
+        "problems": "El cartucho es el recuadro del narrador; el espacio entre viñetas es el medianil."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "El cartucho es el recuadro del narrador; el espacio entre viñetas es el medianil."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: El cartucho es el recuadro del narrador; el espacio entre viñetas es el medianil."
+        ]
+      }
+    }
+  ],
+  "notes": "El programa no trae contenidos específicos. No hice «order» para la habilidad 1 porque conjugar verbos especiales no tiene un orden único de pasos."
+}

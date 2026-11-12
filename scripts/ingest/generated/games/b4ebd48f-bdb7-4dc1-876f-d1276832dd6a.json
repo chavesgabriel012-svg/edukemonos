@@ -1,0 +1,494 @@
+{
+  "unitId": "b4ebd48f-bdb7-4dc1-876f-d1276832dd6a",
+  "createdAt": "2026-11-04T17:44:34.457Z",
+  "models": {
+    "games": "claude-sonnet-5-5",
+    "solve": "claude-sonnet-5-5"
+  },
+  "prompts": {
+    "games": "generate-games-system@1",
+    "solve": "solve-games-system@1"
+  },
+  "pieces": [
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 0,
+        "instruction": "Une cada sujeto con la forma del verbo leer que concuerda con él.",
+        "pairs": [
+          {
+            "left": "Yo",
+            "right": "leo"
+          },
+          {
+            "left": "Tú",
+            "right": "lees"
+          },
+          {
+            "left": "Nosotras",
+            "right": "leemos"
+          },
+          {
+            "left": "Los vecinos",
+            "right": "leen"
+          },
+          {
+            "left": "La maestra",
+            "right": "lee"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "El verbo debe concordar con el sujeto en número y persona: yo leo, tú lees, nosotras leemos, los vecinos leen y la maestra lee."
+      },
+      "seed": "b4ebd48f-bdb7-4dc1-876f-d1276832dd6a:0",
+      "solved": {
+        "game": 1,
+        "match": [
+          4,
+          2,
+          1,
+          3,
+          5
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 0,
+        "instruction": "Ordena los pasos para comprobar la concordancia entre sujeto y verbo.",
+        "pairs": null,
+        "steps": [
+          "Lee la oración completa.",
+          "Identifica el núcleo del sujeto.",
+          "Determina su número y su persona.",
+          "Revisa que el verbo tenga el mismo número y la misma persona.",
+          "Corrige el verbo si no coincide con el sujeto."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Primero hay que leer y hallar el núcleo del sujeto. Luego se determina su número y persona, se compara con el verbo y, si no coinciden, se corrige."
+      },
+      "seed": "b4ebd48f-bdb7-4dc1-876f-d1276832dd6a:1",
+      "solved": {
+        "game": 2,
+        "match": null,
+        "order": [
+          5,
+          3,
+          1,
+          2,
+          4
+        ],
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Elige la opción que completa la oración con buena concordancia.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Mis hermanas y yo ___ al colegio en bus.",
+        "options": [
+          "voy",
+          "van",
+          "vamos",
+          "vas"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": null,
+        "explanation": "El sujeto «Mis hermanas y yo» equivale a «nosotras», primera persona del plural. Por eso el verbo debe ser «vamos»."
+      },
+      "seed": "b4ebd48f-bdb7-4dc1-876f-d1276832dd6a:2",
+      "solved": {
+        "game": 3,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 0,
+        "instruction": "Encuentra la oración que tiene un error de concordancia.",
+        "pairs": null,
+        "steps": [
+          "Los estudiantes nuevos llegaron temprano.",
+          "La profesora de Matemáticas explicó la lección.",
+          "Mis primos vive en Limón.",
+          "Las niñas jugaron fútbol en el recreo."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "Mis primos viven en Limón.",
+        "calc": null,
+        "explanation": "El núcleo del sujeto, «primos», está en plural, así que el verbo debe ir en plural: «viven», no «vive»."
+      },
+      "seed": "b4ebd48f-bdb7-4dc1-876f-d1276832dd6a:3",
+      "solved": {
+        "game": 4,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 1,
+        "instruction": "Une cada fase de lectura con lo que se hace en ella.",
+        "pairs": [
+          {
+            "left": "Fase natural",
+            "right": "Lees por primera vez y expresas tus impresiones espontáneas"
+          },
+          {
+            "left": "Fase de ubicación",
+            "right": "Identificas el tipo de texto, el autor y el contexto"
+          },
+          {
+            "left": "Fase analística",
+            "right": "Examinas las partes del texto, su estructura y sus recursos"
+          },
+          {
+            "left": "Fase explicativa e interpretativa",
+            "right": "Explicas los sentidos del texto y compartes tu interpretación"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Cada fase tiene un propósito distinto: de la primera impresión al análisis y, al final, la interpretación que se comparte."
+      },
+      "seed": "b4ebd48f-bdb7-4dc1-876f-d1276832dd6a:4",
+      "solved": {
+        "game": 5,
+        "match": [
+          4,
+          1,
+          2,
+          3
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 1,
+        "instruction": "Ordena las fases de lectura crítica de un texto.",
+        "pairs": null,
+        "steps": [
+          "Fase natural",
+          "Fase de ubicación",
+          "Fase analística",
+          "Fase explicativa e interpretativa"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "La lectura crítica avanza desde la primera lectura espontánea hasta la interpretación y su puesta en común."
+      },
+      "seed": "b4ebd48f-bdb7-4dc1-876f-d1276832dd6a:5",
+      "solved": {
+        "game": 6,
+        "match": null,
+        "order": [
+          4,
+          2,
+          3,
+          1
+        ],
+        "choice": null,
+        "problems": "El orden depende de la fuente. Se asume el orden del enunciado de la pieza 5: natural, ubicación, analística, explicativa e interpretativa. Es el orden más defendible."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "El orden depende de la fuente. Se asume el orden del enunciado de la pieza 5: natural, ubicación, analística, explicativa e interpretativa. Es el orden más defendible."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: El orden depende de la fuente. Se asume el orden del enunciado de la pieza 5: natural, ubicación, analística, explicativa e interpretativa. Es el orden más defendible."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 1,
+        "instruction": "Elige la fase que completa el enunciado.",
+        "pairs": null,
+        "steps": null,
+        "stem": "En la fase ___ se examinan las partes del texto, su estructura y los recursos que usa el autor.",
+        "options": [
+          "natural",
+          "analística",
+          "de ubicación",
+          "explicativa e interpretativa"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": null,
+        "explanation": "Analizar las partes, la estructura y los recursos del texto corresponde a la fase analística."
+      },
+      "seed": "b4ebd48f-bdb7-4dc1-876f-d1276832dd6a:6",
+      "solved": {
+        "game": 7,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 2,
+        "instruction": "Une cada técnica de comunicación oral con su característica.",
+        "pairs": [
+          {
+            "left": "Entrevista",
+            "right": "Una persona pregunta y otra responde"
+          },
+          {
+            "left": "Debate",
+            "right": "Dos grupos defienden posturas opuestas con argumentos"
+          },
+          {
+            "left": "Exposición oral",
+            "right": "Una persona presenta un tema ante un público"
+          },
+          {
+            "left": "Mesa redonda",
+            "right": "Varias personas dan sus puntos de vista sobre un tema, guiadas por un moderador"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Cada técnica oral se distingue por quiénes participan y cómo lo hacen: preguntar y responder, defender posturas opuestas, presentar un tema o dialogar con un moderador."
+      },
+      "seed": "b4ebd48f-bdb7-4dc1-876f-d1276832dd6a:7",
+      "solved": {
+        "game": 8,
+        "match": [
+          2,
+          4,
+          3,
+          1
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 2,
+        "instruction": "Ordena los pasos para preparar una exposición oral.",
+        "pairs": null,
+        "steps": [
+          "Elige el tema y define el propósito.",
+          "Investiga y reúne la información.",
+          "Organiza las ideas en un esquema con inicio, desarrollo y cierre.",
+          "Ensaya en voz alta cuidando el volumen y la entonación.",
+          "Presenta tu exposición ante el público."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Primero se decide el tema, luego se investiga, se organiza y se ensaya. La presentación va al final."
+      },
+      "seed": "b4ebd48f-bdb7-4dc1-876f-d1276832dd6a:8",
+      "solved": {
+        "game": 9,
+        "match": null,
+        "order": [
+          1,
+          2,
+          5,
+          3,
+          4
+        ],
+        "choice": null,
+        "problems": "Investigar (2) y organizar en esquema (5) van en ese orden lógico. Algunos podrían ensayar antes de organizar, pero el orden dado es el más defendible."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "Investigar (2) y organizar en esquema (5) van en ese orden lógico. Algunos podrían ensayar antes de organizar, pero el orden dado es el más defendible."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: Investigar (2) y organizar en esquema (5) van en ese orden lógico. Algunos podrían ensayar antes de organizar, pero el orden dado es el más defendible."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 2,
+        "instruction": "Elige la opción que completa el enunciado.",
+        "pairs": null,
+        "steps": null,
+        "stem": "En una entrevista, la persona que hace las preguntas es el ___.",
+        "options": [
+          "entrevistado",
+          "moderador",
+          "público",
+          "entrevistador"
+        ],
+        "answer_index": 3,
+        "correction": null,
+        "calc": null,
+        "explanation": "En la entrevista, quien pregunta es el entrevistador y quien responde es el entrevistado."
+      },
+      "seed": "b4ebd48f-bdb7-4dc1-876f-d1276832dd6a:9",
+      "solved": {
+        "game": 10,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    }
+  ],
+  "notes": "El programa no detalla los contenidos. Las descripciones de las cuatro fases de lectura y de las técnicas orales siguen el uso común escolar; conviene que el docente las confirme. No se hizo find_error para las habilidades 1 y 2 porque no encajaban bien."
+}

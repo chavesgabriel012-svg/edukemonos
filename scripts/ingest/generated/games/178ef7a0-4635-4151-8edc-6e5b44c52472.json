@@ -1,0 +1,310 @@
+{
+  "unitId": "178ef7a0-4635-4151-8edc-6e5b44c52472",
+  "createdAt": "2026-11-04T17:42:30.633Z",
+  "models": {
+    "games": "claude-sonnet-5-5",
+    "solve": "claude-sonnet-5-5"
+  },
+  "prompts": {
+    "games": "generate-games-system@1",
+    "solve": "solve-games-system@1"
+  },
+  "pieces": [
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 0,
+        "instruction": "Une cada palabra con su significado.",
+        "pairs": [
+          {
+            "left": "bello",
+            "right": "hermoso, que gusta a la vista"
+          },
+          {
+            "left": "vello",
+            "right": "pelo fino del cuerpo"
+          },
+          {
+            "left": "baca",
+            "right": "portaequipaje sobre el techo de un carro"
+          },
+          {
+            "left": "vaca",
+            "right": "hembra del toro que da leche"
+          },
+          {
+            "left": "tubo",
+            "right": "pieza hueca por donde pasa el agua"
+          },
+          {
+            "left": "tuvo",
+            "right": "forma del verbo tener: «él tuvo»"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Son homófonos: suenan igual, pero se escriben distinto y significan cosas diferentes. Cada significado corresponde a una sola de las palabras."
+      },
+      "seed": "178ef7a0-4635-4151-8edc-6e5b44c52472:0",
+      "solved": {
+        "game": 1,
+        "match": [
+          1,
+          3,
+          4,
+          2,
+          6,
+          5
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Elige la palabra que cumple la regla.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Según la regla, después de «n» se escribe «v», como en la palabra ___.",
+        "options": [
+          "enbase",
+          "inbierno",
+          "envase",
+          "conbivir"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": "",
+        "explanation": "«Envase» lleva «v» después de «n». Las otras opciones escriben «b» después de «n», lo cual no es correcto: se escribe invierno y convivir."
+      },
+      "seed": "178ef7a0-4635-4151-8edc-6e5b44c52472:1",
+      "solved": {
+        "game": 2,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": "La opción 2 es la única bien escrita (envase). Las demás son incorrectas: enbase, inbierno, conbivir. La regla está bien enunciada."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "La opción 2 es la única bien escrita (envase). Las demás son incorrectas: enbase, inbierno, conbivir. La regla está bien enunciada."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: La opción 2 es la única bien escrita (envase). Las demás son incorrectas: enbase, inbierno, conbivir. La regla está bien enunciada."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 0,
+        "instruction": "Una de estas reglas está mal. Encuentra cuál es.",
+        "pairs": null,
+        "steps": [
+          "Después de «m» se escribe «b»: cambio, bombero.",
+          "Después de «n» se escribe «v»: envase, invierno.",
+          "Las palabras que empiezan con «biblio-» se escriben con «b»: biblioteca.",
+          "El pretérito imperfecto de los verbos en -ar se escribe con «v»: jugava, cantava."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 3,
+        "correction": "El pretérito imperfecto de los verbos en -ar se escribe con «b»: jugaba, cantaba.",
+        "calc": null,
+        "explanation": "La terminación -aba del pretérito imperfecto de los verbos en -ar siempre se escribe con «b». Las otras tres reglas son correctas."
+      },
+      "seed": "178ef7a0-4635-4151-8edc-6e5b44c52472:2",
+      "solved": {
+        "game": 3,
+        "match": null,
+        "order": null,
+        "choice": 4,
+        "problems": "El paso 4 es incorrecto: el pretérito imperfecto de los verbos en -ar se escribe con «b» (jugaba, cantaba), no con «v». Los pasos 1, 2 y 3 son correctos."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "El paso 4 es incorrecto: el pretérito imperfecto de los verbos en -ar se escribe con «b» (jugaba, cantaba), no con «v». Los pasos 1, 2 y 3 son correctos."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: El paso 4 es incorrecto: el pretérito imperfecto de los verbos en -ar se escribe con «b» (jugaba, cantaba), no con «v». Los pasos 1, 2 y 3 son correctos."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 1,
+        "instruction": "Une cada palabra con la regla que explica su ortografía.",
+        "pairs": [
+          {
+            "left": "bombero",
+            "right": "«b» después de «m»"
+          },
+          {
+            "left": "invierno",
+            "right": "«v» después de «n»"
+          },
+          {
+            "left": "jugaba",
+            "right": "terminación -aba del pretérito imperfecto"
+          },
+          {
+            "left": "biblioteca",
+            "right": "palabras que empiezan con «biblio-»"
+          },
+          {
+            "left": "bienvenido",
+            "right": "palabras que empiezan con «bien-»"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Cada palabra es un ejemplo de una sola regla: bombero tiene «mb», invierno tiene «nv», jugaba termina en -aba, biblioteca empieza con biblio- y bienvenido empieza con bien-."
+      },
+      "seed": "178ef7a0-4635-4151-8edc-6e5b44c52472:3",
+      "solved": {
+        "game": 4,
+        "match": [
+          2,
+          1,
+          5,
+          3,
+          4
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 1,
+        "instruction": "Completa la oración con la palabra bien escrita.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Compramos un ___ de plástico para arreglar la cañería de la casa.",
+        "options": [
+          "tuvo",
+          "tubo",
+          "tuvó",
+          "tubó"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": "",
+        "explanation": "«Tubo» con «b» es la pieza hueca por donde pasa el agua. «Tuvo» es del verbo tener y no encaja aquí. Las opciones con tilde no existen en este caso."
+      },
+      "seed": "178ef7a0-4635-4151-8edc-6e5b44c52472:4",
+      "solved": {
+        "game": 5,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 1,
+        "instruction": "Una de estas oraciones tiene un error de «b» o «v». Encuentra cuál es.",
+        "pairs": null,
+        "steps": [
+          "Ayer fuimos a la playa con mi familia.",
+          "La vaca come pasto en la finca de mi abuelo.",
+          "Mi tío tubo que viajar a Limón por trabajo.",
+          "Mi prima cantaba en el coro del colegio."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "Mi tío tuvo que viajar a Limón por trabajo.",
+        "calc": null,
+        "explanation": "Aquí se necesita «tuvo», del verbo tener. «Tubo» es una pieza hueca. Las demás oraciones están bien escritas."
+      },
+      "seed": "178ef7a0-4635-4151-8edc-6e5b44c52472:5",
+      "solved": {
+        "game": 6,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": "La oración 3 tiene el error: debe ser «tuvo» (verbo tener), no «tubo». Las demás están bien escritas."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "La oración 3 tiene el error: debe ser «tuvo» (verbo tener), no «tubo». Las demás están bien escritas."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: La oración 3 tiene el error: debe ser «tuvo» (verbo tener), no «tubo». Las demás están bien escritas."
+        ]
+      }
+    }
+  ],
+  "notes": "No se incluyó ninguna pieza de ordenar pasos, porque en esta unidad no hay procedimientos con un único orden válido."
+}

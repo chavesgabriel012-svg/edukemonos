@@ -1,0 +1,391 @@
+{
+  "unitId": "fbbee8d1-2e9b-45f5-bb45-dcc19e50ca70",
+  "createdAt": "2026-11-04T17:45:04.368Z",
+  "models": {
+    "games": "claude-sonnet-5-5",
+    "solve": "claude-sonnet-5-5"
+  },
+  "prompts": {
+    "games": "generate-games-system@1",
+    "solve": "solve-games-system@1"
+  },
+  "pieces": [
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 0,
+        "instruction": "Une cada fase de lectura con lo que haces en ella.",
+        "pairs": [
+          {
+            "left": "Lectura natural",
+            "right": "Lees de corrido para captar de qué trata, con lo que ya sabes"
+          },
+          {
+            "left": "Lectura de ubicación",
+            "right": "Buscas el significado de palabras desconocidas según el contexto y localizas datos"
+          },
+          {
+            "left": "Lectura analística",
+            "right": "Separas las partes del texto: ideas principales y palabras que se repiten"
+          },
+          {
+            "left": "Lectura explicativa e interpretativa",
+            "right": "Explicas con tus palabras el sentido del texto y compartes tu interpretación"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Cada fase tiene un propósito distinto: la natural da la idea general, la de ubicación aclara palabras y datos, la analística analiza las partes y la explicativa e interpretativa busca y comparte los sentidos del texto."
+      },
+      "seed": "fbbee8d1-2e9b-45f5-bb45-dcc19e50ca70:0",
+      "solved": {
+        "game": 1,
+        "match": [
+          1,
+          4,
+          2,
+          3
+        ],
+        "order": null,
+        "choice": null,
+        "problems": "La derecha está mezclada respecto a la izquierda: la lectura de ubicación corresponde a la opción 4 (buscar significado de palabras y localizar datos), la analística a la 2 y la explicativa a la 3. No hay ambigüedad."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "La derecha está mezclada respecto a la izquierda: la lectura de ubicación corresponde a la opción 4 (buscar significado de palabras y localizar datos), la analística a la 2 y la explicativa a la 3. No hay ambigüedad."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: La derecha está mezclada respecto a la izquierda: la lectura de ubicación corresponde a la opción 4 (buscar significado de palabras y localizar datos), la analística a la 2 y la explicativa a la 3. No hay ambigüedad."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 0,
+        "instruction": "Ordena las fases de la lectura crítica, de la primera a la última.",
+        "pairs": null,
+        "steps": [
+          "Lectura natural",
+          "Lectura de ubicación",
+          "Lectura analística",
+          "Lectura explicativa e interpretativa"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Primero captas la idea general (natural), luego ubicas palabras y datos, después analizas las partes y al final explicas e interpretas el sentido del texto."
+      },
+      "seed": "fbbee8d1-2e9b-45f5-bb45-dcc19e50ca70:1",
+      "solved": {
+        "game": 2,
+        "match": null,
+        "order": [
+          4,
+          1,
+          2,
+          3
+        ],
+        "choice": null,
+        "problems": "El orden es natural, ubicación, analística, explicativa e interpretativa, consistente con las descripciones de la pieza 1."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "El orden es natural, ubicación, analística, explicativa e interpretativa, consistente con las descripciones de la pieza 1."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: El orden es natural, ubicación, analística, explicativa e interpretativa, consistente con las descripciones de la pieza 1."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Elige la fase de lectura que completa el enunciado.",
+        "pairs": null,
+        "steps": null,
+        "stem": "En la lectura ___ buscas el significado de las palabras desconocidas a partir del contexto y ubicas datos en el texto.",
+        "options": [
+          "natural",
+          "de ubicación",
+          "analística",
+          "explicativa e interpretativa"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": null,
+        "explanation": "Ubicar palabras desconocidas y datos dentro del texto es el propósito de la lectura de ubicación."
+      },
+      "seed": "fbbee8d1-2e9b-45f5-bb45-dcc19e50ca70:2",
+      "solved": {
+        "game": 3,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 0,
+        "instruction": "Una de estas frases sobre las fases de lectura es falsa. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "La lectura natural es la primera: captas de qué trata el texto con tus conocimientos previos.",
+          "En la lectura de ubicación localizas palabras desconocidas y datos dentro del texto.",
+          "En la lectura analística separas las ideas principales y observas las palabras que se repiten.",
+          "La lectura explicativa e interpretativa es la primera que haces, antes de leer el texto completo."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 3,
+        "correction": "La lectura explicativa e interpretativa es la última fase: después de leer, ubicar y analizar, explicas e interpretas el sentido del texto.",
+        "calc": null,
+        "explanation": "No puedes explicar e interpretar un texto que todavía no has leído ni analizado; por eso esa fase va al final."
+      },
+      "seed": "fbbee8d1-2e9b-45f5-bb45-dcc19e50ca70:3",
+      "solved": {
+        "game": 4,
+        "match": null,
+        "order": null,
+        "choice": 4,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 1,
+        "instruction": "Une cada palabra con otra de su misma familia.",
+        "pairs": [
+          {
+            "left": "pan",
+            "right": "panadería"
+          },
+          {
+            "left": "flor",
+            "right": "florero"
+          },
+          {
+            "left": "libro",
+            "right": "librería"
+          },
+          {
+            "left": "pez",
+            "right": "pecera"
+          },
+          {
+            "left": "tierra",
+            "right": "terrestre"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Las palabras de una misma familia comparten la raíz o el significado base; reconocerlas te ayuda a ver qué idea se repite en un texto para resumirlo."
+      },
+      "seed": "fbbee8d1-2e9b-45f5-bb45-dcc19e50ca70:4",
+      "solved": {
+        "game": 5,
+        "match": [
+          5,
+          2,
+          3,
+          1,
+          4
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 1,
+        "instruction": "Ordena los pasos para redactar un resumen.",
+        "pairs": null,
+        "steps": [
+          "Lee todo el texto con atención.",
+          "Subraya las palabras que se repiten y las de su misma familia.",
+          "Con esas palabras, identifica las ideas principales.",
+          "Escribe el resumen con tus propias palabras, de forma breve.",
+          "Revisa que el resumen conserve la idea central del texto."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Primero lees, luego buscas las palabras repetidas, con ellas encuentras las ideas principales, después redactas y por último revisas."
+      },
+      "seed": "fbbee8d1-2e9b-45f5-bb45-dcc19e50ca70:5",
+      "solved": {
+        "game": 6,
+        "match": null,
+        "order": [
+          5,
+          4,
+          1,
+          3,
+          2
+        ],
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 1,
+        "instruction": "Elige la opción que completa el enunciado.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Las palabras «mar», «marino» y «marinero» se repiten en un texto; juntas forman una ___.",
+        "options": [
+          "rima",
+          "oración",
+          "familia de palabras",
+          "sílaba tónica"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": null,
+        "explanation": "Comparten la raíz «mar», por eso son una familia de palabras. Si se repiten, indican el tema central que debe aparecer en el resumen."
+      },
+      "seed": "fbbee8d1-2e9b-45f5-bb45-dcc19e50ca70:6",
+      "solved": {
+        "game": 7,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 1,
+        "instruction": "Uno de estos pasos para resumir tiene un error. Encuéntralo.",
+        "pairs": null,
+        "steps": [
+          "Leo el texto completo para entender de qué trata.",
+          "Subrayo las palabras que se repiten y las de su misma familia.",
+          "Uso esas palabras para encontrar las ideas principales.",
+          "Copio párrafos completos del texto para no perder información.",
+          "Reviso que mi resumen sea breve y conserve la idea central."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 3,
+        "correction": "Escribo las ideas principales con mis propias palabras, de forma breve, sin copiar párrafos completos.",
+        "calc": null,
+        "explanation": "Un resumen es una versión corta y propia de las ideas principales; copiar párrafos enteros lo vuelve largo y no es resumir."
+      },
+      "seed": "fbbee8d1-2e9b-45f5-bb45-dcc19e50ca70:7",
+      "solved": {
+        "game": 8,
+        "match": null,
+        "order": null,
+        "choice": 4,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    }
+  ],
+  "notes": "El programa no detalla contenidos; las descripciones de las cuatro fases son generales y se ajustan a los criterios dados."
+}

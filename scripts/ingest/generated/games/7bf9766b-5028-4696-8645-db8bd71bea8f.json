@@ -1,0 +1,581 @@
+{
+  "unitId": "7bf9766b-5028-4696-8645-db8bd71bea8f",
+  "createdAt": "2026-11-04T17:44:24.784Z",
+  "models": {
+    "games": "claude-sonnet-5-5",
+    "solve": "claude-sonnet-5-5"
+  },
+  "prompts": {
+    "games": "generate-games-system@1",
+    "solve": "solve-games-system@1"
+  },
+  "pieces": [
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 0,
+        "instruction": "Une cada concepto con el ejemplo que le corresponde.",
+        "pairs": [
+          {
+            "left": "Sinónimos",
+            "right": "alegre – contento"
+          },
+          {
+            "left": "Antónimos",
+            "right": "subir – bajar"
+          },
+          {
+            "left": "Homónimos",
+            "right": "vino (de venir) – vino (bebida)"
+          },
+          {
+            "left": "Polisemia",
+            "right": "cabeza: parte del cuerpo, jefe de un grupo, parte de un alfiler"
+          },
+          {
+            "left": "Monosemia",
+            "right": "hexágono: figura de seis lados"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Los sinónimos tienen significado parecido y los antónimos, opuesto. Los homónimos se escriben igual pero tienen origen y significado distintos. La polisemia es una palabra con varios significados relacionados. La monosemia es una palabra con un único significado."
+      },
+      "seed": "7bf9766b-5028-4696-8645-db8bd71bea8f:0",
+      "solved": {
+        "game": 1,
+        "match": [
+          3,
+          1,
+          2,
+          5,
+          4
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 0,
+        "instruction": "Ordena los pasos para evitar una palabra repetida en tu texto.",
+        "pairs": null,
+        "steps": [
+          "Lee tu texto y subraya la palabra que se repite demasiado.",
+          "Piensa en sinónimos que puedan reemplazarla.",
+          "Comprueba que el sinónimo tenga el mismo sentido en esa oración.",
+          "Sustituye la palabra repetida por el sinónimo elegido.",
+          "Vuelve a leer el texto para verificar que suena natural."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Primero se detecta la repetición, luego se buscan opciones, se verifica que encajen en el contexto, se sustituye y al final se revisa el resultado."
+      },
+      "seed": "7bf9766b-5028-4696-8645-db8bd71bea8f:1",
+      "solved": {
+        "game": 2,
+        "match": null,
+        "order": [
+          5,
+          2,
+          4,
+          1,
+          3
+        ],
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Elige la palabra que evita la repetición sin cambiar el sentido.",
+        "pairs": null,
+        "steps": null,
+        "stem": "En «El patio de mi colegio es grande y la cancha también es grande», para no repetir puedo usar el sinónimo ___.",
+        "options": [
+          "pequeño",
+          "angosto",
+          "amplio",
+          "cerrado"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": null,
+        "explanation": "«Amplio» es sinónimo de «grande». «Pequeño» y «angosto» expresan lo contrario, y «cerrado» no se refiere al tamaño."
+      },
+      "seed": "7bf9766b-5028-4696-8645-db8bd71bea8f:2",
+      "solved": {
+        "game": 3,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 0,
+        "instruction": "Encuentra la frase que tiene un error.",
+        "pairs": null,
+        "steps": [
+          "«Generoso» y «tacaño» son antónimos.",
+          "«Rápido» y «veloz» son sinónimos.",
+          "«Abrir» y «cerrar» son antónimos.",
+          "«Alto» y «elevado» son antónimos."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 3,
+        "correction": "«Alto» y «elevado» son sinónimos (el antónimo de «alto» es «bajo»).",
+        "calc": null,
+        "explanation": "«Alto» y «elevado» significan algo parecido, así que son sinónimos y no antónimos."
+      },
+      "seed": "7bf9766b-5028-4696-8645-db8bd71bea8f:3",
+      "solved": {
+        "game": 4,
+        "match": null,
+        "order": null,
+        "choice": 4,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 1,
+        "instruction": "Une cada significado con el verbo más preciso.",
+        "pairs": [
+          {
+            "left": "Contar un suceso con sus detalles",
+            "right": "narrar"
+          },
+          {
+            "left": "Dar razones para convencer a alguien de una idea",
+            "right": "argumentar"
+          },
+          {
+            "left": "Explicar el significado de una palabra",
+            "right": "definir"
+          },
+          {
+            "left": "Examinar algo con cuidado para conocer sus partes",
+            "right": "analizar"
+          },
+          {
+            "left": "Expresar en pocas palabras lo esencial de un texto",
+            "right": "sintetizar"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Cada verbo expresa una acción específica. Usar la palabra exacta hace que tu léxico sea más preciso y variado."
+      },
+      "seed": "7bf9766b-5028-4696-8645-db8bd71bea8f:4",
+      "solved": {
+        "game": 5,
+        "match": [
+          4,
+          3,
+          1,
+          5,
+          2
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 1,
+        "instruction": "Ordena los pasos para buscar una palabra en el diccionario y usarla con propiedad.",
+        "pairs": null,
+        "steps": [
+          "Busca la palabra siguiendo el orden alfabético.",
+          "Localiza la entrada de la palabra.",
+          "Lee todas las acepciones (significados) que aparecen.",
+          "Elige la acepción que corresponde a tu contexto.",
+          "Escribe una oración usando la palabra con ese sentido."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Primero encuentras la palabra, luego lees sus significados, escoges el adecuado al contexto y por último la empleas en una oración."
+      },
+      "seed": "7bf9766b-5028-4696-8645-db8bd71bea8f:5",
+      "solved": {
+        "game": 6,
+        "match": null,
+        "order": [
+          3,
+          2,
+          4,
+          5,
+          1
+        ],
+        "choice": null,
+        "problems": "Los pasos 2 y 3 se solapan un poco (buscar por orden alfabético y localizar la entrada), pero el orden 3, 2 es el más lógico."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "Los pasos 2 y 3 se solapan un poco (buscar por orden alfabético y localizar la entrada), pero el orden 3, 2 es el más lógico."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: Los pasos 2 y 3 se solapan un poco (buscar por orden alfabético y localizar la entrada), pero el orden 3, 2 es el más lógico."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 1,
+        "instruction": "Completa con la expresión más precisa.",
+        "pairs": null,
+        "steps": null,
+        "stem": "En lugar de decir «Mi tío tiene una cosa para cortar el pasto», es más preciso decir que tiene una ___.",
+        "options": [
+          "aparato",
+          "cortadora de césped",
+          "cosa grande",
+          "herramienta rara"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": null,
+        "explanation": "«Cortadora de césped» nombra exactamente el objeto. Las otras opciones siguen siendo vagas, como «cosa» o «aparato»."
+      },
+      "seed": "7bf9766b-5028-4696-8645-db8bd71bea8f:6",
+      "solved": {
+        "game": 7,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": "La opción 0 «aparato» no concuerda en género con «una», y las opciones 2 y 3 son vagas. Solo la opción 1 es correcta."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "La opción 0 «aparato» no concuerda en género con «una», y las opciones 2 y 3 son vagas. Solo la opción 1 es correcta."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: La opción 0 «aparato» no concuerda en género con «una», y las opciones 2 y 3 son vagas. Solo la opción 1 es correcta."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 1,
+        "instruction": "Encuentra la frase donde una palabra no se usa con propiedad.",
+        "pairs": null,
+        "steps": [
+          "Los agricultores cosecharon el maíz en octubre.",
+          "Mi abuela cosechó una receta de arroz con pollo.",
+          "La directora pronunció un discurso en el acto cívico.",
+          "Mi primo reparó la bicicleta con una llave inglesa."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 1,
+        "correction": "Mi abuela preparó una receta de arroz con pollo.",
+        "calc": null,
+        "explanation": "«Cosechar» se usa para recoger frutos o cultivos. Una receta se prepara o se cocina, no se cosecha."
+      },
+      "seed": "7bf9766b-5028-4696-8645-db8bd71bea8f:7",
+      "solved": {
+        "game": 8,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 2,
+        "instruction": "Une cada oración con el significado que tiene la palabra «banco» en ella.",
+        "pairs": [
+          {
+            "left": "Descansé en el banco del parque.",
+            "right": "asiento largo para varias personas"
+          },
+          {
+            "left": "Mamá fue al banco a pagar el recibo.",
+            "right": "entidad financiera"
+          },
+          {
+            "left": "Un banco de sardinas pasó junto al bote.",
+            "right": "conjunto de peces que nadan juntos"
+          },
+          {
+            "left": "Donó sangre en el banco de sangre.",
+            "right": "lugar donde se conserva y almacena algo"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "«Banco» es polisémica: su significado exacto se descubre por el contexto de la oración."
+      },
+      "seed": "7bf9766b-5028-4696-8645-db8bd71bea8f:8",
+      "solved": {
+        "game": 9,
+        "match": [
+          1,
+          3,
+          2,
+          4
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 2,
+        "instruction": "Ordena las fases para analizar un texto.",
+        "pairs": null,
+        "steps": [
+          "Fase natural: lee el texto y anota lo que entiendes y lo que ya sabes del tema.",
+          "Fase de ubicación: identifica de qué trata el texto y ubica sus ideas principales.",
+          "Fase analística: analiza las palabras y las partes del texto, como sinónimos o palabras con varios significados.",
+          "Fase explicativa e interpretativa: explica y comparte los sentidos que encontraste en el texto."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "El análisis avanza desde la primera lectura y tus conocimientos previos hasta la explicación e interpretación de los sentidos del texto."
+      },
+      "seed": "7bf9766b-5028-4696-8645-db8bd71bea8f:9",
+      "solved": {
+        "game": 10,
+        "match": null,
+        "order": [
+          4,
+          1,
+          2,
+          3
+        ],
+        "choice": null,
+        "problems": "El orden depende del modelo de fases que se haya enseñado (natural, ubicación, analística, explicativa e interpretativa). Los nombres «analística» y «natural» no son habituales y pueden confundir."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "El orden depende del modelo de fases que se haya enseñado (natural, ubicación, analística, explicativa e interpretativa). Los nombres «analística» y «natural» no son habituales y pueden confundir."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: El orden depende del modelo de fases que se haya enseñado (natural, ubicación, analística, explicativa e interpretativa). Los nombres «analística» y «natural» no son habituales y pueden confundir."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 2,
+        "instruction": "Elige el significado que tiene la palabra según el contexto.",
+        "pairs": null,
+        "steps": null,
+        "stem": "En «Me duele la planta del pie», la palabra «planta» significa ___.",
+        "options": [
+          "ser vivo vegetal",
+          "fábrica o instalación industrial",
+          "piso de un edificio",
+          "parte inferior del pie"
+        ],
+        "answer_index": 3,
+        "correction": null,
+        "calc": null,
+        "explanation": "Por la frase «del pie», «planta» es la parte de abajo del pie. Los otros significados existen, pero no encajan aquí."
+      },
+      "seed": "7bf9766b-5028-4696-8645-db8bd71bea8f:10",
+      "solved": {
+        "game": 11,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 2,
+        "instruction": "Encuentra el análisis que tiene un error.",
+        "pairs": null,
+        "steps": [
+          "En «Abrí la puerta con la llave», «llave» es el objeto que abre una cerradura.",
+          "En «Cerré la llave del agua», «llave» es el dispositivo que controla el paso del agua.",
+          "Como «llave» tiene varios significados, es una palabra monosémica.",
+          "Para saber qué significa «llave», hay que leer la oración completa."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "Como «llave» tiene varios significados, es una palabra polisémica.",
+        "calc": null,
+        "explanation": "Una palabra con varios significados es polisémica. La monosemia es cuando tiene un único significado."
+      },
+      "seed": "7bf9766b-5028-4696-8645-db8bd71bea8f:11",
+      "solved": {
+        "game": 12,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    }
+  ],
+  "notes": "El programa no ofrece contenidos específicos; las piezas se basan en los criterios de aprendizaje. Las descripciones de las fases de análisis son generales."
+}
