@@ -2,11 +2,11 @@ import { ImageResponse } from "next/og";
 import { Kemo } from "@/components/brand/logo";
 import { brand } from "@/lib/brand";
 
-export const alt = "Eduka: estudia a tu ritmo, de 7.º a 9.º, con los programas del MEP.";
+export const alt = "Eduka: un tutor que te guía, sin darte la respuesta. Gratis, de 7.º a 9.º, con los programas del MEP.";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-const TEXT = "EdukaEstudia a tu ritmo.De 7.º a 9.ºGratis · Programas del MEP · Tutor que te guía";
+const TEXT = "EdukaUn tutor que te guía,sin darte la respuesta.Gratis · De 7.º a 9.º · Programas del MEP";
 
 /** League Spartan Bold as TTF (the image renderer cannot read woff2); null keeps the default font. */
 async function leagueSpartan(): Promise<ArrayBuffer | null> {
@@ -29,11 +29,11 @@ export default async function OpengraphImage() {
           <Kemo size={72} background={brand.lima} />
           <span>Eduka</span>
         </div>
-        <div style={{ display: "flex", flexDirection: "column", fontSize: 104, lineHeight: 0.95, letterSpacing: "-0.02em" }}>
-          <span>Estudia a tu ritmo.</span>
-          <span style={{ color: brand.lima }}>De 7.º a 9.º</span>
+        <div style={{ display: "flex", flexDirection: "column", fontSize: 96, lineHeight: 0.95, letterSpacing: "-0.02em" }}>
+          <span>Un tutor que te guía,</span>
+          <span style={{ color: brand.lima }}>sin darte la respuesta.</span>
         </div>
-        <div style={{ display: "flex", fontSize: 34, opacity: 0.85 }}>Gratis · Programas del MEP · Tutor que te guía</div>
+        <div style={{ display: "flex", fontSize: 34, opacity: 0.85 }}>Gratis · De 7.º a 9.º · Programas del MEP</div>
       </div>
     ),
     { ...size, fonts: spartan ? [{ name: "League Spartan", data: spartan, weight: 700, style: "normal" }] : undefined },

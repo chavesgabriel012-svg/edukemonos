@@ -11,6 +11,9 @@ Eduka se llamaba Edukemonos; la mascota y tutor, **Kemo**, conserva el nombre or
 | Los mismos colores en TypeScript (íconos, imágenes generadas) | `apps/web/src/lib/brand.ts` |
 | Logo, wordmark y Kemo | `apps/web/src/components/brand/logo.tsx` |
 | Ícono por materia | `apps/web/src/components/brand/subject-icon.tsx` |
+| Botones (primario, lima, borde; 52, 44 y 36 px) | `apps/web/src/components/ui/action.ts` |
+| Tarjeta, campo, área de texto, etiqueta | `apps/web/src/components/ui/styles.ts` |
+| Bandas y títulos de la landing | `apps/web/src/components/landing/section.tsx` |
 | Favicon, ícono de iPhone, íconos de la app, manifest | `app/icon.svg`, `app/apple-icon.tsx`, `app/icons/[size]/route.tsx`, `app/manifest.ts` |
 | Imagen al compartir un enlace (WhatsApp, Facebook…) | `app/opengraph-image.tsx` |
 

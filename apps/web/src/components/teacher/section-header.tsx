@@ -1,6 +1,6 @@
 import { Info } from "lucide-react";
 import Link from "next/link";
-import { regenerateCode, setSectionActive } from "@/app/docente/actions";
+import { regenerateCode, setSectionActive } from "@/app/(app)/docente/actions";
 import { formatCode, type PanelSource } from "@/lib/teacher";
 import { CopyButton } from "./copy-button";
 

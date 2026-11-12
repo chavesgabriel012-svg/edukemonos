@@ -1,6 +1,6 @@
 import "server-only";
 import { type AI, createAI, createBudgetGuard, loadAIConfig, supabaseSpendSource, supabaseUsageSink } from "@edukemonos/ai";
-import type { HelpResources, TutorUnit } from "@edukemonos/ai/tutor";
+import { type HelpResources, TUTOR_MAX_OUTPUT_TOKENS, type TutorUnit } from "@edukemonos/ai/tutor";
 import helpResourcesJson from "../../../../config/help-resources.json";
 import { adminClient } from "@/lib/supabase/admin";
 
@@ -15,7 +15,7 @@ export const TUTOR_LIMITS = {
   perDay: Number(process.env.TUTOR_MAX_MESSAGES_PER_DAY ?? 60),
   writingPerDay: Number(process.env.WRITING_FEEDBACK_MAX_PER_DAY ?? 20),
   // 2 048: with reasoning, 1 024 left some replies empty or cut (tutor evals of 2026-11-02).
-  maxOutputTokens: 2_048,
+  maxOutputTokens: TUTOR_MAX_OUTPUT_TOKENS,
 };
 
 let cached: AI | null = null;

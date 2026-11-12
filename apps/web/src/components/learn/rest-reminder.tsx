@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { logRestReminder } from "@/app/estudiar/actions";
+import { logRestReminder } from "@/app/(app)/estudiar/actions";
 import { ACTIVITY_EVENT, type ActivitySession, markReminded, shouldRemind } from "@/lib/activity";
 
 /** One friendly card after an hour of continuous activity. Never blocks; the progress is saved. */

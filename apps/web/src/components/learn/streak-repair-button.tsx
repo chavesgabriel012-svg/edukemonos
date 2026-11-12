@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
-import { repairStreak } from "@/app/estudiar/actions";
+import { repairStreak } from "@/app/(app)/estudiar/actions";
 
 export function RepairButton() {
   const router = useRouter();

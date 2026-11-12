@@ -1,7 +1,7 @@
 "use client";
 
 import { useActionState } from "react";
-import { saveSectionSettings, type SettingsState } from "@/app/docente/actions";
+import { saveSectionSettings, type SettingsState } from "@/app/(app)/docente/actions";
 
 export function SectionSettingsForm({ sectionId, streakEnabled, weeklyTarget, goalEnabled, leaderboardEnabled, gamesEnabled, institutionId, institutions, demo }: {
   sectionId: string;

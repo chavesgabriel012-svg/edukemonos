@@ -27,6 +27,7 @@ import {
   screenStudentMessage,
   type SafetyFlag,
   tutorMessages,
+  TUTOR_MAX_OUTPUT_TOKENS,
   tutorSystemPrompt,
   type TutorUnit,
 } from "../tutor";
@@ -176,7 +177,7 @@ for (const c of cases) {
       const tools: string[] = [];
       for await (const ev of ai.streamChat(
         { role: "tutor", purpose: "eval" },
-        { system, cacheSystem: true, messages, tools: unit.subject === "Matemáticas" ? [calculatorTool] : [], maxTokens: 1_024 },
+        { system, cacheSystem: true, messages, tools: unit.subject === "Matemáticas" ? [calculatorTool] : [], maxTokens: TUTOR_MAX_OUTPUT_TOKENS },
       )) {
         if (ev.type === "text") answer += ev.delta;
         if (ev.type === "tool_result") tools.push(ev.output);
