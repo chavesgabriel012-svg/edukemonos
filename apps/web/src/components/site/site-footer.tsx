@@ -10,6 +10,7 @@ const COLUMNS = [
     links: [
       { href: "/estudiar", label: "Elegir mi año" },
       { href: "/unirme", label: "Unirme a mi sección" },
+      { href: "/mi-codigo", label: "Mi código de recuperación" },
       { href: "/como-funciona", label: "¿Cómo funciona?" },
     ],
   },

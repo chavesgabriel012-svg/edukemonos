@@ -5,7 +5,6 @@ const TONE = {
   papel: "bg-background text-foreground",
   card: "bg-card text-foreground",
   tinta: "bg-tinta text-papel",
-  violeta: "bg-violeta text-white",
   lima: "bg-lima text-tinta",
 } as const;
 
@@ -24,28 +23,23 @@ export function Section({ id, tone = "papel", className, children, labelledBy }:
   );
 }
 
-/** Eyebrow + title + lead of a band. `onDark` for Tinta and violet bands. */
-export function SectionHeading({ id, eyebrow, title, lead, onDark = false, className }: {
+/** Title and one sentence of a band. `onDark` for the Tinta band. */
+export function SectionHeading({ id, title, lead, onDark = false }: {
   id?: string;
-  eyebrow?: string;
   title: React.ReactNode;
   lead?: React.ReactNode;
   onDark?: boolean;
-  className?: string;
 }) {
   return (
-    <div className={cn("max-w-3xl space-y-3", className)}>
-      {eyebrow && (
-        <p className={cn("font-mono text-xs tracking-wide uppercase", onDark ? "text-lima" : "text-violeta")}>{eyebrow}</p>
-      )}
+    <div className="max-w-2xl space-y-3">
       <h2 id={id} className="font-heading text-[2rem] leading-[1.02] font-bold tracking-tight text-balance sm:text-5xl">{title}</h2>
-      {lead && <p className={cn("text-lg leading-relaxed text-pretty", onDark ? "text-papel/80" : "text-muted-foreground")}>{lead}</p>}
+      {lead && <p className={cn("text-lg leading-relaxed", onDark ? "text-papel/80" : "text-muted-foreground")}>{lead}</p>}
     </div>
   );
 }
 
-/** A check-list item with the lime tick used across the landing. */
-export function Tick({ children, onDark = false }: { children: React.ReactNode; onDark?: boolean }) {
+/** A check-list item with the lime tick. */
+export function Tick({ children }: { children: React.ReactNode }) {
   return (
     <li className="flex items-start gap-3">
       <span aria-hidden className="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-lima text-tinta">
@@ -53,7 +47,7 @@ export function Tick({ children, onDark = false }: { children: React.ReactNode; 
           <path d="M2.5 6.5 5 9l4.5-5.5" />
         </svg>
       </span>
-      <span className={onDark ? "text-papel/90" : undefined}>{children}</span>
+      <span>{children}</span>
     </li>
   );
 }

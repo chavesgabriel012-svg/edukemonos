@@ -56,7 +56,8 @@ export default function StudyHomePage() {
       </div>
 
       <p className="text-sm text-muted-foreground">
-        ¿Primera vez aquí? <Link href="/como-funciona" className="font-medium underline underline-offset-2">Mira cómo funciona</Link>.
+        ¿Primera vez aquí? <Link href="/como-funciona" className="font-medium underline underline-offset-2">Mira cómo funciona</Link>.{" "}
+        ¿Cambiaste de celular? <Link href="/mi-codigo" className="font-medium underline underline-offset-2">Recupera tu progreso con tu código</Link>.
       </p>
     </section>
   );
