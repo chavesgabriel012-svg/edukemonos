@@ -20,7 +20,7 @@ export function RestReminder() {
   }, []);
   if (!open) return null;
   return (
-    <div role="status" className="fixed inset-x-4 bottom-[max(1rem,env(safe-area-inset-bottom))] z-50 mx-auto max-w-md rounded-[22px] border bg-card p-4 shadow-xl">
+    <div role="status" className="fixed inset-x-4 print:hidden bottom-[max(1rem,env(safe-area-inset-bottom))] z-50 mx-auto max-w-md rounded-[22px] border bg-card p-4 shadow-xl">
       <p className="font-semibold">Llevas un buen rato estudiando</p>
       <p className="mt-1 text-sm">Un descanso corto ayuda a recordar mejor. Tu progreso queda guardado.</p>
       <button type="button" onClick={() => setOpen(false)} className="mt-3 inline-flex min-h-11 items-center rounded-md bg-primary px-4 py-2 font-medium text-primary-foreground">

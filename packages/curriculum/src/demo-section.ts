@@ -6,7 +6,9 @@
 import { pCorrect, updateMastery } from "./learning";
 import { weekStartCR } from "./streak";
 import type { PanelAttempt, PanelDiagnostic, PanelMastery, PanelStudent, PanelTutorSession, PanelUnit, PanelWriting, SectionData } from "./teacher";
-import { memberPoints, snakeTeams, type TournamentReport, teamScore, tournamentWindow } from "./tournament";
+import { tournamentWinners } from "./badges";
+import { addWeeks } from "./streak";
+import { memberPoints, snakeTeams, type TournamentReport, teamScore, tournamentStatus, tournamentWindow } from "./tournament";
 
 /** Small, fast, seedable PRNG (mulberry32). */
 function rng(seed: number) {
@@ -178,7 +180,10 @@ const DEMO_TEAM_NAMES = ["Equipo Ceiba", "Equipo Quetzal", "Equipo Volcán", "Eq
 export function buildDemoTournament(data: SectionData): TournamentReport {
   const r = rng(20261113);
   const unitOf = new Map(data.units.flatMap((u) => u.skillIds.map((k) => [k, u.id] as const)));
-  const week = weekStartCR(data.now);
+  // Friday to Sunday this week's is open; Monday to Thursday the demo shows last week's, closed.
+  const thisWeek = weekStartCR(data.now);
+  const open = tournamentStatus(thisWeek, data.now) === "open";
+  const week = open ? thisWeek : addWeeks(thisWeek, -1);
   const recent = data.attempts.filter((a) => a.unitId && data.now.getTime() - Date.parse(a.createdAt) < 7 * 86_400_000);
   const byUnit = new Map<string, number>();
   for (const a of recent) byUnit.set(a.unitId!, (byUnit.get(a.unitId!) ?? 0) + 1);
@@ -206,11 +211,31 @@ export function buildDemoTournament(data: SectionData): TournamentReport {
   }).sort((a, b) => b.score - a.score);
 
   const { opensAt, closesAt } = tournamentWindow(week);
+  const current = tournamentWindow(thisWeek);
   return {
     enabled: true,
-    status: "open",
-    opens_at: opensAt.toISOString(),
-    closes_at: closesAt.toISOString(),
-    tournament: { id: "demo", week_start: week, opens_at: opensAt.toISOString(), closes_at: closesAt.toISOString(), topics, teams },
+    status: open ? "open" : "upcoming",
+    opens_at: current.opensAt.toISOString(),
+    closes_at: current.closesAt.toISOString(),
+    tournament: {
+      id: "demo",
+      week_start: week,
+      opens_at: opensAt.toISOString(),
+      closes_at: closesAt.toISOString(),
+      closed: !open,
+      winners: open ? [] : tournamentWinners(teams),
+      topics,
+      teams,
+    },
   };
+}
+
+/** The guide's view of the demo group: the last tournament of each subject (fictitious). */
+export function buildDemoGroupTournaments(math: TournamentReport): { section: string; subject: string; week_start: string; closed: boolean; winners: string[] }[] {
+  const t = math.tournament;
+  if (!t) return [];
+  return [
+    { section: "7-3 · Español", subject: "Español", week_start: t.week_start, closed: Boolean(t.closed), winners: t.closed ? ["Equipo Guanacaste"] : [] },
+    { section: DEMO_SECTION.name, subject: DEMO_SECTION.subjectName, week_start: t.week_start, closed: Boolean(t.closed), winners: t.winners ?? [] },
+  ];
 }

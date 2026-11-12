@@ -152,6 +152,9 @@ export interface StudentTournament {
     week_start: string;
     opens_at: string;
     closes_at: string;
+    /** Closed tournaments show their winners until the next one opens (fase 5). */
+    closed?: boolean;
+    winners?: string[];
     topics: string[];
     teams: { name: string; score: number; me: boolean }[];
     me: {
@@ -189,7 +192,18 @@ export interface TournamentReport {
     week_start: string;
     opens_at: string;
     closes_at: string;
+    closed?: boolean;
+    winners?: string[];
     topics: string[];
     teams: { name: string; score: number; members: TournamentReportMember[] }[];
   } | null;
+}
+
+/** The last tournament of each subject of a group, for its guide (group_tournaments()). */
+export interface GroupTournament {
+  section: string;
+  subject: string;
+  week_start: string;
+  closed: boolean;
+  winners: string[];
 }

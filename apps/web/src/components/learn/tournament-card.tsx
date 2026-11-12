@@ -38,6 +38,14 @@ export function TournamentCard({ sectionId, data }: { sectionId: string; data: S
 
       {t && (
         <div className="space-y-3">
+          {t.closed && (t.winners?.length ?? 0) > 0 && (
+            <p className="flex items-center gap-2 rounded-[14px] bg-lima px-3.5 py-2.5 font-semibold text-tinta">
+              <Trophy aria-hidden strokeWidth={2.5} className="size-5 shrink-0" />
+              {t.teams.some((x) => x.me && t.winners!.includes(x.name))
+                ? "¡Tu equipo ganó el último torneo!"
+                : `Ganó el último torneo: ${t.winners!.join(" y ")}`}
+            </p>
+          )}
           {open ? (
             <p className="font-heading text-xl leading-tight font-bold">
               {me ? `Estás en el ${me.team}` : "El torneo está abierto"}
