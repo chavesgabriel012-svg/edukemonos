@@ -10,10 +10,9 @@ import { action } from "@/components/ui/action";
 const LINKS = [
   { href: "/como-funciona", label: "Cómo funciona", match: ["/como-funciona"] },
   { href: "/ia", label: "Kemo y la IA", match: ["/ia"] },
-  { href: "/#familias", label: "Familias", match: [] },
-  { href: "/#docentes", label: "Docentes", match: ["/docente"] },
-  { href: "/#colegios", label: "Colegios", match: [] },
-  { href: "/#aliados", label: "Aliados", match: [] },
+  { href: "/familias", label: "Familias", match: ["/familias"] },
+  { href: "/docentes", label: "Docentes", match: ["/docentes", "/docente"] },
+  { href: "/colegios", label: "Colegios", match: ["/colegios"] },
 ] as const;
 
 /** Main menu: inline on wide screens, a toggled panel on phones and tablets. */

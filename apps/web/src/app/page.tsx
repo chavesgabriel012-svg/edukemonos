@@ -1,7 +1,8 @@
-import { ArrowRight, BookOpenCheck, ClipboardCheck, EyeOff, LifeBuoy, MessageCircleQuestion, ShieldCheck, Target, UserRoundX } from "lucide-react";
+import { ArrowRight, BookOpenCheck, ClipboardCheck, MessageCircleQuestion, Target } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Kemo } from "@/components/brand/logo";
+import { ClosingBand, SafetyGrid } from "@/components/landing/blocks";
 import { ChatPreview, HeatmapPreview } from "@/components/landing/previews";
 import { Section, SectionHeading, Tick } from "@/components/landing/section";
 import { SHELL } from "@/components/site/page-shell";
@@ -9,7 +10,6 @@ import { action } from "@/components/ui/action";
 import { brand } from "@/lib/brand";
 import { site } from "@/lib/site";
 import { contentStats } from "@/lib/stats";
-import { RETENTION_DAYS_CHAT } from "@/lib/tutor-server";
 
 export const metadata: Metadata = {
   title: { absolute: "Eduka: un tutor que te guía, sin darte la respuesta" },
@@ -37,13 +37,6 @@ const STEPS = [
   { icon: BookOpenCheck, title: "Aprender", text: "Resumen, explicación y ejemplos de cada tema." },
   { icon: ClipboardCheck, title: "Practicar", text: "Ejercicios que explican cada respuesta." },
   { icon: MessageCircleQuestion, title: "Preguntar a Kemo", text: "Pistas cuando algo no te queda claro." },
-] as const;
-
-const SAFETY = [
-  { icon: UserRoundX, title: "Sin cuenta", text: "Se estudia sin correo ni contraseña." },
-  { icon: EyeOff, title: "Sin nombres", text: "El nombre y los datos personales no llegan a la IA." },
-  { icon: ShieldCheck, title: "Chats privados", text: `El docente no puede leerlos. Se borran a los ${RETENTION_DAYS_CHAT} días.` },
-  { icon: LifeBuoy, title: "Ante el malestar", text: "Kemo anima a hablar con una persona adulta de confianza y la app muestra el 911." },
 ] as const;
 
 const number = new Intl.NumberFormat("es-CR");
@@ -144,7 +137,7 @@ export default async function LandingPage() {
           <Tick>Si su hijo o hija pide la respuesta, Kemo le devuelve una pregunta.</Tick>
         </ul>
         <div className="mt-8">
-          <Link href="/ia" className={action({ variant: "outline" })}>Cómo funciona Kemo</Link>
+          <Link href="/familias" className={action({ variant: "outline" })}>Más para familias</Link>
         </div>
       </Section>
 
@@ -156,8 +149,9 @@ export default async function LandingPage() {
             <Tick>Quién podría necesitar apoyo, y por qué.</Tick>
             <Tick>Un resumen que explica cómo se calculó.</Tick>
           </ul>
-          <div className="mt-8">
+          <div className="mt-8 flex flex-wrap gap-3">
             <Link href="/docente/demo" className={action()}>Ver el panel de demostración</Link>
+            <Link href="/docentes" className={action({ variant: "outline" })}>Más para docentes</Link>
           </div>
         </div>
         <HeatmapPreview />
@@ -167,76 +161,24 @@ export default async function LandingPage() {
         <SectionHeading id="colegios-t" title="Para colegios privados" lead="Una licencia anual por institución, sin instalar nada." />
         <ul className="mt-8 max-w-2xl space-y-3 text-lg">
           <Tick>Funciona en cualquier celular o computadora con navegador.</Tick>
-          <Tick>Cada tema cita el programa del MEP y la página de donde sale.</Tick>
+          <Tick>Eduka se crea con el contenido de su colegio: es 100 % personalizado.</Tick>
           <Tick>Cada docente tendría su sección y un código para su grupo.</Tick>
         </ul>
         <p className="mt-8 max-w-2xl text-muted-foreground">
           Para colegios públicos, el acceso se negociaría con el Ministerio de Educación Pública.
         </p>
+        <div className="mt-8">
+          <Link href="/colegios" className={action({ variant: "outline" })}>Más para colegios</Link>
+        </div>
       </Section>
 
       <Section id="seguridad" tone="tinta" labelledBy="seguridad-t">
         <SectionHeading id="seguridad-t" onDark title="Hecho para menores de edad" />
-        <ul className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {SAFETY.map(({ icon: Icon, title, text }) => (
-            <li key={title} className="space-y-2 rounded-[22px] bg-white/8 p-5">
-              <span className="flex size-10 items-center justify-center rounded-xl bg-lima text-tinta">
-                <Icon aria-hidden strokeWidth={2.5} className="size-5" />
-              </span>
-              <h3 className="font-heading text-xl leading-tight font-bold">{title}</h3>
-              <p className="text-sm leading-relaxed text-papel/75">{text}</p>
-            </li>
-          ))}
-        </ul>
+        <SafetyGrid />
         <p className="mt-8 text-sm text-papel/70">Kemo no es un servicio de emergencias.</p>
       </Section>
 
-      <Section id="vision" tone="card" labelledBy="vision-t">
-        <SectionHeading id="vision-t" title="Lo que puede llegar a ser" />
-        <div className="mt-10 grid gap-4 md:grid-cols-2">
-          <div className="rounded-[22px] bg-background p-6">
-            <h3 className="font-heading text-2xl font-bold">Hoy, en prueba</h3>
-            <ul className="mt-4 space-y-3">
-              <Tick>Matemáticas y Español de 7.º a 9.º.</Tick>
-              <Tick>Diagnóstico, práctica, minijuegos y el tutor Kemo.</Tick>
-              <Tick>Panel docente con racha y meta semanal de la sección.</Tick>
-            </ul>
-          </div>
-          <div className="rounded-[22px] bg-tinta p-6 text-papel">
-            <h3 className="font-heading text-2xl font-bold">Lo que sigue</h3>
-            <ul className="mt-4 space-y-3">
-              <Tick>Las seis materias, de 1.º a 11.º.</Tick>
-              <Tick>Torneos por equipos, insignias y certificados de dominio.</Tick>
-              <Tick>Una vista para la coordinación de cada colegio.</Tick>
-            </ul>
-          </div>
-        </div>
-      </Section>
-
-      <Section id="aliados" labelledBy="aliados-t">
-        <SectionHeading id="aliados-t" title="Para aliados e inversionistas" />
-        <ul className="mt-8 max-w-2xl space-y-3 text-lg">
-          <Tick>El modelo: licencia anual para colegios privados y, para los públicos, un acuerdo con el MEP.</Tick>
-          <Tick>El tutor aprobó 63 de 64 conversaciones de prueba. Descartamos un modelo más barato que falló un caso de malestar.</Tick>
-          <Tick>Los costos por mensaje, por estudiante y por colegio están medidos. Los compartimos al conversar.</Tick>
-        </ul>
-      </Section>
-
-      <section className="bg-violeta text-white">
-        <div className={`${SHELL} flex flex-col items-start gap-6 py-14 sm:flex-row sm:items-center sm:justify-between sm:py-16`}>
-          <div className="flex items-center gap-5">
-            <Kemo size={80} mood="happy" background={brand.lima} className="hidden sm:block" />
-            <div className="space-y-2">
-              <h2 className="font-heading text-4xl leading-none font-bold sm:text-5xl">¿Lo probamos?</h2>
-              <p className="max-w-md text-white/85">Buscamos colegios piloto, docentes que revisen el contenido y aliados.</p>
-            </div>
-          </div>
-          <div className="flex flex-wrap gap-3">
-            <Link href="/estudiar" className={action({ variant: "lima-on-dark" })}>Probar como estudiante</Link>
-            {site.contactEmail && <a href={`mailto:${site.contactEmail}`} className={action({ variant: "outline-on-dark" })}>Escribirnos</a>}
-          </div>
-        </div>
-      </section>
+      <ClosingBand title="¿Lo probamos?" text="Buscamos colegios piloto y docentes que revisen el contenido." href="/estudiar" label="Probar como estudiante" />
     </>
   );
 }

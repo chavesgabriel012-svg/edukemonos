@@ -16,10 +16,9 @@ const COLUMNS = [
   {
     title: "Para quién",
     links: [
-      { href: "/#familias", label: "Familias" },
-      { href: "/#docentes", label: "Docentes" },
-      { href: "/#colegios", label: "Colegios" },
-      { href: "/#aliados", label: "Aliados e inversionistas" },
+      { href: "/familias", label: "Familias" },
+      { href: "/docentes", label: "Docentes" },
+      { href: "/colegios", label: "Colegios" },
     ],
   },
   {
