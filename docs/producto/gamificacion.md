@@ -463,7 +463,7 @@ genera código**: solo el contenido de cada pieza, que pasa las mismas verificac
   `tournamentWinners`); las pruebas de RLS comparan.
 - **Código de recuperación**: `private.move_student_extras()` también traslada las insignias.
 
-**Decisiones de implementación:**
+**Decisiones de implementación** (confirmadas por el fundador el 12 de noviembre de 2026):
 
 | Tema | Decisión |
 |---|---|
