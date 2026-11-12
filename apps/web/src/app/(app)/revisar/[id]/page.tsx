@@ -5,10 +5,12 @@ import { formatSkills, pagesToLoad, publishBlockers, STATUS_LABEL, type SkillRow
 import { requireReviewer } from "@/lib/staff";
 import { saveUnit, setStatus } from "../actions";
 import { NotReviewer } from "../forbidden";
+import { action } from "@/components/ui/action";
+import { textarea as textareaClass } from "@/components/ui/styles";
 
 export const metadata: Metadata = { title: "Revisar unidad" };
 
-const field = "w-full rounded-md border bg-background px-3 py-2 text-sm";
+const field = `${textareaClass} text-sm`;
 
 export default async function ReviewUnitPage({ params, searchParams }: PageProps<"/revisar/[id]">) {
   const { id } = await params;
@@ -44,7 +46,7 @@ export default async function ReviewUnitPage({ params, searchParams }: PageProps
         <Link href={`/revisar?materia=${unit.subject_id}&grado=${unit.grade_id}`} className="text-sm underline underline-offset-2">
           ← Volver a la lista
         </Link>
-        <h1 className="text-2xl font-bold">{unit.title}</h1>
+        <h1 className="font-heading text-3xl leading-tight font-bold sm:text-4xl">{unit.title}</h1>
         <p className="text-sm text-muted-foreground">
           {unit.area ?? "Sin área"} · {unit.grade_id}.º · Estado: <strong>{STATUS_LABEL[unit.status]}</strong>
           {unit.extraction_meta.model ? ` · Extraída con IA (${unit.extraction_meta.model})` : ""}
@@ -121,7 +123,7 @@ export default async function ReviewUnitPage({ params, searchParams }: PageProps
                 <input name="source_page" type="number" min={1} defaultValue={unit.source_page} required className={field} />
               </label>
             </div>
-            <button type="submit" className="rounded-md border px-4 py-2 text-sm font-medium">
+            <button type="submit" className={action({ variant: "soft", size: "md" })}>
               Guardar y verificar
             </button>
           </fieldset>
@@ -148,20 +150,20 @@ export default async function ReviewUnitPage({ params, searchParams }: PageProps
 
       <section aria-label="Estado" className="flex flex-wrap items-center gap-2 border-t pt-4">
         <form action={setStatus.bind(null, unit.id, "reviewed")}>
-          <button disabled={unit.status === "reviewed"} className="rounded-md border px-4 py-2 text-sm">Marcar como revisada</button>
+          <button disabled={unit.status === "reviewed"} className={action({ variant: "outline", size: "md" })}>Marcar como revisada</button>
         </form>
         <form action={setStatus.bind(null, unit.id, "published")}>
           <button disabled={unit.status === "published"} title={blockers.join("; ") || undefined}
-            className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground disabled:opacity-50">
+            className={action({ size: "md" })}>
             Publicar para estudiantes
           </button>
         </form>
         <form action={setStatus.bind(null, unit.id, "rejected")}>
-          <button disabled={unit.status === "rejected"} className="rounded-md border border-destructive/40 px-4 py-2 text-sm text-destructive">Rechazar</button>
+          <button disabled={unit.status === "rejected"} className="inline-flex min-h-11 items-center rounded-[12px] border-2 border-destructive/40 px-4 py-2 text-sm font-semibold text-destructive transition hover:bg-destructive/10 disabled:opacity-50">Rechazar</button>
         </form>
         {unit.status !== "draft" && (
           <form action={setStatus.bind(null, unit.id, "draft")}>
-            <button className="rounded-md px-4 py-2 text-sm underline underline-offset-2">Volver a borrador</button>
+            <button className="inline-flex min-h-11 items-center px-2 text-sm font-medium underline underline-offset-2">Volver a borrador</button>
           </form>
         )}
         {blockers.length > 0 && <p className="text-xs text-muted-foreground">Para publicar: {blockers.join("; ")}.</p>}

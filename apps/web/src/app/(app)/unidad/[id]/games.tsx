@@ -4,15 +4,18 @@ import { GAME_LABELS, type GameMode } from "@edukemonos/curriculum";
 import { ArrowDown, ArrowUp } from "lucide-react";
 import { useState, useTransition } from "react";
 import { Kemo } from "@/components/brand/logo";
+import { Choices } from "@/components/learn/choices";
 import { ContentBadge } from "@/components/learn/content-badge";
 import { Markdown } from "@/components/learn/markdown";
 import { ReportButton } from "@/components/learn/report-button";
 import { answerGamePiece, finishGame, startGame } from "@/app/(app)/estudiar/actions";
+import { action } from "@/components/ui/action";
+import { card } from "@/components/ui/styles";
 import { markActivity } from "@/lib/activity";
 import { brand } from "@/lib/brand";
 import type { GameResult, GamePieceView, GameRunView, PieceFeedback } from "@/lib/games";
 
-const button = "inline-flex min-h-11 items-center justify-center rounded-md bg-primary px-4 py-2 font-medium text-primary-foreground disabled:opacity-50";
+const button = action({ size: "md" });
 const LETTERS = "ABCDEF";
 
 /**
@@ -35,19 +38,19 @@ export function Games({ unitId, available }: { unitId: string; available: Partia
     });
 
   if (run) return <Runner key={run.run} run={run} onExit={() => setRun(null)} onAgain={() => play(run.mode)} />;
-  if (modes.length === 0) return <p className="text-muted-foreground">Los juegos de esta unidad todavía están en preparación.</p>;
+  if (modes.length === 0) return <p className="rounded-[22px] border border-dashed p-5 text-muted-foreground">Los juegos de este tema todavía están en preparación.</p>;
   return (
     <section aria-labelledby="games-t" className="space-y-4">
       <div className="space-y-1">
-        <h2 id="games-t" className="text-xl font-semibold">Elige un juego</h2>
+        <h2 id="games-t" className="font-heading text-2xl font-bold">Elige un juego</h2>
         <p className="text-sm text-muted-foreground">Cada respuesta cuenta para tu dominio, igual que la práctica. Aquí no hay reloj: importa acertar, no la rapidez.</p>
       </div>
       <ul className="grid gap-3 sm:grid-cols-2">
         {modes.map((m) => (
           <li key={m}>
             <button type="button" disabled={pending} onClick={() => play(m)}
-              className="flex h-full w-full flex-col items-start gap-1 rounded-[20px] border bg-card p-4 text-left transition hover:border-violeta disabled:opacity-60">
-              <span className="font-heading text-lg font-bold">{GAME_LABELS[m].name}</span>
+              className="flex h-full w-full flex-col items-start gap-1 rounded-[22px] border bg-card p-5 text-left transition hover:-translate-y-0.5 hover:border-violeta hover:shadow-[0_12px_32px_-16px_rgba(23,19,42,0.2)] focus-visible:outline-2 disabled:opacity-60">
+              <span className="font-heading text-xl font-bold">{GAME_LABELS[m].name}</span>
               <span className="text-sm text-muted-foreground">{GAME_LABELS[m].how}</span>
             </button>
           </li>
@@ -92,21 +95,21 @@ function Runner({ run, onExit, onAgain }: { run: GameRunView; onExit: () => void
   return (
     <section aria-label={GAME_LABELS[run.mode].name} className="space-y-4">
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <h2 className="text-xl font-semibold">{GAME_LABELS[run.mode].name}</h2>
-        <span className="font-mono text-sm text-muted-foreground">{k + 1} de {run.pieces.length}</span>
+        <h2 className="font-heading text-2xl font-bold">{GAME_LABELS[run.mode].name}</h2>
+        <span className="font-mono text-xs text-muted-foreground uppercase">{k + 1} de {run.pieces.length}</span>
       </div>
       {race && <RaceTrack run={run} results={results} />}
-      <div className="space-y-4 rounded-xl border p-4">
+      <div className={`${card} space-y-5`}>
         <ContentBadge reviewed={piece.reviewed} />
         <Piece key={piece.id} piece={piece} feedback={feedback} disabled={pending || feedback !== null} onSubmit={submit} />
         {feedback && (
           <div role="status" className="space-y-3">
-            <p className={`flex items-center gap-2.5 font-semibold ${feedback.is_correct ? "text-emerald-700" : "text-amber-800"}`}>
-              <Kemo size={36} mood={feedback.is_correct ? "happy" : "think"} background={feedback.is_correct ? brand.lima : brand.violeta} />
+            <p className={`flex items-center gap-3 rounded-[16px] p-3.5 font-heading text-xl font-bold ${feedback.is_correct ? "bg-emerald-50 text-emerald-900" : "bg-amber-50 text-amber-950"}`}>
+              <Kemo size={40} mood={feedback.is_correct ? "happy" : "think"} background={feedback.is_correct ? brand.lima : brand.violeta} />
               {feedback.is_correct ? "¡Correcto!" : "Todavía no. Mira cómo era:"}
             </p>
             {feedback.game_answer?.correction && <p className="text-sm">Corrección: {feedback.game_answer.correction}</p>}
-            {feedback.explanation && <div className="rounded-lg bg-muted/50 p-3 text-sm"><Markdown>{feedback.explanation}</Markdown></div>}
+            {feedback.explanation && <div className="rounded-[16px] bg-background p-4 text-sm"><Markdown>{feedback.explanation}</Markdown></div>}
             <button type="button" onClick={next} disabled={pending} className={button}>
               {k + 1 < run.pieces.length ? "Siguiente" : "Ver resultado"}
             </button>
@@ -115,7 +118,7 @@ function Runner({ run, onExit, onAgain }: { run: GameRunView; onExit: () => void
         {error && <p role="alert" className="text-sm text-destructive">{error}</p>}
         <ReportButton targetType="item" targetId={piece.id} />
       </div>
-      <button type="button" onClick={onExit} className="text-sm underline underline-offset-2">Salir del juego</button>
+      <button type="button" onClick={onExit} className={action({ variant: "soft", size: "sm" })}>Salir del juego</button>
     </section>
   );
 }
@@ -149,7 +152,7 @@ export function Summary({ run, summary, onExit, onAgain }: { run: GameRunView; s
     race = summary.correct > ghost ? "¡Le ganaste al fantasma! Acertaste más." : summary.correct === ghost ? "Empate con el fantasma." : "Esta vez el fantasma acertó más. Cada intento suma a tu dominio.";
   }
   return (
-    <section role="status" className="space-y-4 rounded-[22px] border bg-card p-6">
+    <section role="status" className={`${card} space-y-4`}>
       <Kemo size={64} mood="happy" background={brand.lima} />
       <h2 className="font-heading text-2xl font-bold">Resolviste bien {summary.correct} de {summary.total}</h2>
       {race && <p>{race}</p>}
@@ -157,7 +160,7 @@ export function Summary({ run, summary, onExit, onAgain }: { run: GameRunView; s
       <p className="text-sm text-muted-foreground">Tus respuestas ya cuentan para tu dominio de la unidad.</p>
       <div className="flex flex-wrap gap-3">
         <button type="button" onClick={onAgain} className={button}>Jugar otra vez</button>
-        <button type="button" onClick={onExit} className="inline-flex min-h-11 items-center rounded-md border px-4 py-2 font-medium">Elegir otro juego</button>
+        <button type="button" onClick={onExit} className={action({ variant: "outline", size: "md" })}>Elegir otro juego</button>
       </div>
     </section>
   );
@@ -185,15 +188,8 @@ function Choice({ instruction, stem, options, answer, disabled, onSubmit }: {
     <div className="space-y-3">
       {instruction && <p className="font-medium">{instruction}</p>}
       <Markdown>{stem}</Markdown>
-      <fieldset disabled={disabled} className="space-y-2">
-        <legend className="sr-only">Opciones</legend>
-        {options.map((o, k) => (
-          <label key={k} className={`flex min-h-11 cursor-pointer items-start gap-3 rounded-lg border p-3 ${selected === k ? "border-primary bg-secondary" : ""} ${answer === k ? "border-emerald-600 bg-emerald-50" : ""}`}>
-            <input type="radio" name="option" checked={selected === k} onChange={() => setSelected(k)} className="mt-1" />
-            <span>{o}</span>
-          </label>
-        ))}
-      </fieldset>
+      <Choices options={options} selected={selected} onSelect={setSelected} disabled={disabled}
+        correct={answer ?? null} wrong={answer !== undefined && answer !== null && selected !== answer ? selected : null} />
       {answer === undefined && <button type="button" disabled={disabled || selected === null} onClick={() => onSubmit(selected!)} className={button}>Revisar</button>}
     </div>
   );
@@ -208,7 +204,7 @@ function Pairs({ left, right, instruction, answer, disabled, onSubmit }: {
   return (
     <div className="space-y-4">
       <p className="font-medium">{instruction}</p>
-      <ol className="space-y-1.5 rounded-lg bg-muted/50 p-3 text-sm">
+      <ol className="space-y-1.5 rounded-[16px] bg-background p-4 text-sm">
         {right.map((r, k) => <li key={k}><span className="font-mono font-bold">{LETTERS[k]}.</span> {r}</li>)}
       </ol>
       <ul className="space-y-3">
@@ -221,7 +217,7 @@ function Pairs({ left, right, instruction, answer, disabled, onSubmit }: {
                 const right_ = answer ? answer[i] === r : false;
                 return (
                   <button key={r} type="button" disabled={disabled} aria-pressed={chosen} onClick={() => pick(i, r)}
-                    className={`size-11 rounded-md border font-mono font-bold ${chosen ? "border-primary bg-primary text-primary-foreground" : ""} ${right_ ? "ring-2 ring-emerald-600" : ""}`}>
+                    className={`size-11 rounded-[12px] border-2 font-mono font-bold transition focus-visible:outline-2 ${chosen ? "border-violeta bg-violeta text-white" : "bg-card hover:border-violeta/60"} ${right_ ? "ring-3 ring-emerald-600 ring-offset-1" : ""}`}>
                     {LETTERS[r]}
                   </button>
                 );
@@ -252,13 +248,13 @@ function Order({ steps, instruction, answer, disabled, onSubmit }: {
       {answer && <p className="text-sm text-muted-foreground">Este es el orden correcto:</p>}
       <ol className="space-y-2">
         {shown.map((s, pos) => (
-          <li key={s} className="flex items-center gap-2 rounded-lg border p-2">
+          <li key={s} className="flex items-center gap-2 rounded-[16px] border-2 bg-card p-2">
             <span className="w-6 text-center font-mono font-bold">{pos + 1}</span>
             <span className="flex-1">{steps[s]}</span>
             {!answer && (
               <span className="flex gap-1">
-                <button type="button" aria-label="Subir" disabled={disabled || pos === 0} onClick={() => move(pos, -1)} className="flex size-11 items-center justify-center rounded-md border disabled:opacity-30"><ArrowUp className="size-4" /></button>
-                <button type="button" aria-label="Bajar" disabled={disabled || pos === shown.length - 1} onClick={() => move(pos, 1)} className="flex size-11 items-center justify-center rounded-md border disabled:opacity-30"><ArrowDown className="size-4" /></button>
+                <button type="button" aria-label="Subir" disabled={disabled || pos === 0} onClick={() => move(pos, -1)} className="flex size-11 items-center justify-center rounded-[12px] bg-secondary transition hover:bg-[#e2e0ea] focus-visible:outline-2 disabled:opacity-30"><ArrowUp strokeWidth={2.5} className="size-4" /></button>
+                <button type="button" aria-label="Bajar" disabled={disabled || pos === shown.length - 1} onClick={() => move(pos, 1)} className="flex size-11 items-center justify-center rounded-[12px] bg-secondary transition hover:bg-[#e2e0ea] focus-visible:outline-2 disabled:opacity-30"><ArrowDown strokeWidth={2.5} className="size-4" /></button>
               </span>
             )}
           </li>
@@ -280,7 +276,7 @@ function FindError({ steps, instruction, answer, disabled, onSubmit }: {
         {steps.map((s, i) => (
           <li key={i}>
             <button type="button" disabled={disabled} aria-pressed={selected === i} onClick={() => setSelected(i)}
-              className={`flex min-h-11 w-full items-start gap-3 rounded-lg border p-3 text-left ${selected === i ? "border-primary bg-secondary" : ""} ${answer === i ? "border-amber-600 bg-amber-50" : ""}`}>
+              className={`flex min-h-12 w-full items-start gap-3 rounded-[16px] border-2 bg-card p-3.5 text-left transition focus-visible:outline-2 ${selected === i ? "border-violeta bg-[#f1eefe]" : "hover:border-violeta/60"} ${answer === i ? "border-amber-500 bg-amber-50" : ""}`}>
               <span className="font-mono font-bold">{i + 1}</span>
               <span>{s}</span>
             </button>

@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { setLeaderboardHidden } from "@/app/(app)/estudiar/actions";
+import { action } from "@/components/ui/action";
 
 export function HideToggle({ hidden }: { hidden: boolean }) {
   const [pending, start] = useTransition();
@@ -15,7 +16,7 @@ export function HideToggle({ hidden }: { hidden: boolean }) {
           const r = await setLeaderboardHidden(!hidden);
           if (!r.ok) setError(r.error);
         })}
-        className="inline-flex min-h-11 items-center rounded-md border px-4 py-2 text-sm font-medium disabled:opacity-50"
+        className={action({ variant: "soft", size: "md" })}
       >
         {pending ? "Guardando…" : hidden ? "Volver a aparecer en la tabla" : "No aparecer en la tabla"}
       </button>

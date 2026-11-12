@@ -2,16 +2,18 @@
 
 import Link from "next/link";
 import { useActionState, useState } from "react";
+import { action } from "@/components/ui/action";
+import { field } from "@/components/ui/styles";
 import { type CreateCodeState, createRecoveryCode, type RedeemState, redeemRecoveryCode } from "./actions";
 
-const button = "inline-flex min-h-11 items-center justify-center rounded-md bg-primary px-4 py-2 font-medium text-primary-foreground disabled:opacity-50";
+const button = action({ size: "md" });
 
 export function CreateCodeForm({ hasCode }: { hasCode: boolean }) {
   const [state, action, pending] = useActionState<CreateCodeState, FormData>(createRecoveryCode, {});
   const [copied, setCopied] = useState(false);
   if (state.code) {
     return (
-      <div role="status" className="space-y-3 rounded-xl border-2 border-violeta p-4">
+      <div role="status" className="space-y-3 rounded-[18px] border-2 border-violeta bg-[#f1eefe] p-4">
         <p className="font-medium">Este es tu código. Cópialo o anótalo en tu cuaderno: no podremos mostrártelo otra vez.</p>
         <p className="font-mono text-2xl font-bold tracking-widest break-all sm:text-3xl">{state.code}</p>
         <button
@@ -51,20 +53,20 @@ export function RedeemCodeForm() {
   const [state, action, pending] = useActionState<RedeemState, FormData>(redeemRecoveryCode, {});
   if (state.done) {
     return (
-      <div role="status" className="space-y-3 rounded-xl border p-4">
+      <div role="status" className="space-y-3 rounded-[18px] border p-4">
         <p className="font-medium">
           {state.done.alreadyHere
             ? "Ese código ya es de este dispositivo: tu progreso está aquí."
             : "¡Listo! Recuperamos tu progreso en este dispositivo."}
         </p>
-        <Link href="/" className={button}>Seguir estudiando</Link>
+        <Link href="/estudiar" className={button}>Seguir estudiando</Link>
       </div>
     );
   }
   return (
     <form action={action} className="space-y-3">
-      <label className="block space-y-1">
-        <span className="font-medium">Tu código de recuperación</span>
+      <label className="block space-y-1.5">
+        <span className="font-semibold">Tu código de recuperación</span>
         <input
           key={state.value ?? ""}
           defaultValue={state.value}
@@ -74,7 +76,7 @@ export function RedeemCodeForm() {
           autoCapitalize="characters"
           spellCheck={false}
           placeholder="Ej.: K7QM-4RTX-9PZC"
-          className="w-full rounded-md border bg-background px-3 py-2 font-mono text-base tracking-widest uppercase placeholder:normal-case"
+          className={`${field} font-mono tracking-widest uppercase placeholder:normal-case`}
         />
       </label>
       <p className="text-xs text-muted-foreground">Si en este dispositivo ya practicaste algo, se junta con tu progreso.</p>

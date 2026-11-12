@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { repairStreak } from "@/app/(app)/estudiar/actions";
+import { action } from "@/components/ui/action";
 
 export function RepairButton() {
   const router = useRouter();
@@ -20,7 +21,7 @@ export function RepairButton() {
             router.refresh();
           })
         }
-        className="inline-flex min-h-11 items-center rounded-md bg-primary px-4 py-2 font-medium text-primary-foreground disabled:opacity-50"
+        className={action({ size: "md" })}
       >
         {pending ? "Usando…" : "Usar mi comodín"}
       </button>

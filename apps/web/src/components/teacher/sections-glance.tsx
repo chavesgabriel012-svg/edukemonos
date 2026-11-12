@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { formatCode, type SectionGlance } from "@/lib/teacher";
 import { pct } from "./scale";
+import { action } from "@/components/ui/action";
 
 /**
  * All of a teacher's sections at a glance, by subject: a Math teacher of 7-1 and 8-3 sees both
@@ -75,7 +76,7 @@ export function SectionsGlance({ sections, demo = false }: { sections: SectionGl
                   ) : (
                     <p className="text-sm text-muted-foreground">Todavía no hay estudiantes: compártales el código del grupo.</p>
                   )}
-                  <Link href={s.href} className="mt-auto inline-flex min-h-11 items-center self-start rounded-md border px-4 py-2 text-sm font-medium transition hover:border-violeta">
+                  <Link href={s.href} className={`${action({ variant: "outline", size: "sm" })} mt-auto self-start`}>
                     Abrir el panel
                   </Link>
                 </li>

@@ -2,6 +2,8 @@
 
 import { useActionState } from "react";
 import { saveSectionSettings, type SettingsState } from "@/app/(app)/docente/actions";
+import { action as actionClass } from "@/components/ui/action";
+import { field } from "@/components/ui/styles";
 
 export function SectionSettingsForm({ sectionId, streakEnabled, weeklyTarget, goalEnabled, leaderboardEnabled, gamesEnabled, tournamentEnabled, institutionId, institutions, demo }: {
   sectionId: string;
@@ -41,13 +43,13 @@ export function SectionSettingsForm({ sectionId, streakEnabled, weeklyTarget, go
         </label>
         <label className="block space-y-1">
           <span className="block font-medium">Ejercicios bien resueltos por semana para cumplir la racha</span>
-          <input type="number" name="weekly_target" min={1} max={50} defaultValue={weeklyTarget} className="w-28 rounded-md border bg-background px-3 py-2 text-base" />
+          <input type="number" name="weekly_target" min={1} max={50} defaultValue={weeklyTarget} className={`${field} w-28`} />
           <span className="block text-xs text-muted-foreground">Por defecto, 5. Cuentan ejercicios distintos, en cualquier actividad.</span>
         </label>
         {institutions.length > 0 && (
           <label className="block space-y-1">
             <span className="font-medium">Institución</span>
-            <select name="institution_id" defaultValue={institutionId ?? ""} className="w-full max-w-sm rounded-md border bg-background px-3 py-2 text-base">
+            <select name="institution_id" defaultValue={institutionId ?? ""} className={`${field} max-w-sm`}>
               <option value="">Ninguna (calendario oficial del MEP)</option>
               {institutions.map((i) => <option key={i.id} value={i.id}>{i.name}</option>)}
             </select>
@@ -59,7 +61,7 @@ export function SectionSettingsForm({ sectionId, streakEnabled, weeklyTarget, go
         <p className="text-sm text-muted-foreground">En la demostración los ajustes no se pueden cambiar.</p>
       ) : (
         <div className="flex flex-wrap items-center gap-3">
-          <button disabled={pending} className="inline-flex min-h-11 items-center rounded-md bg-primary px-4 py-2 font-medium text-primary-foreground disabled:opacity-50">
+          <button disabled={pending} className={actionClass({ size: "md" })}>
             {pending ? "Guardando…" : "Guardar ajustes"}
           </button>
           {state.saved && <span role="status" className="text-sm">Ajustes guardados.</span>}
