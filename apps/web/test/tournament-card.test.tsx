@@ -67,3 +67,18 @@ describe("TournamentCard", () => {
     expect(html).toContain("Jugar el torneo");
   });
 });
+
+describe("TournamentCard, fase 5: the winner of the last tournament", () => {
+  const closed = (winners: string[]) => ({ ...tournament({ started: true, answered: 10, counted: 6 }), closed: true, winners });
+
+  it("says which team won, until the next one opens", () => {
+    expect(render({ enabled: true, status: "upcoming", tournament: closed(["Equipo Lapa"]) })).toContain("Ganó el último torneo: Equipo Lapa");
+  });
+  it("celebrates when it is the student's own team", () => {
+    expect(render({ enabled: true, status: "upcoming", tournament: closed(["Equipo Ceiba"]) })).toContain("¡Tu equipo ganó el último torneo!");
+  });
+  it("says nothing while it is open, or when nobody scored", () => {
+    expect(render({ enabled: true, status: "open", tournament: { ...tournament({}), closed: false, winners: [] } })).not.toContain("Ganó");
+    expect(render({ enabled: true, status: "upcoming", tournament: closed([]) })).not.toContain("Ganó");
+  });
+});

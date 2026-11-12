@@ -152,5 +152,13 @@ describe("buildDemoTournament", () => {
     expect(teams.map((x) => x.score)).toEqual([...teams.map((x) => x.score)].sort((a, b) => b - a));
     expect(t.tournament!.topics.length).toBeGreaterThan(0);
     expect(t.tournament!.week_start).toBe("2027-03-08");
+    expect(t).toMatchObject({ status: "open", tournament: { closed: false, winners: [] } });
+  });
+
+  it("Monday to Thursday it shows last week's tournament, closed, with its winner", () => {
+    const monday = new Date("2027-03-15T18:00:00Z");
+    const t = buildDemoTournament(buildDemoSection(units, monday));
+    expect(t).toMatchObject({ status: "upcoming", tournament: { week_start: "2027-03-08", closed: true } });
+    expect(t.tournament!.winners).toEqual([t.tournament!.teams[0].name]);
   });
 });

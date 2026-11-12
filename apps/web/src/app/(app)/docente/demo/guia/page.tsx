@@ -1,7 +1,8 @@
-import { busiestSubject, computeSectionMetrics } from "@edukemonos/curriculum";
+import { buildDemoGroupTournaments, buildDemoTournament, busiestSubject, computeSectionMetrics } from "@edukemonos/curriculum";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { SectionHeader } from "@/components/teacher/section-header";
+import { GroupTournaments } from "@/components/teacher/group-tournaments";
 import { SectionOverview } from "@/components/teacher/section-overview";
 import { demoSource } from "@/lib/teacher";
 import { cachedSummary } from "@/lib/teacher-summary";
@@ -19,6 +20,7 @@ export default async function DemoGuidePage({ searchParams }: PageProps<"/docent
       <Link href="/docente/demo" className="text-sm underline underline-offset-2">← Ver como docente de Matemáticas</Link>
       <SectionHeader source={source} />
       <SectionOverview source={source} metrics={metrics} subjectId={subjectId} summary={await cachedSummary(metrics.findings)} />
+      <GroupTournaments items={buildDemoGroupTournaments(buildDemoTournament((await demoSource()).data))} demo />
     </div>
   );
 }

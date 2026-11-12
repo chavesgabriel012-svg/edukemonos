@@ -36,13 +36,17 @@ export function TournamentPanel({ data, demo }: { data: TournamentReport | null;
         <div className="space-y-4">
           <p className="text-sm">
             {data.status === "open" ? "Abierto ahora." : "Resultado del último torneo."}{" "}
+            {t.closed && (t.winners?.length ?? 0) > 0 && <strong>Ganó {t.winners!.join(" y ")}. </strong>}
             <span className="text-muted-foreground">Temas: {t.topics.join(" · ")}</span>
           </p>
           <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {t.teams.map((team) => (
-              <li key={team.name} className="space-y-2 rounded-[16px] border p-4">
+              <li key={team.name} className={`space-y-2 rounded-[16px] border p-4 ${t.closed && t.winners?.includes(team.name) ? "border-2 border-lima bg-lima/15" : ""}`}>
                 <p className="flex items-baseline justify-between gap-3">
-                  <span className="font-semibold">{team.name}</span>
+                  <span className="flex items-center gap-1.5 font-semibold">
+                    {t.closed && t.winners?.includes(team.name) && <Trophy aria-label="Ganador" strokeWidth={2.5} className="size-4 text-violeta" />}
+                    {team.name}
+                  </span>
                   <span className="font-mono text-sm">{fmt(team.score)}</span>
                 </p>
                 <ul className="space-y-1 text-sm">

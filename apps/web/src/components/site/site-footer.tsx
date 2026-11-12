@@ -9,6 +9,7 @@ const COLUMNS = [
     title: "Probar",
     links: [
       { href: "/estudiar", label: "Como estudiante" },
+      { href: "/insignias", label: "Mis insignias" },
       { href: "/docente/demo", label: "Panel docente de demostración" },
       { href: "/como-funciona", label: "¿Cómo funciona?" },
     ],
@@ -34,7 +35,7 @@ const linkClass = "inline-block py-1.5 text-papel/75 underline-offset-2 transiti
 
 export function SiteFooter() {
   return (
-    <footer className="mt-auto bg-tinta text-papel">
+    <footer className="mt-auto bg-tinta text-papel print:hidden">
       <div className={`${SHELL} grid gap-8 py-10 md:grid-cols-[1.3fr_repeat(3,1fr)]`}>
         <div className="space-y-4">
           <Logo size={28} ink={brand.papel} />

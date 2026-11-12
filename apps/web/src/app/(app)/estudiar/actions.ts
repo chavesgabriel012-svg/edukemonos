@@ -527,3 +527,14 @@ export async function answerTournament(tournamentId: string, itemId: string, ind
   revalidatePath("/mis-secciones");
   return { ok: true, data: data as PieceFeedback };
 }
+
+// ---------------------------------------------------------------------------
+// Certificates (fase 5): only the unit is logged; the name typed on the certificate never leaves
+// the browser.
+// ---------------------------------------------------------------------------
+export async function logCertificateDownload(unitId: string): Promise<void> {
+  if (!UUID.test(unitId)) return;
+  const supabase = await createClient();
+  const { error } = await supabase.rpc("log_certificate_download", { p_unit: unitId });
+  if (error) console.error("log_certificate_download failed:", error.message);
+}

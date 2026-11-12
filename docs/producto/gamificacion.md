@@ -12,7 +12,7 @@ ella con un PR. Nada pasa a `main` sin aprobación del fundador.
 | — | `panel-docente-grupos` | «Mis secciones»: los grupos del docente lado a lado, por materia (§12) |
 | 3 | `fase-3` | Mecánicas fijas con contenido generado y verificado |
 | 4 | `fase-4` | Torneo automático de los viernes (§7.1) |
-| 5 | `fase-5` | Insignias, certificado de dominio y equipo destacado |
+| 5 | `fase-5` | Insignias, certificado de dominio y equipo destacado (§8.1) |
 
 ## 1. Principios
 
@@ -441,6 +441,36 @@ genera código**: solo el contenido de cada pieza, que pasa las mismas verificac
   descargarlo y queda solo en su dispositivo. Nunca llega al servidor ni a la IA.
 - **Equipo ganador del torneo**: destacado en el panel y en la vista de la sección hasta el siguiente torneo. Sin
   premios en dinero ni objetos.
+
+### 8.1 Cómo quedó (rama `fase-5`)
+
+- **Migración**: `20261113000100_badges_certificates.sql` (un solo archivo; no agrega valores a enums).
+- **Insignias** (`student_badges`): «habilidad dominada» y «unidad dominada» las otorga un disparador sobre `mastery` en
+  cuanto el dominio llega a 0,70. «Primera semana cumplida» y las rachas de 4, 8 y 12 se otorgan al completar una semana
+  (el disparador de la fase 1) y `my_badges()` las pone al día. Solo el estudiante las lee; nadie las escribe
+  directamente. La migración otorga, sin eventos, las de lo que ya estaba dominado.
+- **Certificado**: `/certificado/[unidad]`, solo para quien dominó la unidad. El nombre se escribe en la página y nunca
+  sale del navegador; al imprimir o guardar como PDF se registra `certificate_downloaded` con la unidad. Lleva un código
+  («7F3A2-9C01B») que cualquiera comprueba en `/verificar` (`verify_certificate()`): devuelve el tema, la materia, el
+  grado, las habilidades y la fecha, nunca quién. Dice que no tiene valor oficial del MEP.
+- **Equipo ganador**: cuando un torneo cierra, su equipo con más puntos (los empatados comparten) aparece en la tarjeta
+  del estudiante y en el panel docente hasta que abre el siguiente; si nadie sumó, no hay ganador. La persona guía ve el
+  último torneo de cada materia de su grupo (`group_tournaments()`).
+- **Pantallas**: `/insignias` (enlazada desde `/estudiar` y el pie), el certificado, `/verificar`, el aviso de ganador y
+  el bloque «Torneos del grupo» en la vista de guía. La demostración muestra, de lunes a jueves, el torneo de la semana
+  anterior con su ganador, y de viernes a domingo el abierto.
+- **La misma lógica en TypeScript**: `packages/curriculum/src/badges.ts` (`streakBadges`, `unitMastered`,
+  `tournamentWinners`); las pruebas de RLS comparan.
+- **Código de recuperación**: `private.move_student_extras()` también traslada las insignias.
+
+**Decisiones de implementación:**
+
+| Tema | Decisión |
+|---|---|
+| Insignias de racha | Solo se otorgan mientras el estudiante puede ver su racha (si todos sus docentes la apagaron, no). |
+| Unidad dominada | Todas las habilidades de la unidad con dominio ≥ 0,70 al mismo tiempo; una unidad sin habilidades no cuenta. |
+| Docentes | No ven las insignias de sus estudiantes; el diseño no lo pedía y el dominio ya está en el panel. |
+| Empate en el primer lugar | Todos los equipos empatados ganan. |
 
 ## 9. Seguridad (RLS) en todas las fases
 

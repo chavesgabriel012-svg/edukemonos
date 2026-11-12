@@ -2,7 +2,9 @@ import { busiestSubject, computeSectionMetrics } from "@edukemonos/curriculum";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { SectionHeader } from "@/components/teacher/section-header";
+import { GroupTournaments } from "@/components/teacher/group-tournaments";
 import { SectionOverview } from "@/components/teacher/section-overview";
+import { groupTournaments } from "@/lib/gamification";
 import { requireStaff } from "@/lib/staff";
 import { audit, groupSource } from "@/lib/teacher";
 import { cachedSummary } from "@/lib/teacher-summary";
@@ -28,6 +30,7 @@ export default async function GroupPanelPage({ params, searchParams }: PageProps
       ) : (
         <SectionOverview source={source} metrics={metrics} subjectId={subjectId} summary={await cachedSummary(metrics.findings)} />
       )}
+      <GroupTournaments items={await groupTournaments(supabase, id)} demo={false} />
     </div>
   );
 }

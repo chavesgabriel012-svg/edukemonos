@@ -1,5 +1,5 @@
 import "server-only";
-import { DEMO_GOAL, DEMO_LEADERBOARD_SUMMARY, DEMO_STREAK, type TournamentReport } from "@edukemonos/curriculum";
+import { DEMO_GOAL, DEMO_LEADERBOARD_SUMMARY, DEMO_STREAK, type GroupTournament, type TournamentReport } from "@edukemonos/curriculum";
 import type { SectionGoal } from "@/lib/sections";
 import type { SupabaseClient } from "@supabase/supabase-js";
 
@@ -132,4 +132,14 @@ export async function sectionTournamentReport(supabase: SupabaseClient, sectionI
     return null;
   }
   return data as TournamentReport;
+}
+
+/** The last tournament of every subject of a group, for its guide. */
+export async function groupTournaments(supabase: SupabaseClient, groupId: string): Promise<GroupTournament[] | null> {
+  const { data, error } = await supabase.rpc("group_tournaments", { p_group: groupId });
+  if (error) {
+    console.error("group_tournaments failed:", error.message);
+    return null;
+  }
+  return data as GroupTournament[];
 }

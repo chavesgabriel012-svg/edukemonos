@@ -53,3 +53,22 @@ export function normalizeCertificateCode(raw: string): string {
   const hex = raw.toUpperCase().replace(/[^0-9A-F]/g, "");
   return hex.length === 10 ? `${hex.slice(0, 5)}-${hex.slice(5)}` : raw.trim().toUpperCase();
 }
+
+/** What my_badges() returns. */
+export interface EarnedBadge {
+  badge: BadgeKind;
+  ref_id: string | null;
+  code: string | null;
+  earned_at: string;
+  /** The skill's name or the unit's title (null for streak badges). */
+  title: string | null;
+  unit_id: string | null;
+  unit: string | null;
+  subject: string | null;
+  grade: number | null;
+}
+
+export interface MyBadges {
+  record: number;
+  badges: EarnedBadge[];
+}
