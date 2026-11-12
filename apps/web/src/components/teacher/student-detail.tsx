@@ -1,5 +1,5 @@
 import { computeSectionMetrics, formatLevel, WRITING_LABELS, type SectionMetrics } from "@edukemonos/curriculum";
-import { BookOpenCheck, MessageCircleQuestion, PenLine, Target } from "lucide-react";
+import { BookOpenCheck, Gamepad2, MessageCircleQuestion, PenLine, Target } from "lucide-react";
 import Link from "next/link";
 import type { PanelSource } from "@/lib/teacher";
 import { ActivityBars, BarList, MasteryBar, StatTiles } from "./charts";
@@ -35,21 +35,28 @@ export function StudentDetail({ source, metrics, studentId, actions }: {
   const title = new Map(d.units.map((u) => [u.id, u.title]));
 
   const events: Event[] = [];
-  // One line per day of practice, naming its topics.
-  const days = new Map<string, { at: string; units: string[]; n: number; ok: number }>();
+  // One line per day and origin (practice, games, diagnostic, tournament), naming its topics.
+  const days = new Map<string, { at: string; origin: string; units: string[]; n: number; ok: number }>();
   for (const a of own(d.attempts)) {
-    const day = a.createdAt.slice(0, 10);
-    const g = days.get(day) ?? { at: a.createdAt, units: [], n: 0, ok: 0 };
+    const key = `${a.createdAt.slice(0, 10)}:${a.context}`;
+    const g = days.get(key) ?? { at: a.createdAt, origin: a.context, units: [], n: 0, ok: 0 };
     g.n++;
     if (a.isCorrect) g.ok++;
     if (a.createdAt > g.at) g.at = a.createdAt;
     if (a.unitId && !g.units.includes(a.unitId)) g.units.push(a.unitId);
-    days.set(day, g);
+    days.set(key, g);
   }
+  const VERB: Record<string, (n: number) => string> = {
+    practice: (n) => `Practicó ${n} ${n === 1 ? "ejercicio" : "ejercicios"}`,
+    game: (n) => `Resolvió ${n} ${n === 1 ? "pieza" : "piezas"} en juegos`,
+    diagnostic: (n) => `Respondió ${n} ${n === 1 ? "pregunta" : "preguntas"} del diagnóstico`,
+    tournament: (n) => `Respondió ${n} ${n === 1 ? "pregunta" : "preguntas"} en el torneo`,
+  };
   for (const g of days.values()) {
     const names = g.units.map((u) => `«${title.get(u) ?? "un tema"}»`);
     const topics = names.length <= 2 ? names.join(" y ") : `${names.slice(0, 2).join(", ")} y ${names.length - 2} ${names.length === 3 ? "tema" : "temas"} más`;
-    events.push({ at: g.at, icon: BookOpenCheck, text: `Practicó ${g.n} ${g.n === 1 ? "ejercicio" : "ejercicios"} (${g.ok} ${g.ok === 1 ? "correcto" : "correctos"})${topics ? ` de ${topics}` : ""}.` });
+    const verb = (VERB[g.origin] ?? VERB.practice)(g.n);
+    events.push({ at: g.at, icon: g.origin === "game" ? Gamepad2 : BookOpenCheck, text: `${verb} (${g.ok} ${g.ok === 1 ? "correcto" : "correctos"})${topics ? ` de ${topics}` : ""}.` });
   }
   for (const t of own(d.tutor)) {
     events.push({ at: t.startedAt, icon: MessageCircleQuestion, text: `Consultó a Kemo sobre «${t.unitId ? title.get(t.unitId) ?? "un tema" : "un tema"}» (${Math.round(t.messageCount / 2)} preguntas).` });

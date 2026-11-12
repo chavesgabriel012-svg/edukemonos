@@ -3,7 +3,7 @@
 import type { Finding } from "@edukemonos/curriculum";
 import { AlertTriangle, CircleCheck, Info, Sparkles, TriangleAlert } from "lucide-react";
 import { useState, useTransition } from "react";
-import { teacherSummary } from "@/app/docente/actions";
+import { teacherSummary } from "@/app/(app)/docente/actions";
 import { Kemo } from "@/components/brand/logo";
 import { brand } from "@/lib/brand";
 import type { StoredSummary } from "@/lib/teacher-summary";

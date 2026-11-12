@@ -36,7 +36,7 @@ test("a reviewer signs in, fixes an unverified unit and publishes it", async ({ 
   await expect(page).toHaveURL(/\/entrar\?next=%2Frevisar/);
   await page.getByLabel("Correo electrónico").fill(EMAIL);
   await page.getByRole("button", { name: "Enviarme el enlace" }).click();
-  await expect(page.getByRole("status")).toContainText("Abre el enlace");
+  await expect(page.getByRole("status")).toContainText("Abra el enlace");
   await page.goto(await magicLink());
 
   // 2. A fresh account is a teacher, not a reviewer: no data is shown.

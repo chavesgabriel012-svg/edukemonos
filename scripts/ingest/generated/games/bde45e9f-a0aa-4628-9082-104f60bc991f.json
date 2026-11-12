@@ -1,0 +1,766 @@
+{
+  "unitId": "bde45e9f-a0aa-4628-9082-104f60bc991f",
+  "createdAt": "2026-11-04T17:51:35.613Z",
+  "models": {
+    "games": "claude-sonnet-5-5",
+    "solve": "claude-sonnet-5-5"
+  },
+  "prompts": {
+    "games": "generate-games-system@1",
+    "solve": "solve-games-system@1"
+  },
+  "pieces": [
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 0,
+        "instruction": "Une cada situación con el número entero que la representa.",
+        "pairs": [
+          {
+            "left": "Un buzo está a 8 m bajo el nivel del mar",
+            "right": "−8"
+          },
+          {
+            "left": "La temperatura es de 4 grados bajo cero",
+            "right": "−4"
+          },
+          {
+            "left": "Una persona debe ₡6 000",
+            "right": "−6 000"
+          },
+          {
+            "left": "Un ascensor sube 5 pisos",
+            "right": "+5"
+          },
+          {
+            "left": "Un sótano está 2 pisos bajo la calle",
+            "right": "−2"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Las situaciones de deuda, bajo cero, bajo el nivel del mar o bajo la calle se representan con enteros negativos. Subir o ganar se representa con enteros positivos."
+      },
+      "seed": "bde45e9f-a0aa-4628-9082-104f60bc991f:0",
+      "solved": {
+        "game": 1,
+        "match": [
+          4,
+          2,
+          1,
+          3,
+          5
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Elige el número que completa la oración.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Una temperatura de 7 grados bajo cero se representa con el número entero ___.",
+        "options": [
+          "7",
+          "−7",
+          "0",
+          "−70"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": null,
+        "explanation": "«Bajo cero» indica una temperatura menor que 0, por eso se escribe con signo negativo: −7."
+      },
+      "seed": "bde45e9f-a0aa-4628-9082-104f60bc991f:1",
+      "solved": {
+        "game": 2,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 0,
+        "instruction": "Una de estas frases tiene un error. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "Un saldo a favor de ₡5 000 se representa con +5 000.",
+          "Una deuda de ₡3 000 se representa con +3 000.",
+          "Estar a 10 m bajo el nivel del mar se representa con −10.",
+          "Una temperatura de 2 grados sobre cero se representa con +2."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 1,
+        "correction": "Una deuda de ₡3 000 se representa con −3 000.",
+        "calc": null,
+        "explanation": "Una deuda es dinero que se debe, así que se representa con un entero negativo: −3 000."
+      },
+      "seed": "bde45e9f-a0aa-4628-9082-104f60bc991f:2",
+      "solved": {
+        "game": 3,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 1,
+        "instruction": "Une cada comparación con el número que la responde.",
+        "pairs": [
+          {
+            "left": "El menor de −5, −1 y 3",
+            "right": "−5"
+          },
+          {
+            "left": "El mayor de −8, −2 y −6",
+            "right": "−2"
+          },
+          {
+            "left": "El mayor de −9, −10 y −11",
+            "right": "−9"
+          },
+          {
+            "left": "El menor de −7, −3 y −12",
+            "right": "−12"
+          },
+          {
+            "left": "El mayor de −1, −4 y 0",
+            "right": "0"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "En la recta numérica, el número que está más a la izquierda es el menor y el que está más a la derecha es el mayor."
+      },
+      "seed": "bde45e9f-a0aa-4628-9082-104f60bc991f:3",
+      "solved": {
+        "game": 4,
+        "match": [
+          1,
+          5,
+          3,
+          1,
+          2
+        ],
+        "order": null,
+        "choice": null,
+        "problems": "El ítem 1 (menor de −5, −1 y 3) da −5, que es la opción 4; el ítem 4 (menor de −7, −3 y −12) da −12, opción 1. Corrijo: ver match correcto abajo."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": false,
+          "problems": "El ítem 1 (menor de −5, −1 y 3) da −5, que es la opción 4; el ítem 4 (menor de −7, −3 y −12) da −12, opción 1. Corrijo: ver match correcto abajo."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador dio otra respuesta"
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 1,
+        "instruction": "Ordena estos números enteros de menor a mayor.",
+        "pairs": null,
+        "steps": [
+          "−9",
+          "−4",
+          "−1",
+          "0",
+          "3",
+          "7"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Los negativos son menores que 0. Entre negativos, el que tiene mayor valor absoluto es el menor: −9 < −4 < −1. Luego van el 0 y los positivos."
+      },
+      "seed": "bde45e9f-a0aa-4628-9082-104f60bc991f:4",
+      "solved": {
+        "game": 5,
+        "match": null,
+        "order": [
+          5,
+          3,
+          1,
+          6,
+          2,
+          4
+        ],
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 1,
+        "instruction": "Elige el número que cumple la condición.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Un número entero que cumple −5 < ___ < −2 es",
+        "options": [
+          "−6",
+          "−1",
+          "−3",
+          "0"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": null,
+        "explanation": "Debe estar entre −5 y −2 en la recta. −3 está a la derecha de −5 y a la izquierda de −2. Los otros quedan fuera del intervalo."
+      },
+      "seed": "bde45e9f-a0aa-4628-9082-104f60bc991f:5",
+      "solved": {
+        "game": 6,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 1,
+        "instruction": "Una de estas comparaciones es incorrecta. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "−7 < −3 porque −7 está a la izquierda de −3.",
+          "−2 < 0 porque los negativos son menores que cero.",
+          "−1 > −10 porque −1 está a la derecha de −10.",
+          "−4 > 1 porque 4 es mayor que 1."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 3,
+        "correction": "−4 < 1 porque todo número negativo es menor que cualquier número positivo.",
+        "calc": null,
+        "explanation": "El signo negativo hace que −4 quede a la izquierda del 1 en la recta, por eso −4 es menor que 1."
+      },
+      "seed": "bde45e9f-a0aa-4628-9082-104f60bc991f:6",
+      "solved": {
+        "game": 7,
+        "match": null,
+        "order": null,
+        "choice": 4,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 2,
+        "instruction": "Une cada descripción de la recta numérica con el número que se ubica ahí.",
+        "pairs": [
+          {
+            "left": "5 unidades a la izquierda del 0",
+            "right": "−5"
+          },
+          {
+            "left": "2 unidades a la izquierda de −1",
+            "right": "−3"
+          },
+          {
+            "left": "3 unidades a la derecha de −5",
+            "right": "−2"
+          },
+          {
+            "left": "4 unidades a la derecha de −1",
+            "right": "3"
+          },
+          {
+            "left": "1 unidad a la izquierda del 0",
+            "right": "−1"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Moverse a la derecha suma unidades y moverse a la izquierda resta. Por ejemplo: −5 + 3 = −2 y −1 − 2 = −3."
+      },
+      "seed": "bde45e9f-a0aa-4628-9082-104f60bc991f:7",
+      "solved": {
+        "game": 8,
+        "match": [
+          3,
+          4,
+          1,
+          1,
+          5
+        ],
+        "order": null,
+        "choice": null,
+        "problems": "Cálculo: 1→−5 (opción 3); 2→−3 (opción 2); 3→−2 (opción 4); 4→3 (opción 1); 5→−1 (opción 5). Corrijo: ver match correcto abajo."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": false,
+          "problems": "Cálculo: 1→−5 (opción 3); 2→−3 (opción 2); 3→−2 (opción 4); 4→3 (opción 1); 5→−1 (opción 5). Corrijo: ver match correcto abajo."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador dio otra respuesta"
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 2,
+        "instruction": "Ordena los pasos para ubicar el −3 en la recta numérica.",
+        "pairs": null,
+        "steps": [
+          "Dibuja una recta y marca el 0.",
+          "Marca unidades de igual longitud a ambos lados del 0.",
+          "Cuenta 3 unidades hacia la izquierda del 0.",
+          "Marca el punto y escribe −3."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Primero se necesita la recta con el 0 y las unidades. Luego se cuenta hacia la izquierda porque −3 es negativo, y al final se marca el punto."
+      },
+      "seed": "bde45e9f-a0aa-4628-9082-104f60bc991f:8",
+      "solved": {
+        "game": 9,
+        "match": null,
+        "order": [
+          3,
+          2,
+          4,
+          1
+        ],
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 2,
+        "instruction": "Elige el número que completa la oración.",
+        "pairs": null,
+        "steps": null,
+        "stem": "En la recta numérica, el punto que está 4 unidades a la izquierda del 2 representa el número ___.",
+        "options": [
+          "6",
+          "−4",
+          "2",
+          "−2"
+        ],
+        "answer_index": 3,
+        "correction": null,
+        "calc": "2-4",
+        "explanation": "Ir 4 unidades a la izquierda es restar 4: 2 − 4 = −2."
+      },
+      "seed": "bde45e9f-a0aa-4628-9082-104f60bc991f:9",
+      "solved": {
+        "game": 10,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 2,
+        "instruction": "Una de estas afirmaciones sobre la recta numérica es falsa. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "El 3 está a la derecha del 0.",
+          "El −5 está a la izquierda del 0.",
+          "El −2 está a la derecha del −6.",
+          "El −1 está a la izquierda del −4."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 3,
+        "correction": "El −1 está a la derecha del −4.",
+        "calc": null,
+        "explanation": "−1 es mayor que −4, así que en la recta queda a su derecha."
+      },
+      "seed": "bde45e9f-a0aa-4628-9082-104f60bc991f:10",
+      "solved": {
+        "game": 11,
+        "match": null,
+        "order": null,
+        "choice": 4,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 3,
+        "instruction": "Une cada expresión con su resultado.",
+        "pairs": [
+          {
+            "left": "Opuesto de 7",
+            "right": "−7"
+          },
+          {
+            "left": "Opuesto de −12",
+            "right": "12"
+          },
+          {
+            "left": "|−9|",
+            "right": "9"
+          },
+          {
+            "left": "|0|",
+            "right": "0"
+          },
+          {
+            "left": "|−15|",
+            "right": "15"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "El opuesto cambia el signo del número. El valor absoluto es la distancia al 0, por eso nunca es negativo."
+      },
+      "seed": "bde45e9f-a0aa-4628-9082-104f60bc991f:11",
+      "solved": {
+        "game": 12,
+        "match": [
+          4,
+          2,
+          5,
+          3,
+          1
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 3,
+        "instruction": "Ordena los pasos para hallar el opuesto del valor absoluto de −6.",
+        "pairs": null,
+        "steps": [
+          "Lee la expresión: el opuesto de |−6|.",
+          "Calcula primero el valor absoluto: |−6| = 6.",
+          "Halla el opuesto de 6, que es −6.",
+          "Escribe el resultado: −6."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Primero se resuelve lo que está dentro: |−6| = 6. Después se cambia el signo de 6 y se obtiene −6."
+      },
+      "seed": "bde45e9f-a0aa-4628-9082-104f60bc991f:12",
+      "solved": {
+        "game": 13,
+        "match": null,
+        "order": [
+          2,
+          4,
+          3,
+          1
+        ],
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 3,
+        "instruction": "Elige la opción correcta.",
+        "pairs": null,
+        "steps": null,
+        "stem": "El valor absoluto de −13 es ___.",
+        "options": [
+          "−13",
+          "−1",
+          "13",
+          "0"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": null,
+        "explanation": "El valor absoluto es la distancia al 0. −13 está a 13 unidades del 0, así que |−13| = 13."
+      },
+      "seed": "bde45e9f-a0aa-4628-9082-104f60bc991f:13",
+      "solved": {
+        "game": 14,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 3,
+        "instruction": "Elige la opción correcta.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Si |x| = 5 y x está a la izquierda del 0, entonces x = ___.",
+        "options": [
+          "−5",
+          "5",
+          "0",
+          "−10"
+        ],
+        "answer_index": 0,
+        "correction": null,
+        "calc": null,
+        "explanation": "Los números a 5 unidades del 0 son 5 y −5. Como x está a la izquierda del 0, es negativo: x = −5."
+      },
+      "seed": "bde45e9f-a0aa-4628-9082-104f60bc991f:14",
+      "solved": {
+        "game": 15,
+        "match": null,
+        "order": null,
+        "choice": 0,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 3,
+        "instruction": "Una de estas igualdades es incorrecta. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "|−11| = 11",
+          "El opuesto de 8 es −8.",
+          "El opuesto de −5 es −5.",
+          "|0| = 0"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "El opuesto de −5 es 5.",
+        "calc": null,
+        "explanation": "El opuesto de un número tiene el signo contrario. El opuesto de −5 es 5, no −5."
+      },
+      "seed": "bde45e9f-a0aa-4628-9082-104f60bc991f:15",
+      "solved": {
+        "game": 16,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    }
+  ],
+  "notes": "Se omitió la mecánica de ordenar en la habilidad 0 porque no tiene un procedimiento con orden único. Se agregaron dos piezas de completar en la habilidad 3."
+}

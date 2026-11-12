@@ -1,0 +1,157 @@
+{
+  "unitId": "6df4fff0-8ceb-4d72-ba12-5c0d738ce0de",
+  "createdAt": "2026-11-04T17:46:43.263Z",
+  "models": {
+    "games": "claude-sonnet-5-5",
+    "solve": "claude-sonnet-5-5"
+  },
+  "prompts": {
+    "games": "generate-games-system@1",
+    "solve": "solve-games-system@1"
+  },
+  "pieces": [
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 0,
+        "instruction": "Une cada frase de un anuncio o conversación con la falacia que usa.",
+        "pairs": [
+          {
+            "left": "«Todo el mundo compra estas galletas, así que son las mejores.»",
+            "right": "Apelación a la mayoría"
+          },
+          {
+            "left": "«No le creas a Marta; como siempre saca malas notas, su propuesta no sirve.»",
+            "right": "Ataque a la persona (ad hominem)"
+          },
+          {
+            "left": "«O compras este celular o nunca estarás a la moda.»",
+            "right": "Falso dilema"
+          },
+          {
+            "left": "«Si hoy faltas a una clase, mañana dejarás el colegio y nunca tendrás trabajo.»",
+            "right": "Pendiente resbaladiza"
+          },
+          {
+            "left": "«Un famoso cantante asegura que este jarabe cura cualquier enfermedad, así que es cierto.»",
+            "right": "Apelación a una autoridad no experta"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Cada frase tiene un error de razonamiento distinto: usar a la mayoría como prueba, atacar a la persona, dar solo dos opciones, anunciar una cadena exagerada de consecuencias o apoyarse en alguien famoso que no es experto en el tema."
+      },
+      "seed": "6df4fff0-8ceb-4d72-ba12-5c0d738ce0de:0",
+      "solved": {
+        "game": 1,
+        "match": [
+          4,
+          3,
+          1,
+          5,
+          2
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Elige la opción que completa correctamente el enunciado.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Un anuncio de televisión dice: «Millones de personas ya usan este jabón, ¡únete tú también!». El anuncio usa la falacia de ___.",
+        "options": [
+          "ataque a la persona",
+          "falso dilema",
+          "apelación a la mayoría",
+          "pendiente resbaladiza"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": null,
+        "explanation": "El anuncio quiere convencerte porque muchas personas usan el producto, pero que lo use mucha gente no prueba que sea bueno. Eso es apelación a la mayoría."
+      },
+      "seed": "6df4fff0-8ceb-4d72-ba12-5c0d738ce0de:1",
+      "solved": {
+        "game": 2,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 0,
+        "instruction": "Una de estas frases sobre las falacias tiene un error. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "Una falacia es un argumento que parece válido, pero que tiene un error de razonamiento.",
+          "Atacar a la persona que habla en lugar de responder a su argumento es una falacia de ataque a la persona.",
+          "El anuncio «O usas esta crema o tendrás arrugas mañana mismo» es un ataque a la persona.",
+          "Decir «todos lo hacen, entonces está bien» es una apelación a la mayoría."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "El anuncio «O usas esta crema o tendrás arrugas mañana mismo» es un falso dilema, porque presenta solo dos opciones como si no hubiera otras.",
+        "calc": null,
+        "explanation": "El anuncio no ataca a ninguna persona; solo ofrece dos posibilidades como únicas. Eso es un falso dilema."
+      },
+      "seed": "6df4fff0-8ceb-4d72-ba12-5c0d738ce0de:2",
+      "solved": {
+        "game": 3,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    }
+  ],
+  "notes": "Solo hay una habilidad. No se hizo una pieza de ordenar pasos porque analizar una falacia en un anuncio no tiene un único orden válido."
+}

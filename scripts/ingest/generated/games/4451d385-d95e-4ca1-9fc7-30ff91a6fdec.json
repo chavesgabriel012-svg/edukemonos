@@ -1,0 +1,388 @@
+{
+  "unitId": "4451d385-d95e-4ca1-9fc7-30ff91a6fdec",
+  "createdAt": "2026-11-04T17:47:30.470Z",
+  "models": {
+    "games": "claude-sonnet-5-5",
+    "solve": "claude-sonnet-5-5"
+  },
+  "prompts": {
+    "games": "generate-games-system@1",
+    "solve": "solve-games-system@1"
+  },
+  "pieces": [
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 0,
+        "instruction": "Une cada fase de lectura con lo que se hace en ella.",
+        "pairs": [
+          {
+            "left": "Fase natural",
+            "right": "Lectura espontánea: comentas qué entendiste y qué sentiste"
+          },
+          {
+            "left": "Fase de ubicación",
+            "right": "Identificas autor, época, tipo de texto y contexto"
+          },
+          {
+            "left": "Fase analística",
+            "right": "Examinas elementos como narrador, personajes, tiempo y espacio"
+          },
+          {
+            "left": "Fase explicativa e interpretativa",
+            "right": "Explicas los sentidos del texto y compartes una interpretación con argumentos"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Cada fase tiene un propósito distinto: primero reaccionas al texto, luego lo ubicas, después analizas sus partes y al final explicas e interpretas sus sentidos."
+      },
+      "seed": "4451d385-d95e-4ca1-9fc7-30ff91a6fdec:0",
+      "solved": {
+        "game": 1,
+        "match": [
+          2,
+          4,
+          3,
+          1
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 0,
+        "instruction": "Ordena las cuatro fases del análisis de un texto literario.",
+        "pairs": null,
+        "steps": [
+          "Fase natural",
+          "Fase de ubicación",
+          "Fase analística",
+          "Fase explicativa e interpretativa"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Se empieza con la lectura espontánea (natural), se ubica el texto, se analizan sus elementos y se termina explicando e interpretando sus sentidos."
+      },
+      "seed": "4451d385-d95e-4ca1-9fc7-30ff91a6fdec:1",
+      "solved": {
+        "game": 2,
+        "match": null,
+        "order": [
+          4,
+          1,
+          2,
+          3
+        ],
+        "choice": null,
+        "problems": "La secuencia natural, ubicación, analística, explicativa e interpretativa es la más habitual, pero el enunciado no indica la fuente. Puede haber variaciones entre autores."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "La secuencia natural, ubicación, analística, explicativa e interpretativa es la más habitual, pero el enunciado no indica la fuente. Puede haber variaciones entre autores."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: La secuencia natural, ubicación, analística, explicativa e interpretativa es la más habitual, pero el enunciado no indica la fuente. Puede haber variaciones entre autores."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Elige la opción que completa bien el enunciado.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Las palabras y oraciones que rodean un fragmento dentro del mismo texto y ayudan a comprender su sentido forman el ___.",
+        "options": [
+          "paratexto",
+          "contexto histórico",
+          "cotexto",
+          "subtítulo"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": null,
+        "explanation": "El cotexto es lo que rodea a un fragmento dentro del mismo texto. El paratexto son elementos como título o portada, y el contexto son las circunstancias sociales o históricas."
+      },
+      "seed": "4451d385-d95e-4ca1-9fc7-30ff91a6fdec:2",
+      "solved": {
+        "game": 3,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 0,
+        "instruction": "Una de estas frases sobre paratexto, cotexto y contexto tiene un error. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "El título, la portada y las ilustraciones de un libro son paratexto.",
+          "El cotexto ayuda a entender un fragmento a partir del resto del texto.",
+          "El contexto incluye las circunstancias sociales e históricas en que se escribe o se lee un texto.",
+          "El cotexto es la época histórica en la que vivió el autor."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 3,
+        "correction": "El cotexto es el conjunto de palabras y oraciones que rodean un fragmento dentro del mismo texto; la época histórica del autor forma parte del contexto.",
+        "calc": null,
+        "explanation": "La época del autor pertenece al contexto, no al cotexto. El cotexto está dentro del mismo texto."
+      },
+      "seed": "4451d385-d95e-4ca1-9fc7-30ff91a6fdec:3",
+      "solved": {
+        "game": 4,
+        "match": null,
+        "order": null,
+        "choice": 4,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 1,
+        "instruction": "Une cada técnica de comunicación oral con su característica.",
+        "pairs": [
+          {
+            "left": "Debate",
+            "right": "Posturas opuestas se defienden con argumentos y hay una persona moderadora"
+          },
+          {
+            "left": "Entrevista",
+            "right": "Una persona pregunta y otra responde sobre un tema"
+          },
+          {
+            "left": "Exposición oral",
+            "right": "Una persona presenta un tema ante un público"
+          },
+          {
+            "left": "Declamación",
+            "right": "Se recita un poema con entonación, pausas y gestos"
+          },
+          {
+            "left": "Narración oral",
+            "right": "Se cuenta una historia hablando, sin leerla, a un auditorio"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Cada técnica oral se reconoce por quiénes participan y qué hacen: debatir, preguntar y responder, exponer, recitar poemas o contar historias."
+      },
+      "seed": "4451d385-d95e-4ca1-9fc7-30ff91a6fdec:4",
+      "solved": {
+        "game": 5,
+        "match": [
+          2,
+          1,
+          4,
+          3,
+          5
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 1,
+        "instruction": "Ordena las etapas de un debate.",
+        "pairs": null,
+        "steps": [
+          "La persona moderadora presenta el tema y las reglas.",
+          "Cada postura expone sus argumentos.",
+          "Los grupos se refutan entre sí con razones.",
+          "Cada postura presenta sus conclusiones."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Primero se presenta el tema, luego se exponen los argumentos, después se refutan y al final se cierra con conclusiones."
+      },
+      "seed": "4451d385-d95e-4ca1-9fc7-30ff91a6fdec:5",
+      "solved": {
+        "game": 6,
+        "match": null,
+        "order": [
+          3,
+          2,
+          1,
+          4
+        ],
+        "choice": null,
+        "problems": "Algunos modelos de debate ponen la refutación antes de las conclusiones de forma distinta, pero este orden es el más común."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "Algunos modelos de debate ponen la refutación antes de las conclusiones de forma distinta, pero este orden es el más común."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: Algunos modelos de debate ponen la refutación antes de las conclusiones de forma distinta, pero este orden es el más común."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 1,
+        "instruction": "Elige la opción que completa bien el enunciado.",
+        "pairs": null,
+        "steps": null,
+        "stem": "En un debate, la persona que da la palabra y controla el tiempo de las intervenciones es quien ejerce como ___.",
+        "options": [
+          "moderador o moderadora",
+          "entrevistado o entrevistada",
+          "declamador o declamadora",
+          "narrador o narradora"
+        ],
+        "answer_index": 0,
+        "correction": null,
+        "calc": null,
+        "explanation": "La persona moderadora organiza el debate: da la palabra, cuida el tiempo y mantiene el orden."
+      },
+      "seed": "4451d385-d95e-4ca1-9fc7-30ff91a6fdec:6",
+      "solved": {
+        "game": 7,
+        "match": null,
+        "order": null,
+        "choice": 0,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 1,
+        "instruction": "Una de estas frases sobre la exposición oral tiene un error. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "Una exposición oral se prepara con un guion de ideas principales.",
+          "Lo mejor es leer todo el texto sin mirar al público y sin variar la voz.",
+          "Conviene hablar con volumen claro y ritmo adecuado.",
+          "Es útil mirar al público y apoyarse en gestos naturales."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 1,
+        "correction": "Lo mejor es apoyarse en el guion, mirar al público y variar la voz para mantener su atención.",
+        "calc": null,
+        "explanation": "En una exposición oral no se lee todo sin mirar al público ni cambiar la voz, porque así se pierde la atención de quienes escuchan."
+      },
+      "seed": "4451d385-d95e-4ca1-9fc7-30ff91a6fdec:7",
+      "solved": {
+        "game": 8,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    }
+  ],
+  "notes": "El programa no da contenidos concretos. Las fases y las técnicas orales se tomaron de forma general. Se verificó que el orden de las etapas del debate sea el habitual."
+}

@@ -291,11 +291,13 @@ export async function loadUnitContent(db: Db, u: ContentUnit, cached: UnitConten
   const c = reverify(u, cached);
   // Published or reviewed rows are never replaced, and inserting next to them would duplicate them.
   const settled = `unit_id=eq.${u.id}&or=(status.neq.draft,reviewer_id.not.is.null)&select=id&limit=1`;
-  if ((await db.select("materials", settled)).length || (await db.select("items", settled)).length) {
+  if ((await db.select("materials", settled)).length || (await db.select("items", `${settled}&kind=in.(single_choice,open_writing)`)).length) {
     return { skipped: true, materials: 0, items: 0, verified: 0, writing: 0, replaced: 0 };
   }
   const unreviewedDraft = `unit_id=eq.${u.id}&status=eq.draft&reviewer_id=is.null`;
-  const replaced = (await db.delete("materials", unreviewedDraft)) + (await db.delete("items", `${unreviewedDraft}&origin=eq.bulk`));
+  // Only practice items: game pieces (fase 3) have their own pipeline (src/games.ts).
+  const replaced =
+    (await db.delete("materials", unreviewedDraft)) + (await db.delete("items", `${unreviewedDraft}&origin=eq.bulk&kind=in.(single_choice,open_writing)`));
   const [mp, mv] = c.prompts.materials.split("@");
   await db.insert(
     "materials",

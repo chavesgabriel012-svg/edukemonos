@@ -1,0 +1,209 @@
+{
+  "unitId": "1c5bf8a8-50b3-47be-b727-7d4e93f52bef",
+  "createdAt": "2026-11-04T17:50:16.422Z",
+  "models": {
+    "games": "claude-sonnet-5-5",
+    "solve": "claude-sonnet-5-5"
+  },
+  "prompts": {
+    "games": "generate-games-system@1",
+    "solve": "solve-games-system@1"
+  },
+  "pieces": [
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 0,
+        "instruction": "Une cada tipo de falacia con el ejemplo que le corresponde.",
+        "pairs": [
+          {
+            "left": "Ataque a la persona (ad hominem)",
+            "right": "«No le hagas caso a Marta sobre reciclaje; ella es muy desordenada.»"
+          },
+          {
+            "left": "Generalización apresurada",
+            "right": "«Dos vecinos de esa calle son ruidosos, así que todos en ese barrio lo son.»"
+          },
+          {
+            "left": "Falso dilema",
+            "right": "«O estás conmigo o estás en mi contra.»"
+          },
+          {
+            "left": "Apelación a la mayoría",
+            "right": "«Todo el colegio usa esa marca, por eso es la mejor.»"
+          },
+          {
+            "left": "Pendiente resbaladiza",
+            "right": "«Si hoy aceptan una tarea tarde, mañana nadie entregará nada y el colegio será un caos.»"
+          },
+          {
+            "left": "Hombre de paja",
+            "right": "«Quieres limitar el celular en clase; entonces quieres prohibir toda la tecnología.»"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Cada ejemplo muestra un error de razonamiento distinto: atacar a quien habla, generalizar con pocos casos, ofrecer solo dos opciones, apoyarse en lo que hace la mayoría, predecir una cadena exagerada de consecuencias o deformar lo que dijo la otra persona."
+      },
+      "seed": "1c5bf8a8-50b3-47be-b727-7d4e93f52bef:0",
+      "solved": {
+        "game": 1,
+        "match": [
+          2,
+          5,
+          3,
+          6,
+          4,
+          1
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 0,
+        "instruction": "Ordena los pasos para analizar un argumento y corregir una falacia.",
+        "pairs": null,
+        "steps": [
+          "Identifica la conclusión que se quiere defender.",
+          "Busca las razones (premisas) que se dan para apoyarla.",
+          "Evalúa si esas razones realmente apoyan la conclusión.",
+          "Nombra la falacia si el razonamiento falla.",
+          "Reformula el argumento con razones válidas y respetuosas."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Primero hay que saber qué se afirma y con qué razones. Después se evalúa si el razonamiento falla, se nombra la falacia y al final se reformula el argumento para corregirlo."
+      },
+      "seed": "1c5bf8a8-50b3-47be-b727-7d4e93f52bef:1",
+      "solved": {
+        "game": 2,
+        "match": null,
+        "order": [
+          4,
+          3,
+          1,
+          2,
+          5
+        ],
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Elige la opción que completa correctamente el enunciado.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Decir «Ese candidato no tiene razón porque estudió en una escuela privada» es una falacia ___, pues ataca a la persona y no a su argumento.",
+        "options": [
+          "de apelación a la mayoría",
+          "de falso dilema",
+          "ad hominem",
+          "de pendiente resbaladiza"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": null,
+        "explanation": "La falacia ad hominem desvía la atención del argumento hacia características de la persona. Aquí se descarta lo que dice el candidato por dónde estudió, no por sus razones."
+      },
+      "seed": "1c5bf8a8-50b3-47be-b727-7d4e93f52bef:2",
+      "solved": {
+        "game": 3,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 0,
+        "instruction": "Una de estas clasificaciones de falacias es incorrecta. Encuentra cuál es.",
+        "pairs": null,
+        "steps": [
+          "«Todos mis amigos lo hacen, así que está bien» es una apelación a la mayoría.",
+          "«O apoyas mi propuesta o no te importa el colegio» es un falso dilema.",
+          "«No creo lo que dice Luis sobre el examen porque es muy callado» es una pendiente resbaladiza.",
+          "«Si no estudias hoy, reprobarás el año y arruinarás tu vida» es una pendiente resbaladiza."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "«No creo lo que dice Luis sobre el examen porque es muy callado» es un ataque a la persona (ad hominem).",
+        "calc": null,
+        "explanation": "En la frase sobre Luis no se habla de una cadena de consecuencias. Se descarta lo que dice por una característica de su personalidad, así que es ad hominem."
+      },
+      "seed": "1c5bf8a8-50b3-47be-b727-7d4e93f52bef:3",
+      "solved": {
+        "game": 4,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    }
+  ],
+  "notes": "La unidad solo tiene una habilidad y el programa no da contenidos específicos; se trabajaron falacias comunes de 9.º año."
+}

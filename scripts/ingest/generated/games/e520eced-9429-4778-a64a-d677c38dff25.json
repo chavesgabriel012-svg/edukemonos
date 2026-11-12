@@ -1,0 +1,384 @@
+{
+  "unitId": "e520eced-9429-4778-a64a-d677c38dff25",
+  "createdAt": "2026-11-04T17:43:23.354Z",
+  "models": {
+    "games": "claude-sonnet-5-5",
+    "solve": "claude-sonnet-5-5"
+  },
+  "prompts": {
+    "games": "generate-games-system@1",
+    "solve": "solve-games-system@1"
+  },
+  "pieces": [
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 0,
+        "instruction": "Une cada frase oral informal con su versión escrita formal.",
+        "pairs": [
+          {
+            "left": "Mae, ¿me presta la tarea?",
+            "right": "Estimado compañero, ¿podría prestarme la tarea?"
+          },
+          {
+            "left": "Ahí le aviso si puedo ir.",
+            "right": "Le informaré oportunamente si puedo asistir."
+          },
+          {
+            "left": "Qué chiva que me invitaron.",
+            "right": "Agradezco mucho la invitación."
+          },
+          {
+            "left": "No sea malo, deme chance.",
+            "right": "Le solicito respetuosamente una prórroga."
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Cada frase informal usa expresiones propias de la conversación entre amistades. Su pareja dice lo mismo con un lenguaje cuidado, adecuado para un texto escrito formal."
+      },
+      "seed": "e520eced-9429-4778-a64a-d677c38dff25:0",
+      "solved": {
+        "game": 1,
+        "match": [
+          3,
+          2,
+          4,
+          1
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 0,
+        "instruction": "Ordena las partes de una nota escrita formal a un docente.",
+        "pairs": null,
+        "steps": [
+          "Escribir el saludo: Estimado profesor:",
+          "Explicar el motivo de la nota",
+          "Dar los detalles o la petición con lenguaje formal",
+          "Escribir una despedida cortés: Atentamente,",
+          "Poner el nombre de quien escribe"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Una nota formal empieza con el saludo, sigue con el motivo y los detalles, y termina con la despedida y la firma."
+      },
+      "seed": "e520eced-9429-4778-a64a-d677c38dff25:1",
+      "solved": {
+        "game": 2,
+        "match": null,
+        "order": [
+          1,
+          2,
+          5,
+          4,
+          3
+        ],
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Elige la opción que completa bien el enunciado.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Si escribes una carta a la directora del colegio, lo más adecuado es usar un registro ___.",
+        "options": [
+          "con jerga entre amistades",
+          "con muletillas como «o sea» y «este»",
+          "formal y cuidado",
+          "con abreviaturas de mensajes de chat"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": null,
+        "explanation": "Una carta dirigida a una autoridad es un texto escrito y formal. Por eso pide un registro formal, sin jerga, muletillas ni abreviaturas."
+      },
+      "seed": "e520eced-9429-4778-a64a-d677c38dff25:2",
+      "solved": {
+        "game": 3,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 0,
+        "instruction": "Una de estas frases de una nota formal no encaja con el registro escrito. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "Estimada profesora Elena:",
+          "Le escribo para solicitarle una prórroga en la entrega del proyecto.",
+          "Es que, tuanis, me enfermé y no pude terminarlo, mae.",
+          "Agradezco de antemano su comprensión.",
+          "Atentamente, Camila Mora."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "Me enfermé y no pude terminar el proyecto.",
+        "calc": null,
+        "explanation": "Las palabras «tuanis» y «mae» y la muletilla «es que» son del registro oral informal. No van en una nota formal escrita a una profesora."
+      },
+      "seed": "e520eced-9429-4778-a64a-d677c38dff25:3",
+      "solved": {
+        "game": 4,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 1,
+        "instruction": "Une cada técnica de comunicación oral con su característica.",
+        "pairs": [
+          {
+            "left": "Entrevista",
+            "right": "Una persona pregunta y otra responde para obtener información"
+          },
+          {
+            "left": "Debate",
+            "right": "Dos grupos defienden posturas opuestas sobre un tema, con un moderador"
+          },
+          {
+            "left": "Exposición oral",
+            "right": "Una persona presenta un tema de forma organizada ante un público"
+          },
+          {
+            "left": "Declamación",
+            "right": "Se recita un poema con expresividad y entonación"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Cada técnica oral tiene un propósito propio: la entrevista pregunta, el debate confronta posturas, la exposición informa y la declamación recita con expresión."
+      },
+      "seed": "e520eced-9429-4778-a64a-d677c38dff25:4",
+      "solved": {
+        "game": 5,
+        "match": [
+          2,
+          4,
+          3,
+          1
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 1,
+        "instruction": "Ordena los pasos para preparar una exposición oral.",
+        "pairs": null,
+        "steps": [
+          "Elegir el tema",
+          "Investigar en fuentes confiables",
+          "Elaborar un esquema o guion con las ideas principales",
+          "Ensayar en voz alta cuidando volumen y entonación",
+          "Presentar el tema ante el grupo"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Primero se elige el tema, luego se investiga y se organiza la información. Después se ensaya y, al final, se presenta."
+      },
+      "seed": "e520eced-9429-4778-a64a-d677c38dff25:5",
+      "solved": {
+        "game": 6,
+        "match": null,
+        "order": [
+          4,
+          5,
+          3,
+          1,
+          2
+        ],
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 1,
+        "instruction": "Elige la opción que completa bien el enunciado.",
+        "pairs": null,
+        "steps": null,
+        "stem": "En un debate, la persona que organiza los turnos de palabra y cuida el respeto se llama ___.",
+        "options": [
+          "entrevistado",
+          "moderador",
+          "declamador",
+          "espectador"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": null,
+        "explanation": "El moderador da la palabra, controla el tiempo y cuida que las personas participantes se respeten."
+      },
+      "seed": "e520eced-9429-4778-a64a-d677c38dff25:6",
+      "solved": {
+        "game": 7,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 1,
+        "instruction": "Una de estas afirmaciones sobre la entrevista es incorrecta. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "La entrevista es una técnica oral en la que una persona pregunta y otra responde.",
+          "Quien entrevista prepara las preguntas antes de la conversación.",
+          "Durante la entrevista, la persona entrevistada hace todas las preguntas y quien entrevista responde.",
+          "Ambas personas deben escuchar con atención y respetar los turnos."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "Durante la entrevista, quien entrevista hace las preguntas y la persona entrevistada responde.",
+        "calc": null,
+        "explanation": "En la entrevista, quien entrevista pregunta para obtener información y la persona entrevistada responde. El paso 2 invierte esos papeles."
+      },
+      "seed": "e520eced-9429-4778-a64a-d677c38dff25:7",
+      "solved": {
+        "game": 8,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    }
+  ],
+  "notes": "El programa no indica contenidos específicos; las piezas se basaron en los criterios de aprendizaje y en técnicas orales comunes de sétimo año (entrevista, debate, exposición, declamación)."
+}

@@ -1,0 +1,399 @@
+{
+  "unitId": "61fafd53-1853-4ff4-823d-53c6f9717701",
+  "createdAt": "2026-11-04T17:57:33.370Z",
+  "models": {
+    "games": "claude-sonnet-5-5",
+    "solve": "claude-sonnet-5-5"
+  },
+  "prompts": {
+    "games": "generate-games-system@1",
+    "solve": "solve-games-system@1"
+  },
+  "pieces": [
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 0,
+        "instruction": "Une cada prefijo del Sistema Internacional con su valor.",
+        "pairs": [
+          {
+            "left": "kilo (k)",
+            "right": "10³"
+          },
+          {
+            "left": "mega (M)",
+            "right": "10⁶"
+          },
+          {
+            "left": "giga (G)",
+            "right": "10⁹"
+          },
+          {
+            "left": "mili (m)",
+            "right": "10⁻³"
+          },
+          {
+            "left": "micro (µ)",
+            "right": "10⁻⁶"
+          },
+          {
+            "left": "nano (n)",
+            "right": "10⁻⁹"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Los prefijos de cantidades grandes tienen exponente positivo (kilo 10³, mega 10⁶, giga 10⁹) y los de cantidades pequeñas tienen exponente negativo (mili 10⁻³, micro 10⁻⁶, nano 10⁻⁹)."
+      },
+      "seed": "61fafd53-1853-4ff4-823d-53c6f9717701:0",
+      "solved": {
+        "game": 1,
+        "match": [
+          3,
+          5,
+          1,
+          4,
+          6,
+          2
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Elige el número que completa el enunciado.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Una carpeta pesa 2,5 gigabytes (GB). Como 1 GB equivale a 1000 megabytes (MB), la carpeta pesa ___ MB.",
+        "options": [
+          "25",
+          "250",
+          "2500",
+          "25 000"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": "2.5*1000",
+        "explanation": "Giga es 10⁹ y mega es 10⁶, así que 1 GB = 10³ MB = 1000 MB. Entonces 2,5 × 1000 = 2500 MB."
+      },
+      "seed": "61fafd53-1853-4ff4-823d-53c6f9717701:1",
+      "solved": {
+        "game": 2,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 0,
+        "instruction": "Una de estas conversiones tiene un error. Encuentra cuál es.",
+        "pairs": null,
+        "steps": [
+          "2 Mm = 2 × 10⁶ m = 2 000 000 m",
+          "7 ms = 7 × 10⁻³ s = 0,007 s",
+          "4 µg = 4 × 10⁻⁹ g = 0,000000004 g",
+          "3 Gm = 3 × 10⁹ m = 3 000 000 000 m"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "4 µg = 4 × 10⁻⁶ g = 0,000004 g",
+        "calc": null,
+        "explanation": "El prefijo micro (µ) vale 10⁻⁶, no 10⁻⁹. El valor 10⁻⁹ corresponde al prefijo nano (n)."
+      },
+      "seed": "61fafd53-1853-4ff4-823d-53c6f9717701:2",
+      "solved": {
+        "game": 3,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": "El paso 3 tiene el error: micro (µ) equivale a 10⁻⁶, no a 10⁻⁹. Lo correcto es 4 µg = 0,000004 g."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "El paso 3 tiene el error: micro (µ) equivale a 10⁻⁶, no a 10⁻⁹. Lo correcto es 4 µg = 0,000004 g."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: El paso 3 tiene el error: micro (µ) equivale a 10⁻⁶, no a 10⁻⁹. Lo correcto es 4 µg = 0,000004 g."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 0,
+        "instruction": "Ordena los pasos para convertir 4,5 Gm a metros.",
+        "pairs": null,
+        "steps": [
+          "Identificar el prefijo de la unidad: giga (G).",
+          "Recordar que giga equivale a 10⁹.",
+          "Escribir la multiplicación 4,5 × 10⁹.",
+          "Obtener el resultado: 4 500 000 000 m."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Primero se reconoce el prefijo, luego se recuerda su valor, después se multiplica y por último se escribe el resultado con su unidad."
+      },
+      "seed": "61fafd53-1853-4ff4-823d-53c6f9717701:3",
+      "solved": {
+        "game": 4,
+        "match": null,
+        "order": [
+          3,
+          2,
+          4,
+          1
+        ],
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 1,
+        "instruction": "Usa la calculadora y elige la respuesta correcta.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Una antena envía 2 × 10⁻³ MB por mensaje. Si envía 3,6 × 10⁸ mensajes, en total envía ___ MB.",
+        "options": [
+          "72 000",
+          "720 000",
+          "7 200 000",
+          "7,2"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": "2*10^(-3)*3.6*10^8",
+        "explanation": "Se multiplica 2 × 10⁻³ por 3,6 × 10⁸. Los números dan 7,2 y las potencias dan 10⁵, es decir, 7,2 × 10⁵ = 720 000 MB."
+      },
+      "seed": "61fafd53-1853-4ff4-823d-53c6f9717701:4",
+      "solved": {
+        "game": 5,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 1,
+        "instruction": "Una persona resolvió este problema con la calculadora. Encuentra el paso con error.",
+        "pairs": null,
+        "steps": [
+          "1 mm = 1 × 10⁻³ m = 0,001 m",
+          "2 µm = 2 × 10⁻⁶ m = 0,000002 m",
+          "0,001 ÷ 0,000002 = 5000"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "0,001 ÷ 0,000002 = 500",
+        "calc": null,
+        "explanation": "Al dividir 0,001 entre 0,000002 el resultado es 500, porque 500 × 0,000002 = 0,001. Caben 500 células de 2 µm en 1 mm."
+      },
+      "seed": "61fafd53-1853-4ff4-823d-53c6f9717701:5",
+      "solved": {
+        "game": 6,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": "El paso 3 tiene el error: 0,001 ÷ 0,000002 = 500, no 5000."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "El paso 3 tiene el error: 0,001 ÷ 0,000002 = 500, no 5000."
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": [
+          "el verificador señaló: El paso 3 tiene el error: 0,001 ÷ 0,000002 = 500, no 5000."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 1,
+        "instruction": "Calcula cada operación con la calculadora y une con su resultado.",
+        "pairs": [
+          {
+            "left": "(3 × 10⁴) × (2 × 10³)",
+            "right": "6 × 10⁷"
+          },
+          {
+            "left": "(8 × 10⁹) ÷ (4 × 10³)",
+            "right": "2 × 10⁶"
+          },
+          {
+            "left": "(5 × 10⁻³) × (2 × 10⁻²)",
+            "right": "1 × 10⁻⁴"
+          },
+          {
+            "left": "(9 × 10⁻³) ÷ (3 × 10⁻⁶)",
+            "right": "3 × 10³"
+          },
+          {
+            "left": "(2 × 10⁵) + (3 × 10⁵)",
+            "right": "5 × 10⁵"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Al multiplicar se multiplican los números y se suman los exponentes; al dividir se dividen los números y se restan los exponentes. Al sumar potencias iguales se suman los números: 2 + 3 = 5. En 5 × 2 = 10 y 10 × 10⁻⁵ = 1 × 10⁻⁴."
+      },
+      "seed": "61fafd53-1853-4ff4-823d-53c6f9717701:6",
+      "solved": {
+        "game": 7,
+        "match": [
+          2,
+          1,
+          4,
+          3,
+          5
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 1,
+        "instruction": "Ordena los pasos para resolver un problema con unidades usando la calculadora.",
+        "pairs": null,
+        "steps": [
+          "Leer el problema e identificar los datos con sus prefijos.",
+          "Escribir cada dato como una potencia de 10.",
+          "Digitar la operación en la calculadora con paréntesis.",
+          "Calcular y leer el resultado.",
+          "Dar la respuesta con su unidad."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Primero se entienden y se escriben los datos, luego se digita la operación, se calcula y al final se da la respuesta con su unidad."
+      },
+      "seed": "61fafd53-1853-4ff4-823d-53c6f9717701:7",
+      "solved": {
+        "game": 8,
+        "match": null,
+        "order": [
+          1,
+          4,
+          3,
+          5,
+          2
+        ],
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    }
+  ],
+  "notes": ""
+}

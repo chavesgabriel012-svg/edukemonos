@@ -21,7 +21,7 @@ export function Faq({ items }: { items: FaqItem[] }) {
         </ul>
       </nav>
       {items.map((i) => (
-        <section key={i.id} id={i.id} aria-labelledby={`${i.id}-q`} className="scroll-mt-6 space-y-3 rounded-[22px] border bg-card p-5 sm:p-6">
+        <section key={i.id} id={i.id} aria-labelledby={`${i.id}-q`} className="scroll-mt-20 space-y-3 rounded-[22px] border bg-card p-5 sm:p-6">
           <h2 id={`${i.id}-q`} className="font-heading text-2xl leading-tight font-bold">{i.q}</h2>
           <div className="space-y-3 leading-relaxed [&_li]:ml-5 [&_ul]:list-disc [&_ul]:space-y-1.5">{i.a}</div>
         </section>

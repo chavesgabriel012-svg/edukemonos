@@ -1,0 +1,446 @@
+{
+  "unitId": "3b00e417-796d-4dca-9c0d-584c01a58c58",
+  "createdAt": "2026-11-04T17:45:45.826Z",
+  "models": {
+    "games": "claude-sonnet-5-5",
+    "solve": "claude-sonnet-5-5"
+  },
+  "prompts": {
+    "games": "generate-games-system@1",
+    "solve": "solve-games-system@1"
+  },
+  "pieces": [
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 0,
+        "instruction": "Une cada ejemplo con el uso del signo de puntuación que muestra.",
+        "pairs": [
+          {
+            "left": "Rojas Vargas, Luis",
+            "right": "Coma que separa los apellidos del nombre invertido"
+          },
+          {
+            "left": "M. Araya",
+            "right": "Punto después de la inicial del nombre de un autor"
+          },
+          {
+            "left": "www.escuela.ed.cr",
+            "right": "Punto que separa las partes de una dirección electrónica"
+          },
+          {
+            "left": "Necesito tres cosas: agua, pan y sal.",
+            "right": "Dos puntos después de un elemento anticipador, antes de una enumeración"
+          },
+          {
+            "left": "«El saber no ocupa lugar»",
+            "right": "Comillas que enmarcan una cita"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Cada ejemplo muestra un uso distinto: la coma separa apellidos y nombre invertido, el punto aparece en la inicial y en la dirección electrónica, los dos puntos anuncian la enumeración y las comillas enmarcan la cita."
+      },
+      "seed": "3b00e417-796d-4dca-9c0d-584c01a58c58:0",
+      "solved": {
+        "game": 1,
+        "match": [
+          3,
+          2,
+          1,
+          4,
+          5
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Completa la explicación sobre el uso de la coma.",
+        "pairs": null,
+        "steps": null,
+        "stem": "En «Rojas Vargas, Luis», la coma sirve para ___.",
+        "options": [
+          "anunciar una enumeración",
+          "separar los apellidos del nombre cuando se invirtió el orden",
+          "enmarcar una cita textual",
+          "separar dos oraciones completas"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": null,
+        "explanation": "Cuando se invierte el orden del nombre y se escriben primero los apellidos, se coloca una coma antes del nombre."
+      },
+      "seed": "3b00e417-796d-4dca-9c0d-584c01a58c58:1",
+      "solved": {
+        "game": 2,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Completa la explicación sobre el uso del punto.",
+        "pairs": null,
+        "steps": null,
+        "stem": "En la dirección «www.mep.go.cr», los puntos sirven para ___.",
+        "options": [
+          "introducir una cita",
+          "terminar una oración",
+          "anunciar una enumeración",
+          "separar las partes de la dirección electrónica"
+        ],
+        "answer_index": 3,
+        "correction": null,
+        "calc": null,
+        "explanation": "En las direcciones electrónicas el punto separa sus partes, como el nombre y el dominio."
+      },
+      "seed": "3b00e417-796d-4dca-9c0d-584c01a58c58:2",
+      "solved": {
+        "game": 3,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 1,
+        "instruction": "Ordena los pasos para escribir una cita textual después de una frase introductoria.",
+        "pairs": null,
+        "steps": [
+          "Escribe la frase que introduce la cita",
+          "Coloca dos puntos",
+          "Abre las comillas",
+          "Copia la cita tal como la dijo la persona",
+          "Cierra las comillas"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Primero va la frase que introduce, luego los dos puntos, después se abren las comillas, se copia la cita exacta y al final se cierran las comillas."
+      },
+      "seed": "3b00e417-796d-4dca-9c0d-584c01a58c58:3",
+      "solved": {
+        "game": 4,
+        "match": null,
+        "order": [
+          2,
+          4,
+          3,
+          1,
+          5
+        ],
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 1,
+        "instruction": "Elige el signo que completa bien la oración.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Mi profesora dijo___ «Entreguen el trabajo el lunes».",
+        "options": [
+          "dos puntos (:)",
+          "punto (.)",
+          "punto y coma (;)",
+          "ningún signo"
+        ],
+        "answer_index": 0,
+        "correction": null,
+        "calc": null,
+        "explanation": "Antes de una cita textual se escriben dos puntos."
+      },
+      "seed": "3b00e417-796d-4dca-9c0d-584c01a58c58:4",
+      "solved": {
+        "game": 5,
+        "match": null,
+        "order": null,
+        "choice": 0,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 1,
+        "instruction": "Elige el signo que completa bien la oración.",
+        "pairs": null,
+        "steps": null,
+        "stem": "En mi mochila hay varios útiles___ cuadernos, lápices y una regla.",
+        "options": [
+          "coma (,)",
+          "punto (.)",
+          "dos puntos (:)",
+          "comillas (« »)"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": null,
+        "explanation": "«Varios útiles» es un elemento anticipador de la enumeración, y después de él se escriben dos puntos."
+      },
+      "seed": "3b00e417-796d-4dca-9c0d-584c01a58c58:5",
+      "solved": {
+        "game": 6,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 1,
+        "instruction": "Elige el signo que completa bien la ficha de la biblioteca.",
+        "pairs": null,
+        "steps": null,
+        "stem": "En la lista de la biblioteca aparece Quesada Ruiz___ Pablo.",
+        "options": [
+          "dos puntos (:)",
+          "punto (.)",
+          "punto y coma (;)",
+          "coma (,)"
+        ],
+        "answer_index": 3,
+        "correction": null,
+        "calc": null,
+        "explanation": "Si los apellidos se escriben antes del nombre, se separan con una coma: Quesada Ruiz, Pablo."
+      },
+      "seed": "3b00e417-796d-4dca-9c0d-584c01a58c58:6",
+      "solved": {
+        "game": 7,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 1,
+        "instruction": "Lee la lista y toca la frase que tiene un error de puntuación.",
+        "pairs": null,
+        "steps": [
+          "Chaves, Rojas Luis",
+          "Más información en www.ciencias.ed.cr",
+          "La profesora anunció: «El examen será el martes».",
+          "Mi hermano preguntó: «¿Dónde está mi libro?»"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 0,
+        "correction": "Chaves Rojas, Luis",
+        "calc": null,
+        "explanation": "Los dos apellidos van juntos y la coma los separa del nombre: Chaves Rojas, Luis. Las demás frases están bien puntuadas."
+      },
+      "seed": "3b00e417-796d-4dca-9c0d-584c01a58c58:7",
+      "solved": {
+        "game": 8,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 2,
+        "instruction": "Lee las frases y encuentra la que no respeta el uso normativo de los dos puntos.",
+        "pairs": null,
+        "steps": [
+          "Visité la página www.museo.go.cr para ver los horarios.",
+          "En la biblioteca busqué el libro de Solano Vega, Carmen.",
+          "En mi maleta llevo: ropa, un cepillo y una toalla.",
+          "Mi abuela siempre decía: «Quien persevera alcanza»."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "En mi maleta llevo ropa, un cepillo y una toalla.",
+        "calc": null,
+        "explanation": "No se escriben dos puntos después del verbo «llevo», porque no hay un elemento anticipador antes de la enumeración."
+      },
+      "seed": "3b00e417-796d-4dca-9c0d-584c01a58c58:8",
+      "solved": {
+        "game": 9,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": "El paso 3 usa dos puntos después del verbo «llevo», lo que no es normativo. Los pasos 1 y 2 no llevan dos puntos, así que el enunciado es algo confuso, pero la respuesta es única."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "El paso 3 usa dos puntos después del verbo «llevo», lo que no es normativo. Los pasos 1 y 2 no llevan dos puntos, así que el enunciado es algo confuso, pero la respuesta es única."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: El paso 3 usa dos puntos después del verbo «llevo», lo que no es normativo. Los pasos 1 y 2 no llevan dos puntos, así que el enunciado es algo confuso, pero la respuesta es única."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 2,
+        "instruction": "Elige la oración que respeta la norma de puntuación.",
+        "pairs": null,
+        "steps": null,
+        "stem": "La oración bien puntuada es: ___",
+        "options": [
+          "Mi mamá preguntó «¿Ya almorzaste?»",
+          "Mi mamá, preguntó: «¿Ya almorzaste?»",
+          "Mi mamá preguntó: «¿Ya almorzaste?»",
+          "Mi mamá preguntó; «¿Ya almorzaste?»"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": null,
+        "explanation": "En el discurso directo se escriben dos puntos antes de la cita y no se separa el sujeto del verbo con coma."
+      },
+      "seed": "3b00e417-796d-4dca-9c0d-584c01a58c58:9",
+      "solved": {
+        "game": 10,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    }
+  ],
+  "notes": ""
+}

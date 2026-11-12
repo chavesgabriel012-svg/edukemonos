@@ -1,0 +1,485 @@
+{
+  "unitId": "d71bd28e-e0f5-4874-9a9f-e35d74de0295",
+  "createdAt": "2026-11-04T17:48:37.012Z",
+  "models": {
+    "games": "claude-sonnet-5-5",
+    "solve": "claude-sonnet-5-5"
+  },
+  "prompts": {
+    "games": "generate-games-system@1",
+    "solve": "solve-games-system@1"
+  },
+  "pieces": [
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 0,
+        "instruction": "Une cada verbo en infinitivo con su participio irregular.",
+        "pairs": [
+          {
+            "left": "abrir",
+            "right": "abierto"
+          },
+          {
+            "left": "decir",
+            "right": "dicho"
+          },
+          {
+            "left": "hacer",
+            "right": "hecho"
+          },
+          {
+            "left": "escribir",
+            "right": "escrito"
+          },
+          {
+            "left": "romper",
+            "right": "roto"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Estos verbos no forman el participio con -ado o -ido, sino con una forma irregular: abierto, dicho, hecho, escrito y roto."
+      },
+      "seed": "d71bd28e-e0f5-4874-9a9f-e35d74de0295:0",
+      "solved": {
+        "game": 1,
+        "match": [
+          3,
+          4,
+          1,
+          2,
+          5
+        ],
+        "order": null,
+        "choice": null,
+        "problems": "Hay un problema menor: 'abrir', 'decir', 'hacer', 'escribir' y 'romper' sí tienen participio irregular, así que el enunciado es correcto."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "Hay un problema menor: 'abrir', 'decir', 'hacer', 'escribir' y 'romper' sí tienen participio irregular, así que el enunciado es correcto."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: Hay un problema menor: 'abrir', 'decir', 'hacer', 'escribir' y 'romper' sí tienen participio irregular, así que el enunciado es correcto."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Elige el participio que completa bien la oración.",
+        "pairs": null,
+        "steps": null,
+        "stem": "La ventana quedó ___ toda la noche.",
+        "options": [
+          "abrida",
+          "abierta",
+          "abierto",
+          "abrido"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": null,
+        "explanation": "El participio de abrir es irregular: abierto. Aquí funciona como adjetivo de «ventana», que es femenino singular, así que se escribe «abierta»."
+      },
+      "seed": "d71bd28e-e0f5-4874-9a9f-e35d74de0295:1",
+      "solved": {
+        "game": 2,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": "Ambigüedad: 'abierto' es la forma correcta como adjetivo con 'ventana', pero la concordancia exigiría 'abierta' (femenino). 'La ventana quedó abierta' es la correcta; la opción 1 es la correcta, no la 2."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": false,
+          "problems": "Ambigüedad: 'abierto' es la forma correcta como adjetivo con 'ventana', pero la concordancia exigiría 'abierta' (femenino). 'La ventana quedó abierta' es la correcta; la opción 1 es la correcta, no la 2."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador dio otra respuesta"
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 0,
+        "instruction": "Encuentra la oración que tiene un participio mal formado.",
+        "pairs": null,
+        "steps": [
+          "Ya he escrito el informe.",
+          "Hemos resolvido el problema en equipo.",
+          "Mis primos han vuelto de Limón.",
+          "La tarea fue entregada a tiempo."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 1,
+        "correction": "Hemos resuelto el problema en equipo.",
+        "calc": null,
+        "explanation": "El participio de resolver es irregular: resuelto. La forma «resolvido» no existe en el español estándar."
+      },
+      "seed": "d71bd28e-e0f5-4874-9a9f-e35d74de0295:2",
+      "solved": {
+        "game": 3,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 1,
+        "instruction": "Une cada oración incompleta con el participio que la completa.",
+        "pairs": [
+          {
+            "left": "Ella ha ___ una carta para su abuela (escribir).",
+            "right": "escrito"
+          },
+          {
+            "left": "Hemos ___ la película en el cine (ver).",
+            "right": "visto"
+          },
+          {
+            "left": "Se ha ___ el vaso al caerse (romper).",
+            "right": "roto"
+          },
+          {
+            "left": "Ya han ___ la mesa para el almuerzo (poner).",
+            "right": "puesto"
+          },
+          {
+            "left": "Mi tío ha ___ de San Carlos (volver).",
+            "right": "vuelto"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Cada verbo tiene un participio irregular propio: escribir, escrito; ver, visto; romper, roto; poner, puesto; volver, vuelto."
+      },
+      "seed": "d71bd28e-e0f5-4874-9a9f-e35d74de0295:3",
+      "solved": {
+        "game": 4,
+        "match": [
+          5,
+          4,
+          2,
+          3,
+          1
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 1,
+        "instruction": "Ordena las partes para formar una oración en voz pasiva bien escrita.",
+        "pairs": null,
+        "steps": [
+          "La carta",
+          "fue",
+          "escrita",
+          "por la directora"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Primero va el sujeto («La carta»), luego el verbo ser («fue»), después el participio que concuerda con el sujeto («escrita») y al final quien realiza la acción («por la directora»)."
+      },
+      "seed": "d71bd28e-e0f5-4874-9a9f-e35d74de0295:4",
+      "solved": {
+        "game": 5,
+        "match": null,
+        "order": [
+          3,
+          1,
+          2,
+          4
+        ],
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 1,
+        "instruction": "Completa la oración con el participio que concuerda.",
+        "pairs": null,
+        "steps": null,
+        "stem": "___ la reunión, los vecinos regresaron a sus casas.",
+        "options": [
+          "Terminado",
+          "Terminados",
+          "Terminada",
+          "Terminadas"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": null,
+        "explanation": "En esta construcción el participio concuerda con el sustantivo que lo acompaña. «Reunión» es femenino singular, por eso se usa «Terminada»."
+      },
+      "seed": "d71bd28e-e0f5-4874-9a9f-e35d74de0295:5",
+      "solved": {
+        "game": 6,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 1,
+        "instruction": "Lee el texto y encuentra la oración con un participio mal escrito.",
+        "pairs": null,
+        "steps": [
+          "El grupo de noveno ha preparado una feria ambiental.",
+          "Los carteles fueron pintados por todo el grupo.",
+          "Ya hemos ponido las mesas en el patio.",
+          "La feria será abierta al público el viernes."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "Ya hemos puesto las mesas en el patio.",
+        "calc": null,
+        "explanation": "El participio de poner es irregular: puesto. La forma «ponido» es incorrecta."
+      },
+      "seed": "d71bd28e-e0f5-4874-9a9f-e35d74de0295:6",
+      "solved": {
+        "game": 7,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 2,
+        "instruction": "Une cada uso del participio con el ejemplo que le corresponde.",
+        "pairs": [
+          {
+            "left": "Tiempo compuesto con haber (el participio no cambia)",
+            "right": "Los niños han llegado temprano."
+          },
+          {
+            "left": "Voz pasiva (el participio concuerda con el sujeto)",
+            "right": "Las casas fueron construidas por los vecinos."
+          },
+          {
+            "left": "Participio como adjetivo",
+            "right": "Encontré la ventana rota."
+          },
+          {
+            "left": "Construcción con participio al inicio",
+            "right": "Terminada la clase, salimos al recreo."
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Con haber el participio queda invariable. En la pasiva y como adjetivo concuerda en género y número. Al inicio de la oración, «Terminada la clase» indica algo que ya ocurrió antes."
+      },
+      "seed": "d71bd28e-e0f5-4874-9a9f-e35d74de0295:7",
+      "solved": {
+        "game": 8,
+        "match": [
+          3,
+          2,
+          4,
+          1
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 2,
+        "instruction": "Elige la forma correcta del participio con el verbo haber.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Los estudiantes han ___ al auditorio.",
+        "options": [
+          "llegados",
+          "llegadas",
+          "llegada",
+          "llegado"
+        ],
+        "answer_index": 3,
+        "correction": null,
+        "calc": null,
+        "explanation": "Cuando el participio va con el verbo haber (han llegado), no cambia de género ni de número: siempre termina en -o."
+      },
+      "seed": "d71bd28e-e0f5-4874-9a9f-e35d74de0295:8",
+      "solved": {
+        "game": 9,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 2,
+        "instruction": "Encuentra la oración donde el participio no concuerda como debe.",
+        "pairs": null,
+        "steps": [
+          "El museo fue inaugurado el año pasado.",
+          "Los visitantes han recorrido todas las salas.",
+          "La entrada estaba incluida en el precio.",
+          "Las obras fueron expuesto en la sala principal."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 3,
+        "correction": "Las obras fueron expuestas en la sala principal.",
+        "calc": null,
+        "explanation": "En la voz pasiva el participio concuerda con el sujeto. «Las obras» es femenino plural, por eso va «expuestas»."
+      },
+      "seed": "d71bd28e-e0f5-4874-9a9f-e35d74de0295:9",
+      "solved": {
+        "game": 10,
+        "match": null,
+        "order": null,
+        "choice": 4,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    }
+  ],
+  "notes": ""
+}

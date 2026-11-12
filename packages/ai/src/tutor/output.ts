@@ -83,6 +83,15 @@ const FEELINGS: { stem: string; noun: string; much: string; verb: "sentir" | "te
   { stem: "nervios", noun: "nervios", much: "muchos nervios", verb: "sentir" },
   { stem: "preocupad", noun: "preocupación", much: "mucha preocupación", verb: "sentir" },
   { stem: "interesad", noun: "interés", much: "mucho interés", verb: "tener" },
+  // From the second round of 2026-11-02 (Haiku 5.5 low): «sentirse cansado», «estés molesto», «te sientas acompañado».
+  { stem: "cansad", noun: "cansancio", much: "mucho cansancio", verb: "sentir" },
+  { stem: "molest", noun: "molestia", much: "mucha molestia", verb: "sentir" },
+  { stem: "acompañad", noun: "compañía", much: "mucha compañía", verb: "tener" },
+  { stem: "confundid", noun: "confusión", much: "mucha confusión", verb: "sentir" },
+  { stem: "agobiad", noun: "agobio", much: "mucho agobio", verb: "sentir" },
+  { stem: "estresad", noun: "estrés", much: "mucho estrés", verb: "sentir" },
+  { stem: "desanimad", noun: "desánimo", much: "mucho desánimo", verb: "sentir" },
+  { stem: "asustad", noun: "miedo", much: "mucho miedo", verb: "sentir" },
 ];
 // The student's verb before the adjective → the same person of "sentir" / "tener".
 const FEEL_VERBS: Record<string, { sentir: string; tener: string }> = {
@@ -129,13 +138,18 @@ const NEUTRAL: [RegExp, (m: string, ...groups: string[]) => string][] = [
   // Capitalized or after "¡" it opens a greeting: "¡Bienvenida a la unidad!".
   [/(?:(?<=¡)bienvenid[oa]|(?<![\p{L}])Bienvenid[oa])(?:\/[oa]| o bienvenid[oa])?(?![\p{L}])/gu, () => "te doy la bienvenida"],
   // "Tranquilo, no hace falta…" / "¡Tranquila!": a vocative at the start of a sentence.
-  [new RegExp(`(?<=^|[.!?:;]\\s+|[¡¿]|\\n\\s*)${g("[Tt]ranquil")}(?=\\s*[,.!;:])`, "gu"), () => "con calma"],
+  // Also after a short opener («No, tranquilo…», «Oye, tranquila.») and closing a clause («No te preocupes, tranquilo.»).
+  [new RegExp(`(?<=(?:^|[.!?:;]\\s+|[¡¿]|\\n\\s*)(?:(?:No|Sí|Oye|Bueno|Ay|Claro|Mira|Hey|Ey|Eh),?\\s+)?)${g("[Tt]ranquil")}(?=\\s*[,.!;:…])`, "gu"), () => "con calma"],
+  [new RegExp(`(?<=(?:te preocupes|pasa nada|hay prisa|hay apuro|te apures|te presiones),\\s+)${g("tranquil")}(?=\\s*[,.!;:…])`, "giu"), () => "con calma"],
   ...FEELINGS.map(feelingRule),
   // Alone: "no estás solo" → "no estás sin apoyo"; "cargar con esto solo" → "cargar con esto sin apoyo".
   // Not the adverb: "estás solo a un paso", "estás solo un ejercicio atrás".
   [W(`(estés|estás|estar|estabas|te quedes|quedarte|te quedas|te sientas|te sientes|sentirte) ${g("sol")}(?!\\s+(?:a|al|un|una|uno|unos|unas|te|le|les|por|para|de|del|que|\\d)(?![\\p{L}]))`), (_m, v) => `${v} sin apoyo`],
-  [W(`((?:cargar|cargues|cargas|enfrentar|enfrentes|enfrentas|afrontar|afrontes|lidiar|lidies|pasar|pases|vivir|vivas)(?: [\\p{L}]+){0,4}) ${g("sol")}(?=\\s*(?:[,.;:!?)]|$| y | ni ))`), (_m, phrase) => `${phrase} sin apoyo`],
-  [W(`(hazlo|hacerlo|inténtalo|intentarlo|resuélvelo|resolverlo|pruébalo|probarlo) ${g("sol")}(?=\\s*(?:[,.;:!?)]|$))`), (_m, v) => `${v} por tu cuenta`],
+  // With the pronoun attached to the verb too: «no tienes que cargarlo solo» → «cargarlo sin apoyo».
+  [W(`((?:(?:cargar|enfrentar|afrontar|sobrellevar|aguantar|soportar|pasar|vivir)(?:lo|la|los|las)?|cargues|cargas|enfrentes|enfrentas|afrontes|lidiar|lidies|pases|vivas)(?: [\\p{L}]+){0,4}?)(?: tú)? ${g("sol")}(?=\\s*(?:[,.;:!?)]|$| y | ni ))`), (_m, phrase) => `${phrase} sin apoyo`],
+  [W(`(hazlo|hacerlo|inténtalo|intentarlo|resuélvelo|resolverlo|pruébalo|probarlo|solucionarlo|manejarlo|lograrlo)(?: tú)? ${g("sol")}(?=\\s*(?:[,.;:!?)]|$| y | ni ))`), (_m, v) => `${v} por tu cuenta`],
+  // «¿Lo hiciste tú solo?» → «por tu cuenta». Not the adverb: «tú solo tienes que sumar».
+  [W(`tú ${g("sol")}(?=\\s*(?:[,.;:!?)]|$| y | ni ))`), () => "por tu cuenta"],
   // "No estás obligado a cargar esto" → "No tienes que cargar esto".
   [W(`(estés|estás|estar) ${g("obligad")} a`), (_m, v) => `${({ estés: "tengas", estás: "tienes", estar: "tener" } as Record<string, string>)[v.toLowerCase()]} que`],
   [W(`(te sientas|te sientes|sentirte) ${g("obligad")} a`), (_m, v) => `${({ "te sientas": "sientas", "te sientes": "sientes", sentirte: "sentir" } as Record<string, string>)[v.toLowerCase()]} que debes`],
@@ -148,13 +162,25 @@ const NEUTRAL: [RegExp, (m: string, ...groups: string[]) => string][] = [
   [W(`(te sientas|te sientes|sentirte) ${g("atascad")}`), (_m, v) => `${({ "te sientas": "sientas", "te sientes": "sientes", sentirte: "sentir" } as Record<string, string>)[v.toLowerCase()]} que no avanzas`],
 ];
 
+// Notes about its own rules that a model left in the reply («No, tranquilo... perdón, sin género», «(evito género)»):
+// the student must never see them. Second round of 2026-11-02, mat-19 and esp-19.
+const META_NOTES: RegExp[] = [
+  /\s*\((?:[^()\n]{0,30})(?:\bgénero\b|forma neutra|lenguaje neutro|sin nombres ni datos)(?:[^()\n]{0,30})\)/giu,
+  /(?:\s*(?:\.{3}|…|—|–|,))?\s*perd[oó]n,?\s+(?:sin|evito|evitando|no uso|no debo usar)\s+(?:el\s+)?(?:género|nombres ni datos personales)\b/giu,
+];
+
+/** Removes the model's notes about its own rules. */
+export function stripMetaNotes(text: string): string {
+  return META_NOTES.reduce((t, re) => t.replace(re, ""), text);
+}
+
 /** Rewrites the gendered phrases about the student into neutral ones. */
 export function toNeutral(text: string): string {
   return NEUTRAL.reduce((t, [re, to]) => t.replace(re, (m: string, ...groups: string[]) => matchCase(m, to(m, ...groups))), normalizeLetters(text));
 }
 
 export function filterTutorOutput(text: string, allowedPhones: string[]): string {
-  return stripUnverifiedPhones(toNeutral(toTuteo(normalizeLetters(text))), allowedPhones);
+  return stripUnverifiedPhones(stripMetaNotes(toNeutral(toTuteo(normalizeLetters(text)))), allowedPhones);
 }
 
 /**
@@ -198,6 +224,10 @@ const GENDERED = /(?<![\p{L}])(tranquil[oa]|cansad[oa]|preocupad[oa]|confundid[o
 // preocupada o algo más". The tutor uses tuteo, so these never refer to the student.
 const THIRD_PERSON = /(?<![\p{L}])(?:está|esté|estaba|estuvo|están|estaban|se siente|se sentía|se sintió|parece|parecía|se ve|se veía|quedó)\s+(?:(?:muy|más|un poco|algo)\s+)?(?:[\p{L}]+(?:,\s*|\s+o\s+|\s+y\s+)){0,3}[\p{L}]+/giu;
 
+// A gendered word that describes a thing or someone else, right after its noun: «un lugar tranquilo»,
+// «una persona cansada», «tu amiga preocupada» (mat-24 failed twice on «un lugar tranquilo»).
+const NOUN_PHRASE = /(?<![\p{L}])(?:un|una|unos|unas|el|la|los|las|este|esta|ese|esa|tu|tus|su|sus|algún|alguna|otro|otra)\s+[\p{L}]+\s+(?:(?:muy|más|bastante|tan)\s+)?(?=(?:tranquil|cansad|preocupad|confundid|frustrad|agobiad|estresad|perdid|atent|respetad|nervios|desanimad|asustad)[oa]s?(?![\p{L}]))[\p{L}]+/giu;
+
 const DOUBLED = /(?<![\p{L}])(\p{L}+)[oa](?:\/[oa]| o \1[oa])(?![\p{L}])/giu;
 
 // Gendered forms that only refer to the student in context ("seguro que…" and "lo mismo" do not).
@@ -210,7 +240,7 @@ const GENDERED_PHRASES = /(?<![\p{L}])(?:(?:estés|estás|sientas|sientes|sentir
 export function assumedGenderWords(tutorText: string, studentText: string): string[] {
   const found = (raw: string) => {
     // "seguro o segura", "seguro/a" and the noun in "te doy la bienvenida" are already neutral.
-    const text = normalizeLetters(raw).replace(THIRD_PERSON, "").replace(DOUBLED, "").replace(/(?<![\p{L}])la bienvenida(?![\p{L}])/giu, "");
+    const text = normalizeLetters(raw).replace(THIRD_PERSON, "").replace(NOUN_PHRASE, "").replace(DOUBLED, "").replace(/(?<![\p{L}])la bienvenida(?![\p{L}])/giu, "");
     return [...(text.match(GENDERED) ?? []), ...(text.match(GENDERED_PHRASES) ?? [])].map((w) => w.toLowerCase());
   };
   const student = new Set(found(studentText));

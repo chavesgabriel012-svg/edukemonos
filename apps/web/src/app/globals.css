@@ -152,9 +152,19 @@
   h2,
   h3 {
     @apply font-heading;
+    /* Balanced headlines: no single word left alone on the last line. */
+    text-wrap: balance;
+  }
+  p,
+  li,
+  dt,
+  figcaption {
+    text-wrap: pretty;
   }
   html {
     @apply font-sans;
+    /* The header is sticky: anchors and focused fields stop below it (and below the notch). */
+    scroll-padding-top: calc(5rem + env(safe-area-inset-top, 0px));
     /* Adjustable text size: the root font size is driven by data-text-size on <html>. */
     font-size: 100%;
   }
@@ -174,5 +184,160 @@
   textarea,
   select {
     font-size: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Skeleton loaders: a soft shimmer over the shape of what is loading. */
+.skeleton {
+  border-radius: 12px;
+  background: linear-gradient(100deg, var(--secondary) 30%, #f7f6fb 50%, var(--secondary) 70%);
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.4s ease-in-out infinite;
+}
+@keyframes skeleton-shimmer {
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: -100% 0;
+  }
+}
+
+/* Reveal on scroll (components/landing/reveal.tsx): only what starts below the fold is hidden, by script. */
+[data-reveal="pending"] {
+  opacity: 0;
+  transform: translateY(28px);
+}
+[data-reveal="in"] {
+  animation: reveal-up 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+[data-reveal="in"] :is(ul, ol, dl).grid > * {
+  animation: reveal-up 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+[data-reveal="in"] :is(ul, ol, dl).grid > :nth-child(2) { animation-delay: 80ms; }
+[data-reveal="in"] :is(ul, ol, dl).grid > :nth-child(3) { animation-delay: 160ms; }
+[data-reveal="in"] :is(ul, ol, dl).grid > :nth-child(4) { animation-delay: 240ms; }
+[data-reveal="in"] :is(ul, ol, dl).grid > :nth-child(5) { animation-delay: 320ms; }
+[data-reveal="in"] :is(ul, ol, dl).grid > :nth-child(6) { animation-delay: 400ms; }
+[data-reveal="in"] :is(ul, ol, dl).grid > :nth-child(n + 7) { animation-delay: 480ms; }
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/*
+ * The conversation with Kemo (components/landing/previews.tsx). Each bubble waits for its turn
+ * (--d); Kemo's bubbles show three dots first and then the text (--t). The animations stay paused
+ * until the script sees the chat on screen; without JavaScript a <noscript> style shows it whole.
+ */
+.chat-bubble {
+  animation: chat-in 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) var(--d, 0s) both paused;
+}
+.chat-text {
+  animation: chat-fade 0.35s ease-out var(--t, 0s) both paused;
+}
+.chat-dots {
+  animation: chat-fade 0.2s ease-in var(--t, 0s) both reverse paused;
+}
+.chat-dots i {
+  animation: chat-dot 1s ease-in-out infinite;
+}
+.chat-dots i:nth-child(2) { animation-delay: 0.15s; }
+.chat-dots i:nth-child(3) { animation-delay: 0.3s; }
+[data-play] .chat-bubble,
+[data-play] .chat-text,
+[data-play] .chat-dots {
+  animation-play-state: running;
+}
+@keyframes chat-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes chat-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes chat-dot {
+  0%, 60%, 100% {
+    transform: translateY(0);
+    opacity: 0.45;
+  }
+  30% {
+    transform: translateY(-4px);
+    opacity: 1;
+  }
+}
+
+/* View transitions between pages: the content cross-fades and rises a little; the header stays put. */
+::view-transition-old(.page) {
+  animation: 140ms ease-in both page-out;
+}
+::view-transition-new(.page) {
+  animation: 260ms ease-out 90ms both page-in;
+}
+::view-transition-group(site-header) {
+  animation: none;
+  z-index: 50;
+}
+::view-transition-old(site-header) {
+  display: none;
+}
+::view-transition-new(site-header) {
+  animation: none;
+}
+@keyframes page-out {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton,
+  .chat-bubble,
+  .chat-text,
+  .chat-dots i,
+  [data-reveal="in"],
+  [data-reveal="in"] :is(ul, ol, dl).grid > * {
+    animation: none;
+  }
+  .chat-dots {
+    display: none;
+  }
+  [data-reveal="pending"] {
+    opacity: 1;
+    transform: none;
+  }
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
   }
 }

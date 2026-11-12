@@ -1,0 +1,577 @@
+{
+  "unitId": "ab48fbec-fe04-45fd-92a7-2a1cd8978526",
+  "createdAt": "2026-11-04T17:49:53.087Z",
+  "models": {
+    "games": "claude-sonnet-5-5",
+    "solve": "claude-sonnet-5-5"
+  },
+  "prompts": {
+    "games": "generate-games-system@1",
+    "solve": "solve-games-system@1"
+  },
+  "pieces": [
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 0,
+        "instruction": "Une cada elemento de la lectura oral con lo que significa.",
+        "pairs": [
+          {
+            "left": "Entonación",
+            "right": "Subir o bajar el tono de la voz según lo que se expresa"
+          },
+          {
+            "left": "Pausa",
+            "right": "Silencio breve que marca el final de un verso o de una idea"
+          },
+          {
+            "left": "Articulación",
+            "right": "Pronunciar con claridad cada sonido y cada palabra"
+          },
+          {
+            "left": "Acentuación",
+            "right": "Dar más fuerza a la sílaba tónica de las palabras"
+          },
+          {
+            "left": "Matiz",
+            "right": "Variación de la voz para mostrar un sentimiento o una actitud"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Cada elemento cumple una función distinta: la entonación es el tono, la pausa es el silencio, la articulación es la claridad, la acentuación es la fuerza en la sílaba tónica y el matiz muestra sentimientos."
+      },
+      "seed": "ab48fbec-fe04-45fd-92a7-2a1cd8978526:0",
+      "solved": {
+        "game": 1,
+        "match": [
+          2,
+          4,
+          1,
+          3,
+          5
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 0,
+        "instruction": "Ordena los pasos para preparar la lectura oral de un poema.",
+        "pairs": null,
+        "steps": [
+          "Leer el poema en silencio para comprender su sentido",
+          "Identificar el sentimiento o la actitud del hablante lírico",
+          "Marcar las pausas y las palabras que se van a destacar",
+          "Ensayar en voz alta cuidando la entonación y la articulación",
+          "Leer ante el público con la voz y los matices practicados"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Primero se comprende el poema, luego se decide cómo expresarlo, después se marca y se ensaya, y al final se presenta."
+      },
+      "seed": "ab48fbec-fe04-45fd-92a7-2a1cd8978526:1",
+      "solved": {
+        "game": 2,
+        "match": null,
+        "order": [
+          2,
+          4,
+          3,
+          1,
+          5
+        ],
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Elige la opción que completa bien el enunciado.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Si un poema expresa nostalgia, lo adecuado es leerlo con una voz ___.",
+        "options": [
+          "con tono burlón",
+          "pausada y suave",
+          "gritada y muy rápida",
+          "monótona, sin variaciones"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": null,
+        "explanation": "La nostalgia es un sentimiento tranquilo y melancólico, por eso la voz pausada y suave transmite mejor el matiz del poema."
+      },
+      "seed": "ab48fbec-fe04-45fd-92a7-2a1cd8978526:2",
+      "solved": {
+        "game": 3,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 0,
+        "instruction": "Encuentra la frase que tiene un error sobre la lectura oral de un poema.",
+        "pairs": null,
+        "steps": [
+          "Antes de leer en voz alta, conviene comprender de qué trata el poema.",
+          "Las pausas se hacen donde el sentido o los signos de puntuación lo indican.",
+          "Para mostrar emoción, se debe leer siempre con el mismo tono de voz.",
+          "Una buena articulación permite que el público entienda cada palabra."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "Para mostrar emoción, se varía la entonación según lo que expresa cada verso.",
+        "calc": null,
+        "explanation": "Leer siempre con el mismo tono vuelve la lectura monótona y no transmite sentimientos; la entonación debe cambiar según el sentido del poema."
+      },
+      "seed": "ab48fbec-fe04-45fd-92a7-2a1cd8978526:3",
+      "solved": {
+        "game": 4,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 1,
+        "instruction": "Une cada fase de análisis con lo que se hace en ella.",
+        "pairs": [
+          {
+            "left": "Fase natural",
+            "right": "Leer por primera vez para tener una idea general, apoyándote en tus conocimientos previos"
+          },
+          {
+            "left": "Fase de ubicación",
+            "right": "Encontrar datos que el texto dice directamente, como el título o las palabras clave"
+          },
+          {
+            "left": "Fase analística",
+            "right": "Examinar la estructura, los recursos literarios y las relaciones entre las ideas"
+          },
+          {
+            "left": "Fase explicativa e interpretativa",
+            "right": "Explicar los sentidos del texto y compartir una interpretación con argumentos"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Cada fase tiene un propósito: comprender en general, ubicar datos, analizar las partes y por último explicar e interpretar."
+      },
+      "seed": "ab48fbec-fe04-45fd-92a7-2a1cd8978526:4",
+      "solved": {
+        "game": 5,
+        "match": [
+          3,
+          2,
+          1,
+          4
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 1,
+        "instruction": "Ordena las fases para analizar críticamente un poema.",
+        "pairs": null,
+        "steps": [
+          "Fase natural: leer el poema completo y formarte una idea general",
+          "Fase de ubicación: localizar los datos que aparecen directamente en el texto",
+          "Fase analística: examinar los recursos literarios y la estructura",
+          "Fase explicativa e interpretativa: explicar los sentidos y compartir tu interpretación"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "El análisis va de lo más general (lectura natural) a lo más profundo (explicación e interpretación)."
+      },
+      "seed": "ab48fbec-fe04-45fd-92a7-2a1cd8978526:5",
+      "solved": {
+        "game": 6,
+        "match": null,
+        "order": [
+          1,
+          4,
+          2,
+          3
+        ],
+        "choice": null,
+        "problems": "El orden de las fases (natural, ubicación, analística, explicativa e interpretativa) es el que se espera según la secuencia presentada en la pieza 5."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "El orden de las fases (natural, ubicación, analística, explicativa e interpretativa) es el que se espera según la secuencia presentada en la pieza 5."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: El orden de las fases (natural, ubicación, analística, explicativa e interpretativa) es el que se espera según la secuencia presentada en la pieza 5."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 1,
+        "instruction": "Elige la opción que completa bien el enunciado.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Cuando explicas qué sentido tiene el poema y justificas tu opinión con ejemplos del texto, estás en la fase ___.",
+        "options": [
+          "analística",
+          "natural",
+          "explicativa e interpretativa",
+          "de ubicación"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": null,
+        "explanation": "Explicar los sentidos y argumentar una interpretación con ejemplos corresponde a la fase explicativa e interpretativa."
+      },
+      "seed": "ab48fbec-fe04-45fd-92a7-2a1cd8978526:6",
+      "solved": {
+        "game": 7,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 1,
+        "instruction": "Encuentra el paso que describe mal una fase del análisis.",
+        "pairs": null,
+        "steps": [
+          "Fase natural: leo el poema completo y expreso mi idea general con mis conocimientos previos.",
+          "Fase de ubicación: localizo datos dichos directamente, como el título o los versos clave.",
+          "Fase analística: examino los recursos literarios y la estructura del poema.",
+          "Fase explicativa e interpretativa: copio el primer verso y no doy ninguna opinión."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 3,
+        "correction": "Fase explicativa e interpretativa: explico los sentidos del poema y comparto mi interpretación con argumentos.",
+        "calc": null,
+        "explanation": "En la última fase no basta con copiar un verso; se debe explicar el sentido del texto y compartir una interpretación justificada."
+      },
+      "seed": "ab48fbec-fe04-45fd-92a7-2a1cd8978526:7",
+      "solved": {
+        "game": 8,
+        "match": null,
+        "order": null,
+        "choice": 4,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 2,
+        "instruction": "Une cada palabra repetida con las palabras de su misma familia.",
+        "pairs": [
+          {
+            "left": "flor",
+            "right": "florero, florecer"
+          },
+          {
+            "left": "luz",
+            "right": "luminoso, iluminar"
+          },
+          {
+            "left": "noche",
+            "right": "anochecer, nocturno"
+          },
+          {
+            "left": "agua",
+            "right": "acuático, aguacero"
+          },
+          {
+            "left": "sol",
+            "right": "soleado, asolearse"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Las palabras de una misma familia comparten la raíz y el significado base: flor-florero, luz-luminoso, noche-nocturno, agua-acuático y sol-soleado."
+      },
+      "seed": "ab48fbec-fe04-45fd-92a7-2a1cd8978526:8",
+      "solved": {
+        "game": 9,
+        "match": [
+          4,
+          5,
+          3,
+          1,
+          2
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 2,
+        "instruction": "Ordena los pasos para redactar un resumen a partir de las palabras que se repiten.",
+        "pairs": null,
+        "steps": [
+          "Leer todo el texto para comprender de qué trata",
+          "Subrayar las palabras que se repiten",
+          "Agrupar las palabras por familias para descubrir la idea central",
+          "Redactar el resumen con tus propias palabras usando esas palabras clave",
+          "Revisar que el resumen sea breve y fiel al texto"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Primero se comprende el texto, luego se detectan y agrupan las palabras repetidas, y con ellas se redacta y se revisa el resumen."
+      },
+      "seed": "ab48fbec-fe04-45fd-92a7-2a1cd8978526:9",
+      "solved": {
+        "game": 10,
+        "match": null,
+        "order": [
+          4,
+          3,
+          1,
+          5,
+          2
+        ],
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 2,
+        "instruction": "Elige la opción que completa bien el enunciado.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Si en un texto se repiten «cantar», «canto» y «cantante», esas palabras pertenecen a la misma ___.",
+        "options": [
+          "familia de palabras",
+          "rima",
+          "estrofa",
+          "sílaba tónica"
+        ],
+        "answer_index": 0,
+        "correction": null,
+        "calc": null,
+        "explanation": "Comparten la raíz «cant-» y están relacionadas en significado, por eso forman una familia de palabras que ayuda a descubrir la idea central."
+      },
+      "seed": "ab48fbec-fe04-45fd-92a7-2a1cd8978526:10",
+      "solved": {
+        "game": 11,
+        "match": null,
+        "order": null,
+        "choice": 0,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 2,
+        "instruction": "Encuentra el paso que tiene un error al redactar un resumen.",
+        "pairs": null,
+        "steps": [
+          "Leo el texto completo para entender de qué trata.",
+          "Copio párrafos completos del texto para que el resumen quede igual de largo.",
+          "Subrayo las palabras que se repiten y las agrupo por familias de palabras.",
+          "Reviso que el resumen conserve las ideas principales."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 1,
+        "correction": "Redacto las ideas principales con mis propias palabras, de forma breve, apoyándome en las palabras clave.",
+        "calc": null,
+        "explanation": "Un resumen es una versión más corta y con palabras propias; copiar párrafos completos no resume el texto."
+      },
+      "seed": "ab48fbec-fe04-45fd-92a7-2a1cd8978526:11",
+      "solved": {
+        "game": 12,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    }
+  ],
+  "notes": "El programa no incluye contenidos específicos, así que las piezas se basan en los criterios de aprendizaje y en las cuatro fases de lectura mencionadas."
+}

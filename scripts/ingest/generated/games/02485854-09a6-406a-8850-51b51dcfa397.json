@@ -1,0 +1,577 @@
+{
+  "unitId": "02485854-09a6-406a-8850-51b51dcfa397",
+  "createdAt": "2026-11-04T17:53:46.937Z",
+  "models": {
+    "games": "claude-sonnet-5-5",
+    "solve": "claude-sonnet-5-5"
+  },
+  "prompts": {
+    "games": "generate-games-system@1",
+    "solve": "solve-games-system@1"
+  },
+  "pieces": [
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 0,
+        "instruction": "Une cada área o contexto con la pregunta que se responde usando Estadística.",
+        "pairs": [
+          {
+            "left": "Salud pública",
+            "right": "Contar los casos de dengue por cantón"
+          },
+          {
+            "left": "Educación",
+            "right": "Comparar las notas de dos grupos de un colegio"
+          },
+          {
+            "left": "Meteorología",
+            "right": "Registrar los milímetros de lluvia cada mes"
+          },
+          {
+            "left": "Comercio",
+            "right": "Saber cuál producto se vende más en una pulpería"
+          },
+          {
+            "left": "Deporte",
+            "right": "Anotar los goles por partido de un equipo en el campeonato"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "En cada área se recolectan y organizan datos para responder una pregunta. Cada pregunta corresponde a una sola de las áreas."
+      },
+      "seed": "02485854-09a6-406a-8850-51b51dcfa397:0",
+      "solved": {
+        "game": 1,
+        "match": [
+          4,
+          2,
+          3,
+          5,
+          1
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Elige la palabra que completa la frase.",
+        "pairs": null,
+        "steps": null,
+        "stem": "La Estadística es la ciencia que se encarga de recolectar, organizar, ___ e interpretar datos.",
+        "options": [
+          "analizar",
+          "inventar",
+          "borrar",
+          "adivinar"
+        ],
+        "answer_index": 0,
+        "correction": null,
+        "calc": null,
+        "explanation": "La Estadística recolecta, organiza, analiza e interpreta datos para tomar decisiones. Inventar, borrar o adivinar no forman parte de su trabajo."
+      },
+      "seed": "02485854-09a6-406a-8850-51b51dcfa397:1",
+      "solved": {
+        "game": 2,
+        "match": null,
+        "order": null,
+        "choice": 0,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 0,
+        "instruction": "Ordena las etapas de un estudio estadístico sencillo.",
+        "pairs": null,
+        "steps": [
+          "Plantear la pregunta que se quiere responder",
+          "Recolectar los datos",
+          "Organizar los datos en un cuadro",
+          "Representar los datos en una gráfica",
+          "Interpretar los resultados y dar una conclusión"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Primero se define qué se quiere saber y luego se recogen los datos. Después se organizan y se representan. Al final se interpretan para concluir."
+      },
+      "seed": "02485854-09a6-406a-8850-51b51dcfa397:2",
+      "solved": {
+        "game": 3,
+        "match": null,
+        "order": [
+          2,
+          3,
+          5,
+          4,
+          1
+        ],
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 0,
+        "instruction": "Una de estas frases sobre la Estadística es incorrecta. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "La Estadística ayuda a tomar decisiones con base en datos.",
+          "En salud se usa para estudiar cuántas personas se enferman.",
+          "La Estadística solo se usa en Matemáticas y en ninguna otra área.",
+          "En el comercio sirve para conocer qué productos prefieren las personas."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "La Estadística se usa en muchas áreas, como la salud, la educación, el deporte, el comercio y las ciencias.",
+        "calc": null,
+        "explanation": "La Estadística es una herramienta de muchas áreas científicas y cotidianas, no solo de Matemáticas. Las otras frases son correctas."
+      },
+      "seed": "02485854-09a6-406a-8850-51b51dcfa397:3",
+      "solved": {
+        "game": 4,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 1,
+        "instruction": "Une cada etapa o personaje de la historia de la Estadística con su aporte.",
+        "pairs": [
+          {
+            "left": "Antiguas civilizaciones",
+            "right": "Hacían censos para contar a la población y sus bienes"
+          },
+          {
+            "left": "John Graunt (siglo XVII)",
+            "right": "Analizó registros de nacimientos y defunciones de Londres"
+          },
+          {
+            "left": "Florence Nightingale (siglo XIX)",
+            "right": "Usó gráficas para mostrar las causas de muerte de soldados"
+          },
+          {
+            "left": "Computadoras (siglo XX)",
+            "right": "Permitieron procesar grandes cantidades de datos con rapidez"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Cada aporte pertenece a una etapa distinta: los censos antiguos, el estudio de registros en el siglo XVII, las gráficas en el siglo XIX y las computadoras en el siglo XX."
+      },
+      "seed": "02485854-09a6-406a-8850-51b51dcfa397:4",
+      "solved": {
+        "game": 5,
+        "match": [
+          2,
+          3,
+          1,
+          4
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 1,
+        "instruction": "Ordena estos hechos de la historia de la Estadística del más antiguo al más reciente.",
+        "pairs": null,
+        "steps": [
+          "Las civilizaciones antiguas hacen censos de población",
+          "En el siglo XVII se analizan registros de nacimientos y defunciones",
+          "En el siglo XIX se usan gráficas para comunicar datos",
+          "En el siglo XX las computadoras aceleran el procesamiento de datos"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Los censos son lo más antiguo. Luego vienen el análisis de registros del siglo XVII, las gráficas del siglo XIX y las computadoras del siglo XX."
+      },
+      "seed": "02485854-09a6-406a-8850-51b51dcfa397:5",
+      "solved": {
+        "game": 6,
+        "match": null,
+        "order": [
+          4,
+          2,
+          1,
+          3
+        ],
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 1,
+        "instruction": "Elige la palabra que completa la frase.",
+        "pairs": null,
+        "steps": null,
+        "stem": "La palabra «estadística» se relaciona con la palabra «___», porque los gobiernos recopilaban datos sobre su población y sus bienes.",
+        "options": [
+          "estrella",
+          "estudio",
+          "estado",
+          "estable"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": null,
+        "explanation": "La Estadística nació de los datos que los gobiernos, o estados, necesitaban para conocer a su población y sus recursos."
+      },
+      "seed": "02485854-09a6-406a-8850-51b51dcfa397:6",
+      "solved": {
+        "game": 7,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 1,
+        "instruction": "Una de estas frases sobre la historia de la Estadística es incorrecta. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "Las civilizaciones antiguas ya hacían censos de población.",
+          "En el siglo XVII, John Graunt estudió registros de nacimientos y defunciones.",
+          "La Estadística apareció por primera vez con las computadoras en el siglo XX.",
+          "En el siglo XIX, Florence Nightingale usó gráficas para presentar datos."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "La recolección de datos y los censos existen desde la Antigüedad. Las computadoras solo aceleraron el procesamiento de datos en el siglo XX.",
+        "calc": null,
+        "explanation": "La Estadística es muy anterior a las computadoras. Las demás frases son hechos históricos correctos."
+      },
+      "seed": "02485854-09a6-406a-8850-51b51dcfa397:7",
+      "solved": {
+        "game": 8,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 2,
+        "instruction": "Un cuadro muestra las mascotas de un grupo: perros 10, gatos 6, aves 4. Une cada pregunta con su respuesta.",
+        "pairs": [
+          {
+            "left": "Mascota más común",
+            "right": "Perro"
+          },
+          {
+            "left": "Mascota menos común",
+            "right": "Ave"
+          },
+          {
+            "left": "Total de mascotas",
+            "right": "20"
+          },
+          {
+            "left": "Perros menos gatos",
+            "right": "4"
+          },
+          {
+            "left": "Gatos menos aves",
+            "right": "2"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "El mayor valor es 10 (perro) y el menor es 4 (ave). El total es 10 + 6 + 4 = 20. Además, 10 − 6 = 4 y 6 − 4 = 2."
+      },
+      "seed": "02485854-09a6-406a-8850-51b51dcfa397:8",
+      "solved": {
+        "game": 9,
+        "match": [
+          1,
+          3,
+          5,
+          4,
+          2
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 2,
+        "instruction": "Lee el cuadro y elige la opción correcta.",
+        "pairs": null,
+        "steps": null,
+        "stem": "En un cuadro, las personas que prefieren cada deporte son: fútbol 12, baloncesto 8, voleibol 5 y natación 5. El total de personas encuestadas es ___.",
+        "options": [
+          "25",
+          "30",
+          "28",
+          "32"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": "12+8+5+5",
+        "explanation": "Para hallar el total se suman todas las frecuencias: 12 + 8 + 5 + 5 = 30."
+      },
+      "seed": "02485854-09a6-406a-8850-51b51dcfa397:9",
+      "solved": {
+        "game": 10,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 2,
+        "instruction": "Un cuadro muestra los libros prestados en la biblioteca: lunes 8, martes 12, miércoles 10. Encuentra el paso con error.",
+        "pairs": null,
+        "steps": [
+          "8 + 12 + 10 = 30",
+          "El día con más préstamos es el martes, con 12 libros",
+          "12 − 8 = 4",
+          "12 − 10 = 3"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 3,
+        "correction": "12 − 10 = 2",
+        "calc": null,
+        "explanation": "El martes tuvo 2 libros más que el miércoles, porque 12 − 10 = 2 y no 3. Los otros pasos son correctos."
+      },
+      "seed": "02485854-09a6-406a-8850-51b51dcfa397:10",
+      "solved": {
+        "game": 11,
+        "match": null,
+        "order": null,
+        "choice": 4,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 2,
+        "instruction": "Ordena los pasos para analizar una gráfica de barras.",
+        "pairs": null,
+        "steps": [
+          "Leer el título para saber de qué trata",
+          "Revisar qué representa cada eje",
+          "Ubicar la altura de cada barra",
+          "Comparar los valores de las barras",
+          "Escribir una conclusión con lo observado"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Primero se entiende el tema y lo que muestran los ejes. Después se leen y se comparan los valores, y al final se concluye."
+      },
+      "seed": "02485854-09a6-406a-8850-51b51dcfa397:11",
+      "solved": {
+        "game": 12,
+        "match": null,
+        "order": [
+          1,
+          2,
+          4,
+          3,
+          5
+        ],
+        "choice": null,
+        "problems": "Los pasos 3 y 4 podrían intercambiarse levemente, pero el orden lógico es ubicar la altura de las barras antes de compararlas."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "Los pasos 3 y 4 podrían intercambiarse levemente, pero el orden lógico es ubicar la altura de las barras antes de compararlas."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: Los pasos 3 y 4 podrían intercambiarse levemente, pero el orden lógico es ubicar la altura de las barras antes de compararlas."
+        ]
+      }
+    }
+  ],
+  "notes": "La unidad tiene un solo contenido general. Las piezas históricas usan hechos muy conocidos y generales, sin fechas exactas ni cifras reales."
+}

@@ -1,0 +1,346 @@
+{
+  "unitId": "4fbeac0d-a9c4-4202-8112-eb973d0d7a0f",
+  "createdAt": "2026-11-04T17:50:55.491Z",
+  "models": {
+    "games": "claude-sonnet-5-5",
+    "solve": "claude-sonnet-5-5"
+  },
+  "prompts": {
+    "games": "generate-games-system@1",
+    "solve": "solve-games-system@1"
+  },
+  "pieces": [
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 0,
+        "instruction": "Une cada locución latina con su significado.",
+        "pairs": [
+          {
+            "left": "a priori",
+            "right": "antes de examinar los hechos o la experiencia"
+          },
+          {
+            "left": "ad hoc",
+            "right": "para un fin determinado"
+          },
+          {
+            "left": "in situ",
+            "right": "en el lugar"
+          },
+          {
+            "left": "grosso modo",
+            "right": "de manera aproximada"
+          },
+          {
+            "left": "ipso facto",
+            "right": "en el acto, de inmediato"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Cada locución latina se usa en español con un significado fijo. Por ejemplo, «in situ» es «en el lugar» y «grosso modo» es «aproximadamente»."
+      },
+      "seed": "4fbeac0d-a9c4-4202-8112-eb973d0d7a0f:0",
+      "solved": {
+        "game": 1,
+        "match": [
+          4,
+          1,
+          5,
+          3,
+          2
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Elige la escritura correcta de la locución latina.",
+        "pairs": null,
+        "steps": null,
+        "stem": "El ingreso ___ se calcula dividiendo el total de dinero entre la cantidad de habitantes.",
+        "options": [
+          "per capita",
+          "per cápita",
+          "per capíta",
+          "pér capita"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": null,
+        "explanation": "Las locuciones latinas se acentúan según las reglas del español. «Cápita» es esdrújula, por eso lleva tilde: «per cápita»."
+      },
+      "seed": "4fbeac0d-a9c4-4202-8112-eb973d0d7a0f:1",
+      "solved": {
+        "game": 2,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 0,
+        "instruction": "Encuentra la frase en la que la locución latina está mal usada.",
+        "pairs": null,
+        "steps": [
+          "Se formó una comisión ad hoc para organizar la feria del colegio.",
+          "El ingreso per cápita se calcula dividiendo el total entre la cantidad de habitantes.",
+          "Calculé el costo grosso modo, con exactitud de colón en colón.",
+          "Los técnicos revisaron el daño in situ, es decir, en el lugar."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "Calculé el costo grosso modo, de forma aproximada.",
+        "calc": null,
+        "explanation": "«Grosso modo» significa «aproximadamente». No tiene sentido usarla con una cantidad exacta, como «de colón en colón»."
+      },
+      "seed": "4fbeac0d-a9c4-4202-8112-eb973d0d7a0f:2",
+      "solved": {
+        "game": 3,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 1,
+        "instruction": "Une cada técnica de comunicación oral con su característica.",
+        "pairs": [
+          {
+            "left": "Debate",
+            "right": "dos posturas contrarias se defienden con argumentos"
+          },
+          {
+            "left": "Mesa redonda",
+            "right": "varias personas exponen puntos de vista sobre un tema, guiadas por un moderador, sin competir"
+          },
+          {
+            "left": "Foro",
+            "right": "el público participa con preguntas y opiniones sobre el tema"
+          },
+          {
+            "left": "Entrevista",
+            "right": "una persona hace preguntas y otra responde"
+          },
+          {
+            "left": "Exposición oral",
+            "right": "una persona presenta un tema ante una audiencia"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Cada técnica oral se reconoce por quiénes participan y cómo lo hacen. En el debate hay posturas opuestas, y en la entrevista, preguntas y respuestas."
+      },
+      "seed": "4fbeac0d-a9c4-4202-8112-eb973d0d7a0f:3",
+      "solved": {
+        "game": 4,
+        "match": [
+          5,
+          1,
+          2,
+          3,
+          4
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 1,
+        "instruction": "Ordena las etapas de un debate.",
+        "pairs": null,
+        "steps": [
+          "El moderador presenta el tema y las reglas del debate.",
+          "Cada equipo expone su postura inicial.",
+          "Los equipos refutan los argumentos del otro equipo.",
+          "Cada equipo presenta sus conclusiones finales.",
+          "El moderador cierra el debate."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "El debate empieza con la presentación del tema y las reglas. Después vienen las posturas, la refutación y las conclusiones, y al final el cierre del moderador."
+      },
+      "seed": "4fbeac0d-a9c4-4202-8112-eb973d0d7a0f:4",
+      "solved": {
+        "game": 5,
+        "match": null,
+        "order": [
+          3,
+          1,
+          2,
+          5,
+          4
+        ],
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 1,
+        "instruction": "Completa con la técnica de comunicación oral que corresponde.",
+        "pairs": null,
+        "steps": null,
+        "stem": "En un ___, dos grupos defienden posturas contrarias con argumentos y un moderador da los turnos de palabra.",
+        "options": [
+          "exposición oral",
+          "entrevista",
+          "foro",
+          "debate"
+        ],
+        "answer_index": 3,
+        "correction": null,
+        "calc": null,
+        "explanation": "El debate se caracteriza por tener posturas opuestas defendidas con argumentos y un moderador que organiza los turnos."
+      },
+      "seed": "4fbeac0d-a9c4-4202-8112-eb973d0d7a0f:5",
+      "solved": {
+        "game": 6,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 1,
+        "instruction": "Encuentra la frase que describe mal una técnica oral.",
+        "pairs": null,
+        "steps": [
+          "En una entrevista, una persona hace preguntas y otra responde.",
+          "En una exposición oral, quien habla presenta un tema ante una audiencia.",
+          "En un debate, el moderador defiende una de las posturas para que gane.",
+          "En un foro, el público puede participar con preguntas y comentarios."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "En un debate, el moderador es neutral: presenta el tema, da los turnos y controla el tiempo.",
+        "calc": null,
+        "explanation": "El moderador de un debate no toma partido. Su función es organizar la participación de los equipos."
+      },
+      "seed": "4fbeac0d-a9c4-4202-8112-eb973d0d7a0f:6",
+      "solved": {
+        "game": 7,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    }
+  ],
+  "notes": "No se hizo una pieza de ordenar para la habilidad 0 porque la escritura de extranjerismos y locuciones no tiene un procedimiento con un único orden."
+}

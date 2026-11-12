@@ -1,0 +1,157 @@
+{
+  "unitId": "f663fa95-bb52-4ea4-bf2e-f1806dad731f",
+  "createdAt": "2026-11-04T17:43:16.274Z",
+  "models": {
+    "games": "claude-sonnet-5-5",
+    "solve": "claude-sonnet-5-5"
+  },
+  "prompts": {
+    "games": "generate-games-system@1",
+    "solve": "solve-games-system@1"
+  },
+  "pieces": [
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 0,
+        "instruction": "Une cada oración con el uso de la coma que corresponde.",
+        "pairs": [
+          {
+            "left": "Camila, entrega la tarea hoy.",
+            "right": "Vocativo al inicio de la oración"
+          },
+          {
+            "left": "Entrega la tarea hoy, Camila.",
+            "right": "Vocativo al final de la oración"
+          },
+          {
+            "left": "Entrega, Camila, la tarea hoy.",
+            "right": "Vocativo en medio, entre dos comas"
+          },
+          {
+            "left": "Mis primos de Cartago llegaron ayer.",
+            "right": "Correcta: no lleva coma entre sujeto y verbo"
+          },
+          {
+            "left": "Mis primos de Cartago, llegaron ayer.",
+            "right": "Incorrecta: coma entre sujeto y verbo"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "El vocativo es la palabra con la que llamamos a alguien. Siempre se separa con coma: una al inicio o al final, y dos si va en medio. Entre el sujeto y el verbo no se escribe coma."
+      },
+      "seed": "f663fa95-bb52-4ea4-bf2e-f1806dad731f:0",
+      "solved": {
+        "game": 1,
+        "match": [
+          1,
+          4,
+          5,
+          2,
+          3
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Elige la opción que completa bien el enunciado.",
+        "pairs": null,
+        "steps": null,
+        "stem": "En la oración «Pedro, trae el balón», la coma sirve para separar ___.",
+        "options": [
+          "el sujeto del verbo",
+          "el título del subtítulo",
+          "el vocativo",
+          "el verbo del complemento"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": null,
+        "explanation": "Pedro es el vocativo, porque es la persona a quien se llama o se habla. El vocativo se separa con coma del resto de la oración."
+      },
+      "seed": "f663fa95-bb52-4ea4-bf2e-f1806dad731f:1",
+      "solved": {
+        "game": 2,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 0,
+        "instruction": "Una de estas frases tiene un error de puntuación. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "Andrea, ayúdame con la tarea de Estudios Sociales.",
+          "Los estudiantes de sétimo año, participaron en la feria científica.",
+          "Gracias por tu ayuda, Marcos.",
+          "Mi abuela prepara gallo pinto todas las mañanas."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 1,
+        "correction": "Los estudiantes de sétimo año participaron en la feria científica.",
+        "calc": null,
+        "explanation": "En la segunda frase hay una coma entre el sujeto («Los estudiantes de sétimo año») y el verbo («participaron»), y eso no se permite. Las otras frases están bien: en las dos primeras la coma separa el vocativo, y la última no lleva coma."
+      },
+      "seed": "f663fa95-bb52-4ea4-bf2e-f1806dad731f:2",
+      "solved": {
+        "game": 3,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    }
+  ],
+  "notes": "Solo se hicieron tres piezas. No se hizo «order» porque los usos de la puntuación no forman un procedimiento con un único orden. Tampoco se incluyeron piezas sobre el punto y los dos puntos en títulos, porque el programa no define con precisión la norma de esos casos y la pieza podría resultar ambigua."
+}

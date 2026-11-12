@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from "next";
+import { ViewTransition } from "react";
 import { Geist_Mono, League_Spartan, Outfit } from "next/font/google";
 import { SiteFooter } from "@/components/site/site-footer";
+import { RestReminder } from "@/components/learn/rest-reminder";
 import { SiteHeader } from "@/components/site/site-header";
 import { brand } from "@/lib/brand";
 import { site } from "@/lib/site";
@@ -25,7 +27,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: { default: site.name, template: `%s · ${site.name}` },
+  title: { default: `${site.name}: ${site.tagline}`, template: `%s · ${site.name}` },
   description: site.description,
 };
 
@@ -33,6 +35,9 @@ export const viewport: Viewport = {
   themeColor: brand.violeta,
   width: "device-width",
   initialScale: 1,
+  // Lets the page reach under the notch and the home bar; the header, the footer and the content
+  // column add the safe-area insets back.
+  viewportFit: "cover",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -44,15 +49,18 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="flex min-h-full flex-col">
         <a
           href="#contenido"
-          className="sr-only focus:not-sr-only focus:absolute focus:left-2 focus:top-2 focus:rounded focus:bg-background focus:p-2"
+          className="sr-only focus:not-sr-only focus:absolute focus:left-2 focus:top-2 focus:z-50 focus:rounded-[10px] focus:bg-card focus:p-3 focus:font-medium"
         >
           Saltar al contenido
         </a>
         <SiteHeader />
-        <main id="contenido" className="mx-auto w-full max-w-5xl flex-1 px-4 py-8">
-          {children}
+        {/* Pages choose their own width: the landing is full-bleed, the rest sit in app/(app)/layout.tsx. */}
+        <main id="contenido" className="flex-1">
+          {/* Navigations are transitions: the page content cross-fades (class «page» in globals.css). */}
+          <ViewTransition default="page">{children}</ViewTransition>
         </main>
         <SiteFooter />
+        <RestReminder />
       </body>
     </html>
   );

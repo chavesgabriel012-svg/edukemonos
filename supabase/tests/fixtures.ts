@@ -13,6 +13,8 @@ export const ids = {
   student1b: "00000000-0000-4000-8000-0000000000d3",
   student2: "00000000-0000-4000-8000-0000000000d2",
   loner: "00000000-0000-4000-8000-0000000000d9",
+  // An anonymous session on another device, with no student row yet (recovery codes).
+  newDevice: "00000000-0000-4000-8000-0000000000da",
   section1: "00000000-0000-4000-8000-0000000000e1",
   section2: "00000000-0000-4000-8000-0000000000e2",
   source: "00000000-0000-4000-8000-0000000000f1",
@@ -44,10 +46,10 @@ export async function loadFixture(db: pg.Client): Promise<Fixture> {
        ($2, 'reviewer@example.test', false),
        ($3, 'teacher1@example.test', false),
        ($4, 'teacher2@example.test', false),
-       ($5, null, true), ($6, null, true), ($7, null, true), ($8, null, true)`,
+       ($5, null, true), ($6, null, true), ($7, null, true), ($8, null, true), ($9, null, true)`,
     [
       ids.admin, ids.reviewer, ids.teacher1, ids.teacher2,
-      ids.student1, ids.student1b, ids.student2, ids.loner,
+      ids.student1, ids.student1b, ids.student2, ids.loner, ids.newDevice,
     ],
   );
   await db.query(`update public.profiles set role = 'admin' where id = $1`, [ids.admin]);

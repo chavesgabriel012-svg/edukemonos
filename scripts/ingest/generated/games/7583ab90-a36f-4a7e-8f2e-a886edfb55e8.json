@@ -1,0 +1,208 @@
+{
+  "unitId": "7583ab90-a36f-4a7e-8f2e-a886edfb55e8",
+  "createdAt": "2026-11-04T17:53:02.102Z",
+  "models": {
+    "games": "claude-sonnet-5-5",
+    "solve": "claude-sonnet-5-5"
+  },
+  "prompts": {
+    "games": "generate-games-system@1",
+    "solve": "solve-games-system@1"
+  },
+  "pieces": [
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 0,
+        "instruction": "Une cada situación de obreros y días con el valor constante que resulta de multiplicar sus dos datos.",
+        "pairs": [
+          {
+            "left": "2 obreros terminan una obra en 12 días",
+            "right": "Producto constante: 24"
+          },
+          {
+            "left": "5 obreros terminan la misma obra en 4 días",
+            "right": "Producto constante: 20"
+          },
+          {
+            "left": "10 obreros terminan la misma obra en 3 días",
+            "right": "Producto constante: 30"
+          },
+          {
+            "left": "6 obreros terminan la misma obra en 6 días",
+            "right": "Producto constante: 36"
+          },
+          {
+            "left": "8 obreros terminan la misma obra en 2 días",
+            "right": "Producto constante: 16"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "En la proporcionalidad inversa el producto de las dos magnitudes siempre es el mismo. Se multiplica el número de obreros por los días: 2×12 = 24, 5×4 = 20, 10×3 = 30, 6×6 = 36 y 8×2 = 16."
+      },
+      "seed": "7583ab90-a36f-4a7e-8f2e-a886edfb55e8:0",
+      "solved": {
+        "game": 1,
+        "match": [
+          2,
+          5,
+          1,
+          3,
+          4
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": false,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador dio otra respuesta"
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 0,
+        "instruction": "Ordena los pasos para comprobar si dos magnitudes son inversamente proporcionales.",
+        "pairs": null,
+        "steps": [
+          "Identifica las dos magnitudes que se relacionan.",
+          "Anota sus valores en una tabla, pareja por pareja.",
+          "Multiplica los dos valores de cada pareja.",
+          "Compara los productos obtenidos.",
+          "Si todos los productos son iguales, la relación es de proporcionalidad inversa."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Primero se identifican las magnitudes, luego se ordenan sus valores y se multiplican. Solo después se comparan los productos. Si todos son iguales, la relación es inversa."
+      },
+      "seed": "7583ab90-a36f-4a7e-8f2e-a886edfb55e8:1",
+      "solved": {
+        "game": 2,
+        "match": null,
+        "order": [
+          1,
+          3,
+          5,
+          4,
+          2
+        ],
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Completa el enunciado con el valor correcto. Piensa si más llaves significan más o menos tiempo.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Si 4 llaves iguales llenan un tanque en 6 horas, 8 llaves iguales lo llenarán en ___ horas.",
+        "options": [
+          "12",
+          "3",
+          "10",
+          "24"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": "4*6/8",
+        "explanation": "El número de llaves y el tiempo son inversamente proporcionales: más llaves llenan el tanque en menos tiempo. El producto es constante: 4×6 = 24, entonces 24 ÷ 8 = 3 horas."
+      },
+      "seed": "7583ab90-a36f-4a7e-8f2e-a886edfb55e8:2",
+      "solved": {
+        "game": 3,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 0,
+        "instruction": "Un auto recorre siempre 120 km. Encuentra el paso que tiene un error.",
+        "pairs": null,
+        "steps": [
+          "Si va a 40 km/h, tarda 120 ÷ 40 = 3 horas.",
+          "Si va a 60 km/h, tarda 120 ÷ 60 = 2 horas.",
+          "Al aumentar la velocidad, el tiempo disminuye, por eso son magnitudes inversamente proporcionales.",
+          "Si va a 30 km/h, tarda 120 ÷ 30 = 5 horas."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 3,
+        "correction": "Si va a 30 km/h, tarda 120 ÷ 30 = 4 horas.",
+        "calc": null,
+        "explanation": "El producto velocidad × tiempo debe dar siempre 120. Con 30 km/h el tiempo es 4 horas, porque 30×4 = 120. No son 5 horas, ya que 30×5 = 150."
+      },
+      "seed": "7583ab90-a36f-4a7e-8f2e-a886edfb55e8:3",
+      "solved": {
+        "game": 4,
+        "match": null,
+        "order": null,
+        "choice": 4,
+        "problems": "120 ÷ 30 = 4, no 5. El paso 3 es correcto como idea general, aunque que una magnitud aumente y la otra disminuya no basta por sí solo para probar proporcionalidad inversa; aquí el producto constante 120 sí lo confirma."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "120 ÷ 30 = 4, no 5. El paso 3 es correcto como idea general, aunque que una magnitud aumente y la otra disminuya no basta por sí solo para probar proporcionalidad inversa; aquí el producto constante 120 sí lo confirma."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: 120 ÷ 30 = 4, no 5. El paso 3 es correcto como idea general, aunque que una magnitud aumente y la otra disminuya no basta por sí solo para probar proporcionalidad inversa; aquí el producto constante 120 sí lo confirma."
+        ]
+      }
+    }
+  ],
+  "notes": ""
+}

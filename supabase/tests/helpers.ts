@@ -57,6 +57,34 @@ export async function asSteps(
   }
 }
 
+/**
+ * Several statements, each as its own actor, inside ONE rolled-back transaction: for flows that
+ * cross users (a code created by one student and redeemed from another session).
+ */
+export type StepParams = unknown[] | ((previous: pg.QueryResultRow[][]) => unknown[]);
+
+export async function asActors(
+  client: pg.Client,
+  steps: [Actor, string, StepParams?][],
+): Promise<pg.QueryResultRow[][]> {
+  await client.query("begin");
+  try {
+    const out: pg.QueryResultRow[][] = [];
+    for (const [actor, sql, params] of steps) {
+      const role = actor.kind === "anon" ? "anon" : actor.kind === "service" ? "service_role" : "authenticated";
+      const claims = actor.kind === "user" ? { sub: actor.id, role } : { role };
+      await client.query("reset role");
+      await client.query(`set local role ${role}`);
+      await client.query("select set_config('request.jwt.claims', $1, true)", [JSON.stringify(claims)]);
+      const values = typeof params === "function" ? params(out) : (params ?? []);
+      out.push((await client.query(sql, values)).rows);
+    }
+    return out;
+  } finally {
+    await client.query("rollback");
+  }
+}
+
 /** Expects the statement to be rejected by Postgres (RLS violation, missing grant, RPC check). */
 export async function expectDenied(
   client: pg.Client,

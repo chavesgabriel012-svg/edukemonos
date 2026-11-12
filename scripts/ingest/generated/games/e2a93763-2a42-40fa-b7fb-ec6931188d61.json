@@ -1,0 +1,535 @@
+{
+  "unitId": "e2a93763-2a42-40fa-b7fb-ec6931188d61",
+  "createdAt": "2026-11-04T17:59:12.242Z",
+  "models": {
+    "games": "claude-sonnet-5-5",
+    "solve": "claude-sonnet-5-5"
+  },
+  "prompts": {
+    "games": "generate-games-system@1",
+    "solve": "solve-games-system@1"
+  },
+  "pieces": [
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 0,
+        "instruction": "Une cada función cuadrática con las coordenadas de su vértice.",
+        "pairs": [
+          {
+            "left": "f(x) = x² − 4x + 3",
+            "right": "(2, −1)"
+          },
+          {
+            "left": "f(x) = x² + 2x − 3",
+            "right": "(−1, −4)"
+          },
+          {
+            "left": "f(x) = −x² + 4x",
+            "right": "(2, 4)"
+          },
+          {
+            "left": "f(x) = x² − 6x + 5",
+            "right": "(3, −4)"
+          },
+          {
+            "left": "f(x) = 2x² − 4x",
+            "right": "(1, −2)"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "El vértice se halla con x = −b/(2a) y luego se calcula f(x). Por ejemplo, en f(x) = x² − 4x + 3: x = 4/2 = 2 y f(2) = 4 − 8 + 3 = −1, entonces el vértice es (2, −1)."
+      },
+      "seed": "e2a93763-2a42-40fa-b7fb-ec6931188d61:0",
+      "solved": {
+        "game": 1,
+        "match": [
+          5,
+          1,
+          3,
+          4,
+          2
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 0,
+        "instruction": "Ordena los pasos para trazar la gráfica de f(x) = x² − 4x + 3.",
+        "pairs": null,
+        "steps": [
+          "Identificar los valores de a, b y c en la función.",
+          "Calcular la coordenada x del vértice con −b/(2a).",
+          "Calcular la coordenada y del vértice sustituyendo esa x en la función.",
+          "Hacer una tabla con valores de x a ambos lados del eje de la parábola.",
+          "Ubicar los puntos en el plano y unirlos con una curva suave."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Primero necesitas a, b y c para hallar el vértice. Con el vértice sabes dónde centrar la tabla de valores, y al final ubicas los puntos y trazas la parábola."
+      },
+      "seed": "e2a93763-2a42-40fa-b7fb-ec6931188d61:1",
+      "solved": {
+        "game": 2,
+        "match": null,
+        "order": [
+          5,
+          1,
+          4,
+          3,
+          2
+        ],
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Completa con el valor correcto para ubicar el vértice.",
+        "pairs": null,
+        "steps": null,
+        "stem": "La coordenada x del vértice de f(x) = x² − 6x + 5 es ___.",
+        "options": [
+          "−3",
+          "6",
+          "3",
+          "5"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": "6/(2*1)",
+        "explanation": "Se usa x = −b/(2a). Aquí a = 1 y b = −6, entonces x = 6/2 = 3."
+      },
+      "seed": "e2a93763-2a42-40fa-b7fb-ec6931188d61:2",
+      "solved": {
+        "game": 3,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 0,
+        "instruction": "Encuentra el paso con error al buscar el vértice de f(x) = x² − 4x + 3.",
+        "pairs": null,
+        "steps": [
+          "a = 1, b = −4, c = 3",
+          "x del vértice: −b/(2a) = 4/2 = 2",
+          "f(2) = 2² − 4 × 2 + 3 = 4 − 8 + 3 = 1",
+          "El intercepto con el eje y es f(0) = 3"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "f(2) = 2² − 4 × 2 + 3 = 4 − 8 + 3 = −1, por lo que el vértice es (2, −1).",
+        "calc": null,
+        "explanation": "Al calcular 4 − 8 + 3 el resultado es −1, no 1. Los demás pasos están bien."
+      },
+      "seed": "e2a93763-2a42-40fa-b7fb-ec6931188d61:3",
+      "solved": {
+        "game": 4,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 1,
+        "instruction": "Une cada condición de f(x) = ax² + bx + c con su efecto en la gráfica.",
+        "pairs": [
+          {
+            "left": "a > 0",
+            "right": "La parábola abre hacia arriba"
+          },
+          {
+            "left": "a < 0",
+            "right": "La parábola abre hacia abajo"
+          },
+          {
+            "left": "Valor absoluto de a más grande",
+            "right": "La parábola es más cerrada"
+          },
+          {
+            "left": "Valor de c",
+            "right": "Punto donde la parábola corta el eje y"
+          },
+          {
+            "left": "b² − 4ac < 0",
+            "right": "La parábola no corta el eje x"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "El signo de a define hacia dónde abre la parábola, su tamaño la hace más cerrada o abierta, c es f(0) y un discriminante negativo indica que no hay cortes con el eje x."
+      },
+      "seed": "e2a93763-2a42-40fa-b7fb-ec6931188d61:4",
+      "solved": {
+        "game": 5,
+        "match": [
+          2,
+          5,
+          3,
+          1,
+          4
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 1,
+        "instruction": "Completa la comparación entre dos parábolas.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Al comparar f(x) = x² con g(x) = 3x², la gráfica de g es ___ que la de f.",
+        "options": [
+          "igual de abierta",
+          "reflejada hacia abajo",
+          "más abierta",
+          "más cerrada"
+        ],
+        "answer_index": 3,
+        "correction": null,
+        "calc": null,
+        "explanation": "Como 3 es mayor que 1 y ambos son positivos, la parábola de g abre hacia arriba igual que f, pero sus ramas suben más rápido, por eso es más cerrada."
+      },
+      "seed": "e2a93763-2a42-40fa-b7fb-ec6931188d61:5",
+      "solved": {
+        "game": 6,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 1,
+        "instruction": "Encuentra la frase incorrecta sobre la influencia de los parámetros.",
+        "pairs": null,
+        "steps": [
+          "En f(x) = 2x² + 1, la parábola abre hacia arriba porque a = 2 es mayor que 0.",
+          "En g(x) = −x² + 4, la parábola abre hacia abajo porque a = −1 es menor que 0.",
+          "En h(x) = x² − 5, la parábola corta el eje y en el punto (0, 5).",
+          "En k(x) = x² + 3, el vértice está en (0, 3)."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "En h(x) = x² − 5, la parábola corta el eje y en el punto (0, −5).",
+        "calc": null,
+        "explanation": "El corte con el eje y es (0, c). Como c = −5, el punto es (0, −5) y no (0, 5)."
+      },
+      "seed": "e2a93763-2a42-40fa-b7fb-ec6931188d61:6",
+      "solved": {
+        "game": 7,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 2,
+        "instruction": "Une cada ecuación de segundo grado con sus soluciones.",
+        "pairs": [
+          {
+            "left": "x² − 9 = 0",
+            "right": "x = 3 y x = −3"
+          },
+          {
+            "left": "x² − 5x + 6 = 0",
+            "right": "x = 2 y x = 3"
+          },
+          {
+            "left": "x² + x − 6 = 0",
+            "right": "x = −3 y x = 2"
+          },
+          {
+            "left": "x² − 4x = 0",
+            "right": "x = 0 y x = 4"
+          },
+          {
+            "left": "x² − 7x + 10 = 0",
+            "right": "x = 2 y x = 5"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Cada ecuación se factoriza: (x−3)(x+3), (x−2)(x−3), (x+3)(x−2), x(x−4) y (x−2)(x−5). Las soluciones son los valores que hacen cero cada factor."
+      },
+      "seed": "e2a93763-2a42-40fa-b7fb-ec6931188d61:7",
+      "solved": {
+        "game": 8,
+        "match": [
+          5,
+          1,
+          2,
+          3,
+          4
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 2,
+        "instruction": "Ordena los pasos para resolver un problema con una ecuación de segundo grado.",
+        "pairs": null,
+        "steps": [
+          "Leer el problema e identificar la incógnita.",
+          "Plantear la ecuación de segundo grado con los datos.",
+          "Resolver la ecuación factorizando o con la fórmula.",
+          "Descartar las soluciones que no tienen sentido en el contexto.",
+          "Escribir la respuesta con su unidad."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Primero hay que entender qué se busca, luego se plantea y resuelve la ecuación, después se revisa si las soluciones sirven en el problema y al final se responde."
+      },
+      "seed": "e2a93763-2a42-40fa-b7fb-ec6931188d61:8",
+      "solved": {
+        "game": 9,
+        "match": null,
+        "order": [
+          5,
+          3,
+          1,
+          2,
+          4
+        ],
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 2,
+        "instruction": "Resuelve el problema y completa.",
+        "pairs": null,
+        "steps": null,
+        "stem": "Un terreno rectangular tiene un largo 3 m mayor que su ancho y un área de 40 m². Si x es el ancho, se cumple x² + 3x − 40 = 0, por lo que el ancho mide ___ m.",
+        "options": [
+          "8",
+          "5",
+          "−8",
+          "10"
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": "(-3+sqrt(3^2+4*40))/2",
+        "explanation": "x² + 3x − 40 = (x + 8)(x − 5) = 0, así que x = 5 o x = −8. Una medida no puede ser negativa, entonces el ancho es 5 m (y el largo 8 m: 5 × 8 = 40)."
+      },
+      "seed": "e2a93763-2a42-40fa-b7fb-ec6931188d61:9",
+      "solved": {
+        "game": 10,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "passed"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 2,
+        "instruction": "Un número al cuadrado menos 4 veces ese número es 21. Encuentra el paso con error.",
+        "pairs": null,
+        "steps": [
+          "Sea x el número: x² − 4x = 21",
+          "x² − 4x − 21 = 0",
+          "(x − 7)(x − 3) = 0",
+          "x = 7 o x = −3"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "(x − 7)(x + 3) = 0, porque (x − 7)(x + 3) = x² − 4x − 21.",
+        "calc": null,
+        "explanation": "Al multiplicar (x − 7)(x − 3) se obtiene x² − 10x + 21, que no es la ecuación. La factorización correcta es (x − 7)(x + 3), que da x = 7 o x = −3."
+      },
+      "seed": "e2a93763-2a42-40fa-b7fb-ec6931188d61:10",
+      "solved": {
+        "game": 11,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    }
+  ],
+  "notes": "El texto de las habilidades llegó cortado, así que las interpreté como: trazar la gráfica de f(x) = ax² + bx + c, analizar la influencia de los parámetros a, b y c, y resolver problemas con ecuaciones de segundo grado con una incógnita. No hice una pieza de ordenar para la habilidad 1 porque no hay un procedimiento con un único orden válido."
+}

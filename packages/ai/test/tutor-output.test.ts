@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { assumedGenderWords, filterTutorOutput, normalizeLetters, stripUnverifiedPhones, toNeutral, toTuteo, tutorOutputStream } from "../src/tutor/output";
+import { assumedGenderWords, filterTutorOutput, normalizeLetters, stripMetaNotes, stripUnverifiedPhones, toNeutral, toTuteo, tutorOutputStream } from "../src/tutor/output";
 
 describe("toTuteo", () => {
   it("reads «sos una IA» from the tutor as «soy», not as voseo", () => {
@@ -166,5 +166,72 @@ describe("assumedGenderWords, third person and lookalikes", () => {
   });
   it("sees words with lookalike letters", () => {
     expect(assumedGenderWords("aunque no estés segurо", "")).toEqual(["estés seguro"]);
+  });
+});
+
+describe("toNeutral, forms from the second round of 2026-11-02 (prompt v11)", () => {
+  const cases: [string, string, string][] = [
+    ["No, tranquilo (mat-19)", "No, tranquilo. No necesito tu correo.", "No, con calma. No necesito tu correo."],
+    ["Oye, tranquila", "Oye, tranquila, vamos paso a paso.", "Oye, con calma, vamos paso a paso."],
+    ["no te preocupes, tranquilo", "No te preocupes, tranquilo. Lo vemos de nuevo.", "No te preocupes, con calma. Lo vemos de nuevo."],
+    ["cargarlo solo (mat-20)", "No tienes que cargarlo solo.", "No tienes que cargarlo sin apoyo."],
+    ["cargarla sola", "No deberías cargarla sola, habla con alguien.", "No deberías cargarla sin apoyo, habla con alguien."],
+    ["resolverlo tú solo (esp-22)", "No tienes que resolverlo tú solo.", "No tienes que resolverlo por tu cuenta."],
+    ["enfrentarlo tú sola", "No tienes que enfrentarlo tú sola ni callarlo.", "No tienes que enfrentarlo sin apoyo ni callarlo."],
+    ["tú solo", "¿Lo hiciste tú solo?", "¿Lo hiciste por tu cuenta?"],
+    ["tú solo/a", "Inténtalo tú solo/a y me cuentas.", "Inténtalo por tu cuenta y me cuentas."],
+    ["acompañado (mat-20)", "Quiero que te sientas acompañado.", "Quiero que tengas compañía."],
+    ["acompañada", "Mereces sentirte acompañada.", "Mereces tener compañía."],
+    ["cansado (mat-31)", "Es normal sentirse cansado después de tanto estudiar.", "Es normal sentir cansancio después de tanto estudiar."],
+    ["cansada", "Si estás muy cansada, descansa un rato.", "Si sientes mucho cansancio, descansa un rato."],
+    ["molesto (mat-29)", "Entiendo que estés molesto con la tarea.", "Entiendo que sientas molestia con la tarea."],
+    ["confundido/a", "Es normal que te sientas confundido/a al principio.", "Es normal que sientas confusión al principio."],
+    ["agobiada", "Si te sientes agobiada, respira.", "Si sientes agobio, respira."],
+    ["estresado", "Veo que estás un poco estresado.", "Veo que sientes algo de estrés."],
+    ["desanimada", "No quiero que te sientas desanimada.", "No quiero que sientas desánimo."],
+    ["asustado", "Es normal estar asustado antes de un examen.", "Es normal sentir miedo antes de un examen."],
+  ];
+  it.each(cases)("%s", (_form, input, expected) => {
+    expect(toNeutral(input)).toBe(expected);
+  });
+
+  it.each([
+    "Tú solo tienes que sumar los exponentes.",
+    "Busca un lugar tranquilo para estudiar.",
+    "Ese ruido es molesto, pero sigamos.",
+    "El signo va acompañado de un número.",
+    "Puedes usarlo solo cuando la base es la misma.",
+    "No, tranquilo no es un sustantivo: es un adjetivo.",
+  ])("leaves alone: %s", (text) => {
+    expect(toNeutral(text)).toBe(text);
+  });
+});
+
+describe("stripMetaNotes", () => {
+  it("removes the model's notes about its own rules", () => {
+    // mat-19 and esp-19 (Haiku 5.5 low, prompt v11).
+    expect(filterTutorOutput("No, tranquilo... perdón, sin género. No necesito tu correo.", [])).toBe("No, con calma. No necesito tu correo.");
+    expect(stripMetaNotes("Gracias por contármelo (evito género). Lo que sientes importa.")).toBe("Gracias por contármelo. Lo que sientes importa.");
+    expect(stripMetaNotes("No, con calma... perdón, sin nombres ni datos personales. Sigamos.")).toBe("No, con calma. Sigamos.");
+  });
+  it("leaves ordinary parentheses and apologies alone", () => {
+    const t = "El género (masculino o femenino) del sustantivo decide el artículo. Perdón, me equivoqué en el paso 2 (era 3 + 8).";
+    expect(stripMetaNotes(t)).toBe(t);
+  });
+  it("works across stream chunks", () => {
+    const s = tutorOutputStream([]);
+    const out = "No, tranquilo... perdón, sin género. No necesito tu correo ni tu dirección para guardar tu avance.".split(/(?<= )/).map((w) => s.push(w)).join("") + s.flush();
+    expect(out).toBe("No, con calma. No necesito tu correo ni tu dirección para guardar tu avance.");
+  });
+});
+
+describe("assumedGenderWords, adjectives of a noun", () => {
+  it("does not flag a gendered word that describes a thing or someone else", () => {
+    // mat-24 failed twice on this false positive.
+    expect(assumedGenderWords("Busca un lugar tranquilo y respira.", "")).toEqual([]);
+    expect(assumedGenderWords("¿Cómo ayudarías a una persona muy cansada?", "")).toEqual([]);
+  });
+  it("still flags the student's own", () => {
+    expect(assumedGenderWords("Busca un lugar tranquilo. Tranquilo, lo vemos de nuevo.", "")).toEqual(["tranquilo"]);
   });
 });

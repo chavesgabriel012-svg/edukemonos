@@ -146,6 +146,31 @@ Sin registro: el estudiante elige año → materia → unidad (`/estudiar/7/mate
 
 **Configuración necesaria en Supabase:** Authentication → Sign In / Providers → activar **Allow anonymous sign-ins**. Conviene subir el límite de inicios anónimos por IP (Authentication → Rate Limits) para que una clase entera, detrás de una sola IP, pueda guardar su avance.
 
+## Sitio e interfaz
+
+- `/` es la **landing**, planteada como muestra de un producto en fase de prueba (sin precios ni costos): un título y tres puntos por
+  público. Los conteos de contenido publicado se
+  leen de la base de datos (se refrescan cada hora, `lib/stats.ts`); las cifras de PISA 2025 y del Estado de la Educación
+  2025 son las del Anexo B del SPEC. El botón de contacto aparece solo si se define `NEXT_PUBLIC_CONTACT_EMAIL`.
+- `/familias`, `/docentes` y `/colegios` desglosan la información para cada público. Comparten bloques con la landing
+  (`components/landing/blocks.tsx`). `/docentes` es la página informativa; el panel sigue en `/docente`.
+- **Carga y movimiento** (todo se apaga con «reducir movimiento»):
+  - *Skeletons*: `loading.tsx` en año, materia, tema, diagnóstico y panel docente (`components/ui/skeleton.tsx`), y dentro
+    de la práctica y del chat mientras cargan.
+  - *Pre-renderizado*: la landing, las páginas por público, `/estudiar`, `/como-funciona`, `/ia`, `/privacidad` y `/unirme`
+    se generan en el build. Las páginas con sesión no se pueden pre-renderizar; sus enlaces precargan el skeleton.
+  - *Transiciones entre páginas*: `<ViewTransition>` en `app/layout.tsx`; el encabezado queda fijo.
+  - *Safe areas*: `viewport-fit=cover` y `env(safe-area-inset-*)` en encabezado, pie, columna de contenido y avisos fijos.
+  - *Titulares balanceados*: `text-wrap: balance` en `h1`–`h3` y `pretty` en párrafos (`globals.css`).
+  - *Triángulo seguro*: el menú «Probar» (`components/site/try-menu.tsx`) mantiene abierto el panel lateral mientras el
+    puntero va en diagonal hacia él.
+  - *Animaciones al bajar*: `components/landing/reveal.tsx`, aplicado en cada banda de la landing y de las páginas por público.
+  - *Conversación con Kemo*: `components/landing/chat-preview.tsx` se reproduce una vez al entrar en pantalla.
+- `/estudiar` es la entrada de los estudiantes (elegir año) y la página de inicio de la app instalada.
+- Todo lo que no es la landing vive en `apps/web/src/app/(app)/`, que pone la columna de contenido. Las URL no cambian.
+- Piezas compartidas: `components/ui/action.ts` (botones), `components/ui/styles.ts` (tarjeta, campo, área de texto),
+  `components/ui/notice.tsx`, `components/ui/back-link.tsx` y `components/learn/choices.tsx` (opciones de un ejercicio).
+
 ## Tutor (Fase 4)
 
 Pestaña **Preguntar al tutor** de cada unidad (`POST /api/tutor`, respuesta en streaming). Modelo: `MODEL_TUTOR`.
@@ -153,12 +178,13 @@ Pestaña **Preguntar al tutor** de cada unidad (`POST /api/tutor`, respuesta en 
 - **Método socrático** con escalera de pistas; no resuelve ejercicios de práctica ni del diagnóstico. Prompt versionado en `packages/ai/src/prompts/tutor.ts`.
 - **Anclado a la unidad publicada** (programa del MEP + material publicado). Recibe el dominio estimado del estudiante, **nunca su nombre**.
 - **Calculadora** (`mathjs`) para toda operación en Matemáticas.
-- **Seguridad:** antes de llegar al modelo se borran teléfonos, correos, cédulas y direcciones; las señales de malestar o abuso muestran la tarjeta de ayuda (`config/help-resources.json`) y le indican al tutor responder con cuidado.
+- **Seguridad:** antes de llegar al modelo se borran teléfonos, correos, cédulas y direcciones; las señales de malestar o abuso muestran la tarjeta de ayuda (`config/help-resources.json`) y le indican al tutor responder con cuidado. También se marcan los mensajes que piden, ofrecen o anuncian datos personales (`personal_data_request`) y los que intentan cambiar las reglas del tutor (`injection`): el tutor recibe un recordatorio para ese turno.
+- **Salida:** un filtro en código corrige voseo, formas con género, números no verificados y notas del modelo sobre sus propias reglas. El tope es de 2 048 tokens por respuesta (razonamiento incluido); una respuesta vacía no se guarda y se le pide al estudiante reintentar, y una cortada ofrece «Pedirle que continúe».
 - **Límites:** `TUTOR_MAX_MESSAGES_PER_SESSION` y `TUTOR_MAX_MESSAGES_PER_DAY` (contadores en Postgres), máximo de tokens por respuesta y el fusible de gasto.
 - **Caché de prompts:** instrucciones + contexto de la unidad son el mismo prefijo para todos los estudiantes de la unidad; `ai_usage` guarda los tokens de caché aparte y el costo usa la tarifa real.
 - **Escritura (Español):** retroalimentación con IA sobre el texto del estudiante; el texto no se guarda, solo los conteos por categoría de error (`writing_feedback`). Límite `WRITING_FEEDBACK_MAX_PER_DAY` (20).
 
-**Evaluaciones:** `pnpm eval:tutor` (sin `--yes` solo estima) corre 60 casos (`packages/ai/evals/tutor/cases.json`) y escribe el reporte en `docs/evals/`.
+**Evaluaciones:** `pnpm eval:tutor` (sin `--yes` solo estima) corre 64 casos (`packages/ai/evals/tutor/cases.json`) y escribe el reporte en `docs/evals/`.
 
 **Variables necesarias en el servidor (Vercel):** `SUPABASE_SERVICE_ROLE_KEY`, `ANTHROPIC_API_KEY`, `AI_PROVIDER`, `MODEL_TUTOR`, `MODEL_BULK`, `MODEL_VERIFY`, `AI_PRICES_JSON`, `AI_BUDGET_DAILY_USD`, `AI_BUDGET_MONTHLY_USD`, `TUTOR_MAX_MESSAGES_PER_SESSION`, `TUTOR_MAX_MESSAGES_PER_DAY`, `CRON_SECRET` (limpieza diaria de conversaciones).
 

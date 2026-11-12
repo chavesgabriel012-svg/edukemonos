@@ -1,0 +1,362 @@
+{
+  "unitId": "0cd5b25c-7030-4d7c-af70-cceaeff0b315",
+  "createdAt": "2026-11-04T17:46:09.345Z",
+  "models": {
+    "games": "claude-sonnet-5-5",
+    "solve": "claude-sonnet-5-5"
+  },
+  "prompts": {
+    "games": "generate-games-system@1",
+    "solve": "solve-games-system@1"
+  },
+  "pieces": [
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 0,
+        "instruction": "Une cada expresión numérica con su escritura correcta en palabras.",
+        "pairs": [
+          {
+            "left": "1/3",
+            "right": "un tercio"
+          },
+          {
+            "left": "3/4",
+            "right": "tres cuartos"
+          },
+          {
+            "left": "1/10",
+            "right": "un décimo"
+          },
+          {
+            "left": "2/5",
+            "right": "dos quintos"
+          },
+          {
+            "left": "multiplicado por 2",
+            "right": "doble"
+          },
+          {
+            "left": "multiplicado por 4",
+            "right": "cuádruple"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Los fraccionarios se leen con el numerador cardinal y el denominador como ordinal o partitivo: tercio, cuartos, décimo, quintos. Los multiplicativos indican veces: doble (2) y cuádruple (4, con tilde)."
+      },
+      "seed": "0cd5b25c-7030-4d7c-af70-cceaeff0b315:0",
+      "solved": {
+        "game": 1,
+        "match": [
+          5,
+          1,
+          3,
+          6,
+          2,
+          4
+        ],
+        "order": null,
+        "choice": null,
+        "problems": "Nivel muy básico para octavo año (fracciones y múltiplos en palabras). Además, 'multiplicado por 2/por 4' con 'doble/cuádruple' no es una escritura de expresión numérica propiamente, pero la correspondencia es clara y única."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "Nivel muy básico para octavo año (fracciones y múltiplos en palabras). Además, 'multiplicado por 2/por 4' con 'doble/cuádruple' no es una escritura de expresión numérica propiamente, pero la correspondencia es clara y única."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: Nivel muy básico para octavo año (fracciones y múltiplos en palabras). Además, 'multiplicado por 2/por 4' con 'doble/cuádruple' no es una escritura de expresión numérica propiamente, pero la correspondencia es clara y única."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 0,
+        "instruction": "Ordena estos numerales ordinales, del 10.º al 14.º.",
+        "pairs": null,
+        "steps": [
+          "décimo",
+          "undécimo",
+          "duodécimo",
+          "decimotercero",
+          "decimocuarto"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "La serie sigue el orden de los números: 10.º décimo, 11.º undécimo, 12.º duodécimo, 13.º decimotercero y 14.º decimocuarto."
+      },
+      "seed": "0cd5b25c-7030-4d7c-af70-cceaeff0b315:1",
+      "solved": {
+        "game": 2,
+        "match": null,
+        "order": [
+          1,
+          5,
+          2,
+          3,
+          4
+        ],
+        "choice": null,
+        "problems": "Nivel bajo para octavo año. 'Decimotercero' es válida (también 'decimotercer' o 'decimotercero'), sin ambigüedad."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "Nivel bajo para octavo año. 'Decimotercero' es válida (también 'decimotercer' o 'decimotercero'), sin ambigüedad."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: Nivel bajo para octavo año. 'Decimotercero' es válida (también 'decimotercer' o 'decimotercero'), sin ambigüedad."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Elige la forma correcta de escribir la hora en un texto formal.",
+        "pairs": null,
+        "steps": null,
+        "stem": "La reunión de padres y madres será a las ___ en el comedor del colegio.",
+        "options": [
+          "3:30 pm",
+          "3:30 p. m.",
+          "15:30 p. m.",
+          "3:30 P. M."
+        ],
+        "answer_index": 1,
+        "correction": null,
+        "calc": null,
+        "explanation": "En el formato de 12 horas se escribe «p. m.» en minúscula, con puntos y un espacio entre las letras. «15:30 p. m.» repite la información, y «pm» o «P. M.» no siguen la norma."
+      },
+      "seed": "0cd5b25c-7030-4d7c-af70-cceaeff0b315:2",
+      "solved": {
+        "game": 3,
+        "match": null,
+        "order": null,
+        "choice": 1,
+        "problems": ""
+      },
+      "verification": {
+        "verified": false,
+        "structural": [
+          "opciones repetidas"
+        ],
+        "solver": null,
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "opciones repetidas"
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "fill",
+        "skill_index": 0,
+        "instruction": "Completa con la escritura correcta del símbolo.",
+        "pairs": null,
+        "steps": null,
+        "stem": "La ruta de la caminata mide 12 ___.",
+        "options": [
+          "km.",
+          "kms",
+          "km",
+          "Km"
+        ],
+        "answer_index": 2,
+        "correction": null,
+        "calc": null,
+        "explanation": "Los símbolos de las unidades no llevan punto ni «s» para el plural, y se escriben con minúscula si no vienen de un nombre propio. Lo correcto es «12 km»."
+      },
+      "seed": "0cd5b25c-7030-4d7c-af70-cceaeff0b315:3",
+      "solved": {
+        "game": 4,
+        "match": null,
+        "order": null,
+        "choice": 2,
+        "problems": "Nivel bajo para octavo año, pero la respuesta es única: los símbolos no llevan punto, no se pluralizan y se escriben en minúscula (km)."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [
+          "opciones repetidas"
+        ],
+        "solver": null,
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "opciones repetidas"
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "find_error",
+        "skill_index": 0,
+        "instruction": "Una de estas frases tiene un error en la escritura de una expresión numérica. Encuéntrala.",
+        "pairs": null,
+        "steps": [
+          "La feria será el sábado 14 de junio de 2025.",
+          "Para consultas, llama al 2222 3344.",
+          "Recorrimos 5 kms en 40 minutos.",
+          "Ganó el 25 % de los votos.",
+          "Llegamos a las 7:15 a. m."
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": 2,
+        "correction": "Recorrimos 5 km en 40 minutos.",
+        "calc": null,
+        "explanation": "El símbolo km no se pluraliza: no lleva «s». Las demás frases escriben bien la fecha, el número telefónico, el porcentaje (con espacio antes del signo) y la hora."
+      },
+      "seed": "0cd5b25c-7030-4d7c-af70-cceaeff0b315:4",
+      "solved": {
+        "game": 5,
+        "match": null,
+        "order": null,
+        "choice": 3,
+        "problems": "En la frase 2, el teléfono con espacio (2222 3344) es correcto en Costa Rica. Solo la 3 tiene error ('kms': los símbolos no llevan -s). Nivel bajo para octavo año."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "En la frase 2, el teléfono con espacio (2222 3344) es correcto en Costa Rica. Solo la 3 tiene error ('kms': los símbolos no llevan -s). Nivel bajo para octavo año."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: En la frase 2, el teléfono con espacio (2222 3344) es correcto en Costa Rica. Solo la 3 tiene error ('kms': los símbolos no llevan -s). Nivel bajo para octavo año."
+        ]
+      }
+    },
+    {
+      "game": {
+        "mechanic": "pairs",
+        "skill_index": 1,
+        "instruction": "Une cada técnica de comunicación oral con su característica.",
+        "pairs": [
+          {
+            "left": "Entrevista",
+            "right": "Una persona hace preguntas a otra para obtener información o su opinión"
+          },
+          {
+            "left": "Debate",
+            "right": "Dos posturas opuestas se defienden con argumentos ante un moderador"
+          },
+          {
+            "left": "Exposición oral",
+            "right": "Una persona o un grupo presenta un tema a la audiencia, con apoyo visual"
+          },
+          {
+            "left": "Dramatización",
+            "right": "Se representa una situación con personajes, voz y gestos"
+          }
+        ],
+        "steps": null,
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Cada técnica se reconoce por su propósito y por quiénes participan: preguntas y respuestas en la entrevista, posturas contrarias en el debate, presentación de un tema en la exposición y representación de personajes en la dramatización."
+      },
+      "seed": "0cd5b25c-7030-4d7c-af70-cceaeff0b315:5",
+      "solved": {
+        "game": 6,
+        "match": [
+          4,
+          3,
+          2,
+          1
+        ],
+        "order": null,
+        "choice": null,
+        "problems": ""
+      },
+      "verification": {
+        "verified": true,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": ""
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": []
+      }
+    },
+    {
+      "game": {
+        "mechanic": "order",
+        "skill_index": 1,
+        "instruction": "Ordena los pasos para preparar y realizar una entrevista.",
+        "pairs": null,
+        "steps": [
+          "Elegir el tema y a la persona entrevistada",
+          "Preparar las preguntas",
+          "Realizar la entrevista y tomar notas",
+          "Agradecer y organizar la información obtenida"
+        ],
+        "stem": null,
+        "options": null,
+        "answer_index": null,
+        "correction": null,
+        "calc": null,
+        "explanation": "Primero se decide el tema y a quién entrevistar, luego se preparan las preguntas, después se hace la entrevista y al final se agradece y se ordena la información."
+      },
+      "seed": "0cd5b25c-7030-4d7c-af70-cceaeff0b315:6",
+      "solved": {
+        "game": 7,
+        "match": null,
+        "order": [
+          2,
+          1,
+          4,
+          3
+        ],
+        "choice": null,
+        "problems": "Nivel bajo para octavo año, pero la secuencia es clara y única."
+      },
+      "verification": {
+        "verified": false,
+        "structural": [],
+        "solver": {
+          "agrees": true,
+          "problems": "Nivel bajo para octavo año, pero la secuencia es clara y única."
+        },
+        "math": {
+          "status": "not_applicable"
+        },
+        "reasons": [
+          "el verificador señaló: Nivel bajo para octavo año, pero la secuencia es clara y única."
+        ]
+      }
+    }
+  ],
+  "notes": "El extracto del programa no indica cuál técnica oral se trabaja, así que usé técnicas generales (entrevista, debate, exposición, dramatización). Conviene ajustarlas a la técnica que se vea en clase."
+}

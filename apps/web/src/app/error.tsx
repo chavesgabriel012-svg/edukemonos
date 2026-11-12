@@ -5,7 +5,7 @@ import { brand } from "@/lib/brand";
 
 export default function AppError({ error, retry }: { error: Error & { digest?: string }; retry: () => void }) {
   return (
-    <section role="alert" className="mx-auto flex max-w-md flex-col items-center gap-5 py-10 text-center">
+    <section role="alert" className="mx-auto flex max-w-md flex-col items-center gap-5 px-4 py-16 text-center">
       <Kemo size={120} mood="down" background={brand.lima} />
       <h1 className="font-heading text-4xl leading-none font-bold">Algo falló</h1>
       <p className="text-muted-foreground">
