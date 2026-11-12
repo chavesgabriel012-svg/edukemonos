@@ -1489,7 +1489,7 @@ describe("the Friday tournament", () => {
     // The same scores, computed in TypeScript from the raw answers and mastery changes.
     const byTeam = new Map<string, { id: string; name: string; points: number[] }>();
     for (const r of out.raw) {
-      const e = byTeam.get(r.team) ?? { id: r.team, name: r.name, points: [] };
+      const e = byTeam.get(r.team) ?? { id: r.team as string, name: r.name as string, points: [] as number[] };
       e.points.push(memberPoints(r.correct, r.improvement));
       byTeam.set(r.team, e);
     }
