@@ -9,3 +9,4 @@ export * from "./demo-section";
 export * from "./streak";
 export * from "./section-goal";
 export * from "./games";
+export * from "./tournament";
