@@ -1,4 +1,5 @@
 import "server-only";
+import type { StudentTournament } from "@edukemonos/curriculum";
 import { createClient } from "@/lib/supabase/server";
 
 export interface SectionGoal {
@@ -24,6 +25,7 @@ export interface StudentSection {
   gradeId: number;
   goal: SectionGoal | null;
   leaderboard: Leaderboard | null;
+  tournament: StudentTournament | null;
 }
 
 /** The visitor's sections with this week's goal and table (computed in the database). */
@@ -45,13 +47,22 @@ export async function studentSections(): Promise<{ sections: StudentSection[]; g
       const s = m.sections as unknown as { id: string; name: string; grade_id: number } | null;
       if (!s) return [];
       return [(async () => {
-        const [goal, board] = await Promise.all([
+        const [goal, board, tournament] = await Promise.all([
           supabase.rpc("section_goal", { p_section: s.id }),
           supabase.rpc("section_leaderboard", { p_section: s.id }),
+          supabase.rpc("section_tournament", { p_section: s.id }),
         ]);
         if (goal.error) console.error("section_goal failed:", goal.error.message);
         if (board.error) console.error("section_leaderboard failed:", board.error.message);
-        return { id: s.id, name: s.name, gradeId: s.grade_id, goal: (goal.data as SectionGoal) ?? null, leaderboard: (board.data as Leaderboard) ?? null };
+        if (tournament.error) console.error("section_tournament failed:", tournament.error.message);
+        return {
+          id: s.id,
+          name: s.name,
+          gradeId: s.grade_id,
+          goal: (goal.data as SectionGoal) ?? null,
+          leaderboard: (board.data as Leaderboard) ?? null,
+          tournament: (tournament.data as StudentTournament) ?? null,
+        };
       })()];
     }),
   );
@@ -67,4 +78,20 @@ export async function nicknameOptions(): Promise<string[]> {
     return [];
   }
   return (data as string[]) ?? [];
+}
+
+/** One of the visitor's sections with its tournament, or null when they are not in it. */
+export async function studentSectionTournament(sectionId: string): Promise<{ name: string; tournament: StudentTournament } | null> {
+  const supabase = await createClient();
+  const { data: auth } = await supabase.auth.getUser();
+  if (!auth.user?.is_anonymous) return null;
+  const { data: member } = await supabase.from("section_members").select("sections(name)").eq("section_id", sectionId).eq("student_id", auth.user.id).maybeSingle();
+  const section = member?.sections as unknown as { name: string } | null;
+  if (!section) return null;
+  const { data, error } = await supabase.rpc("section_tournament", { p_section: sectionId });
+  if (error) {
+    console.error("section_tournament failed:", error.message);
+    return null;
+  }
+  return { name: section.name, tournament: data as StudentTournament };
 }

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { LeaderboardCard, SectionGoalCard } from "@/components/learn/section-goal-card";
+import { TournamentCard } from "@/components/learn/tournament-card";
 import { nicknameOptions, studentSections } from "@/lib/sections";
 import { HideToggle } from "./hide-toggle";
 import { NicknameForm } from "./nickname-form";
@@ -47,7 +48,8 @@ export default async function MySectionsPage() {
           <h2 className="font-heading text-xl font-bold">{s.name}</h2>
           <SectionGoalCard goal={s.goal} />
           <LeaderboardCard board={s.leaderboard} hasNickname={Boolean(nickname)} />
-          {!s.goal?.enabled && !s.leaderboard?.enabled && <p className="text-sm text-muted-foreground">Tu docente no usa la meta ni la tabla en esta sección.</p>}
+          <TournamentCard sectionId={s.id} data={s.tournament} />
+          {!s.goal?.enabled && !s.leaderboard?.enabled && !s.tournament?.enabled && <p className="text-sm text-muted-foreground">Tu docente no usa la meta, la tabla ni el torneo en esta sección.</p>}
         </article>
       ))}
     </section>

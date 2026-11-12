@@ -43,6 +43,7 @@ export function StreakPanel({ sectionId, data, demo }: { sectionId: string; data
             goalEnabled={data.settings.goalEnabled}
             leaderboardEnabled={data.settings.leaderboardEnabled}
             gamesEnabled={data.settings.gamesEnabled}
+            tournamentEnabled={data.settings.tournamentEnabled}
             institutionId={data.institutionId}
             institutions={data.institutions}
             demo={demo}

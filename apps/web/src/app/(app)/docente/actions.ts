@@ -121,6 +121,7 @@ export async function saveSectionSettings(sectionId: string, _prev: SettingsStat
       goal_enabled: form.get("goal_enabled") === "on",
       leaderboard_enabled: form.get("leaderboard_enabled") === "on",
       games_enabled: form.get("games_enabled") === "on",
+      tournament_enabled: form.get("tournament_enabled") === "on",
       updated_at: new Date().toISOString(),
     });
   if (error) {

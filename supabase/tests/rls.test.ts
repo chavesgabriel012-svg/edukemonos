@@ -1,7 +1,7 @@
 import type pg from "pg";
 import { afterAll, beforeAll, describe, expect, inject, it } from "vitest";
 import { type Fixture, ids, loadFixture } from "./fixtures";
-import { addWeeks, classDays, computeStreak, estimateAbility, type GeneratedGame, goalTarget, splitGame, isSafeNickname, leaderboardWindow, levelOf, MEP_2027, NICKNAME_ADJECTIVES, NICKNAME_NOUNS, updateMastery, weekStartCR } from "@edukemonos/curriculum";
+import { addWeeks, classDays, computeStreak, estimateAbility, type GeneratedGame, goalTarget, memberPoints, splitGame, isSafeNickname, leaderboardWindow, levelOf, MEP_2027, NICKNAME_ADJECTIVES, NICKNAME_NOUNS, snakeTeams, teamScore, updateMastery, visibleTeams, weekStartCR } from "@edukemonos/curriculum";
 import { anon, as, asActors, asSteps, connect, expectDenied, service, user } from "./helpers";
 
 let db: pg.Client;
@@ -541,7 +541,7 @@ describe("recovery codes", () => {
       order by 1`);
     const handled = [
       "attempts", "diagnostics", "game_runs", "group_members", "mastery", "mastery_weekly", "section_members", "streak_repairs", "student_recovery_codes",
-      "tutor_sessions", "writing_feedback",
+      "tournament_members", "tutor_sessions", "writing_feedback",
     ];
     expect(rows.map((r) => r.table.replace(/^public\./, "")).sort()).toEqual(handled);
   });
@@ -1400,5 +1400,216 @@ describe("mini-games", () => {
     expect(out.runs).toEqual([]);
     expect(out.others).toEqual([]);
     await expectDenied(db, s1, `insert into public.game_runs (student_id, unit_id, mode, item_ids) values ($1, $2, 'order', '{}')`, [ids.student1, ids.unitPublished], /permission denied/);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Fase 4: the Friday tournament
+// ---------------------------------------------------------------------------
+describe("the Friday tournament", () => {
+  /** Friday of this week at 10:00 Costa Rica time (16:00 UTC), as an ISO instant. */
+  const friday = () => new Date(Date.parse(`${thisWeek()}T16:00:00Z`) + 4 * 86_400_000).toISOString();
+  const thursday = () => new Date(Date.parse(`${thisWeek()}T16:00:00Z`) + 3 * 86_400_000).toISOString();
+
+  /**
+   * Seven active classmates in section 1 with distinct levels in the published skill, worked this
+   * week, plus student1 from the fixture (active, mastery 0.8). student1b is a member but not active.
+   * Adds 12 verified questions on the skill. Returns the classmates' ids.
+   */
+  async function week(q: Q) {
+    const mates = await classmates(q, 7);
+    const levels = [0.9, 0.35, 0.6, 0.75, 0.2, 0.55, 0.45];
+    for (const [k, id] of mates.entries()) {
+      await q(`insert into public.attempts (student_id, item_id, is_correct) values ($1, $2, true)`, [id, ids.itemVerified]);
+      await q(`insert into public.mastery (student_id, skill_id, score) values ($1, $2, $3)`, [id, ids.skillPublished, levels[k]]);
+    }
+    const items = await makeItems(q, 12);
+    await q(`update public.items set skill_ids = array[$1::uuid] where id = any($2)`, [ids.skillPublished, items]);
+    return mates;
+  }
+
+  /** Opens the tournament now (it was built for Friday), so the public functions can be used. */
+  async function openNow(q: Q, t: string) {
+    await q(`update public.tournaments set opens_at = now() - interval '1 hour', closes_at = now() + interval '1 hour' where id = $1`, [t]);
+  }
+
+  it("is built once, from Friday, with balanced teams like snakeTeams(); not before Friday nor with fewer than 6 active", async () => {
+    const out = await scenario(async (q) => {
+      const mates = await week(q);
+      const [{ early }] = await q(`select private.ensure_tournament($1, $2) as early`, [ids.section1, thursday()]);
+      const [{ t }] = await q(`select private.ensure_tournament($1, $2) as t`, [ids.section1, friday()]);
+      const [{ again }] = await q(`select private.ensure_tournament($1, $2) as again`, [ids.section1, friday()]);
+      const levels = await q(`select student_id::text as id, score::float as level from public.mastery where skill_id = $1 and student_id = any($2)`, [ids.skillPublished, [...mates, ids.student1]]);
+      const teams = await q(`select tt.name, array_agg(m.student_id::text order by m.student_id::text) as members
+                             from public.tournament_teams tt join public.tournament_members m on m.team_id = tt.id
+                             where tt.tournament_id = $1 group by tt.id, tt.sort_order order by tt.sort_order`, [t]);
+      const [tour] = await q(`select skill_ids, week_start::text from public.tournaments where id = $1`, [t]);
+      // A section with too few active students gets none.
+      const [{ few }] = await q(`select private.ensure_tournament($1, $2) as few`, [ids.section2, friday()]);
+      return { early, t, again, levels, teams, tour, few };
+    });
+    expect(out.early).toBeNull();
+    expect(out.again).toBe(out.t);
+    expect(out.tour).toEqual({ skill_ids: [ids.skillPublished], week_start: thisWeek() });
+    const expected = snakeTeams(out.levels.map((r) => ({ id: r.id as string, level: r.level as number })));
+    expect(out.teams.map((t) => [...t.members].sort())).toEqual(expected.map((t) => [...t].sort()));
+    expect(out.teams.map((t) => t.members.length)).toEqual([4, 4]);
+    for (const t of out.teams) expect(NICKNAME_NOUNS.map((n) => `Equipo ${n}`)).toContain(t.name);
+    expect(out.few).toBeNull();
+  });
+
+  it("scores like memberPoints() and teamScore(); a student sees their team and the teams above the last, never names", async () => {
+    const out = await scenario(async (q, act) => {
+      const mates = await week(q);
+      const [{ t }] = await q(`select private.ensure_tournament($1, $2) as t`, [ids.section1, friday()]);
+      await openNow(q, t);
+      const items = (await q(`select id from public.items where stem like 'racha %' order by stem`)).map((r) => r.id as string);
+      // Tournament answers: mates[0] gets 12 right (only 10 count), mates[1] 2 right and 1 wrong.
+      for (const [who, right, wrong] of [[mates[0], 12, 0], [mates[1], 2, 1]] as [string, number, number][]) {
+        for (let k = 0; k < right + wrong; k++) {
+          await q(`insert into public.attempts (student_id, item_id, context, session_id, is_correct) values ($1, $2, 'tournament', $3, $4)`, [who, items[k], t, k < right]);
+        }
+      }
+      // Mastery gained this week in the topic (mastery_weekly was written by the mastery trigger).
+      await q(`update public.mastery_weekly set score_start = 0.4, score_end = 0.55 where student_id = $1 and skill_id = $2`, [mates[2], ids.skillPublished]);
+      const raw = await q(`select m.student_id::text as id, tt.id::text as team, tt.name,
+                                  (select count(distinct a.item_id) filter (where a.is_correct) from public.attempts a where a.session_id = $1 and a.student_id = m.student_id and a.context = 'tournament')::int as correct,
+                                  coalesce((select sum(w.score_end - w.score_start) from public.mastery_weekly w where w.student_id = m.student_id and w.skill_id = $2 and w.week_start = $3), 0)::float as improvement
+                           from public.tournament_members m join public.tournament_teams tt on tt.id = m.team_id where m.tournament_id = $1`, [t, ids.skillPublished, thisWeek()]);
+      const views: Record<string, unknown> = {};
+      for (const who of [mates[0], mates[4]]) {
+        await act(user(who));
+        views[who] = (await q(`select public.section_tournament($1) as v`, [ids.section1]))[0].v;
+        await act(null);
+      }
+      await act(user(ids.teacher1));
+      const [{ report }] = await q(`select public.section_tournament_report($1) as report`, [ids.section1]);
+      return { mates, raw, views, report };
+    });
+    // The same scores, computed in TypeScript from the raw answers and mastery changes.
+    const byTeam = new Map<string, { id: string; name: string; points: number[] }>();
+    for (const r of out.raw) {
+      const e = byTeam.get(r.team) ?? { id: r.team as string, name: r.name as string, points: [] as number[] };
+      e.points.push(memberPoints(r.correct, r.improvement));
+      byTeam.set(r.team, e);
+    }
+    const teams = [...byTeam.values()].map((e) => ({ id: e.id, name: e.name, score: teamScore(e.points) }));
+    const reportScores = Object.fromEntries(out.report.tournament.teams.map((t: { name: string; score: string }) => [t.name, Number(t.score)]));
+    expect(reportScores).toEqual(Object.fromEntries(teams.map((t) => [t.name, t.score])));
+
+    for (const who of [out.mates[0], out.mates[4]]) {
+      const v = out.views[who] as { status: string; tournament: { teams: { name: string; score: string; me: boolean }[]; me: { team: string; points: number } } };
+      expect(v.status).toBe("open");
+      const mine = out.raw.find((r) => r.id === who)!;
+      const expected = visibleTeams(teams, mine.team).map(({ name, score, me }) => ({ name, score, me }));
+      expect(v.tournament.teams.map((t) => ({ ...t, score: Number(t.score) }))).toEqual(expected);
+      expect(v.tournament.me.points).toBe(memberPoints(mine.correct, mine.improvement));
+      const text = JSON.stringify(v);
+      for (const id of out.mates) expect(text).not.toContain(id);
+      expect(text).not.toContain("Sintético");
+    }
+    // mates[0]: 12 right answers, only 10 count.
+    expect((out.views[out.mates[0]] as { tournament: { me: { counted: number; correct: number } } }).tournament.me).toMatchObject({ correct: 12, counted: 10 });
+    // The teacher sees every team, the names and what each student added to their mastery.
+    const members = out.report.tournament.teams.flatMap((t: { members: { name: string; improvement: number; played: boolean }[] }) => t.members);
+    expect(members).toHaveLength(8);
+    expect(members.find((m: { name: string }) => m.name === "Sintético 3")).toMatchObject({ improvement: 15, played: false });
+    expect(members.find((m: { name: string }) => m.name === "Sintético 1")).toMatchObject({ played: true });
+  });
+
+  it("playing: a late student joins the smallest team; each question counts once, as 'tournament', and only while it is open", async () => {
+    const out = await scenario(async (q, act) => {
+      await week(q);
+      const [{ t }] = await q(`select private.ensure_tournament($1, $2) as t`, [ids.section1, friday()]);
+      await openNow(q, t);
+      await act(user(ids.student1b));
+      const [{ play }] = await q(`select public.tournament_questions($1) as play`, [t]);
+      const [{ resume }] = await q(`select public.tournament_questions($1) as resume`, [t]);
+      await act(null);
+      const [{ key }] = await q(`select correct_index as key from public.items where id = $1`, [play.questions[0].id]);
+      const [member] = await q(`select late, cardinality(item_ids) as n from public.tournament_members where tournament_id = $1 and student_id = $2`, [t, ids.student1b]);
+      const sizes = (await q(`select count(*)::int as n from public.tournament_members where tournament_id = $1 group by team_id order by 1`, [t])).map((r) => r.n);
+      await act(user(ids.student1b));
+      const [{ r }] = await q(`select public.submit_attempt($1, $2::smallint, null, null, 0::smallint, $3, 'tournament') as r`, [play.questions[0].id, key, t]);
+      await q("savepoint a");
+      const twice = await q(`select public.submit_attempt($1, $2::smallint, null, null, 0::smallint, $3, 'tournament')`, [play.questions[0].id, key, t]).then(() => "ok", async (e) => { await q("rollback to savepoint a"); return (e as Error).message; });
+      const notMine = await q(`select public.submit_attempt($1, 0::smallint, null, null, 0::smallint, $2, 'tournament')`, [ids.itemUnverified, t]).then(() => "ok", async (e) => { await q("rollback to savepoint a"); return (e as Error).message; });
+      const [{ view }] = await q(`select public.section_tournament($1) as view`, [ids.section1]);
+      const [{ after }] = await q(`select public.tournament_questions($1) as after`, [t]);
+      await act(null);
+      const ctx = await q(`select context from public.attempts where student_id = $1 and session_id = $2`, [ids.student1b, t]);
+      const ev = await q(`select props from public.events where actor_id = $1 and name = 'tournament_joined'`, [ids.student1b]);
+      // Closed: no more questions, no more answers.
+      await q(`update public.tournaments set closes_at = now() - interval '1 minute' where id = $1`, [t]);
+      await act(user(ids.student1b));
+      const [{ closed }] = await q(`select public.tournament_questions($1) as closed`, [t]);
+      await q("savepoint b");
+      const late = await q(`select public.submit_attempt($1, 0::smallint, null, null, 0::smallint, $2, 'tournament')`, [play.questions[1].id, t]).then(() => "ok", async (e) => { await q("rollback to savepoint b"); return (e as Error).message; });
+      return { play, resume, member, sizes, r, twice, notMine, view, after, ctx, ev, closed, late, t };
+    });
+    expect(out.play).toMatchObject({ ok: true, total: 10 });
+    expect(out.play.questions).toHaveLength(10);
+    expect(Object.keys(out.play.questions[0]).sort()).toEqual(["game_public", "id", "kind", "options", "reviewed", "stem"]);
+    expect(JSON.stringify(out.play)).not.toContain("correct_index");
+    expect(out.resume.questions.map((x: { id: string }) => x.id)).toEqual(out.play.questions.map((x: { id: string }) => x.id));
+    expect(out.member).toEqual({ late: true, n: 10 });
+    expect(out.sizes).toEqual([4, 5]);   // 4 + 4, and the late student joined one of them
+    expect(out.r.is_correct).toBe(true);
+    expect(out.twice).toMatch(/already answered/);
+    expect(out.notMine).toMatch(/invalid tournament/);
+    expect(out.view.tournament.me).toMatchObject({ answered: 1, correct: 1, counted: 1, started: true, team_size: 5 });
+    expect(out.after.questions).toHaveLength(9);
+    expect(out.ctx).toEqual([{ context: "tournament" }]);
+    expect(out.ev).toEqual([{ props: { tournament: out.t } }]);
+    expect(out.closed).toEqual({ ok: false, error: "closed" });
+    expect(out.late).toMatch(/invalid tournament/);
+  });
+
+  it("is only for the section: other students, other teachers and visitors are denied; the tables are not readable", async () => {
+    await expectDenied(db, s2, `select public.section_tournament($1)`, [ids.section1], /not your section/);
+    await expectDenied(db, t2, `select public.section_tournament_report($1)`, [ids.section1], /not your section/);
+    await expectDenied(db, s1, `select public.section_tournament_report($1)`, [ids.section1], /not your section/);
+    await expectDenied(db, anon, `select public.section_tournament($1)`, [ids.section1], /permission denied/);
+    await expectDenied(db, s1, `select * from public.tournament_members`, [], /permission denied/);
+    await expectDenied(db, t1, `select * from public.tournaments`, [], /permission denied/);
+    const out = await scenario(async (q, act) => {
+      await week(q);
+      const [{ t }] = await q(`select private.ensure_tournament($1, $2) as t`, [ids.section1, friday()]);
+      await openNow(q, t);
+      await act(user(ids.student2));
+      await q("savepoint a");
+      const outsider = await q(`select public.tournament_questions($1)`, [t]).then(() => "ok", async (e) => { await q("rollback to savepoint a"); return (e as Error).message; });
+      return { outsider };
+    });
+    expect(out.outsider).toMatch(/not your section/);
+  });
+
+  it("before Friday it is upcoming; the teacher can turn it off; a recovery code carries the membership", async () => {
+    const out = await scenario(async (q, act) => {
+      const mates = await week(q);
+      await act(user(ids.student1));
+      const [{ before }] = await q(`select private.section_tournament_at($1, $2) as before`, [ids.section1, thursday()]);
+      await act(null);
+      const [{ t }] = await q(`select private.ensure_tournament($1, $2) as t`, [ids.section1, friday()]);
+      await openNow(q, t);
+      await act(user(mates[0]));
+      await q(`select public.tournament_questions($1)`, [t]);
+      const [{ code }] = await q(`select public.create_recovery_code() as code`);
+      await act(user(ids.newDevice));
+      const [{ moved }] = await q(`select public.redeem_recovery_code($1) as moved`, [code]);
+      await act(null);
+      const [member] = await q(`select count(*)::int as n from public.tournament_members where tournament_id = $1 and student_id = $2`, [t, ids.newDevice]);
+      await act(user(ids.teacher1));
+      await q(`insert into public.section_settings (section_id, tournament_enabled) values ($1, false)`, [ids.section1]);
+      const [{ off }] = await q(`select public.section_tournament_report($1) as off`, [ids.section1]);
+      await act(user(ids.student1));
+      const [{ offStudent }] = await q(`select public.section_tournament($1) as "offStudent"`, [ids.section1]);
+      return { before, moved, member, off, offStudent };
+    });
+    expect(out.before).toMatchObject({ enabled: true, status: "upcoming", tournament: null });
+    expect(out.moved.moved.tournaments).toBe(1);
+    expect(out.member.n).toBe(1);
+    expect(out.off).toEqual({ enabled: false });
+    expect(out.offStudent).toEqual({ enabled: false });
   });
 });
