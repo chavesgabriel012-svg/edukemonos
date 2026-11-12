@@ -1,15 +1,16 @@
-import { ArrowRight, BookOpenCheck, ClipboardCheck, EyeOff, LifeBuoy, MessageCircleQuestion, ShieldCheck, Target, UserRoundX } from "lucide-react";
+import { ArrowRight, BookOpenCheck, ClipboardCheck, MessageCircleQuestion, Target } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Kemo } from "@/components/brand/logo";
-import { ChatPreview, HeatmapPreview } from "@/components/landing/previews";
+import { ClosingBand, SafetyGrid } from "@/components/landing/blocks";
+import { ChatPreview } from "@/components/landing/chat-preview";
+import { HeatmapPreview } from "@/components/landing/previews";
 import { Section, SectionHeading, Tick } from "@/components/landing/section";
 import { SHELL } from "@/components/site/page-shell";
 import { action } from "@/components/ui/action";
 import { brand } from "@/lib/brand";
 import { site } from "@/lib/site";
 import { contentStats } from "@/lib/stats";
-import { RETENTION_DAYS_CHAT } from "@/lib/tutor-server";
 
 export const metadata: Metadata = {
   title: { absolute: "Eduka: un tutor que te guía, sin darte la respuesta" },
@@ -39,13 +40,6 @@ const STEPS = [
   { icon: MessageCircleQuestion, title: "Preguntar a Kemo", text: "Pistas cuando algo no te queda claro." },
 ] as const;
 
-const SAFETY = [
-  { icon: UserRoundX, title: "Sin cuenta", text: "Se estudia sin correo ni contraseña." },
-  { icon: EyeOff, title: "Sin nombres", text: "El nombre y los datos personales no llegan a la IA." },
-  { icon: ShieldCheck, title: "Chats privados", text: `El docente no puede leerlos. Se borran a los ${RETENTION_DAYS_CHAT} días.` },
-  { icon: LifeBuoy, title: "Ante el malestar", text: "Kemo anima a hablar con una persona adulta de confianza y la app muestra el 911." },
-] as const;
-
 const number = new Intl.NumberFormat("es-CR");
 
 export default async function LandingPage() {
@@ -66,10 +60,11 @@ export default async function LandingPage() {
               <span className="block text-lima">sin darte la respuesta.</span>
             </h1>
             <p className="max-w-lg text-lg leading-relaxed text-white/85">
-              Matemáticas y Español de 7.º a 9.º, con los programas del MEP. Gratis y sin cuenta.
+              Estudio con IA para secundaria en Costa Rica, con los programas del MEP. Está en fase de prueba: hoy
+              puedes probarlo con Matemáticas y Español de 7.º a 9.º.
             </p>
             <div className="space-y-3">
-              <p id="grado" className="font-medium">¿En qué año estás?</p>
+              <p id="grado" className="font-medium">Pruébalo en un año:</p>
               <ul aria-labelledby="grado" className="grid max-w-md grid-cols-3 gap-2 sm:flex sm:max-w-none sm:flex-wrap sm:gap-3">
                 {GRADES.map(({ grade, label }) => (
                   <li key={grade}>
@@ -82,9 +77,7 @@ export default async function LandingPage() {
                   </li>
                 ))}
               </ul>
-              <p className="text-sm text-white/80">
-                <Link href="/unirme" className="font-medium text-white underline underline-offset-2">Tengo un código de mi docente</Link>
-              </p>
+              <p className="text-sm text-white/80">No pide cuenta ni correo.</p>
             </div>
           </div>
           <div className="relative flex justify-center lg:justify-end">
@@ -123,12 +116,10 @@ export default async function LandingPage() {
             </li>
           ))}
         </ol>
-        <div className="mt-8">
-          <Link href="/estudiar" className={action()}>Empezar a estudiar</Link>
-        </div>
       </Section>
 
       <Section tone="lima" className="py-10 sm:py-12">
+        <p className="mb-6 font-heading text-2xl font-bold">Lo que ya se puede probar</p>
         <dl className="grid gap-x-6 gap-y-8 sm:grid-cols-3">
           {numbers.map((n) => (
             <div key={n.label} className="flex flex-col-reverse gap-1">
@@ -142,99 +133,53 @@ export default async function LandingPage() {
       <Section id="familias" labelledBy="familias-t">
         <SectionHeading id="familias-t" title="Para familias" lead="Una ayuda para estudiar que no hace la tarea." />
         <ul className="mt-8 max-w-2xl space-y-3 text-lg">
-          <Tick>Gratis, en el navegador del celular. No hay que instalar nada.</Tick>
+          <Tick>Funciona en el navegador del celular. No hay que instalar nada.</Tick>
           <Tick>Sigue los programas del MEP, los mismos de la clase.</Tick>
           <Tick>Si su hijo o hija pide la respuesta, Kemo le devuelve una pregunta.</Tick>
         </ul>
-        <div className="mt-8 flex flex-wrap gap-3">
-          <Link href="/ia" className={action()}>Cómo funciona Kemo</Link>
-          <Link href="/privacidad" className={action({ variant: "outline" })}>Aviso de privacidad</Link>
+        <div className="mt-8">
+          <Link href="/familias" className={action({ variant: "outline" })}>Más para familias</Link>
         </div>
       </Section>
 
       <Section id="docentes" tone="card" labelledBy="docentes-t" className="grid items-center gap-10 lg:grid-cols-[0.9fr_1.1fr]">
         <div>
-          <SectionHeading id="docentes-t" title="Para docentes" lead="Vea qué necesita su sección esta semana." />
+          <SectionHeading id="docentes-t" title="Para docentes" lead="Un panel para ver qué necesita cada sección esta semana." />
           <ul className="mt-8 space-y-3 text-lg">
             <Tick>Dominio de cada estudiante en cada tema.</Tick>
             <Tick>Quién podría necesitar apoyo, y por qué.</Tick>
             <Tick>Un resumen que explica cómo se calculó.</Tick>
           </ul>
           <div className="mt-8 flex flex-wrap gap-3">
-            <Link href="/docente/demo" className={action()}>Ver la demostración</Link>
-            <Link href="/entrar?next=/docente" className={action({ variant: "outline" })}>Entrar con mi correo</Link>
+            <Link href="/docente/demo" className={action()}>Ver el panel de demostración</Link>
+            <Link href="/docentes" className={action({ variant: "outline" })}>Más para docentes</Link>
           </div>
         </div>
         <HeatmapPreview />
       </Section>
 
       <Section id="colegios" labelledBy="colegios-t">
-        <SectionHeading id="colegios-t" title="Para colegios" lead="Sin instalación, sin costo y sin pedirle cuentas al estudiantado." />
+        <SectionHeading id="colegios-t" title="Para colegios privados" lead="Una licencia anual por institución, sin instalar nada." />
         <ul className="mt-8 max-w-2xl space-y-3 text-lg">
           <Tick>Funciona en cualquier celular o computadora con navegador.</Tick>
-          <Tick>Cada tema cita el programa del MEP y la página de donde sale.</Tick>
-          <Tick>Cada docente crea su sección y comparte un código.</Tick>
+          <Tick>Eduka se crea con el contenido de su colegio: es 100 % personalizado.</Tick>
+          <Tick>Cada docente tendría su sección y un código para su grupo.</Tick>
         </ul>
-        <div className="mt-8 flex flex-wrap gap-3">
-          <Link href="/docente/demo" className={action()}>Ver la demostración</Link>
-          {site.contactEmail && <a href={`mailto:${site.contactEmail}`} className={action({ variant: "outline" })}>Escribirnos</a>}
+        <p className="mt-8 max-w-2xl text-muted-foreground">
+          Para colegios públicos, el acceso se negociaría con el Ministerio de Educación Pública.
+        </p>
+        <div className="mt-8">
+          <Link href="/colegios" className={action({ variant: "outline" })}>Más para colegios</Link>
         </div>
       </Section>
 
       <Section id="seguridad" tone="tinta" labelledBy="seguridad-t">
         <SectionHeading id="seguridad-t" onDark title="Hecho para menores de edad" />
-        <ul className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {SAFETY.map(({ icon: Icon, title, text }) => (
-            <li key={title} className="space-y-2 rounded-[22px] bg-white/8 p-5">
-              <span className="flex size-10 items-center justify-center rounded-xl bg-lima text-tinta">
-                <Icon aria-hidden strokeWidth={2.5} className="size-5" />
-              </span>
-              <h3 className="font-heading text-xl leading-tight font-bold">{title}</h3>
-              <p className="text-sm leading-relaxed text-papel/75">{text}</p>
-            </li>
-          ))}
-        </ul>
-        <p className="mt-8 text-sm text-papel/70">
-          Kemo no es un servicio de emergencias.{" "}
-          <Link href="/ia" className="font-medium text-papel underline underline-offset-2">Más sobre Kemo y la IA</Link>
-        </p>
+        <SafetyGrid />
+        <p className="mt-8 text-sm text-papel/70">Kemo no es un servicio de emergencias.</p>
       </Section>
 
-      <Section id="aliados" tone="card" labelledBy="aliados-t">
-        <SectionHeading id="aliados-t" title="Para aliados e inversionistas" lead="Costos medidos en la propia plataforma." />
-        <dl className="mt-10 grid gap-4 sm:grid-cols-3">
-          {[
-            { value: "US$0,19", label: "por tema: generar y verificar el material y los ejercicios." },
-            { value: "US$0,01", label: "por mensaje del tutor, aproximadamente." },
-            { value: "64", label: "conversaciones de prueba antes de cada cambio del tutor." },
-          ].map((n) => (
-            <div key={n.value} className="flex flex-col-reverse justify-end gap-2 rounded-[22px] bg-background p-6">
-              <dt className="leading-relaxed text-muted-foreground">{n.label}</dt>
-              <dd className="font-heading text-5xl leading-none font-bold text-violeta">{n.value}</dd>
-            </div>
-          ))}
-        </dl>
-        <p className="mt-8 max-w-2xl text-lg leading-relaxed">
-          Buscamos colegios piloto, docentes que revisen el contenido y aliados que cubran la operación.
-        </p>
-        <div className="mt-6 flex flex-wrap gap-3">
-          <Link href="/docente/demo" className={action()}>Ver el producto</Link>
-          {site.contactEmail && <a href={`mailto:${site.contactEmail}`} className={action({ variant: "outline" })}>Escribirnos</a>}
-        </div>
-      </Section>
-
-      <section className="bg-violeta text-white">
-        <div className={`${SHELL} flex flex-col items-start gap-6 py-14 sm:flex-row sm:items-center sm:justify-between sm:py-16`}>
-          <div className="flex items-center gap-5">
-            <Kemo size={80} mood="happy" background={brand.lima} className="hidden sm:block" />
-            <h2 className="font-heading text-4xl leading-none font-bold sm:text-5xl">¿Empezamos?</h2>
-          </div>
-          <div className="flex flex-wrap gap-3">
-            <Link href="/estudiar" className={action({ variant: "lima-on-dark" })}>Empezar a estudiar</Link>
-            <Link href="/docente/demo" className={action({ variant: "outline-on-dark" })}>Ver la demostración</Link>
-          </div>
-        </div>
-      </section>
+      <ClosingBand title="¿Lo probamos?" text="Buscamos colegios piloto y docentes que revisen el contenido." href="/estudiar" label="Probar como estudiante" />
     </>
   );
 }

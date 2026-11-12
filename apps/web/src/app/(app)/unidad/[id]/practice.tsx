@@ -8,6 +8,7 @@ import { Markdown } from "@/components/learn/markdown";
 import { ReportButton } from "@/components/learn/report-button";
 import { type AnswerFeedback, answerItem, nextPracticeItem } from "@/app/(app)/estudiar/actions";
 import { action } from "@/components/ui/action";
+import { Loading, Skeleton } from "@/components/ui/skeleton";
 import { card } from "@/components/ui/styles";
 import { markActivity } from "@/lib/activity";
 import { brand } from "@/lib/brand";
@@ -50,7 +51,16 @@ export function Practice({ unitId }: { unitId: string }) {
     });
   }
 
-  if (item === undefined) return <p className={`${card} text-muted-foreground`}>Cargando ejercicio…</p>;
+  if (item === undefined) {
+    return (
+      <Loading label="Cargando ejercicio…" className={`${card} space-y-4`}>
+        <Skeleton className="h-6 w-56" />
+        <Skeleton className="h-5 w-full" />
+        <Skeleton className="h-5 w-3/4" />
+        {[0, 1, 2, 3].map((i) => <Skeleton key={i} className="h-[58px] rounded-[16px]" />)}
+      </Loading>
+    );
+  }
   if (item === null) return <p className="rounded-[22px] border border-dashed p-5 text-muted-foreground">Este tema todavía no tiene ejercicios publicados.</p>;
 
   const options = item.options ?? [];

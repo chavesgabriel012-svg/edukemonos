@@ -148,10 +148,24 @@ Sin registro: el estudiante elige año → materia → unidad (`/estudiar/7/mate
 
 ## Sitio e interfaz
 
-- `/` es la **landing** para estudiantes, familias, docentes, colegios y aliados: poco texto, un título y tres puntos por
+- `/` es la **landing**, planteada como muestra de un producto en fase de prueba (sin precios ni costos): un título y tres puntos por
   público. Los conteos de contenido publicado se
   leen de la base de datos (se refrescan cada hora, `lib/stats.ts`); las cifras de PISA 2025 y del Estado de la Educación
   2025 son las del Anexo B del SPEC. El botón de contacto aparece solo si se define `NEXT_PUBLIC_CONTACT_EMAIL`.
+- `/familias`, `/docentes` y `/colegios` desglosan la información para cada público. Comparten bloques con la landing
+  (`components/landing/blocks.tsx`). `/docentes` es la página informativa; el panel sigue en `/docente`.
+- **Carga y movimiento** (todo se apaga con «reducir movimiento»):
+  - *Skeletons*: `loading.tsx` en año, materia, tema, diagnóstico y panel docente (`components/ui/skeleton.tsx`), y dentro
+    de la práctica y del chat mientras cargan.
+  - *Pre-renderizado*: la landing, las páginas por público, `/estudiar`, `/como-funciona`, `/ia`, `/privacidad` y `/unirme`
+    se generan en el build. Las páginas con sesión no se pueden pre-renderizar; sus enlaces precargan el skeleton.
+  - *Transiciones entre páginas*: `<ViewTransition>` en `app/layout.tsx`; el encabezado queda fijo.
+  - *Safe areas*: `viewport-fit=cover` y `env(safe-area-inset-*)` en encabezado, pie, columna de contenido y avisos fijos.
+  - *Titulares balanceados*: `text-wrap: balance` en `h1`–`h3` y `pretty` en párrafos (`globals.css`).
+  - *Triángulo seguro*: el menú «Probar» (`components/site/try-menu.tsx`) mantiene abierto el panel lateral mientras el
+    puntero va en diagonal hacia él.
+  - *Animaciones al bajar*: `components/landing/reveal.tsx`, aplicado en cada banda de la landing y de las páginas por público.
+  - *Conversación con Kemo*: `components/landing/chat-preview.tsx` se reproduce una vez al entrar en pantalla.
 - `/estudiar` es la entrada de los estudiantes (elegir año) y la página de inicio de la app instalada.
 - Todo lo que no es la landing vive en `apps/web/src/app/(app)/`, que pone la columna de contenido. Las URL no cambian.
 - Piezas compartidas: `components/ui/action.ts` (botones), `components/ui/styles.ts` (tarjeta, campo, área de texto),

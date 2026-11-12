@@ -97,7 +97,7 @@ export default async function UnitPage({ params, searchParams }: PageProps<"/uni
         </div>
       </header>
 
-      <nav aria-label="Secciones del tema" className="sticky top-[61px] z-30 -mx-1 grid grid-cols-4 gap-1 rounded-[18px] border bg-card p-1 shadow-[0_8px_24px_-16px_rgba(23,19,42,0.25)]">
+      <nav aria-label="Secciones del tema" className="sticky top-[calc(61px+env(safe-area-inset-top))] z-30 -mx-1 grid grid-cols-4 gap-1 rounded-[18px] border bg-card p-1 shadow-[0_8px_24px_-16px_rgba(23,19,42,0.25)]">
         {TABS.map(({ id: tabId, label, icon: Icon }) => (
           <Link key={tabId} href={`/unidad/${id}?tab=${tabId}`} aria-current={tabId === tab ? "page" : undefined} scroll={false}
             className={`flex min-h-12 flex-col items-center justify-center gap-0.5 rounded-[14px] px-1 py-1.5 text-center text-xs leading-tight font-semibold transition focus-visible:outline-2 sm:flex-row sm:gap-2 sm:text-sm ${tabId === tab ? "bg-violeta text-white" : "text-muted-foreground hover:bg-secondary hover:text-foreground"}`}>

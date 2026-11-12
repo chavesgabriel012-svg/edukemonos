@@ -158,7 +158,7 @@ function items(): FaqItem[] {
         <p>
           Sí: hasta {TUTOR_LIMITS.perSession} mensajes por conversación y {TUTOR_LIMITS.perDay} por día. Si llegas al
           límite de una conversación, puedes empezar una nueva. Cada respuesta de la IA tiene un costo, y los límites
-          ayudan a que Eduka siga siendo gratis y alcance para todos.
+          ayudan a que Eduka alcance para todos.
         </p>
       ),
     },

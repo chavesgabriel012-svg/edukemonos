@@ -6,7 +6,8 @@ import { site } from "@/lib/site";
 
 export function SiteHeader() {
   return (
-    <header className="sticky top-0 z-40 border-b bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/85">
+    <header style={{ viewTransitionName: "site-header" }}
+      className="sticky top-0 z-40 border-b bg-card/95 pt-[env(safe-area-inset-top)] backdrop-blur supports-[backdrop-filter]:bg-card/85">
       <div className={`${SHELL} flex items-center justify-between gap-3 py-2.5`}>
         <Link href="/" aria-label={`${site.name}: inicio`} className="rounded-md focus-visible:outline-2">
           <Logo size={30} />

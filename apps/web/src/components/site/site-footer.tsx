@@ -6,21 +6,19 @@ import { site } from "@/lib/site";
 
 const COLUMNS = [
   {
-    title: "Estudiar",
+    title: "Probar",
     links: [
-      { href: "/estudiar", label: "Elegir mi año" },
-      { href: "/unirme", label: "Unirme a mi sección" },
-      { href: "/mi-codigo", label: "Mi código de recuperación" },
+      { href: "/estudiar", label: "Como estudiante" },
+      { href: "/docente/demo", label: "Panel docente de demostración" },
       { href: "/como-funciona", label: "¿Cómo funciona?" },
     ],
   },
   {
-    title: "Familias y colegios",
+    title: "Para quién",
     links: [
-      { href: "/#familias", label: "Para familias" },
-      { href: "/#colegios", label: "Para colegios" },
-      { href: "/docente", label: "Panel docente" },
-      { href: "/docente/demo", label: "Ver la demostración" },
+      { href: "/familias", label: "Familias" },
+      { href: "/docentes", label: "Docentes" },
+      { href: "/colegios", label: "Colegios" },
     ],
   },
   {
@@ -28,7 +26,6 @@ const COLUMNS = [
     links: [
       { href: "/ia", label: "Kemo y la IA" },
       { href: "/privacidad", label: "Aviso de privacidad" },
-      { href: "/#aliados", label: "Aliados e inversionistas" },
     ],
   },
 ] as const;
@@ -42,7 +39,7 @@ export function SiteFooter() {
         <div className="space-y-4">
           <Logo size={28} ink={brand.papel} />
           <p className="max-w-xs text-sm text-papel/75">
-            Estudia a tu ritmo, de 7.º a 9.º, con los programas del MEP y un tutor que te guía sin darte la respuesta.
+            Estudio con IA para secundaria, con los programas del MEP y un tutor que guía sin dar la respuesta. En fase de prueba.
           </p>
           {site.contactEmail && (
             <p className="text-sm">
@@ -62,7 +59,7 @@ export function SiteFooter() {
         ))}
       </div>
       <div className="border-t border-white/10">
-        <div className={`${SHELL} space-y-2 py-5 text-sm text-papel/75`}>
+        <div className={`${SHELL} space-y-2 pt-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] text-sm text-papel/75`}>
           <p className="font-medium text-papel">{site.independenceNotice}</p>
           <p>
             {site.curriculumCredit}{" "}

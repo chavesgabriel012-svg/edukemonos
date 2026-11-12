@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { ViewTransition } from "react";
 import { Geist_Mono, League_Spartan, Outfit } from "next/font/google";
 import { SiteFooter } from "@/components/site/site-footer";
 import { RestReminder } from "@/components/learn/rest-reminder";
@@ -34,6 +35,9 @@ export const viewport: Viewport = {
   themeColor: brand.violeta,
   width: "device-width",
   initialScale: 1,
+  // Lets the page reach under the notch and the home bar; the header, the footer and the content
+  // column add the safe-area insets back.
+  viewportFit: "cover",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -52,7 +56,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <SiteHeader />
         {/* Pages choose their own width: the landing is full-bleed, the rest sit in app/(app)/layout.tsx. */}
         <main id="contenido" className="flex-1">
-          {children}
+          {/* Navigations are transitions: the page content cross-fades (class «page» in globals.css). */}
+          <ViewTransition default="page">{children}</ViewTransition>
         </main>
         <SiteFooter />
         <RestReminder />
