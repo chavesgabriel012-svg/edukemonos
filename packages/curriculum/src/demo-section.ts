@@ -4,7 +4,9 @@
  * Mastery comes from the same update rule the platform uses for real answers.
  */
 import { pCorrect, updateMastery } from "./learning";
+import { weekStartCR } from "./streak";
 import type { PanelAttempt, PanelDiagnostic, PanelMastery, PanelStudent, PanelTutorSession, PanelUnit, PanelWriting, SectionData } from "./teacher";
+import { memberPoints, snakeTeams, type TournamentReport, teamScore, tournamentWindow } from "./tournament";
 
 /** Small, fast, seedable PRNG (mulberry32). */
 function rng(seed: number) {
@@ -164,3 +166,51 @@ export const DEMO_TEACHER_SECTIONS = [
   { id: "demo-74-mat", group: "7-4", subjectId: "matematicas", subjectName: "Matemáticas", students: 22 },
   { id: "demo-71-esp", group: "7-1", subjectId: "espanol", subjectName: "Español", students: 28 },
 ] as const;
+
+/** Fixed team names for the demo, from the safe list. */
+const DEMO_TEAM_NAMES = ["Equipo Ceiba", "Equipo Quetzal", "Equipo Volcán", "Equipo Colibrí", "Equipo Tapir", "Equipo Orquídea", "Equipo Lapa", "Equipo Roble"];
+
+/**
+ * This week's tournament of the demo section (fictitious, labelled as demo): the students drafted
+ * into teams by their mastery, as the database does, with made-up answers and mastery gains.
+ * The topics are the three units the class worked most in the last week.
+ */
+export function buildDemoTournament(data: SectionData): TournamentReport {
+  const r = rng(20261113);
+  const unitOf = new Map(data.units.flatMap((u) => u.skillIds.map((k) => [k, u.id] as const)));
+  const week = weekStartCR(data.now);
+  const recent = data.attempts.filter((a) => a.unitId && data.now.getTime() - Date.parse(a.createdAt) < 7 * 86_400_000);
+  const byUnit = new Map<string, number>();
+  for (const a of recent) byUnit.set(a.unitId!, (byUnit.get(a.unitId!) ?? 0) + 1);
+  const topicUnits = [...byUnit.entries()].sort((a, b) => b[1] - a[1]).slice(0, 3).map(([id]) => id);
+  const topics = topicUnits.map((id) => data.units.find((u) => u.id === id)!.title);
+
+  const level = (studentId: string) => {
+    const scores = data.mastery.filter((m) => m.studentId === studentId && topicUnits.includes(unitOf.get(m.skillId) ?? "")).map((m) => m.score);
+    return scores.length ? scores.reduce((a, b) => a + b, 0) / scores.length : 0.5;
+  };
+  const drafted = snakeTeams(data.students.map((s) => ({ id: s.id, level: level(s.id) })));
+  const names = new Map(data.students.map((s) => [s.id, s.name]));
+  const teams = drafted.map((ids, k) => {
+    const members = ids.map((id) => {
+      const played = r() > 0.15;
+      const correct = played ? Math.floor(3 + r() * 8) : 0;
+      const improvement = played ? Math.round(r() * 30) / 100 : 0;
+      return { member: { student_id: id, name: names.get(id) ?? "", improvement: Math.round(improvement * 100), played, late: false }, points: memberPoints(correct, improvement) };
+    });
+    return {
+      name: DEMO_TEAM_NAMES[k % DEMO_TEAM_NAMES.length],
+      score: teamScore(members.map((m) => m.points)),
+      members: members.map((m) => m.member).sort((a, b) => a.name.localeCompare(b.name, "es")),
+    };
+  }).sort((a, b) => b.score - a.score);
+
+  const { opensAt, closesAt } = tournamentWindow(week);
+  return {
+    enabled: true,
+    status: "open",
+    opens_at: opensAt.toISOString(),
+    closes_at: closesAt.toISOString(),
+    tournament: { id: "demo", week_start: week, opens_at: opensAt.toISOString(), closes_at: closesAt.toISOString(), topics, teams },
+  };
+}

@@ -473,3 +473,57 @@ export async function finishGame(runId: string): Promise<ActionResult<GameResult
   }
   return { ok: true, data: data as GameResult };
 }
+
+// ---------------------------------------------------------------------------
+// The Friday tournament (docs/producto/gamificacion.md §7). The database builds the teams, gives
+// each student their questions, grades every answer (context 'tournament') and keeps the score.
+// ---------------------------------------------------------------------------
+
+export interface TournamentQuestion {
+  id: string;
+  kind: string;
+  stem: string;
+  options: string[] | null;
+  game_public: { mechanic: string; stem?: string; options?: string[] } | null;
+  reviewed: boolean;
+}
+
+export interface TournamentPlay {
+  tournament: string;
+  total: number;
+  /** The questions still to answer, in order. */
+  questions: TournamentQuestion[];
+}
+
+export async function tournamentQuestions(tournamentId: string): Promise<ActionResult<TournamentPlay>> {
+  if (!UUID.test(tournamentId)) return fail("Torneo inválido.");
+  const { supabase, error: sessionError } = await studentClient();
+  if (sessionError) return fail(sessionError);
+  const { data, error } = await supabase.rpc("tournament_questions", { p_tournament: tournamentId });
+  if (error) {
+    console.error("tournament_questions failed:", error.message);
+    return fail(/not your section/.test(error.message) ? "Este torneo es de otra sección." : "No pudimos abrir el torneo. Intenta de nuevo.");
+  }
+  const r = data as { ok: boolean; error?: string } & TournamentPlay;
+  if (!r.ok) return fail(r.error === "closed" ? "El torneo ya cerró. El próximo abre el viernes." : "Tu docente no usa el torneo en esta sección.");
+  return { ok: true, data: { tournament: r.tournament, total: r.total, questions: r.questions } };
+}
+
+export async function answerTournament(tournamentId: string, itemId: string, index: number): Promise<ActionResult<PieceFeedback>> {
+  if (!UUID.test(tournamentId) || !UUID.test(itemId) || !Number.isInteger(index) || index < 0 || index > 3) return fail("Respuesta inválida.");
+  const supabase = await createClient();
+  const { data, error } = await supabase.rpc("submit_attempt", {
+    p_item_id: itemId,
+    p_answer_index: index,
+    p_session_id: tournamentId,
+    p_context: "tournament",
+  });
+  if (error) {
+    console.error("tournament answer failed:", error.message);
+    if (/already answered/.test(error.message)) return fail("Ya respondiste esta pregunta.");
+    if (/invalid tournament/.test(error.message)) return fail("El torneo ya cerró. Tus respuestas anteriores cuentan.");
+    return fail("No pudimos revisar tu respuesta. Intenta de nuevo.");
+  }
+  revalidatePath("/mis-secciones");
+  return { ok: true, data: data as PieceFeedback };
+}

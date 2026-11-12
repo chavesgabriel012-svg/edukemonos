@@ -133,3 +133,63 @@ export function tournamentStatus(week: string, now: Date): TournamentStatus {
   if (now < opensAt) return "upcoming";
   return now < closesAt ? "open" : "closed";
 }
+
+// ---------------------------------------------------------------------------
+// What the database returns (section_tournament(), section_tournament_report()), shared by the
+// web and the demo.
+// ---------------------------------------------------------------------------
+
+export type TournamentPhase = "upcoming" | "open" | "closed" | "none";
+
+/** A student's view: their team and points, and the teams above the last. Never names or ids. */
+export interface StudentTournament {
+  enabled: boolean;
+  status?: TournamentPhase;
+  opens_at?: string;
+  closes_at?: string;
+  tournament?: {
+    id: string;
+    week_start: string;
+    opens_at: string;
+    closes_at: string;
+    topics: string[];
+    teams: { name: string; score: number; me: boolean }[];
+    me: {
+      team: string;
+      team_size: number;
+      team_score: number;
+      answered: number;
+      correct: number;
+      counted: number;
+      improvement_points: number;
+      points: number;
+      questions: number;
+      started: boolean;
+    } | null;
+  } | null;
+}
+
+export interface TournamentReportMember {
+  student_id: string;
+  name: string;
+  /** Mastery gained in the topics this week, in points (× 100). */
+  improvement: number;
+  played: boolean;
+  late: boolean;
+}
+
+/** The teacher's view: every team, its score and what each student added to their mastery. */
+export interface TournamentReport {
+  enabled: boolean;
+  status?: TournamentPhase;
+  opens_at?: string;
+  closes_at?: string;
+  tournament?: {
+    id: string;
+    week_start: string;
+    opens_at: string;
+    closes_at: string;
+    topics: string[];
+    teams: { name: string; score: number; members: TournamentReportMember[] }[];
+  } | null;
+}

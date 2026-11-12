@@ -11,6 +11,7 @@ import {
   tournamentWindow,
   visibleTeams,
 } from "../src/tournament";
+import { buildDemoSection, buildDemoTournament } from "../src/demo-section";
 
 const students = (levels: number[]) => levels.map((level, k) => ({ id: `s${String(k + 1).padStart(2, "0")}`, level }));
 
@@ -131,5 +132,25 @@ describe("window", () => {
   it("team names come from the safe list", () => {
     expect(TEAM_NAMES[0]).toBe("Equipo Tucán");
     expect(new Set(TEAM_NAMES).size).toBe(TEAM_NAMES.length);
+  });
+});
+
+describe("buildDemoTournament", () => {
+  const units = ["matematicas"].flatMap((subjectId) =>
+    Array.from({ length: 12 }, (_, k) => ({ id: `${subjectId}-${k}`, title: `Tema ${k + 1}`, subjectId, subjectName: "Matemáticas", area: null, sortOrder: k, skillIds: [`${subjectId}-${k}-a`, `${subjectId}-${k}-b`] })),
+  );
+  const now = new Date("2027-03-12T18:00:00Z");
+
+  it("drafts every demo student into teams of 3 to 5, by score, and is the same every time", () => {
+    const data = buildDemoSection(units, now);
+    const t = buildDemoTournament(data);
+    expect(t).toEqual(buildDemoTournament(buildDemoSection(units, now)));
+    const teams = t.tournament!.teams;
+    expect(teams.flatMap((x) => x.members)).toHaveLength(data.students.length);
+    for (const x of teams) expect(x.members.length).toBeGreaterThanOrEqual(3);
+    for (const x of teams) expect(x.members.length).toBeLessThanOrEqual(5);
+    expect(teams.map((x) => x.score)).toEqual([...teams.map((x) => x.score)].sort((a, b) => b - a));
+    expect(t.tournament!.topics.length).toBeGreaterThan(0);
+    expect(t.tournament!.week_start).toBe("2027-03-08");
   });
 });

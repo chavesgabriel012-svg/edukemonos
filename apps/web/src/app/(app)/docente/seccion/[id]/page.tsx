@@ -5,7 +5,8 @@ import { SectionHeader } from "@/components/teacher/section-header";
 import { SectionOverview } from "@/components/teacher/section-overview";
 import { GoalPanel } from "@/components/teacher/goal-panel";
 import { StreakPanel } from "@/components/teacher/streak-panel";
-import { sectionGamification } from "@/lib/gamification";
+import { TournamentPanel } from "@/components/teacher/tournament-panel";
+import { sectionGamification, sectionTournamentReport } from "@/lib/gamification";
 import { requireStaff } from "@/lib/staff";
 import { audit, sectionSource } from "@/lib/teacher";
 import { cachedSummary } from "@/lib/teacher-summary";
@@ -22,7 +23,7 @@ export default async function SectionPage({ params, searchParams }: PageProps<"/
   await audit(supabase, user.id, "view_section", id);
 
   const metrics = computeSectionMetrics(source.data);
-  const gamification = await sectionGamification(supabase, id, user.id);
+  const [gamification, tournament] = await Promise.all([sectionGamification(supabase, id, user.id), sectionTournamentReport(supabase, id)]);
   const sp = await searchParams;
   const subjectId = metrics.subjects.find((s) => s.subjectId === sp.materia)?.subjectId ?? busiestSubject(metrics);
   const { data: log } = await supabase
@@ -48,6 +49,7 @@ export default async function SectionPage({ params, searchParams }: PageProps<"/
         <SectionOverview source={source} metrics={metrics} subjectId={subjectId} summary={await cachedSummary(metrics.findings)} />
       )}
       <GoalPanel data={gamification} />
+      <TournamentPanel data={tournament} demo={false} />
       <StreakPanel sectionId={id} data={gamification} demo={false} />
       <details className="rounded-[22px] border bg-card p-5 text-sm">
         <summary className="cursor-pointer font-medium">Registro de accesos</summary>

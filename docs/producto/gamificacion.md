@@ -11,7 +11,7 @@ ella con un PR. Nada pasa a `main` sin aprobación del fundador.
 | — | `secciones-por-materia` | Grupos con un código, docente = materia, guía = grupo (§12) |
 | — | `panel-docente-grupos` | «Mis secciones»: los grupos del docente lado a lado, por materia (§12) |
 | 3 | `fase-3` | Mecánicas fijas con contenido generado y verificado |
-| 4 | `fase-4` | Torneo automático de los viernes |
+| 4 | `fase-4` | Torneo automático de los viernes (§7.1) |
 | 5 | `fase-5` | Insignias, certificado de dominio y equipo destacado |
 
 ## 1. Principios
@@ -167,7 +167,7 @@ lleva nombres, apodos, texto del estudiante ni respuestas. Nombres previstos:
 | `rest_reminder_shown` | `{ "minutes": 61 }` |
 | `nickname_chosen` / `leaderboard_hidden` | `{ "section": "<uuid>" }` |
 | `game_played` | `{ "mechanic": "pairs", "unit": "<uuid>", "correct": 5, "total": 6 }` |
-| `tournament_joined` | `{ "tournament": "<uuid>" }` |
+| `tournament_joined` | `{ "tournament": "<uuid>" }` (la primera vez que pide sus preguntas) |
 | `badge_earned` | `{ "badge": "skill_mastered", "skill": "<uuid>" }` |
 | `certificate_downloaded` | `{ "unit": "<uuid>" }` |
 | `feature_toggled` (docente) | `{ "section": "<uuid>", "feature": "leaderboard", "enabled": false }` |
@@ -399,6 +399,37 @@ genera código**: solo el contenido de cada pieza, que pasa las mismas verificac
   muestra todos los equipos y lo que aportó cada estudiante al dominio, no a la competencia. El docente no
   prepara nada y no tiene que usarlo en clase.
 - Tablas: `tournaments`, `tournament_teams`, `tournament_members`.
+
+### 7.1 Cómo quedó (rama `fase-4`)
+
+- **Migraciones**: `20261112000100_tournament_enum.sql` (agrega `tournament` a `attempt_context`, va aparte y primero)
+  y `20261112000200_tournament.sql`.
+- **Funciones**: `private.ensure_tournament(section, now)` arma el torneo; `section_tournament()` es la vista del
+  estudiante; `tournament_questions()` lo suma a un equipo si llega tarde y le da sus preguntas;
+  `submit_attempt()` acepta el contexto `tournament`; `section_tournament_report()` es la vista del docente. Las tres
+  tablas no se leen directamente: todo pasa por funciones.
+- **La misma lógica en TypeScript**: `packages/curriculum/src/tournament.ts` (`snakeTeams`, `memberPoints`,
+  `teamScore`, `visibleTeams`, `pickTopics`). Las pruebas de RLS comparan los equipos y los puntajes de SQL con estas
+  funciones.
+- **Pantallas**: tarjeta en `/mis-secciones`, juego en `/mis-secciones/[id]/torneo`, panel en
+  `/docente/seccion/[id]` y en `/docente/demo` (con datos ficticios), y el interruptor «Armar el torneo de los viernes»
+  en los ajustes de la sección (`section_settings.tournament_enabled`).
+- **Código de recuperación**: `private.move_student_extras()` también traslada `tournament_members`.
+
+**Decisiones de implementación** (el diseño no las fijaba; el fundador puede cambiarlas):
+
+| Tema | Decisión |
+|---|---|
+| Mínimo para armar torneo | 6 estudiantes activos (dos equipos de 3). Con menos, esa semana no hay torneo. |
+| Cantidad de equipos | `ceil(activos / 5)`: siempre quedan equipos de 3 a 5. Quien llega tarde puede dejar uno en 6. |
+| Activos | Con al menos una respuesta en las últimas 4 semanas **en la materia de la sección**. |
+| Temas | Hasta 8: las habilidades de la sección que más estudiantes trabajaron en la semana. |
+| Preguntas | 10 por estudiante, ejercicios verificados y piezas de «completar» de los temas; primero las que todavía no resolvió bien. |
+| Mejora | Σ (`score_end` − `score_start`) de `mastery_weekly` en los temas de esa semana; una baja nunca resta. |
+| Último lugar | Se ocultan todos los equipos empatados en el puntaje más bajo, salvo el propio. Si todos empatan, cada estudiante ve solo el suyo. |
+| De lunes a jueves | El estudiante y el docente ven el resultado del último torneo y que el próximo abre el viernes. |
+| Docente | Ve los equipos con su puntaje y, por estudiante, cuánto subió su dominio en los temas y si jugó; no ve los puntos de competencia de cada uno. |
+| Vacaciones | En una semana de vacaciones de la sección no se arma torneo. |
 
 ## 8. Fase 5 · Reconocimiento simbólico
 

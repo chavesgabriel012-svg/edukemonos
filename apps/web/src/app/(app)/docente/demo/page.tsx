@@ -1,10 +1,11 @@
-import { busiestSubject, computeSectionMetrics } from "@edukemonos/curriculum";
+import { buildDemoTournament, busiestSubject, computeSectionMetrics } from "@edukemonos/curriculum";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { SectionHeader } from "@/components/teacher/section-header";
 import { SectionOverview } from "@/components/teacher/section-overview";
 import { GoalPanel } from "@/components/teacher/goal-panel";
 import { StreakPanel } from "@/components/teacher/streak-panel";
+import { TournamentPanel } from "@/components/teacher/tournament-panel";
 import { demoGamification } from "@/lib/gamification";
 import { createClient } from "@/lib/supabase/server";
 import { demoSource } from "@/lib/teacher";
@@ -28,6 +29,7 @@ export default async function DemoSectionPage({ searchParams }: PageProps<"/doce
       </p>
       <SectionOverview source={source} metrics={metrics} subjectId={subjectId} summary={await cachedSummary(metrics.findings)} />
       <GoalPanel data={demo} />
+      <TournamentPanel data={buildDemoTournament(source.data)} demo />
       <StreakPanel sectionId="demo" data={demo} demo />
     </div>
   );
