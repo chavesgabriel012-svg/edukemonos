@@ -148,7 +148,7 @@ Sin registro: el estudiante elige año → materia → unidad (`/estudiar/7/mate
 
 ## Sitio e interfaz
 
-- `/` es la **landing** para estudiantes, familias, docentes, colegios y aliados: poco texto, un título y tres puntos por
+- `/` es la **landing**, planteada como muestra de un producto en fase de prueba (sin precios ni costos): un título y tres puntos por
   público. Los conteos de contenido publicado se
   leen de la base de datos (se refrescan cada hora, `lib/stats.ts`); las cifras de PISA 2025 y del Estado de la Educación
   2025 son las del Anexo B del SPEC. El botón de contacto aparece solo si se define `NEXT_PUBLIC_CONTACT_EMAIL`.

@@ -8,12 +8,12 @@ import { cn } from "cn";
 import { action } from "@/components/ui/action";
 
 const LINKS = [
-  { href: "/estudiar", label: "Estudiar", match: ["/estudiar", "/unidad"] },
   { href: "/como-funciona", label: "Cómo funciona", match: ["/como-funciona"] },
   { href: "/ia", label: "Kemo y la IA", match: ["/ia"] },
   { href: "/#familias", label: "Familias", match: [] },
-  { href: "/docente", label: "Docentes", match: ["/docente"] },
-  { href: "/#colegios", label: "Colegios y aliados", match: [] },
+  { href: "/#docentes", label: "Docentes", match: ["/docente"] },
+  { href: "/#colegios", label: "Colegios", match: [] },
+  { href: "/#aliados", label: "Aliados", match: [] },
 ] as const;
 
 /** Main menu: inline on wide screens, a toggled panel on phones and tablets. */
@@ -42,11 +42,8 @@ export function SiteNav() {
   return (
     <nav aria-label="Menú principal" className="flex items-center gap-1">
       <div className="hidden items-center gap-0.5 lg:flex">{LINKS.map((l) => link(l))}</div>
-      <Link href="/unirme" className={cn(action({ variant: "soft", size: "md" }), "ml-1 hidden sm:inline-flex")}>
-        Tengo un código
-      </Link>
       <Link href="/estudiar" className={cn(action({ variant: "lima", size: "md" }), "ml-1")}>
-        Empezar
+        Probar
       </Link>
       <button type="button" onClick={() => setOpen((o) => !o)} aria-expanded={open} aria-controls="menu-movil"
         className="ml-1 inline-flex size-11 items-center justify-center rounded-[12px] hover:bg-secondary focus-visible:outline-2 lg:hidden">
@@ -56,9 +53,6 @@ export function SiteNav() {
       {open && (
         <div id="menu-movil" className="absolute inset-x-0 top-full z-50 border-b bg-card px-4 pb-4 shadow-[0_12px_32px_-12px_rgba(23,19,42,0.25)] lg:hidden">
           {LINKS.map((l) => link(l, true))}
-          <Link href="/unirme" onClick={() => setOpen(false)} className="block rounded-[10px] px-3 py-3 text-base font-medium hover:bg-secondary sm:hidden">
-            Tengo un código de mi docente
-          </Link>
         </div>
       )}
     </nav>

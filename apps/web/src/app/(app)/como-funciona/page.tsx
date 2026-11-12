@@ -16,7 +16,7 @@ const ITEMS: FaqItem[] = [
     a: (
       <>
         <p>
-          Es una plataforma gratuita para estudiar los temas de sétimo, octavo y noveno año de los colegios públicos de Costa
+          Es una plataforma para estudiar los temas de sétimo, octavo y noveno año de los colegios públicos de Costa
           Rica. Tiene material basado en los programas oficiales del MEP, ejercicios con explicación, una prueba
           diagnóstica y un tutor con inteligencia artificial, Kemo.
         </p>
@@ -139,7 +139,7 @@ const ITEMS: FaqItem[] = [
   {
     id: "costo",
     q: "¿Cuánto cuesta?",
-    a: <p>Nada, Eduka es gratis para estudiantes y docentes.</p>,
+    a: <p>Probar Eduka no cuesta nada: está en fase de prueba.</p>,
   },
 ];
 
