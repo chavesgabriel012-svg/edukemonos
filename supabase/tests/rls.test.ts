@@ -1,7 +1,7 @@
 import type pg from "pg";
 import { afterAll, beforeAll, describe, expect, inject, it } from "vitest";
 import { type Fixture, ids, loadFixture } from "./fixtures";
-import { addWeeks, classDays, computeStreak, estimateAbility, type GeneratedGame, goalTarget, memberPoints, splitGame, isSafeNickname, leaderboardWindow, levelOf, MEP_2027, NICKNAME_ADJECTIVES, NICKNAME_NOUNS, snakeTeams, teamScore, updateMastery, visibleTeams, weekStartCR } from "@edukemonos/curriculum";
+import { addWeeks, classDays, computeStreak, estimateAbility, type GeneratedGame, CERTIFICATE_CODE, goalTarget, memberPoints, splitGame, streakBadges, tournamentWinners, unitMastered, isSafeNickname, leaderboardWindow, levelOf, MEP_2027, NICKNAME_ADJECTIVES, NICKNAME_NOUNS, snakeTeams, teamScore, updateMastery, visibleTeams, weekStartCR } from "@edukemonos/curriculum";
 import { anon, as, asActors, asSteps, connect, expectDenied, service, user } from "./helpers";
 
 let db: pg.Client;
@@ -540,7 +540,7 @@ describe("recovery codes", () => {
       where c.contype = 'f' and c.confrelid = 'public.students'::regclass
       order by 1`);
     const handled = [
-      "attempts", "diagnostics", "game_runs", "group_members", "mastery", "mastery_weekly", "section_members", "streak_repairs", "student_recovery_codes",
+      "attempts", "diagnostics", "game_runs", "group_members", "mastery", "mastery_weekly", "section_members", "streak_repairs", "student_badges", "student_recovery_codes",
       "tournament_members", "tutor_sessions", "writing_feedback",
     ];
     expect(rows.map((r) => r.table.replace(/^public\./, "")).sort()).toEqual(handled);
@@ -1201,6 +1201,28 @@ describe("groups and subject sections", () => {
     expect(out.r.moved.groups).toBe(1);
     expect(out.groups).toEqual([{ group_id: out.g }]);
   });
+
+  it("fase 5: the guide sees the winners of every subject's last tournament; others are denied", async () => {
+    const out = await scenario(async (q, act) => {
+      const s = await school(q, act);
+      // A closed Math tournament with two teams; only one scored.
+      const [{ t }] = await q(`insert into public.tournaments (section_id, week_start, opens_at, closes_at, skill_ids)
+                               values ($1, $2, now() - interval '3 days', now() - interval '1 hour', array[$3::uuid]) returning id as t`, [s.math, thisWeek(), ids.skillPublished]);
+      const [{ a }] = await q(`insert into public.tournament_teams (tournament_id, name, sort_order) values ($1, 'Equipo Ceiba', 1) returning id as a`, [t]);
+      await q(`insert into public.tournament_teams (tournament_id, name, sort_order) values ($1, 'Equipo Lapa', 2)`, [t]);
+      await q(`insert into public.students (id) values ($1) on conflict do nothing`, [ids.loner]);
+      await q(`insert into public.tournament_members (tournament_id, team_id, student_id) values ($1, $2, $3)`, [t, a, ids.loner]);
+      await q(`insert into public.attempts (student_id, item_id, context, session_id, is_correct) values ($1, $2, 'tournament', $3, true)`, [ids.loner, ids.itemVerified, t]);
+      await act(user(teacher3));
+      const [{ guide }] = await q(`select public.group_tournaments($1) as guide`, [s.g]);
+      await act(user(ids.teacher2));   // teaches Spanish in the group: neither guide nor manager
+      await q("savepoint a");
+      const denied = await q(`select public.group_tournaments($1)`, [s.g]).then(() => "ok", async (e) => { await q("rollback to savepoint a"); return (e as Error).message; });
+      return { guide, denied };
+    });
+    expect(out.guide).toEqual([{ section: "7-3 Matemáticas", subject: "Matemáticas", week_start: thisWeek(), closed: true, winners: ["Equipo Ceiba"] }]);
+    expect(out.denied).toMatch(/not your group/);
+  });
 });
 
 describe("a subject teacher across several groups", () => {
@@ -1611,5 +1633,136 @@ describe("the Friday tournament", () => {
     expect(out.member.n).toBe(1);
     expect(out.off).toEqual({ enabled: false });
     expect(out.offStudent).toEqual({ enabled: false });
+  });
+
+  it("fase 5: the winning team shows once it closes, until the next one, like tournamentWinners()", async () => {
+    const out = await scenario(async (q, act) => {
+      const mates = await week(q);
+      const [{ t }] = await q(`select private.ensure_tournament($1, $2) as t`, [ids.section1, friday()]);
+      await openNow(q, t);
+      const items = (await q(`select id from public.items where stem like 'racha %' order by stem`)).map((r) => r.id as string);
+      for (let k = 0; k < 3; k++) {
+        await q(`insert into public.attempts (student_id, item_id, context, session_id, is_correct) values ($1, $2, 'tournament', $3, true)`, [mates[0], items[k], t]);
+      }
+      await act(user(mates[0]));
+      const [{ open }] = await q(`select public.section_tournament($1) as open`, [ids.section1]);
+      await act(null);
+      await q(`update public.tournaments set closes_at = now() - interval '1 minute' where id = $1`, [t]);
+      const teams = await q(`select name, score::float as score from private.tournament_team_scores($1)`, [t]);
+      await act(user(mates[4]));
+      const [{ closed }] = await q(`select public.section_tournament($1) as closed`, [ids.section1]);
+      await act(user(ids.teacher1));
+      const [{ report }] = await q(`select public.section_tournament_report($1) as report`, [ids.section1]);
+      return { open, closed, report, teams };
+    });
+    expect(out.open.tournament).toMatchObject({ closed: false, winners: [] });
+    const winners = tournamentWinners(out.teams.map((r) => ({ name: r.name as string, score: r.score as number })));
+    expect(winners).toHaveLength(1);
+    expect(out.closed.tournament).toMatchObject({ closed: true, winners });
+    expect(out.report.tournament).toMatchObject({ closed: true, winners });
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Fase 5: badges and certificates
+// ---------------------------------------------------------------------------
+describe("badges and certificates", () => {
+  it("skill and unit badges as soon as mastery reaches 0.70, like unitMastered(); never taken away", async () => {
+    const out = await scenario(async (q) => {
+      const [{ k2 }] = await q(`insert into public.skills (unit_id, subject_id, grade_id, name) values ($1, 'matematicas', 7, 'Segunda habilidad') returning id as k2`, [ids.unitPublished]);
+      const badges = async () => q(`select badge, ref_id::text as ref, code from public.student_badges where student_id = $1 order by badge, ref_id`, [ids.loner]);
+      await q(`insert into public.students (id) values ($1) on conflict do nothing`, [ids.loner]);
+      await q(`insert into public.mastery (student_id, skill_id, score) values ($1, $2, 0.75)`, [ids.loner, ids.skillPublished]);
+      const a = await badges();
+      await q(`insert into public.mastery (student_id, skill_id, score) values ($1, $2, 0.6)`, [ids.loner, k2]);
+      const b = await badges();
+      await q(`update public.mastery set score = 0.72 where student_id = $1 and skill_id = $2`, [ids.loner, k2]);
+      const c = await badges();
+      // Mastery drops and comes back: nothing is lost and nothing repeats.
+      await q(`update public.mastery set score = 0.4 where student_id = $1 and skill_id = $2`, [ids.loner, ids.skillPublished]);
+      await q(`update public.mastery set score = 0.9 where student_id = $1 and skill_id = $2`, [ids.loner, ids.skillPublished]);
+      const d = await badges();
+      const ev = await q(`select props from public.events where actor_id = $1 and name = 'badge_earned' order by id`, [ids.loner]);
+      return { k2, a, b, c, d, ev };
+    });
+    expect(out.a.map((r) => r.badge)).toEqual(["skill_mastered"]);
+    expect(unitMastered([0.75, 0.6])).toBe(false);
+    expect(out.b).toEqual(out.a);
+    expect(unitMastered([0.75, 0.72])).toBe(true);
+    expect(out.c.map((r) => [r.badge, r.ref])).toEqual(
+      [["skill_mastered", ids.skillPublished], ["skill_mastered", out.k2], ["unit_mastered", ids.unitPublished]].sort((x, y) => (x[0] + x[1] < y[0] + y[1] ? -1 : 1)),
+    );
+    expect(out.c.find((r) => r.badge === "unit_mastered")!.code).toMatch(CERTIFICATE_CODE);
+    expect(out.d).toEqual(out.c);
+    expect(out.ev).toHaveLength(3);
+    expect(out.ev.map((e) => Object.keys(e.props).sort())).toContainEqual(["badge", "unit"]);
+    for (const e of out.ev) expect(JSON.stringify(e.props)).not.toContain(ids.loner);
+  });
+
+  it("streak badges follow the best streak, like streakBadges()", async () => {
+    const out = await scenario(async (q, act) => {
+      await q(`insert into public.students (id) values ($1) on conflict do nothing`, [ids.loner]);
+      const items = await makeItems(q, 5);
+      const start = addWeeks(thisWeek(), -7);
+      for (let w = 0; w < 4; w++) await rightAnswers(q, ids.loner, items, 5, `${addWeeks(start, w)} 10:00`);
+      await act(user(ids.loner));
+      const [{ mine }] = await q(`select public.my_badges() as mine`);
+      await act(null);
+      const [{ st }] = await q(`select private.streak_state($1, now()) as st`, [ids.loner]);
+      return { mine, st };
+    });
+    expect(out.st.record).toBe(4);
+    expect(out.mine.record).toBe(4);
+    const streak = out.mine.badges.filter((b: { ref_id: string | null }) => !b.ref_id).map((b: { badge: string }) => b.badge).sort();
+    expect(streak).toEqual([...streakBadges(4)].sort());
+  });
+
+  it("a unit certificate can be verified by anyone, without saying who; a download is logged", async () => {
+    const out = await scenario(async (q, act) => {
+      await q(`insert into public.students (id) values ($1) on conflict do nothing`, [ids.loner]);
+      await q(`insert into public.mastery (student_id, skill_id, score) values ($1, $2, 0.9)`, [ids.loner, ids.skillPublished]);
+      const [{ code }] = await q(`select code from public.student_badges where student_id = $1 and badge = 'unit_mastered'`, [ids.loner]);
+      await act(anon);
+      const [{ ok }] = await q(`select public.verify_certificate($1) as ok`, [(code as string).toLowerCase().replace("-", "")]);
+      const [{ bad }] = await q(`select public.verify_certificate('00000-00000') as bad`);
+      await act(user(ids.loner));
+      const [{ logged }] = await q(`select public.log_certificate_download($1) as logged`, [ids.unitPublished]);
+      const [{ other }] = await q(`select public.log_certificate_download($1) as other`, [ids.unitDraft]);
+      await act(null);
+      const ev = await q(`select props from public.events where actor_id = $1 and name = 'certificate_downloaded'`, [ids.loner]);
+      return { code, ok, bad, logged, other, ev };
+    });
+    expect(out.code).toMatch(CERTIFICATE_CODE);
+    expect(Object.keys(out.ok).sort()).toEqual(["earned_on", "grade", "skills", "subject", "unit", "valid"]);
+    expect(out.ok).toMatchObject({ valid: true, grade: 7 });
+    expect(out.ok.skills.length).toBeGreaterThan(0);
+    expect(out.bad).toEqual({ valid: false });
+    expect(out.logged).toBe(true);
+    expect(out.other).toBe(false);
+    expect(out.ev).toEqual([{ props: { unit: ids.unitPublished } }]);
+  });
+
+  it("badges are the student's only, cannot be written, and move with a recovery code", async () => {
+    await expectDenied(db, s1, `insert into public.student_badges (student_id, badge) values ($1, 'first_week')`, [ids.student1], /permission denied/);
+    await expectDenied(db, anon, `select public.my_badges()`, [], /permission denied/);
+    const out = await scenario(async (q, act) => {
+      await act(user(ids.student2));
+      const others = await q(`select * from public.student_badges where student_id = $1`, [ids.student1]);
+      await act(user(ids.teacher1));
+      const teacher = await q(`select * from public.student_badges`);
+      await act(user(ids.student1));
+      const own = await q(`select badge from public.student_badges order by badge`);
+      const [{ code }] = await q(`select public.create_recovery_code() as code`);
+      await act(user(ids.newDevice));
+      const [{ r }] = await q(`select public.redeem_recovery_code($1) as r`, [code]);
+      const moved = await q(`select badge from public.student_badges order by badge`);
+      return { others, teacher, own, r, moved };
+    });
+    expect(out.others).toEqual([]);
+    expect(out.teacher).toEqual([]);
+    // The fixture gives student1 mastery 0.8 in the only skill of the published unit.
+    expect(out.own.map((b) => b.badge)).toEqual(["skill_mastered", "unit_mastered"]);
+    expect(out.r.moved.badges).toBe(2);
+    expect(out.moved).toEqual(out.own);
   });
 });
