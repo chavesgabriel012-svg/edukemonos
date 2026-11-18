@@ -2,8 +2,8 @@
 
 import { useActionState, useState } from "react";
 import { createSection } from "./actions";
-
-const field = "h-11 w-full rounded-[12px] border bg-background px-3";
+import { action as actionClass } from "@/components/ui/action";
+import { field } from "@/components/ui/styles";
 
 /**
  * A section is either the teacher's subject in a group (students join with the group's code) or a
@@ -65,7 +65,7 @@ export function NewSectionForm({ groups, subjects }: { groups: { id: string; nam
       )}
       {state?.error && <p role="alert" className="text-sm text-destructive sm:col-span-2">{state.error}</p>}
       <div className="sm:col-span-2">
-        <button disabled={pending} className="h-[52px] rounded-[14px] bg-primary px-6 font-semibold text-primary-foreground disabled:opacity-60">
+        <button disabled={pending} className={actionClass()}>
           {pending ? "Creando…" : "Crear sección"}
         </button>
       </div>

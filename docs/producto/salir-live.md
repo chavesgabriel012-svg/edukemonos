@@ -19,14 +19,28 @@ se hace a mano con SQL y scripts. Ahí está lo que falta.
   se sale de la pantalla.
 - **Pruebas.** Typecheck, lint y las 28 pruebas de la web pasan.
 - **Chat de Kemo.** Se probó el chat nuevo con respuestas simuladas, sin gastar presupuesto de IA.
-- **Flujo docente real.** No se probó. Hace falta una cuenta docente en producción y no quise crear
-  datos de prueba ahí sin su visto bueno. Se revisó el código y se usó el panel de demostración.
+- **Flujo docente real.** Se probó de punta a punta contra un Supabase local (Docker), con el contenido
+  publicado de 7.º Matemáticas copiado de producción. Producción solo se leyó. El recorrido fue:
+  1. El docente entra con su correo y crea una sección (9 s).
+  2. Una estudiante se une con el código desde un teléfono y responde 6 ejercicios.
+  3. El docente la ve en su panel, con sus hallazgos.
+
+  Ahora es una prueba automática: `e2e/docente-estudiante.spec.ts`.
+- **Lo que se corrigió en el camino:**
+  - Una sección sin estudiantes ya no muestra los paneles de meta, torneo y racha vacíos.
+  - Los formularios de crear sección y crear grupo usan los estilos compartidos.
+
+## Criterio
+
+Se prioriza lo que refuerza las 5 ventajas de `docs/producto/competencia.md`: cero carga docente,
+contenido verificado, dominio sin leer chats, privacidad de menores y lo local. No se prioriza un
+tutor más «inteligente», porque no nos diferencia.
 
 ## P0: sin esto no se puede salir
 
 | # | Qué | Por qué | Esfuerzo |
 |---|-----|---------|----------|
-| 1 | **Consola del equipo Eduka** (`/admin`): crear el colegio, sus grados y materias, subir documentos, generar, revisar y publicar contenido, e invitar docentes | Hoy un colegio se arma con SQL y scripts desde la terminal | 2–3 semanas |
+| 1 | **Consola del equipo Eduka** (`/admin`): crear el colegio, sus grados y materias, subir el programa, generar, verificar y publicar, e invitar docentes. Incluye una vista para que el colegio apruebe su contenido antes de publicarlo | Hoy un colegio se arma con SQL y scripts desde la terminal. La carga del programa propio es la ventaja que más nos separa de Flint y SchoolAI, donde el docente arma todo | 2–3 semanas |
 | 2 | **Contenido por colegio**: `institution_id` en `curriculum_sources`, `curriculum_units` e `items`, y que cada estudiante vea solo el de su colegio | Todo el contenido es global; dos colegios verían lo mismo | 1 semana (va con la 1) |
 | 3 | **Acceso docente por invitación**: el colegio entrega la lista, Eduka invita por correo y la persona entra con enlace | Hoy cualquiera con correo queda como docente | 3–4 días |
 | 4 | **Correo propio** (SMTP con Resend u otro, en un dominio de Eduka) | El correo que trae Supabase envía muy pocos mensajes por hora y no sirve para producción. Hay que revisar en el panel de Supabase qué está configurado hoy | 1 día |
@@ -39,11 +53,13 @@ se hace a mano con SQL y scripts. Ahí está lo que falta.
 | # | Qué | Por qué |
 |---|-----|---------|
 | 8 | **Monitoreo de errores** (Sentry o similar) y alertas de gasto de IA | Hoy un error en producción solo se ve si alguien lo reporta |
-| 9 | **Pruebas de punta a punta** con Playwright en CI: unirse con código, practicar, el tutor (simulado) y el panel docente | El recorrido de hoy se hizo a mano |
+| 9 | **Pruebas de punta a punta en CI.** Ya existen `revisar.spec.ts` y `docente-estudiante.spec.ts`, pero se corren a mano. Faltan correrlas en CI, sumar el tutor simulado y probar al docente guía | Hoy dependen de que alguien se acuerde de correrlas |
 | 10 | **Prompts sin «colegios públicos de Costa Rica»** fijo: el nombre, el nivel y el idioma salen del colegio | Seis prompts lo dicen hoy (`packages/ai/src/prompts/`) |
-| 11 | **Grados y materias desde la base**, no desde el código | 7.º a 9.º y las seis materias están escritos en el código |
+| 11 | **Grados y materias desde la base**, no desde el código; Word y presentaciones además de PDF | 7.º a 9.º y las seis materias están escritos en el código, y la ingestión solo lee PDF |
 | 12 | **Coordinación del colegio** puede agregar y quitar docentes y ver todas las secciones | Hoy depende del equipo Eduka |
 | 13 | **Política de contenido** para que una CSP completa no rompa el sitio | Ya están los encabezados básicos; una CSP con nonces necesita probarse página por página |
+
+| 14 | **Textos honestos en la landing**: «100 % personalizado» y «con los programas del MEP» describen la meta, no lo que existe hoy | `competencia.md` pide describir lo que existe |
 
 ## P2: cuando haya un segundo colegio
 
@@ -74,6 +90,5 @@ se hace a mano con SQL y scripts. Ahí está lo que falta.
 
 ## Referencias
 
-- El estudio de productos similares (Flint y otros) está en el chat «Eduka» de Claude Cowork, al que
-  esta sesión no tiene acceso. Si lo pega aquí o lo sube al repositorio, se usa para priorizar la
-  consola y el panel docente.
+- `docs/producto/competencia.md`: el estudio competitivo del 14 de noviembre de 2026 (Flint, SchoolAI,
+  Khanmigo, MagicSchool, Brisk, Gemini y otros).

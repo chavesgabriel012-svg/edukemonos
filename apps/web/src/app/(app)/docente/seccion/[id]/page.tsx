@@ -48,9 +48,14 @@ export default async function SectionPage({ params, searchParams }: PageProps<"/
       ) : (
         <SectionOverview source={source} metrics={metrics} subjectId={subjectId} summary={await cachedSummary(metrics.findings)} />
       )}
-      <GoalPanel data={gamification} />
-      <TournamentPanel data={tournament} demo={false} />
-      <StreakPanel sectionId={id} data={gamification} demo={false} />
+      {/* Goal, tournament and streak only mean something once there are students. */}
+      {source.data.students.length > 0 && (
+        <>
+          <GoalPanel data={gamification} />
+          <TournamentPanel data={tournament} demo={false} />
+          <StreakPanel sectionId={id} data={gamification} demo={false} />
+        </>
+      )}
       <details className="rounded-[22px] border bg-card p-5 text-sm">
         <summary className="cursor-pointer font-medium">Registro de accesos</summary>
         <p className="mt-2 text-muted-foreground">Cada vez que alguien abre esta sección, un estudiante o descarga datos, queda registrado.</p>

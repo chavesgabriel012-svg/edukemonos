@@ -2,8 +2,8 @@
 
 import { useActionState } from "react";
 import { createGroup } from "./actions";
-
-const field = "h-11 w-full rounded-[12px] border bg-background px-3 text-base";
+import { action as actionClass } from "@/components/ui/action";
+import { field } from "@/components/ui/styles";
 
 /** A group (e.g. 7-3) with one code for all its subjects. With an institution, only its admins. */
 export function NewGroupForm({ institutions }: { institutions: { id: string; name: string }[] }) {
@@ -31,7 +31,7 @@ export function NewGroupForm({ institutions }: { institutions: { id: string; nam
       </label>
       {state?.error && <p role="alert" className="text-sm text-destructive sm:col-span-2">{state.error}</p>}
       <div className="sm:col-span-2">
-        <button disabled={pending} className="h-[52px] rounded-[14px] bg-primary px-6 font-semibold text-primary-foreground disabled:opacity-60">
+        <button disabled={pending} className={actionClass()}>
           {pending ? "Creando…" : "Crear grupo"}
         </button>
       </div>
