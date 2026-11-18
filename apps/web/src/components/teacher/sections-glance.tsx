@@ -34,7 +34,7 @@ export function SectionsGlance({ sections, demo = false }: { sections: SectionGl
                 <li key={s.id} className="flex h-full flex-col gap-3 rounded-[22px] border bg-card p-5">
                   <div className="flex items-start justify-between gap-3">
                     <div>
-                      <p className="font-mono text-xs text-muted-foreground">{s.gradeId}.º AÑO{s.subjectName ? " · GRUPO" : ""}</p>
+                      <p className="tabular-nums text-xs text-muted-foreground">{s.gradeId}.º año{s.subjectName ? " · grupo" : ""}</p>
                       <p className="font-heading text-3xl leading-none font-bold">{s.label}</p>
                     </div>
                     <span className="rounded-full bg-secondary px-2.5 py-1 font-mono text-xs font-semibold tracking-wider">{formatCode(s.joinCode)}</span>

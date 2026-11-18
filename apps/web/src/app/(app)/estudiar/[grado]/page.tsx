@@ -38,7 +38,7 @@ export default async function GradePage({ params }: PageProps<"/estudiar/[grado]
                 className="group flex h-44 flex-col justify-between rounded-[22px] p-6 text-tinta transition hover:-translate-y-0.5 hover:shadow-[0_16px_32px_-16px_rgba(23,19,42,0.35)] focus-visible:outline-2 focus-visible:outline-offset-2">
                 <span className="flex items-start justify-between">
                   <SubjectIcon subject={s.id} className="size-9" />
-                  <span className="rounded-full bg-tinta/10 px-3 py-1 font-mono text-xs uppercase">{grade}.º</span>
+                  <span className="rounded-full bg-tinta/10 px-3 py-1 tabular-nums text-xs">{grade}.º</span>
                 </span>
                 <span className="flex items-end justify-between gap-3">
                   <span className="font-heading text-3xl leading-none font-bold">{s.name}</span>

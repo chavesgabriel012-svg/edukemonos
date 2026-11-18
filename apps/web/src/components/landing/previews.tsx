@@ -25,7 +25,7 @@ export function HeatmapPreview() {
             <tr>
               <th scope="col" className="pr-2 text-left font-medium text-muted-foreground">Estudiante</th>
               {HEAT[0].map((_, i) => (
-                <th key={i} scope="col" className="w-8 min-w-8 font-mono font-medium text-muted-foreground">T{i + 1}</th>
+                <th key={i} scope="col" className="w-8 min-w-8 tabular-nums font-medium text-muted-foreground">T{i + 1}</th>
               ))}
             </tr>
           </thead>

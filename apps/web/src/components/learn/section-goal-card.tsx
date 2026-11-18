@@ -7,7 +7,7 @@ export function SectionGoalCard({ goal }: { goal: SectionGoal | null }) {
   const pct = Math.min(100, Math.round((progress / goal.target) * 100));
   return (
     <div className="space-y-2">
-      <p className="font-mono text-xs text-muted-foreground">META DE LA SECCIÓN</p>
+      <p className="tabular-nums text-xs text-muted-foreground">Meta de la sección</p>
       {goal.paused ? (
         <p className="text-sm">Semana de vacaciones: la meta descansa.</p>
       ) : (
@@ -36,14 +36,14 @@ export function LeaderboardCard({ board, hasNickname }: { board: Leaderboard | n
   else if (!board.enough) note = "La tabla aparece cuando al menos 4 compañeros mejoran esta semana.";
   return (
     <div className="space-y-2">
-      <p className="font-mono text-xs text-muted-foreground">MEJORA DE LA SEMANA</p>
+      <p className="tabular-nums text-xs text-muted-foreground">Mejora de la semana</p>
       <p className="text-sm text-muted-foreground">Cuenta cuánto subió tu dominio esta semana, no cuánto sabes. Solo ves a quienes están cerca de ti.</p>
       {rows.length > 0 && (
         <ol className="divide-y rounded-[16px] border">
           {rows.map((r) => (
             <li key={r.nickname} className={`flex min-h-11 items-center justify-between gap-3 px-3 py-2 ${r.me ? "bg-secondary font-semibold" : ""}`}>
               <span>{r.me ? `Tú · ${r.nickname}` : r.nickname}</span>
-              <span className="font-mono text-sm">+{r.points}</span>
+              <span className="tabular-nums text-sm">+{r.points}</span>
             </li>
           ))}
         </ol>

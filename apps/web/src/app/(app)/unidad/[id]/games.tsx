@@ -96,7 +96,7 @@ function Runner({ run, onExit, onAgain }: { run: GameRunView; onExit: () => void
     <section aria-label={GAME_LABELS[run.mode].name} className="space-y-4">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <h2 className="font-heading text-2xl font-bold">{GAME_LABELS[run.mode].name}</h2>
-        <span className="font-mono text-xs text-muted-foreground uppercase">{k + 1} de {run.pieces.length}</span>
+        <span className="tabular-nums text-xs text-muted-foreground">{k + 1} de {run.pieces.length}</span>
       </div>
       {race && <RaceTrack run={run} results={results} />}
       <div className={`${card} space-y-5`}>
@@ -131,7 +131,7 @@ export function RaceTrack({ run, results }: { run: GameRunView; results: boolean
   const who = run.rival?.kind === "self" ? "Tu mejor carrera" : run.rival?.kind === "peer" ? "Un compañero de tu nivel" : null;
   const bar = (n: number, color: string, label: string) => (
     <div className="space-y-1">
-      <div className="flex justify-between text-xs"><span>{label}</span><span className="font-mono">{n} de {total}</span></div>
+      <div className="flex justify-between text-xs"><span>{label}</span><span className="tabular-nums">{n} de {total}</span></div>
       <div className="h-2.5 overflow-hidden rounded-full bg-muted" role="progressbar" aria-valuemin={0} aria-valuemax={total} aria-valuenow={n} aria-label={label}>
         <div className={`h-full rounded-full ${color}`} style={{ width: `${Math.round((n / total) * 100)}%` }} />
       </div>
@@ -205,7 +205,7 @@ function Pairs({ left, right, instruction, answer, disabled, onSubmit }: {
     <div className="space-y-4">
       <p className="font-medium">{instruction}</p>
       <ol className="space-y-1.5 rounded-[16px] bg-background p-4 text-sm">
-        {right.map((r, k) => <li key={k}><span className="font-mono font-bold">{LETTERS[k]}.</span> {r}</li>)}
+        {right.map((r, k) => <li key={k}><span className="tabular-nums font-bold">{LETTERS[k]}.</span> {r}</li>)}
       </ol>
       <ul className="space-y-3">
         {left.map((l, i) => (
@@ -217,7 +217,7 @@ function Pairs({ left, right, instruction, answer, disabled, onSubmit }: {
                 const right_ = answer ? answer[i] === r : false;
                 return (
                   <button key={r} type="button" disabled={disabled} aria-pressed={chosen} onClick={() => pick(i, r)}
-                    className={`size-11 rounded-[12px] border-2 font-mono font-bold transition focus-visible:outline-2 ${chosen ? "border-violeta bg-violeta text-white" : "bg-card hover:border-violeta/60"} ${right_ ? "ring-3 ring-emerald-600 ring-offset-1" : ""}`}>
+                    className={`size-11 rounded-[12px] border-2 tabular-nums font-bold transition focus-visible:outline-2 ${chosen ? "border-violeta bg-violeta text-white" : "bg-card hover:border-violeta/60"} ${right_ ? "ring-3 ring-emerald-600 ring-offset-1" : ""}`}>
                     {LETTERS[r]}
                   </button>
                 );
@@ -249,7 +249,7 @@ function Order({ steps, instruction, answer, disabled, onSubmit }: {
       <ol className="space-y-2">
         {shown.map((s, pos) => (
           <li key={s} className="flex items-center gap-2 rounded-[16px] border-2 bg-card p-2">
-            <span className="w-6 text-center font-mono font-bold">{pos + 1}</span>
+            <span className="w-6 text-center tabular-nums font-bold">{pos + 1}</span>
             <span className="flex-1">{steps[s]}</span>
             {!answer && (
               <span className="flex gap-1">
@@ -277,7 +277,7 @@ function FindError({ steps, instruction, answer, disabled, onSubmit }: {
           <li key={i}>
             <button type="button" disabled={disabled} aria-pressed={selected === i} onClick={() => setSelected(i)}
               className={`flex min-h-12 w-full items-start gap-3 rounded-[16px] border-2 bg-card p-3.5 text-left transition focus-visible:outline-2 ${selected === i ? "border-violeta bg-[#f1eefe]" : "hover:border-violeta/60"} ${answer === i ? "border-amber-500 bg-amber-50" : ""}`}>
-              <span className="font-mono font-bold">{i + 1}</span>
+              <span className="tabular-nums font-bold">{i + 1}</span>
               <span>{s}</span>
             </button>
           </li>

@@ -58,7 +58,7 @@ export default async function SectionPage({ params, searchParams }: PageProps<"/
           {(log ?? []).map((l, i) => (
             <li key={i} className="flex justify-between gap-3">
               <span>{ACTION[l.action] ?? l.action}</span>
-              <span className="font-mono text-xs text-muted-foreground">{new Date(l.created_at).toLocaleString("es-CR", { dateStyle: "short", timeStyle: "short" })}</span>
+              <span className="tabular-nums text-xs text-muted-foreground">{new Date(l.created_at).toLocaleString("es-CR", { dateStyle: "short", timeStyle: "short" })}</span>
             </li>
           ))}
         </ul>

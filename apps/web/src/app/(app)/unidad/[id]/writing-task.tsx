@@ -23,7 +23,7 @@ export function WritingTask({ itemId }: { itemId: string }) {
       {state.error && <p role="alert" className="text-sm text-destructive">{state.error}</p>}
       {state.feedback && (
         <div role="status" className="rounded-[16px] bg-background p-4">
-          <p className="mb-1 font-mono text-xs text-muted-foreground uppercase">Retroalimentación generada con IA · puede equivocarse</p>
+          <p className="mb-1 text-sm font-medium text-muted-foreground">Retroalimentación de Kemo</p>
           <Markdown>{state.feedback}</Markdown>
         </div>
       )}

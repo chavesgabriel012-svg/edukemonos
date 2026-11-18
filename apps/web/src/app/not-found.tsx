@@ -6,7 +6,7 @@ export default function NotFound() {
   return (
     <section className="mx-auto flex max-w-md flex-col items-center gap-5 px-4 py-16 text-center">
       <Kemo size={120} mood="wow" background={brand.lima} />
-      <p className="font-mono text-sm text-muted-foreground">Error 404</p>
+      <p className="tabular-nums text-sm text-muted-foreground">Error 404</p>
       <h1 className="font-heading text-4xl leading-none font-bold">No encontramos esta página</h1>
       <p className="text-muted-foreground">Puede que el enlace esté mal escrito o que el tema ya no esté publicado.</p>
       <Link href="/"

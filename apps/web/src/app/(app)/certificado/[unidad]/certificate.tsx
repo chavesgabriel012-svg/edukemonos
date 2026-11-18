@@ -47,14 +47,14 @@ export function Certificate({ data }: { data: CertificateData }) {
       <article className="mx-auto max-w-3xl space-y-6 rounded-[28px] border-[6px] border-violeta bg-white p-8 text-tinta sm:p-12 print:max-w-none print:rounded-none print:border-[10px]">
         <div className="flex items-center justify-between gap-4">
           <Logo size={34} />
-          <span className="font-mono text-xs tracking-wide text-muted-foreground uppercase">Certificado de dominio</span>
+          <span className="tabular-nums text-xs text-muted-foreground">Certificado de dominio</span>
         </div>
         <div className="space-y-3 text-center">
           <p className="text-muted-foreground">Eduka certifica que</p>
           <p className="min-h-12 border-b-2 border-dashed border-tinta/30 pb-1 font-heading text-4xl font-bold">{name.trim() || " "}</p>
           <p className="text-muted-foreground">dominó el tema</p>
           <h1 className="font-heading text-3xl leading-tight font-bold text-violeta sm:text-4xl">{data.unit}</h1>
-          <p className="font-mono text-sm tracking-wide uppercase">{data.subject} · {data.grade}.º año</p>
+          <p className="tabular-nums text-sm">{data.subject} · {data.grade}.º año</p>
         </div>
         <div className="space-y-2">
           <p className="text-sm font-semibold">Con estas habilidades, cada una con un dominio estimado de al menos 70 %:</p>

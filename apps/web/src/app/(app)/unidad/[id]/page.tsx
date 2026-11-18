@@ -89,7 +89,7 @@ export default async function UnitPage({ params, searchParams }: PageProps<"/uni
       <header className="space-y-3">
         <BackLink href={`/estudiar/${unit.grade_id}/${unit.subject_id}`}>Temas de {subject} · {unit.grade_id}.º</BackLink>
         <div style={{ background: subjectColor(unit.subject_id) }} className="space-y-2 rounded-[28px] px-6 py-6 text-tinta sm:px-8 sm:py-7">
-          <p className="flex items-center justify-between gap-3 font-mono text-xs tracking-wide uppercase">
+          <p className="flex items-center justify-between gap-3 tabular-nums text-xs">
             <span>{subject} · {unit.grade_id}.º{unit.area ? ` · ${unit.area}` : ""}</span>
             <SubjectIcon subject={unit.subject_id} className="size-6 shrink-0" />
           </p>
@@ -132,17 +132,13 @@ export default async function UnitPage({ params, searchParams }: PageProps<"/uni
               </div>
             </div>
           )}
-          <footer className="space-y-1 px-1 pt-2 text-xs leading-relaxed text-muted-foreground">
-            <p>
-              Basado en: {source?.title}{source?.version ? ` (MEP, ${source.version})` : ""}, página {unit.source_page}:{" "}
-              <q>{unit.source_excerpt}</q>{" "}
-              {source?.url && (
-                <a href={`${source.url}#page=${unit.source_page}`} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2">
-                  Ver el programa oficial
-                </a>
-              )}
+          {source?.url && (
+            <p className="px-1 text-sm text-muted-foreground">
+              <a href={`${source.url}#page=${unit.source_page}`} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-foreground">
+                Ver de dónde sale este tema
+              </a>
             </p>
-          </footer>
+          )}
         </div>
       )}
 

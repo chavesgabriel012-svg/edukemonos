@@ -96,7 +96,7 @@ export default async function TeacherHomePage() {
         return (
           <li key={s.id}>
             <Link href={`/docente/seccion/${s.id}`} className="flex h-full flex-col gap-2 rounded-[22px] border bg-card p-5 transition hover:border-violeta">
-              <span className="font-mono text-xs text-muted-foreground">{s.grade_id}.º AÑO</span>
+              <span className="tabular-nums text-xs text-muted-foreground">{s.grade_id}.º año</span>
               <span className="font-heading text-2xl leading-none font-bold">{s.name}</span>
               <span className="text-sm text-muted-foreground">
                 {(s.subjects as unknown as { name: string } | null)?.name ?? "Todas las materias"} · {members} {members === 1 ? "estudiante" : "estudiantes"}
@@ -138,7 +138,7 @@ export default async function TeacherHomePage() {
             {(groups ?? []).map((g) => (
               <li key={g.id}>
                 <Link href={`/docente/grupo/${g.id}`} className="flex h-full flex-col gap-1 rounded-[22px] border bg-card p-4 transition hover:border-violeta">
-                  <span className="font-mono text-xs text-muted-foreground">{g.grade_id}.º AÑO · GRUPO</span>
+                  <span className="tabular-nums text-xs text-muted-foreground">{g.grade_id}.º año · grupo</span>
                   <span className="font-heading text-2xl leading-none font-bold">{g.name}</span>
                   <span className="text-sm text-muted-foreground">{role(g)}</span>
                 </Link>

@@ -34,7 +34,7 @@ export function Choices({ options, selected, onSelect, disabled, correct = null,
             <input type="radio" name="option" value={k} checked={isPicked} onChange={() => onSelect(k)} className="sr-only" />
             <span aria-hidden
               className={cn(
-                "flex size-7 shrink-0 items-center justify-center rounded-full font-mono text-xs font-semibold",
+                "flex size-7 shrink-0 items-center justify-center rounded-full tabular-nums text-xs font-semibold",
                 isKey ? "bg-emerald-600 text-white" : isWrong ? "bg-amber-500 text-tinta" : isPicked ? "bg-violeta text-white" : "bg-secondary",
               )}>
               {LETTERS[k] ?? k + 1}

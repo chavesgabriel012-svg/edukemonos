@@ -88,7 +88,7 @@ export function TournamentPlayer({ tournamentId, backHref }: { tournamentId: str
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center gap-3 font-mono text-xs text-muted-foreground uppercase">
+      <div className="flex items-center gap-3 tabular-nums text-xs text-muted-foreground">
         <span>Pregunta {done + index + 1} de {play.total}</span>
         <span className="h-2 flex-1 overflow-hidden rounded-full bg-secondary" aria-hidden>
           <span className="block h-full rounded-full bg-violeta transition-[width]" style={{ width: `${((done + index) / play.total) * 100}%` }} />

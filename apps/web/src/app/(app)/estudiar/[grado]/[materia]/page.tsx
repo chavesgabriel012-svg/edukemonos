@@ -28,7 +28,7 @@ function Bar({ value }: { value: number | null }) {
   if (value === null) return null;
   const pct = Math.round(value * 100);
   return (
-    <span className="flex items-center gap-2 font-mono text-xs text-muted-foreground" aria-label={`Dominio estimado: ${pct} %`}>
+    <span className="flex items-center gap-2 tabular-nums text-xs text-muted-foreground" aria-label={`Dominio estimado: ${pct} %`}>
       <span className="h-1.5 w-20 overflow-hidden rounded-full bg-secondary">
         <span className="block h-full rounded-full bg-violeta" style={{ width: `${pct}%` }} />
       </span>
@@ -63,7 +63,7 @@ export default async function SubjectPage({ params }: PageProps<"/estudiar/[grad
         <BackLink href={`/estudiar/${grade}`}>Materias de {GRADE_LABEL[grade].toLowerCase()}</BackLink>
         <div style={{ background: subjectColor(materia) }} className="flex items-end justify-between gap-4 rounded-[28px] px-6 py-7 text-tinta sm:px-8 sm:py-9">
           <div className="space-y-2">
-            <p className="font-mono text-xs tracking-wide uppercase">{GRADE_LABEL[grade]} año · {units.length} {units.length === 1 ? "tema" : "temas"}</p>
+            <p className="tabular-nums text-xs">{GRADE_LABEL[grade]} año · {units.length} {units.length === 1 ? "tema" : "temas"}</p>
             <h1 className="font-heading text-4xl leading-none font-bold sm:text-6xl">{name}</h1>
           </div>
           <SubjectIcon subject={materia} className="size-10 shrink-0 sm:size-14" />
@@ -77,13 +77,13 @@ export default async function SubjectPage({ params }: PageProps<"/estudiar/[grad
         <div className="flex-1 space-y-1">
           {last ? (
             <>
-              <p className="font-mono text-xs tracking-wide text-lima uppercase">Tu diagnóstico</p>
+              <p className="tabular-nums text-xs text-lima">Tu diagnóstico</p>
               <h2 className="font-heading text-2xl leading-tight font-bold">Nivel {Number(last.estimated_level).toFixed(1).replace(".", ",")} de 5</h2>
               <p className="text-papel/80">{levelMessage(Number(last.estimated_level))}</p>
             </>
           ) : (
             <>
-              <p className="font-mono text-xs tracking-wide text-lima uppercase">¿Por dónde empiezo?</p>
+              <p className="tabular-nums text-xs text-lima">¿Por dónde empiezo?</p>
               <h2 className="font-heading text-2xl leading-tight font-bold">Haz el diagnóstico</h2>
               <p className="text-papel/80">10 preguntas que se adaptan a tus respuestas y te sugieren qué temas estudiar primero. No tiene nota.</p>
             </>
@@ -128,7 +128,7 @@ export default async function SubjectPage({ params }: PageProps<"/estudiar/[grad
               <li key={unit.id}>
                 <Link href={`/unidad/${unit.id}`}
                   className="group flex items-center gap-4 rounded-[18px] border bg-card p-4 transition hover:border-violeta hover:shadow-[0_12px_32px_-16px_rgba(23,19,42,0.2)] focus-visible:outline-2">
-                  <span aria-hidden style={{ background: subjectColor(materia) }} className="flex size-10 shrink-0 items-center justify-center rounded-xl font-mono text-sm font-semibold text-tinta">
+                  <span aria-hidden style={{ background: subjectColor(materia) }} className="flex size-10 shrink-0 items-center justify-center rounded-xl tabular-nums text-sm font-semibold text-tinta">
                     {i + 1}
                   </span>
                   <span className="min-w-0 flex-1">

@@ -11,7 +11,7 @@ export function Faq({ items }: { items: FaqItem[] }) {
   return (
     <div className="space-y-6">
       <nav aria-label="En esta página" className="rounded-[22px] bg-card p-5">
-        <p className="mb-2 font-mono text-xs text-muted-foreground uppercase">En esta página</p>
+        <p className="mb-2 tabular-nums text-xs text-muted-foreground">En esta página</p>
         <ul className="grid gap-x-6 gap-y-1.5 sm:grid-cols-2">
           {items.map((i) => (
             <li key={i.id}>

@@ -34,7 +34,7 @@ export default async function InstitutionPage({ params }: PageProps<"/docente/in
       <div className="space-y-1">
         <Link href="/docente" className="text-sm underline underline-offset-2">← Mis secciones</Link>
         <h1 className="font-heading text-3xl font-bold">{inst.name}</h1>
-        <p className="font-mono text-xs text-muted-foreground">ID {inst.id}{inst.slug ? ` · ${inst.slug}` : ""}</p>
+        <p className="tabular-nums text-xs text-muted-foreground">ID {inst.id}{inst.slug ? ` · ${inst.slug}` : ""}</p>
       </div>
 
       <section className="space-y-4 rounded-[22px] border bg-card p-5 sm:p-6">

@@ -142,14 +142,14 @@ export function SectionOverview({ source, metrics, subjectId, summary }: {
                     {s.support.length > 0 && <span className="ml-2 rounded-full bg-[#FBF1D9] px-2 py-0.5 text-xs text-[#6B4A00]">apoyo</span>}
                   </td>
                   <td className="py-2.5 pr-3">{relativeDay(s.lastActive, source.data.now)}</td>
-                  <td className="py-2.5 pr-3 font-mono text-xs">{s.attempts7}</td>
-                  <td className="py-2.5 pr-3 font-mono text-xs">{pct(s.accuracy)}</td>
+                  <td className="py-2.5 pr-3 tabular-nums text-xs">{s.attempts7}</td>
+                  <td className="py-2.5 pr-3 tabular-nums text-xs">{pct(s.accuracy)}</td>
                   <td className="py-2.5 pr-3"><MasteryBar value={s.mastery} /></td>
                   {metrics.subjects.map((sub) => {
                     const level = s.bySubject[sub.subjectId]?.level ?? null;
-                    return <td key={sub.subjectId} className="py-2.5 pr-3 font-mono text-xs">{level === null ? "—" : formatLevel(level)}</td>;
+                    return <td key={sub.subjectId} className="py-2.5 pr-3 tabular-nums text-xs">{level === null ? "—" : formatLevel(level)}</td>;
                   })}
-                  <td className="py-2.5 font-mono text-xs">{s.tutorSessions}</td>
+                  <td className="py-2.5 tabular-nums text-xs">{s.tutorSessions}</td>
                 </tr>
               ))}
             </tbody>
