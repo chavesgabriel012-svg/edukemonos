@@ -62,12 +62,17 @@ function Landing() {
 
 type Supabase = Awaited<ReturnType<typeof createClient>>;
 
-/** The schools of the signed-in person, with whether they coordinate each one. */
-async function myInstitutions(supabase: Supabase, uid: string) {
-  const { data: memberships } = await supabase
+/**
+ * The schools of the signed-in person, with whether they coordinate each one. `fresh` reads them again
+ * in the same render: an identical GET would be memoized and return the first answer, so it opts out
+ * with its own AbortSignal.
+ */
+async function myInstitutions(supabase: Supabase, uid: string, fresh = false) {
+  const query = supabase
     .from("institution_members")
     .select("role, institutions(id, name)")
     .eq("profile_id", uid);
+  const { data: memberships } = await (fresh ? query.abortSignal(new AbortController().signal) : query);
   return (memberships ?? []).flatMap((m) => {
     const i = m.institutions as unknown as { id: string; name: string } | null;
     return i ? [{ ...i, admin: m.role === "admin" }] : [];
@@ -101,7 +106,7 @@ export default async function TeacherHomePage() {
     // Someone invited who already had a session never goes through /auth/confirm: link them here.
     const { data: claimed, error } = await supabase.rpc("claim_my_invites");
     if (error) console.error("claim_my_invites failed", error.message);
-    else if (claimed) institutions = await myInstitutions(supabase, auth.user.id);
+    else if (claimed) institutions = await myInstitutions(supabase, auth.user.id, true);
   }
 
   // A teacher without a school has nothing to do here: the school invites them (spec «Invitaciones y acceso docente»).
