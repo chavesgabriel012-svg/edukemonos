@@ -28,15 +28,18 @@ describe("sendInvites", () => {
     expect(options.data).toEqual({ display_name: "Ana" });
   });
 
-  it("falls back to a sign-in link without creating users when the user already exists", async () => {
-    inviteUserByEmail.mockResolvedValue({ error: { message: "User already registered" } });
-    signInWithOtp.mockResolvedValue({ error: null });
+  it("reports existing users without sending any e-mail (by error code)", async () => {
+    inviteUserByEmail.mockResolvedValue({ error: { code: "email_exists", message: "A user with this email address has already been registered" } });
     const result = await sendInvites(people, ORIGIN);
-    expect(result).toEqual([{ email: "ana@colegio.cr", sent: true }]);
-    expect(signInWithOtp).toHaveBeenCalledWith({
-      email: "ana@colegio.cr",
-      options: { shouldCreateUser: false, emailRedirectTo: `${ORIGIN}/auth/confirm?next=/docente` },
-    });
+    expect(result).toEqual([{ email: "ana@colegio.cr", sent: false, existing: true }]);
+    expect(signInWithOtp).not.toHaveBeenCalled();
+  });
+
+  it("reports existing users by message when there is no code", async () => {
+    inviteUserByEmail.mockResolvedValue({ error: { message: "User already registered" } });
+    const result = await sendInvites(people, ORIGIN);
+    expect(result).toEqual([{ email: "ana@colegio.cr", sent: false, existing: true }]);
+    expect(signInWithOtp).not.toHaveBeenCalled();
   });
 
   it("reports other errors with their message", async () => {

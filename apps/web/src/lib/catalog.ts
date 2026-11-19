@@ -10,18 +10,18 @@ type CatalogRow = {
 };
 
 /**
- * What the signed-in user's school offers. Without a session (or if the RPC fails) it is the
+ * What the signed-in user's school offers. Without a session it is the
  * demo catalog: everything visible, no school. Anonymous student sessions count as signed in.
+ * Throws if the RPC fails for a signed-in user.
  */
 export async function myCatalog(): Promise<Catalog> {
   const supabase = await createClient();
   const { data: auth } = await supabase.auth.getUser();
   if (!auth.user) return DEMO_CATALOG;
   const { data, error } = await supabase.rpc("my_catalog");
-  if (error || !data) {
-    if (error) console.error("my_catalog failed", error.message);
-    return DEMO_CATALOG;
-  }
+  // A signed-in user must never fall back to the demo catalog: a school's student would see
+  // units the school hides. Let the error boundary handle it.
+  if (error || !data) throw new Error(`my_catalog failed: ${error?.message ?? "no data"}`);
   const row = data as CatalogRow;
   return {
     institutionId: row.institution_id ?? null,

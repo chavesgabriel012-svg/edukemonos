@@ -1,16 +1,16 @@
 import "server-only";
 import { adminClient } from "@/lib/supabase/admin";
-import { createClient } from "@/lib/supabase/server";
 
-export type InviteResult = { email: string; sent: boolean; error?: string };
+export type InviteResult = { email: string; sent: boolean; existing?: true; error?: string };
 
-const ALREADY_EXISTS = /already (been )?(registered|exists)|email_exists/i;
+const ALREADY_EXISTS_MESSAGE = /already (been )?(registered|exists)/i;
 
 /**
- * Sends each person an e-mail that lands on /auth/confirm, where the pending invitation is claimed.
- * New users get a Supabase invite; people who already have an account get a sign-in link instead
- * (never creating a user). Only the e-mail and the name go to Supabase Auth, never to the AI.
- * The caller must have checked that the user is an admin.
+ * Sends each new person a Supabase invite e-mail that lands on /auth/confirm (token_hash flow),
+ * where the pending invitation is claimed. People who already have an account get no e-mail:
+ * they are reported as `existing` and join the school the next time they sign in, because
+ * /auth/confirm runs claim_my_invites. Only the e-mail and the name go to Supabase Auth, never
+ * to the AI. The caller must have checked that the user is an admin.
  */
 export async function sendInvites(people: { email: string; name: string }[], origin: string): Promise<InviteResult[]> {
   const redirectTo = `${origin}/auth/confirm?next=/docente`;
@@ -20,18 +20,11 @@ export async function sendInvites(people: { email: string; name: string }[], ori
     const { error } = await admin.auth.admin.inviteUserByEmail(email, { redirectTo, data: { display_name: name } });
     if (!error) {
       results.push({ email, sent: true });
-      continue;
-    }
-    if (!ALREADY_EXISTS.test(`${error.message} ${(error as { code?: string }).code ?? ""}`)) {
+    } else if ((error as { code?: string }).code === "email_exists" || ALREADY_EXISTS_MESSAGE.test(error.message)) {
+      results.push({ email, sent: false, existing: true });
+    } else {
       results.push({ email, sent: false, error: error.message });
-      continue;
     }
-    const supabase = await createClient();
-    const { error: otpError } = await supabase.auth.signInWithOtp({
-      email,
-      options: { shouldCreateUser: false, emailRedirectTo: redirectTo },
-    });
-    results.push(otpError ? { email, sent: false, error: otpError.message } : { email, sent: true });
   }
   return results;
 }
