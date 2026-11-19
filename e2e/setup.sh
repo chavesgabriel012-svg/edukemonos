@@ -1,11 +1,15 @@
 #!/usr/bin/env bash
 # Prepares the end-to-end environment: local Supabase (Docker), demo keys in apps/web/.env.local,
 # the official Mathematics PDF in a cache, and the fixture units loaded as drafts.
-# Then: pnpm --filter web dev --hostname 127.0.0.1 & ; pnpm test:e2e
+# Then: e2e/dev.sh # Then: pnpm --filter web dev --hostname 127.0.0.1 & ; pnpm test:e2e ; pnpm test:e2e
 set -euo pipefail
 cd "$(dirname "$0")/.."
 pnpm exec supabase start -x studio,imgproxy,edge-runtime,logflare,vector,realtime,postgres-meta,supavisor >/dev/null
 eval "$(pnpm exec supabase status -o env | grep -E '^(API_URL|ANON_KEY|SERVICE_ROLE_KEY)=')"
+if [ -f apps/web/.env.local ] && ! grep -Eq '^NEXT_PUBLIC_SUPABASE_URL=("?)https?://(127\.0\.0\.1|localhost)' apps/web/.env.local; then
+  echo "apps/web/.env.local points to a non-local Supabase. Move it away (e.g. mv apps/web/.env.local apps/web/.env.local.bak) and run again." >&2
+  exit 1
+fi
 cat > apps/web/.env.local <<ENV
 NEXT_PUBLIC_SUPABASE_URL=$API_URL
 NEXT_PUBLIC_SUPABASE_ANON_KEY=$ANON_KEY

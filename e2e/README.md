@@ -4,7 +4,7 @@ Corren contra un Supabase **local** (Docker) y `next dev`. Nunca tocan el proyec
 
 ```bash
 e2e/setup.sh                                          # Supabase local + datos de prueba
-pnpm --filter web dev --hostname 127.0.0.1 &          # la app en http://127.0.0.1:3000 (con claves locales, ver abajo)
+e2e/dev.sh &                                          # la app en http://127.0.0.1:3000, solo con claves locales
 pnpm test:e2e
 ```
 
@@ -21,13 +21,11 @@ hacer `admin` a la cuenta del equipo y publicar un tema de 7.º con 4 ejercicios
 7. Una cuenta sin invitación ve el texto de docente sin colegio y no tiene el formulario de sección.
 
 La app debe correr en `127.0.0.1:3000` (el `site_url` del Supabase local, que usan los enlaces de invitación) con las
-claves **locales**; si la terminal exporta las de producción, páselas en la línea de comandos:
-
-```bash
-eval "$(pnpm exec supabase status -o env | grep -E '^(API_URL|ANON_KEY|SERVICE_ROLE_KEY)=')"
-NEXT_PUBLIC_SUPABASE_URL=$API_URL NEXT_PUBLIC_SUPABASE_ANON_KEY=$ANON_KEY SUPABASE_SERVICE_ROLE_KEY=$SERVICE_ROLE_KEY \
-  OPENAI_API_KEY= ANTHROPIC_API_KEY= pnpm --filter web dev --hostname 127.0.0.1 --port 3000 &
-```
+claves **locales**. Use siempre `e2e/dev.sh`: toma las claves de `supabase status`, se niega si no son locales y deja en
+blanco las de IA. Un `pnpm dev` simple usaría las claves de producción si la terminal las exporta. Por eso
+`e2e/global-setup.ts` aborta antes de correr si `E2E_BASE_URL`, `E2E_DB_URL` o `E2E_MAILPIT_URL` no son locales, o si
+la app que responde está construida con un Supabase `.supabase.co`. `e2e/setup.sh` tampoco sobrescribe un
+`apps/web/.env.local` que apunte a otro Supabase: se niega y pide moverlo.
 
 La plantilla de invitación (`supabase/templates/invite.html`) se carga con `supabase/config.toml`; si la cambia,
 reinicie el stack (`pnpm exec supabase stop` y `e2e/setup.sh`).
