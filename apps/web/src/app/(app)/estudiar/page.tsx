@@ -33,20 +33,24 @@ export default async function StudyHomePage() {
           className="pointer-events-none absolute -right-6 -bottom-10 size-[112px] rotate-[-8deg] opacity-95 sm:right-10 sm:bottom-6 sm:size-[168px]" />
       </div>
 
-      <ul className="grid gap-3 sm:grid-cols-3">
-        {grades.map((g) => (
-          <li key={g}>
-            <Link href={`/estudiar/${g}`}
-              className="group flex h-full items-center justify-between rounded-[22px] border bg-card p-6 transition hover:-translate-y-0.5 hover:border-violeta hover:shadow-[0_12px_32px_-12px_rgba(23,19,42,0.18)] focus-visible:outline-2 focus-visible:outline-offset-2">
-              <span className="flex flex-col">
-                <span className="font-heading text-6xl leading-none font-bold text-violeta">{g}.º</span>
-                <span className="mt-1 text-lg">{GRADE_LABEL[g]} año</span>
-              </span>
-              <ArrowRight aria-hidden strokeWidth={2.5} className="size-6 text-muted-foreground transition group-hover:translate-x-1 group-hover:text-violeta" />
-            </Link>
-          </li>
-        ))}
-      </ul>
+      {grades.length === 0 ? (
+        <p className="rounded-[22px] border border-dashed p-5 text-muted-foreground">Tu colegio todavía no tiene materias abiertas.</p>
+      ) : (
+        <ul className="grid gap-3 sm:grid-cols-3">
+          {grades.map((g) => (
+            <li key={g}>
+              <Link href={`/estudiar/${g}`}
+                className="group flex h-full items-center justify-between rounded-[22px] border bg-card p-6 transition hover:-translate-y-0.5 hover:border-violeta hover:shadow-[0_12px_32px_-12px_rgba(23,19,42,0.18)] focus-visible:outline-2 focus-visible:outline-offset-2">
+                <span className="flex flex-col">
+                  <span className="font-heading text-6xl leading-none font-bold text-violeta">{g}.º</span>
+                  <span className="mt-1 text-lg">{GRADE_LABEL[g]} año</span>
+                </span>
+                <ArrowRight aria-hidden strokeWidth={2.5} className="size-6 text-muted-foreground transition group-hover:translate-x-1 group-hover:text-violeta" />
+              </Link>
+            </li>
+          ))}
+        </ul>
+      )}
 
       <div className="flex flex-col items-start gap-4 rounded-[22px] bg-card p-5 sm:flex-row sm:items-center sm:justify-between sm:p-6">
         <div className="flex items-start gap-3">
