@@ -52,7 +52,7 @@ describe("accounts and roles", () => {
 
   it("hides other users' profiles", async () => {
     expect(count(await as(db, t1, `select id from public.profiles`))).toBe(1);
-    expect(count(await as(db, admin, `select id from public.profiles`))).toBe(4);
+    expect(count(await as(db, admin, `select id from public.profiles`))).toBe(5);
   });
 });
 
@@ -1764,5 +1764,184 @@ describe("badges and certificates", () => {
     expect(out.own.map((b) => b.badge)).toEqual(["skill_mastered", "unit_mastered"]);
     expect(out.r.moved.badges).toBe(2);
     expect(out.moved).toEqual(out.own);
+  });
+});
+
+describe("school console schema", () => {
+  const newTables = ["institution_offerings", "institution_hidden_units", "institution_invites", "admin_audit_log"];
+
+  it("has RLS on every new table and no direct grants", async () => {
+    const rows = await db.query(
+      `select relname, relrowsecurity from pg_class
+       where relnamespace = 'public'::regnamespace and relname = any($1) order by relname`,
+      [newTables],
+    );
+    expect(rows.rows).toEqual([...newTables].sort().map((relname) => ({ relname, relrowsecurity: true })));
+    for (const table of newTables) {
+      await expectDenied(db, anon, `insert into public.${table} default values`, [], /permission denied/);
+      await expectDenied(db, user(ids.coordA), `insert into public.${table} default values`, [], /permission denied/);
+      await expectDenied(db, admin, `insert into public.${table} default values`, [], /permission denied/);
+    }
+  });
+
+  it("stamps published_at when a unit is published", async () => {
+    const out = await scenario(async (q) => {
+      const [{ id }] = await q(
+        `insert into public.curriculum_units (cycle_id, grade_id, subject_id, title, source_id, source_page, source_excerpt, status)
+         values ('III', 7, 'matematicas', 'Tema nuevo', $1, 1, 'x', 'draft') returning id`,
+        [ids.source],
+      );
+      const [draft] = await q(`select published_at from public.curriculum_units where id = $1`, [id]);
+      await q(`update public.curriculum_units set status = 'published' where id = $1`, [id]);
+      const [first] = await q(`select published_at from public.curriculum_units where id = $1`, [id]);
+      await q(`select pg_sleep(0.01)`);
+      await q(`update public.curriculum_units set title = 'Otro título' where id = $1`, [id]);
+      const [second] = await q(`select published_at from public.curriculum_units where id = $1`, [id]);
+      // Existing published units are backfilled by the migration.
+      const [old] = await q(`select published_at from public.curriculum_units where id = $1`, [ids.unitPublished]);
+      return { draft, first, second, old };
+    });
+    expect(out.draft.published_at).toBeNull();
+    expect(out.first.published_at).not.toBeNull();
+    expect(out.second.published_at).toEqual(out.first.published_at);
+    expect(out.old.published_at).not.toBeNull();
+  });
+
+  it("hides a school's own source from everyone outside it", async () => {
+    const out = await scenario(async (q, act) => {
+      const [{ id: src }] = await q(
+        `insert into public.curriculum_sources (source_key, kind, subject_id, cycle_id, title, url, institution_id)
+         values ('own-a', 'program', 'matematicas', 'III', 'Fuente propia A', 'https://www.mep.go.cr/propio-a.pdf', $1) returning id`,
+        [ids.schoolA],
+      );
+      const [{ id: unit }] = await q(
+        `insert into public.curriculum_units (cycle_id, grade_id, subject_id, title, source_id, source_page, source_excerpt, status)
+         values ('III', 7, 'matematicas', 'Tema propio A', $1, 1, 'x', 'published') returning id`,
+        [src],
+      );
+      await q(`insert into public.materials (unit_id, kind, content, status) values ($1, 'summary', 'propio', 'published')`, [unit]);
+      await q(
+        `insert into public.items (unit_id, stem, options, correct_index, explanation, distractor_explanations, difficulty, verified, status)
+         values ($1, 'propio', array['a','b','c','d'], 0, 'e', array['x','x','x','x'], 3, true, 'published')`,
+        [unit],
+      );
+      await q(`insert into public.group_members (group_id, student_id, display_name, consent_at) values ($1, $3, 'Sintético A', now()), ($2, $4, 'Sintético B', now())`, [ids.groupA, ids.groupB, ids.student1, ids.student2]);
+      const read = async (actor: Parameters<typeof act>[0]) => {
+        await act(actor);
+        const r = {
+          sources: (await q(`select id from public.curriculum_sources where id = $1`, [src])).length,
+          units: (await q(`select id from public.curriculum_units where id = $1`, [unit])).length,
+          materials: (await q(`select id from public.materials where unit_id = $1`, [unit])).length,
+          items: (await q(`select id from public.items where unit_id = $1`, [unit])).length,
+          common: (await q(`select id from public.curriculum_units where id = $1`, [ids.unitPublished])).length,
+        };
+        await act(null);
+        return r;
+      };
+      return {
+        inside: await read(s1),
+        outside: await read(s2),
+        visitor: await read(anon),
+        coordinator: await read(user(ids.coordA)),
+        reviewer: await read(reviewer),
+      };
+    });
+    expect(out.inside).toEqual({ sources: 1, units: 1, materials: 1, items: 1, common: 1 });
+    expect(out.outside).toEqual({ sources: 0, units: 0, materials: 0, items: 0, common: 1 });
+    expect(out.visitor).toEqual({ sources: 0, units: 0, materials: 0, items: 0, common: 1 });
+    expect(out.coordinator).toEqual({ sources: 1, units: 1, materials: 1, items: 1, common: 1 });
+    expect(out.reviewer).toEqual({ sources: 1, units: 1, materials: 1, items: 1, common: 1 });
+  });
+
+  it("attributes AI usage to the student's most recent school", async () => {
+    const out = await scenario(async (q) => {
+      await q(
+        `insert into public.group_members (group_id, student_id, display_name, consent_at, joined_at) values
+           ($1, $3, 'Sintético', now(), now() - interval '10 days'),
+           ($2, $3, 'Sintético', now(), now() - interval '1 day')`,
+        [ids.groupA, ids.groupB, ids.student1],
+      );
+      await q(`insert into public.ai_usage (provider, model, purpose, success, actor_id) values ('test', 'm', 'tutor', true, $1)`, [ids.student1]);
+      await q(`insert into public.ai_usage (provider, model, purpose, success) values ('test', 'm', 'verify', true)`);
+      const rows = await q(`select purpose, institution_id from public.ai_usage where model = 'm' order by purpose`);
+      const [{ fn }] = await q(`select private.student_institution($1) as fn`, [ids.student1]);
+      const [{ none }] = await q(`select private.student_institution($1) as none`, [ids.loner]);
+      const [{ coord }] = await q(`select private.person_institution($1) as coord`, [ids.coordA]);
+      return { rows, fn, none, coord };
+    });
+    expect(out.rows).toEqual([
+      { purpose: "tutor", institution_id: ids.schoolB },
+      { purpose: "verify", institution_id: null },
+    ]);
+    expect(out.fn).toBe(ids.schoolB);
+    expect(out.none).toBeNull();
+    expect(out.coord).toBe(ids.schoolA);
+  });
+
+  it("lets the section's school win when the usage carries a section", async () => {
+    const out = await scenario(async (q) => {
+      await q(`insert into public.group_members (group_id, student_id, display_name, consent_at) values ($1, $2, 'Sintético', now())`, [ids.groupB, ids.student1]);
+      await q(`update public.sections set institution_id = $1 where id = $2`, [ids.schoolA, ids.section1]);
+      await q(`insert into public.ai_usage (provider, model, purpose, success, actor_id, section_id) values ('test', 'm', 'tutor', true, $1, $2)`, [ids.student1, ids.section1]);
+      return q(`select institution_id from public.ai_usage where section_id = $1`, [ids.section1]);
+    });
+    expect(out).toEqual([{ institution_id: ids.schoolA }]);
+  });
+
+  it("is_school_coordinator is true for a member admin of that school, never for a platform admin", async () => {
+    const out = await scenario(async (q, act) => {
+      const ask = async (actor: Parameters<typeof act>[0], school: string) => {
+        await act(actor);
+        const [{ r }] = await q(`select private.is_school_coordinator($1) as r`, [school]);
+        await act(null);
+        return r;
+      };
+      await q(`insert into public.institution_members (institution_id, profile_id, role) values ($1, $2, 'teacher')`, [ids.schoolA, ids.teacher1]);
+      return {
+        coordA: await ask(user(ids.coordA), ids.schoolA),
+        coordAatB: await ask(user(ids.coordA), ids.schoolB),
+        teacher: await ask(t1, ids.schoolA),
+        platformAdmin: await ask(admin, ids.schoolA),
+      };
+    });
+    expect(out).toEqual({ coordA: true, coordAatB: false, teacher: false, platformAdmin: false });
+  });
+
+  it("reads the new tables by school membership, and the audit log by platform admins only", async () => {
+    const out = await scenario(async (q, act) => {
+      await q(`insert into public.institution_offerings (institution_id, grade_id, subject_id) values ($1, 7, 'matematicas')`, [ids.schoolA]);
+      await q(`insert into public.institution_hidden_units (institution_id, unit_id) values ($1, $2)`, [ids.schoolA, ids.unitPublished]);
+      await q(`insert into public.institution_invites (institution_id, email, display_name) values ($1, 'docente@example.test', 'Docente')`, [ids.schoolA]);
+      await q(`insert into public.admin_audit_log (actor_id, institution_id, action, detail) values ($1, $2, 'test', '{}')`, [ids.admin, ids.schoolA]);
+      const read = async (actor: Parameters<typeof act>[0]) => {
+        await act(actor);
+        const r = {
+          offerings: (await q(`select 1 from public.institution_offerings`)).length,
+          hidden: (await q(`select 1 from public.institution_hidden_units`)).length,
+          invites: (await q(`select 1 from public.institution_invites`)).length,
+          audit: (await q(`select 1 from public.admin_audit_log`)).length,
+        };
+        await act(null);
+        return r;
+      };
+      return { coordA: await read(user(ids.coordA)), teacher: await read(t1), student: await read(s1), admin: await read(admin) };
+    });
+    expect(out.coordA).toEqual({ offerings: 1, hidden: 1, invites: 1, audit: 0 });
+    expect(out.teacher).toEqual({ offerings: 0, hidden: 0, invites: 0, audit: 0 });
+    expect(out.student).toEqual({ offerings: 0, hidden: 0, invites: 0, audit: 0 });
+    expect(out.admin).toEqual({ offerings: 1, hidden: 1, invites: 1, audit: 1 });
+  });
+
+  it("keeps one open invite per school and email, lowercase", async () => {
+    await scenario(async (q) => {
+      await q(`insert into public.institution_invites (institution_id, email, display_name) values ($1, 'a@example.test', 'A')`, [ids.schoolA]);
+      await db.query("savepoint s1");
+      await expect(q(`insert into public.institution_invites (institution_id, email, display_name) values ($1, 'a@example.test', 'A')`, [ids.schoolA])).rejects.toThrow(/duplicate key/);
+      await db.query("rollback to savepoint s1");
+      await expect(q(`insert into public.institution_invites (institution_id, email, display_name) values ($1, 'A@Example.test', 'A')`, [ids.schoolA])).rejects.toThrow(/check constraint/);
+      await db.query("rollback to savepoint s1");
+      await q(`update public.institution_invites set revoked_at = now() where institution_id = $1`, [ids.schoolA]);
+      await q(`insert into public.institution_invites (institution_id, email, display_name) values ($1, 'a@example.test', 'A')`, [ids.schoolA]);
+    });
   });
 });

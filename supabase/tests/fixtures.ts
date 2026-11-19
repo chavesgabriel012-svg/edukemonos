@@ -32,6 +32,12 @@ export const ids = {
   tutorSession1: "00000000-0000-4000-8000-000000000501",
   tutorSession2: "00000000-0000-4000-8000-000000000502",
   diagnostic1: "00000000-0000-4000-8000-000000000601",
+  // Two schools with an active group each, and the coordinator of school A.
+  coordA: "00000000-0000-4000-8000-0000000000c5",
+  schoolA: "00000000-0000-4000-8000-000000000701",
+  schoolB: "00000000-0000-4000-8000-000000000702",
+  groupA: "00000000-0000-4000-8000-000000000711",
+  groupB: "00000000-0000-4000-8000-000000000712",
 } as const;
 
 export interface Fixture {
@@ -147,6 +153,22 @@ export async function loadFixture(db: pg.Client): Promise<Fixture> {
   );
   await db.query(
     `insert into public.ai_usage (provider, model, purpose, success) values ('test', 'test-model', 'tutor', true)`,
+  );
+
+  await db.query(`insert into auth.users (id, email, is_anonymous) values ($1, 'coord-a@example.test', false)`, [ids.coordA]);
+  await db.query(
+    `insert into public.institutions (id, name) values ($1, 'Colegio A (prueba)'), ($2, 'Colegio B (prueba)')`,
+    [ids.schoolA, ids.schoolB],
+  );
+  await db.query(
+    `insert into public.institution_members (institution_id, profile_id, role) values ($1, $2, 'admin')`,
+    [ids.schoolA, ids.coordA],
+  );
+  await db.query(
+    `insert into public.groups (id, name, grade_id, institution_id, created_by, join_code, active) values
+       ($1, '7-A', 7, $3, $5, 'FIXGRPA1', true),
+       ($2, '7-B', 7, $4, $5, 'FIXGRPB1', true)`,
+    [ids.groupA, ids.groupB, ids.schoolA, ids.schoolB, ids.coordA],
   );
 
   const codes = await db.query<{ id: string; join_code: string }>(
