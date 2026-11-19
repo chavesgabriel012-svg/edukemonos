@@ -35,7 +35,9 @@ export function PeoplePanel({ institutionId, people, members, initialState }: { 
   const [text, setText] = useState(initialState?.list ?? "");
   const preview = state.preview;
   // What gets sent is the text in the box, so the preview must be of that same text.
-  const previewed = preview !== undefined && state.list === text;
+  // A textarea's value comes back from FormData with CRLF line breaks, so compare without them.
+  const lines = (v: string | undefined) => v?.replace(/\r\n?/g, "\n");
+  const previewed = preview !== undefined && lines(state.list) === lines(text);
   const sent = state.sent !== undefined;
   // Marks, from the list already loaded, who is in the school or already invited (the server still decides).
   const known = new Map<string, string>();
