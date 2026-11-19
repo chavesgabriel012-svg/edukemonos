@@ -1,6 +1,6 @@
 # Consola del equipo Eduka (`/admin`): diseño
 
-Fecha: 19 de noviembre de 2026. Estado: listo para la aprobación del fundador.
+Fecha: 19 de noviembre de 2026. Estado: aprobado por el fundador el 19 de noviembre de 2026.
 
 ## Intención
 
@@ -210,9 +210,13 @@ para anon ni authenticated: las escrituras pasan por funciones.
      los textos de `/docentes` que hablan de crear una sección por cuenta propia.
 5. **Quitar a un docente** (desde la consola o desde coordinación):
    - revoca la invitación y borra la fila de `institution_members`;
-   - sus secciones del colegio pasan a la coordinación (`sections.teacher_id`) para no perder el
-     avance de los estudiantes. **Llamada mía:** pasan a la coordinadora o el coordinador más antiguo
-     del colegio. No se puede quitar a la única persona de coordinación mientras no haya otra;
+   - sus secciones del colegio pasan a otra persona (`sections.teacher_id`), para no perder el avance
+     de los estudiantes. **Decidido por el fundador:** al quitar a alguien se elige el reemplazo entre
+     los miembros activos del colegio, docentes o coordinación. Si no se elige, quedan con la persona
+     de coordinación con más tiempo en el colegio. No se puede quitar a la única persona de
+     coordinación mientras no haya otra;
+   - además, en cualquier momento se puede cambiar el docente de una sección («el colegio asignó a X
+     persona»), desde la consola y desde la página de coordinación. El cambio queda registrado;
    - queda en `admin_audit_log` o en `teacher_audit_log`, según quién lo hizo.
 6. **Lo que puede hacer la coordinación:** invitar y quitar docentes y coordinación de su propio
    colegio. No puede tocar a otro colegio ni ver nada del equipo Eduka.
