@@ -158,22 +158,6 @@ export async function saveInstitutionCalendar(institutionId: string, _prev: Sett
   return { saved: true };
 }
 
-export async function addInstitutionMember(institutionId: string, _prev: SettingsState, form: FormData): Promise<SettingsState> {
-  if (!UUID.test(institutionId)) return { error: "Institución inválida." };
-  const { supabase } = await requireStaff(`/docente/institucion/${institutionId}`);
-  const email = String(form.get("email") ?? "").trim();
-  const role = form.get("role") === "admin" ? "admin" : "teacher";
-  if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return { error: "Escriba un correo válido." };
-  const { data, error } = await supabase.rpc("add_institution_member", { p_institution: institutionId, p_email: email, p_role: role });
-  if (error) {
-    console.error("add member failed:", error.message);
-    return { error: "No se pudo agregar a esa persona." };
-  }
-  if (!data) return { error: "Esa persona todavía no ha entrado a Eduka. Pídale que entre una vez al panel docente con ese correo y vuelva a intentarlo." };
-  revalidatePath(`/docente/institucion/${institutionId}`);
-  return { saved: true };
-}
-
 // ---------------------------------------------------------------------------
 // Groups (docs/producto/gamificacion.md §12): teacher = subject, guide = group, one code per group.
 // ---------------------------------------------------------------------------
