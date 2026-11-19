@@ -4,7 +4,10 @@ import Link from "next/link";
 import { Kemo } from "@/components/brand/logo";
 import { action } from "@/components/ui/action";
 import { brand } from "@/lib/brand";
-import { GRADE_LABEL, GRADES } from "@/lib/learn";
+import { isDemo, visibleGrades } from "@edukemonos/curriculum";
+import { DemoBanner } from "@/components/learn/demo-banner";
+import { myCatalog } from "@/lib/catalog";
+import { GRADE_LABEL, GRADES, type Grade } from "@/lib/learn";
 
 export const metadata: Metadata = {
   title: "Elige tu año",
@@ -12,9 +15,12 @@ export const metadata: Metadata = {
 };
 
 /** The students' way in: pick a grade. Also the start page of the installed app. */
-export default function StudyHomePage() {
+export default async function StudyHomePage() {
+  const catalog = await myCatalog();
+  const grades = visibleGrades(catalog, GRADES) as Grade[];
   return (
     <section className="space-y-8">
+      {isDemo(catalog) && <DemoBanner />}
       <div className="relative overflow-hidden rounded-[28px] bg-violeta px-6 py-8 text-white sm:px-10 sm:py-10">
         <div className="relative z-10 max-w-xl space-y-3">
           <h1 className="font-heading text-[2.5rem] leading-[0.95] font-bold tracking-tight sm:text-6xl">
@@ -28,7 +34,7 @@ export default function StudyHomePage() {
       </div>
 
       <ul className="grid gap-3 sm:grid-cols-3">
-        {GRADES.map((g) => (
+        {grades.map((g) => (
           <li key={g}>
             <Link href={`/estudiar/${g}`}
               className="group flex h-full items-center justify-between rounded-[22px] border bg-card p-6 transition hover:-translate-y-0.5 hover:border-violeta hover:shadow-[0_12px_32px_-12px_rgba(23,19,42,0.18)] focus-visible:outline-2 focus-visible:outline-offset-2">

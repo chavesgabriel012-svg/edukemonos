@@ -1,18 +1,20 @@
-import type { GameMode } from "@edukemonos/curriculum";
+import { type GameMode, isDemo, unitVisible } from "@edukemonos/curriculum";
 import { BookOpenCheck, ClipboardCheck, Gamepad2, MessageCircleQuestion } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { SubjectIcon } from "@/components/brand/subject-icon";
+import { DemoBanner } from "@/components/learn/demo-banner";
 import { ContentBadge } from "@/components/learn/content-badge";
 import { Markdown } from "@/components/learn/markdown";
 import { ReportButton } from "@/components/learn/report-button";
 import { action } from "@/components/ui/action";
 import { BackLink } from "@/components/ui/back-link";
 import { subjectColor } from "@/lib/brand";
+import { myCatalog } from "@/lib/catalog";
 import type { Material } from "@/lib/learn";
 import { createClient } from "@/lib/supabase/server";
-import { helpResources, TUTOR_LIMITS } from "@/lib/tutor-server";
+import { DEMO_TUTOR_PER_DAY, helpResources, TUTOR_LIMITS } from "@/lib/tutor-server";
 import { Games } from "./games";
 import { Practice } from "./practice";
 import { TutorChat } from "./tutor-chat";
@@ -45,6 +47,9 @@ export default async function UnitPage({ params, searchParams }: PageProps<"/uni
     .eq("status", "published")
     .maybeSingle();
   if (!unit) notFound();
+  const catalog = await myCatalog();
+  if (!unitVisible(catalog, { id: unit.id, gradeId: unit.grade_id, subjectId: unit.subject_id })) notFound();
+  const demo = isDemo(catalog);
   const source = unit.curriculum_sources as unknown as { title: string; version: string | null; url: string } | null;
   const subject = (unit.subjects as unknown as { name: string } | null)?.name ?? unit.subject_id;
 
@@ -86,6 +91,7 @@ export default async function UnitPage({ params, searchParams }: PageProps<"/uni
 
   return (
     <article className="mx-auto max-w-4xl space-y-6">
+      {demo && <DemoBanner />}
       <header className="space-y-3">
         <BackLink href={`/estudiar/${unit.grade_id}/${unit.subject_id}`}>Temas de {subject} · {unit.grade_id}.º</BackLink>
         <div style={{ background: subjectColor(unit.subject_id) }} className="space-y-2 rounded-[28px] px-6 py-6 text-tinta sm:px-8 sm:py-7">
@@ -168,7 +174,7 @@ export default async function UnitPage({ params, searchParams }: PageProps<"/uni
         ? <Games unitId={id} available={games} />
         : <p className="rounded-[22px] border border-dashed p-5 text-muted-foreground">Tu docente no usa los juegos en tu sección. Puedes seguir practicando en «Practicar».</p>)}
 
-      {tab === "tutor" && <TutorChat unitId={id} help={helpResources} limits={{ perSession: TUTOR_LIMITS.perSession, perDay: TUTOR_LIMITS.perDay }} />}
+      {tab === "tutor" && <TutorChat unitId={id} help={helpResources} limits={{ perSession: TUTOR_LIMITS.perSession, perDay: demo ? DEMO_TUTOR_PER_DAY : TUTOR_LIMITS.perDay }} />}
     </article>
   );
 }

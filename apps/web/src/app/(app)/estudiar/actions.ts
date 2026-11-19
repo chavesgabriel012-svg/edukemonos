@@ -2,12 +2,15 @@
 
 import {
   DIAGNOSTIC_LENGTH,
+  subjectVisible,
+  unitVisible,
   nextDifficulty,
   pickDiagnosticItem,
   pickPracticeItem,
   practiceTarget,
 } from "@edukemonos/curriculum";
 import { revalidatePath } from "next/cache";
+import { myCatalog, UNIT_UNAVAILABLE, unitAccess } from "@/lib/catalog";
 import { createClient } from "@/lib/supabase/server";
 import { studentClient } from "@/lib/student-session";
 import type { GameResult, GameRunView, PieceFeedback } from "@/lib/games";
@@ -35,6 +38,7 @@ function fail(error: string): { ok: false; error: string } {
 /** Next practice item of a unit, chosen for the student's mastery and history. */
 export async function nextPracticeItem(unitId: string, excludeId: string | null): Promise<ActionResult<PublicItem | null>> {
   if (!UUID.test(unitId)) return fail("Unidad inválida.");
+  if (!(await unitAccess(unitId)).visible) return fail(UNIT_UNAVAILABLE);
   const supabase = await createClient();
   const { data: items, error } = await supabase
     .from("items")
@@ -116,6 +120,8 @@ export interface DiagnosticStep {
 }
 
 async function diagnosticItems(supabase: Awaited<ReturnType<typeof createClient>>, subject: string, grade: number) {
+  const catalog = await myCatalog();
+  if (!subjectVisible(catalog, grade, subject)) return { unitIds: [] as string[], items: [] as PublicItem[] };
   const { data: units } = await supabase
     .from("curriculum_units")
     .select("id")
@@ -123,7 +129,9 @@ async function diagnosticItems(supabase: Awaited<ReturnType<typeof createClient>
     .eq("grade_id", grade)
     .eq("status", "published")
     .order("sort_order");
-  const unitIds = (units ?? []).map((u: { id: string }) => u.id);
+  const unitIds = (units ?? [])
+    .filter((u: { id: string }) => unitVisible(catalog, { id: u.id, gradeId: grade, subjectId: subject }))
+    .map((u: { id: string }) => u.id);
   if (!unitIds.length) return { unitIds, items: [] as PublicItem[] };
   const { data: items } = await supabase
     .from("items")
@@ -169,6 +177,7 @@ export async function diagnosticStep(diagnosticId: string): Promise<ActionResult
 
 export async function startDiagnostic(subject: string, grade: number): Promise<ActionResult<DiagnosticStep>> {
   if (!/^[a-z_]{2,40}$/.test(subject) || ![7, 8, 9].includes(grade)) return fail("Materia o grado inválido.");
+  if (!subjectVisible(await myCatalog(), grade, subject)) return fail(UNIT_UNAVAILABLE);
   const { supabase, error: sessionError } = await studentClient();
   if (sessionError) return fail(sessionError);
   const { items } = await diagnosticItems(supabase, subject, grade);
@@ -222,8 +231,10 @@ export async function joinSection(_prev: JoinState, form: FormData): Promise<Joi
   const { data, error } = await supabase.rpc("join_with_code", { p_code: code, p_display_name: name, p_consent: consent });
   if (error) {
     if (/invalid or inactive code/.test(error.message)) return { error: "Ese código no existe o la sección ya no está activa. Revísalo con tu docente." };
+    // The form turns this marker into the text the student reads.
+    if (/school not accepting students/.test(error.message)) return { error: "school not accepting students" };
     if (/staff accounts/.test(error.message)) return { error: "Las cuentas de docente o revisor no pueden unirse como estudiantes." };
-    console.error("join_section failed:", error.message);
+    console.error("join_with_code failed:", error.message);
     return { error: "No pudimos unirte a la sección. Intenta de nuevo." };
   }
   return { joined: data as NonNullable<JoinState["joined"]> };
@@ -272,6 +283,7 @@ export interface TutorMessage {
  */
 export async function openTutor(unitId: string): Promise<ActionResult<{ sessionId: string | null; messages: TutorMessage[] }>> {
   if (!UUID.test(unitId)) return fail("Unidad inválida.");
+  if (!(await unitAccess(unitId)).visible) return fail(UNIT_UNAVAILABLE);
   const { supabase, userId, error } = await studentClient();
   if (error || !userId) return fail(error ?? "No pudimos abrir tu sesión.");
   const { data: session } = await supabase
@@ -323,6 +335,7 @@ export async function writingFeedback(_prev: WritingState, form: FormData): Prom
     .eq("status", "published")
     .maybeSingle();
   if (!item) return { error: "Esta consigna no está disponible." };
+  if (!(await unitAccess(item.unit_id)).visible) return { error: UNIT_UNAVAILABLE };
   if (!(await consumeQuota(`writing:day:${userId}`, TUTOR_LIMITS.writingPerDay, 86_400))) {
     return { error: "Por hoy ya pediste todas las revisiones de escritura. Mañana puedes seguir." };
   }
@@ -430,6 +443,7 @@ const GAME_MODES = ["pairs", "order", "fill", "find_error", "ghost_race"] as con
 
 export async function startGame(unitId: string, mode: string): Promise<ActionResult<GameRunView>> {
   if (!UUID.test(unitId) || !GAME_MODES.includes(mode as (typeof GAME_MODES)[number])) return fail("Juego inválido.");
+  if (!(await unitAccess(unitId)).visible) return fail(UNIT_UNAVAILABLE);
   const { supabase, error: sessionError } = await studentClient();
   if (sessionError) return fail(sessionError);
   const { data, error } = await supabase.rpc("start_game_run", { p_unit: unitId, p_mode: mode });
@@ -534,6 +548,7 @@ export async function answerTournament(tournamentId: string, itemId: string, ind
 // ---------------------------------------------------------------------------
 export async function logCertificateDownload(unitId: string): Promise<void> {
   if (!UUID.test(unitId)) return;
+  if (!(await unitAccess(unitId)).visible) return;
   const supabase = await createClient();
   const { error } = await supabase.rpc("log_certificate_download", { p_unit: unitId });
   if (error) console.error("log_certificate_download failed:", error.message);

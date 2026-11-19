@@ -1,14 +1,16 @@
-import { levelMessage, STRONG, studyPath, WEAK } from "@edukemonos/curriculum";
+import { isDemo, levelMessage, STRONG, subjectVisible, studyPath, WEAK } from "@edukemonos/curriculum";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Kemo } from "@/components/brand/logo";
 import { SubjectIcon } from "@/components/brand/subject-icon";
+import { DemoBanner } from "@/components/learn/demo-banner";
 import { StreakCard } from "@/components/learn/streak-card";
 import { action } from "@/components/ui/action";
 import { BackLink } from "@/components/ui/back-link";
 import { eyebrow } from "@/components/ui/styles";
 import { brand, subjectColor } from "@/lib/brand";
+import { myCatalog } from "@/lib/catalog";
 import { streakStatus } from "@/lib/streak";
 import { currentUser, GRADE_LABEL, masteryMap, parseGrade, subjectName, unitsFor } from "@/lib/learn";
 
@@ -42,8 +44,10 @@ export default async function SubjectPage({ params }: PageProps<"/estudiar/[grad
   const grade = parseGrade(grado);
   const name = grade ? await subjectName(materia) : null;
   if (!grade || !name) notFound();
+  const catalog = await myCatalog();
+  if (!subjectVisible(catalog, grade, materia)) notFound();
 
-  const units = await unitsFor(materia, grade);
+  const units = await unitsFor(materia, grade, catalog);
   const mastery = await masteryMap(units.flatMap((u) => u.skills.map((s) => s.id)));
   const path = studyPath(units.map((u) => ({ ...u, skill_ids: u.skills.map((s) => s.id) })), mastery);
   const { supabase, user } = await currentUser();
@@ -59,6 +63,7 @@ export default async function SubjectPage({ params }: PageProps<"/estudiar/[grad
 
   return (
     <section className="space-y-8">
+      {isDemo(catalog) && <DemoBanner />}
       <div className="space-y-3">
         <BackLink href={`/estudiar/${grade}`}>Materias de {GRADE_LABEL[grade].toLowerCase()}</BackLink>
         <div style={{ background: subjectColor(materia) }} className="flex items-end justify-between gap-4 rounded-[28px] px-6 py-7 text-tinta sm:px-8 sm:py-9">

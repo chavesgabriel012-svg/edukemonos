@@ -5,8 +5,11 @@ import { SubjectIcon } from "@/components/brand/subject-icon";
 import { StreakCard } from "@/components/learn/streak-card";
 import { BackLink } from "@/components/ui/back-link";
 import { eyebrow } from "@/components/ui/styles";
+import { isDemo, visibleGrades } from "@edukemonos/curriculum";
+import { DemoBanner } from "@/components/learn/demo-banner";
 import { subjectColor } from "@/lib/brand";
-import { GRADE_LABEL, parseGrade, subjectsForGrade } from "@/lib/learn";
+import { myCatalog } from "@/lib/catalog";
+import { GRADE_LABEL, GRADES, parseGrade, subjectsForGrade } from "@/lib/learn";
 import { streakStatus } from "@/lib/streak";
 
 export const metadata: Metadata = { title: "Elige una materia" };
@@ -14,12 +17,15 @@ export const metadata: Metadata = { title: "Elige una materia" };
 export default async function GradePage({ params }: PageProps<"/estudiar/[grado]">) {
   const grade = parseGrade((await params).grado);
   if (!grade) notFound();
-  const [subjects, streak] = await Promise.all([subjectsForGrade(grade), streakStatus()]);
+  const catalog = await myCatalog();
+  if (!visibleGrades(catalog, GRADES).includes(grade)) notFound();
+  const [subjects, streak] = await Promise.all([subjectsForGrade(grade, catalog), streakStatus()]);
   const available = subjects.filter((s) => s.available);
   const upcoming = subjects.filter((s) => !s.available);
 
   return (
     <section className="space-y-8">
+      {isDemo(catalog) && <DemoBanner />}
       <div className="space-y-2">
         <BackLink href="/estudiar">Cambiar de año</BackLink>
         <p className={eyebrow}>{GRADE_LABEL[grade]} año</p>

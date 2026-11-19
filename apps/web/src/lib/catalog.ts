@@ -1,5 +1,5 @@
 import "server-only";
-import { type Catalog, DEMO_CATALOG } from "@edukemonos/curriculum";
+import { type Catalog, DEMO_CATALOG, unitVisible } from "@edukemonos/curriculum";
 import { createClient } from "@/lib/supabase/server";
 
 type CatalogRow = {
@@ -29,4 +29,19 @@ export async function myCatalog(): Promise<Catalog> {
     offerings: (row.offerings ?? []).map((o) => ({ gradeId: o.grade_id, subjectId: o.subject_id })),
     hiddenUnitIds: row.hidden_unit_ids ?? [],
   };
+}
+
+export const UNIT_UNAVAILABLE = "Este tema no está disponible en tu colegio.";
+
+/**
+ * Whether the signed-in user's school lets them see the unit. Grade and subject come from the unit
+ * row, read with the request's own client (RLS already hides other schools' own content).
+ * An unknown unit is not visible. Throws like `myCatalog`.
+ */
+export async function unitAccess(unitId: string): Promise<{ visible: boolean; catalog: Catalog }> {
+  const catalog = await myCatalog();
+  const supabase = await createClient();
+  const { data } = await supabase.from("curriculum_units").select("id, grade_id, subject_id").eq("id", unitId).eq("status", "published").maybeSingle();
+  const visible = !!data && unitVisible(catalog, { id: data.id, gradeId: data.grade_id, subjectId: data.subject_id });
+  return { visible, catalog };
 }
