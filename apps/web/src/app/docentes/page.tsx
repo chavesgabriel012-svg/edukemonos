@@ -45,7 +45,7 @@ export default function TeachersPage() {
       <Section labelledBy="grupo-t" tone="card">
         <SectionHeading id="grupo-t" title="Cómo entraría su grupo" lead="Un solo código por grupo. Cada docente ve su materia." />
         <Steps items={[
-          { title: "Se crea el grupo", text: "Por ejemplo, 7-3, con las materias que lleva." },
+          { title: "Su colegio crea el grupo", text: "Por ejemplo, 7-3, con las materias que el colegio aprobó." },
           { title: "Se dicta el código", text: "El mismo para todas las materias del grupo." },
           { title: "Cada estudiante se une", text: "Escribe su nombre y acepta que sus docentes vean su avance." },
           { title: "Usted ve su materia", text: "El docente guía, si lo hay, ve todas las del grupo." },

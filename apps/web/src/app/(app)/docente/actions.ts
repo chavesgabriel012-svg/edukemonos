@@ -10,33 +10,12 @@ import { summarize, type SummaryResult } from "@/lib/teacher-summary";
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 export async function createSection(_prev: { error?: string } | null, form: FormData): Promise<{ error?: string }> {
-  const { supabase, user } = await requireStaff("/docente");
+  await requireStaff("/docente");
   const groupId = String(form.get("group_id") ?? "");
   const subjectId = String(form.get("subject_id") ?? "");
-  if (UUID.test(groupId)) return addSubjectSection(groupId, subjectId, form);
-  const name = String(form.get("name") ?? "").trim();
-  const grade = Number(form.get("grade"));
-  const institution = String(form.get("institution") ?? "").trim();
-  const term = Number(form.get("term"));
-  if (!name || name.length > 80) return { error: "Escriba un nombre para la sección (máximo 80 caracteres)." };
-  if (![7, 8, 9].includes(grade)) return { error: "Elija el año de la sección." };
-  const { data, error } = await supabase
-    .from("sections")
-    .insert({
-      teacher_id: user.id,
-      name,
-      grade_id: grade,
-      institution_text: institution.slice(0, 160) || null,
-      current_term: [1, 2, 3].includes(term) ? term : null,
-      join_code: "",
-    })
-    .select("id")
-    .single();
-  if (error || !data) {
-    console.error("create section failed:", error?.message);
-    return { error: "No se pudo crear la sección. Intente de nuevo." };
-  }
-  redirect(`/docente/seccion/${data.id}`);
+  // Sections only exist inside a group of the teacher's school (no standalone sections).
+  if (!UUID.test(groupId) || !SUBJECT.test(subjectId)) return { error: "Elija el grupo y la materia." };
+  return addSubjectSection(groupId, subjectId, form);
 }
 
 export async function regenerateCode(sectionId: string) {
@@ -204,7 +183,7 @@ const SUBJECT = /^[a-z_]{2,40}$/;
 /** A subject section inside a group: grade and institution come from the group. */
 async function addSubjectSection(groupId: string, subjectId: string, form: FormData): Promise<{ error?: string }> {
   const { supabase, user } = await requireStaff("/docente");
-  if (!SUBJECT.test(subjectId)) return { error: "Elija la materia que enseña en este grupo." };
+  if (!SUBJECT.test(subjectId)) return { error: "Elija el grupo y la materia." };
   const [{ data: group }, { data: subject }] = await Promise.all([
     supabase.from("groups").select("id, name, grade_id").eq("id", groupId).maybeSingle(),
     supabase.from("subjects").select("name").eq("id", subjectId).maybeSingle(),
@@ -226,27 +205,13 @@ async function addSubjectSection(groupId: string, subjectId: string, form: FormD
     .single();
   if (error || !data) {
     if (error?.message.includes("duplicate key")) return { error: `El grupo ${group.name} ya tiene una sección de ${subject.name}.` };
+    if (error?.message.includes("subject not approved for this school")) return { error: "Esa materia todavía no está aprobada por su colegio." };
+    if (error?.message.includes("sections need a school group")) return { error: "Elija el grupo y la materia." };
     if (error?.message.includes("cannot add sections")) return { error: "Solo los docentes de la institución del grupo pueden agregar su materia." };
     console.error("create subject section failed:", error?.message);
     return { error: "No se pudo crear la sección. Intente de nuevo." };
   }
   redirect(`/docente/seccion/${data.id}`);
-}
-
-export async function createGroup(_prev: { error?: string } | null, form: FormData): Promise<{ error?: string }> {
-  const { supabase } = await requireStaff("/docente");
-  const name = String(form.get("name") ?? "").trim();
-  const grade = Number(form.get("grade"));
-  const institution = String(form.get("institution_id") ?? "");
-  if (!name || name.length > 40) return { error: "Escriba el nombre del grupo, por ejemplo 7-3 (máximo 40 caracteres)." };
-  if (![7, 8, 9].includes(grade)) return { error: "Elija el año del grupo." };
-  const { data, error } = await supabase.rpc("create_group", { p_name: name, p_grade: grade, p_institution: UUID.test(institution) ? institution : null });
-  if (error || !data) {
-    if (error?.message.includes("not an admin")) return { error: "Solo quien administra la institución puede crear sus grupos." };
-    console.error("create group failed:", error?.message);
-    return { error: "No se pudo crear el grupo. Intente de nuevo." };
-  }
-  redirect(`/docente/grupo/${data}`);
 }
 
 export async function regenerateGroupCode(groupId: string) {

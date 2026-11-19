@@ -7,7 +7,6 @@ import { brand } from "@/lib/brand";
 import { createClient } from "@/lib/supabase/server";
 import { SectionsGlance } from "@/components/teacher/sections-glance";
 import { formatCode, teacherGlance } from "@/lib/teacher";
-import { NewGroupForm } from "./new-group-form";
 import { NewSectionForm } from "./new-section-form";
 
 export const metadata: Metadata = {
@@ -34,7 +33,7 @@ function Landing() {
             <span className="block text-lima">esta semana.</span>
           </h1>
           <p className="text-lg text-white/85">
-            Cree una sección, comparta el código y vea cómo avanza cada estudiante en los temas del programa.
+            Su colegio lo invita a Eduka. Usted comparte el código de su grupo y ve cómo avanza cada estudiante en los temas del programa.
           </p>
           <div className="flex flex-wrap gap-3">
             <Link href="/docente/demo" className="inline-flex h-[52px] items-center rounded-[14px] bg-lima px-6 font-semibold text-tinta transition hover:bg-[#b5e51f]">
@@ -75,18 +74,44 @@ export default async function TeacherHomePage() {
     return i ? [{ ...i, admin: m.role === "admin" }] : [];
   });
 
-  const [{ data: sections }, { data: groups }, { data: subjects }] = await Promise.all([
+  // A teacher without a school has nothing to do here: the school invites them (spec «Invitaciones y acceso docente»).
+  if (institutions.length === 0) {
+    return (
+      <div className="space-y-4">
+        <h1 className="font-heading text-4xl font-bold">Panel docente</h1>
+        <p className="rounded-[22px] border border-dashed p-5 text-muted-foreground">
+          Su colegio todavía no le dio acceso a Eduka. Si ya debería tenerlo, pídale a la coordinación que lo invite.
+        </p>
+        <Link href="/docente/demo" className="text-sm font-medium underline underline-offset-2">Ver la demostración</Link>
+      </div>
+    );
+  }
+
+  const [{ data: sections }, { data: groups }, { data: subjects }, { data: offerings }] = await Promise.all([
     supabase
       .from("sections")
       .select("id, name, grade_id, join_code, active, current_term, subject_id, subjects(name), groups(name, join_code), section_members(count)")
       .eq("teacher_id", auth.user.id)
       .order("created_at", { ascending: false }),
     // Groups visible to the teacher: theirs, the ones they guide or teach in, and those of their institutions.
-    supabase.from("groups").select("id, name, grade_id, guide_id, created_by, sections(teacher_id)").order("name"),
+    supabase.from("groups").select("id, name, grade_id, institution_id, guide_id, created_by, sections(teacher_id)").order("name"),
     supabase.from("subjects").select("id, name").order("sort"),
+    // Readable by the school's members (RLS); only approved subjects can have sections.
+    supabase.from("institution_offerings").select("institution_id, grade_id, subject_id").eq("status", "aprobado"),
   ]);
+  if (!offerings?.length) {
+    return (
+      <div className="space-y-4">
+        <h1 className="font-heading text-4xl font-bold">Panel docente</h1>
+        <p className="rounded-[22px] border border-dashed p-5 text-muted-foreground">Su colegio está terminando de preparar Eduka.</p>
+        <Link href="/docente/demo" className="text-sm font-medium underline underline-offset-2">Ver la demostración</Link>
+      </div>
+    );
+  }
   const role = (g: { guide_id: string | null; created_by: string; sections: { teacher_id: string }[] }) =>
     g.guide_id === auth.user!.id ? "Guía" : g.sections.some((x) => x.teacher_id === auth.user!.id) ? "Doy una materia" : g.created_by === auth.user!.id ? "Lo creé" : "De mi institución";
+
+  const schoolGroups = (groups ?? []).filter((g) => g.institution_id);
 
   // Shown while the overview of every section (same numbers as each panel) is computed.
   const simple = (
@@ -163,16 +188,17 @@ export default async function TeacherHomePage() {
         </section>
       )}
       <section className="space-y-4 rounded-[22px] border bg-card p-5 sm:p-6">
-        <h2 className="font-heading text-2xl font-bold">Agregar mi materia o crear una sección</h2>
-        <NewSectionForm groups={(groups ?? []).map((g) => ({ id: g.id, name: `${g.name} (${g.grade_id}.º)` }))} subjects={subjects ?? []} />
-      </section>
-      <section className="space-y-4 rounded-[22px] border bg-card p-5 sm:p-6">
-        <h2 className="font-heading text-2xl font-bold">Crear un grupo</h2>
-        <p className="text-sm text-muted-foreground">
-          Un grupo (por ejemplo, 7-3) tiene un solo código: sus estudiantes se unen una vez y quedan en todas las materias. Cada
-          docente agrega su materia y ve solo esa. Se puede asignar una persona guía, que ve todas las materias del grupo.
-        </p>
-        <NewGroupForm institutions={institutions.filter((i) => i.admin).map((i) => ({ id: i.id, name: i.name }))} />
+        <h2 className="font-heading text-2xl font-bold">Agregar mi materia a un grupo</h2>
+        <NewSectionForm
+          groups={schoolGroups.map((g) => ({
+            id: g.id,
+            name: `${g.name} (${g.grade_id}.º)`,
+            subjectIds: (offerings ?? [])
+              .filter((o) => o.institution_id === g.institution_id && o.grade_id === g.grade_id)
+              .map((o) => o.subject_id),
+          }))}
+          subjects={subjects ?? []}
+        />
       </section>
     </div>
   );
