@@ -14,4 +14,7 @@ ENV
 export INGEST_CACHE_DIR="${INGEST_CACHE_DIR:-$PWD/scripts/ingest/.cache-e2e}"
 mkdir -p "$INGEST_CACHE_DIR/units"
 cp e2e/fixtures/extraction-mat-g7.json "$INGEST_CACHE_DIR/units/mep-prog-matematicas-g7.json"
-pnpm ingest load --source mep-prog-matematicas --grade 7
+# The values go on the command line because the ingest CLI never overrides variables already in the
+# environment: a shell exporting the production keys would otherwise load the drafts into production.
+NEXT_PUBLIC_SUPABASE_URL="$API_URL" NEXT_PUBLIC_SUPABASE_ANON_KEY="$ANON_KEY" SUPABASE_SERVICE_ROLE_KEY="$SERVICE_ROLE_KEY" \
+  pnpm ingest load --source mep-prog-matematicas --grade 7
