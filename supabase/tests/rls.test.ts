@@ -2080,6 +2080,40 @@ describe("school program and approval", () => {
     expect(out.approved?.message).toMatch(/approved offerings are withdrawn by the school/);
   });
 
+  it("the Eduka team cannot erase a withdrawal the school made", async () => {
+    const out = await scenario(async (q, act) => {
+      await schoolA(q);
+      await act(admin);
+      await offer(q);
+      await act(user(ids.coordA));
+      await approve(q);
+      await q(`select public.withdraw_offering($1, 7::smallint, 'matematicas')`, [ids.schoolA]);
+      await act(admin);
+      const err = await failure(q, `select public.admin_set_offering($1, 7::smallint, 'matematicas', false)`, [ids.schoolA]);
+      const rows = await q(`select status from public.institution_offerings`);
+      return { err, rows };
+    });
+    expect(out.err?.message).toMatch(/withdrawn offerings stay on record/);
+    expect(out.rows).toEqual([{ status: "retirado" }]);
+  });
+
+  it("weekly Kemo usage comes from ai_usage, so weeks older than the chat retention still count", async () => {
+    const out = await scenario(async (q, act) => {
+      await q(
+        `insert into public.ai_usage (provider, model, purpose, success, institution_id, created_at) values
+           ('t', 'm', 'tutor', true, $1, now() - interval '42 days'),
+           ('t', 'm', 'tutor', true, $1, now() - interval '42 days'),
+           ('t', 'm', 'tutor', true, $2, now() - interval '42 days'),
+           ('t', 'm', 'bulk_material', true, $1, now() - interval '42 days')`, [ids.schoolA, ids.schoolB]);
+      const [{ wk }] = await q(`select private.week_start_cr(now() - interval '42 days')::text as wk`);
+      await act(admin);
+      const [{ u }] = await q(`select public.admin_institution_usage($1) as u`, [ids.schoolA]);
+      return { wk, u };
+    });
+    const week = out.u.weeks.find((w: { week_start: string }) => w.week_start === out.wk);
+    expect(week.tutor_messages).toBe(2);
+  });
+
   it("only the school's coordination approves; platform admins and teachers get 42501", async () => {
     const out = await scenario(async (q, act) => {
       await schoolA(q);

@@ -116,6 +116,9 @@ begin
     if cur = 'aprobado' then
       raise exception 'approved offerings are withdrawn by the school' using errcode = 'P0001';
     end if;
+    if cur = 'retirado' then
+      raise exception 'withdrawn offerings stay on record' using errcode = 'P0001';
+    end if;
     if cur is null then
       return;
     end if;
@@ -356,12 +359,11 @@ begin
         select count(*) from public.mastery_weekly mw
         where mw.student_id in (select student_id from private.institution_students(p_institution))
           and mw.week_start = w.d and mw.score_start < 0.7 and mw.score_end >= 0.7),
+      -- Desde ai_usage (atribuido al colegio y sin purga de 30 días), no desde tutor_messages.
       'tutor_messages', (
-        select count(*) from public.tutor_messages tm
-        join public.tutor_sessions ts on ts.id = tm.session_id
-        where tm.role = 'user'
-          and ts.student_id in (select student_id from private.institution_students(p_institution))
-          and tm.created_at >= private.week_start_instant(w.d) and tm.created_at < private.week_start_instant(w.d + 7))
+        select count(*) from public.ai_usage au
+        where au.institution_id = p_institution and au.purpose = 'tutor' and au.success
+          and au.created_at >= private.week_start_instant(w.d) and au.created_at < private.week_start_instant(w.d + 7))
     ) order by w.d
   ) into weeks
   from (select (cur_week - 7 * g)::date as d from generate_series(0, 7) g) w;
