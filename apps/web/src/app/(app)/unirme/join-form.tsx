@@ -45,7 +45,7 @@ export function JoinForm() {
       {state.error && (
         <p role="alert" className="text-sm text-destructive">
           {state.error.includes("school not accepting students")
-            ? "Tu colegio todavía no está recibiendo estudiantes. Pregúntale a tu docente cuándo empieza."
+            ? "Tu colegio todavía no abre Eduka para estudiantes. Pregúntale a tu docente."
             : state.error}
         </p>
       )}
