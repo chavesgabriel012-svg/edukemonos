@@ -1,6 +1,6 @@
 # Consola del equipo Eduka (`/admin`): diseño
 
-Fecha: 19 de noviembre de 2026. Estado: borrador para aprobación del fundador.
+Fecha: 19 de noviembre de 2026. Estado: listo para la aprobación del fundador.
 
 ## Intención
 
@@ -32,6 +32,16 @@ arma nada: Eduka lo deja listo y el docente solo entra.
   por correo y entran con un enlace, sin contraseña. La coordinación del colegio puede agregar y quitar
   docentes después.
 - El texto de la landing («100 % personalizado») queda como está, porque es la idea del producto.
+- **Eduka es un SaaS B2B.** No hay estudiantes ni docentes sin colegio:
+  - solo usan Eduka los docentes invitados por un colegio que tenga contenido aprobado;
+  - el registro libre de docentes se cierra;
+  - el «contáctenos» o «refiera a su colegio», para un docente cuyo colegio no tiene Eduka, queda
+    para más adelante.
+- **Aprobación:**
+  - el colegio aprueba cada grado y materia antes que nada;
+  - después, los temas nuevos que publique el equipo aparecen solos, y la coordinación recibe un
+    aviso;
+  - la coordinación puede revertir: ocultar un tema o retirar una materia completa.
 
 ## Metas, no metas y anti-metas
 
@@ -41,7 +51,8 @@ arma nada: Eduka lo deja listo y el docente solo entra.
    tocar SQL ni la terminal: colegio, grados y materias, docentes invitados y grupos con código.
 2. **Aprobación del colegio.** La coordinación del colegio revisa y aprueba los temas de cada materia
    y grado antes de que los vean sus estudiantes.
-3. **Docentes por invitación.** Quien no está invitado por un colegio no ve nada de ese colegio.
+3. **Solo colegios.** Usa Eduka quien pertenece a un colegio: el docente invitado y el estudiante que
+   se unió con un código del colegio. Quien no está invitado no ve nada de ningún colegio.
 4. **Separación por colegio desde ya.** Los datos quedan preparados para que, cuando llegue el
    contenido propio, cada colegio vea el suyo sin rehacer nada.
 5. **Gasto de IA visible por colegio**, comparado con un presupuesto mensual.
@@ -54,6 +65,7 @@ arma nada: Eduka lo deja listo y el docente solo entra.
 - Entrar con Google o Microsoft.
 - Facturación y cobros.
 - Una dirección propia por colegio. `institutions.slug` ya está reservado para eso.
+- El «contáctenos» o «refiera a su colegio» para docentes sin colegio.
 
 **Anti-metas.** Si pasa algo de esto, el panel fracasó aunque funcione:
 
@@ -132,8 +144,11 @@ para anon ni authenticated: las escrituras pasan por funciones.
    - `language text`, por defecto `'es'`. Se guarda ya para no migrarlo después. En esta versión no
      cambia nada en la app.
 2. **`institution_offerings`**: qué grados y materias tiene cada colegio.
-   - Columnas: `institution_id`, `grade_id`, `subject_id`, `status` (`pendiente` o `aprobado`),
-     `approved_by`, `approved_at` y `created_at`.
+   - Columnas: `institution_id`, `grade_id`, `subject_id`, `status` (`pendiente`, `aprobado` o
+     `retirado`), `approved_by`, `approved_at`, `seen_through` (hasta cuándo vio la coordinación los
+     temas nuevos) y `created_at`.
+   - `retirado` es la reversión de una materia completa. Sus estudiantes dejan de verla, y las
+     secciones y el avance se conservan por si se vuelve a aprobar.
    - Llave única: `(institution_id, grade_id, subject_id)`.
    - Solo se puede ofrecer una combinación de grado y materia que tenga temas publicados.
    - **Llamada mía:** solo la coordinación del colegio aprueba. El equipo Eduka no puede aprobar en
@@ -141,18 +156,27 @@ para anon ni authenticated: las escrituras pasan por funciones.
      de la plataforma: la función de aprobar exige ser miembro con rol `admin` del colegio. Mientras
      el colegio no tenga una coordinadora o un coordinador que haya aceptado su invitación, la consola
      lo muestra en la lista de lo que falta.
-3. **`institution_invites`**: las invitaciones a docentes y coordinación.
+3. **`institution_hidden_units`**: los temas que la coordinación ocultó para su colegio.
+   - Columnas: `institution_id`, `unit_id`, `hidden_by` y `hidden_at`.
+   - Ocultar un tema es la reversión de un tema suelto. Se puede volver a mostrar.
+4. **`curriculum_units.published_at`**: cuándo se publicó cada tema.
+   - Lo pone un trigger al pasar a `published`.
+   - Para los temas que ya existen se rellena con `reviewed_at` o `updated_at`.
+   - Sirve para el aviso de temas nuevos: los publicados después de `seen_through`.
+5. **`institution_invites`**: las invitaciones a docentes y coordinación.
    - Columnas: `id`, `institution_id`, `email` (en minúsculas y sin espacios), `display_name`,
      `role` (`institution_role`), `invited_by`, `invited_at`, `accepted_profile_id`, `accepted_at`
      y `revoked_at`.
    - Índice único: `(institution_id, email)` entre las invitaciones no revocadas.
-4. **Separación del contenido.** Se agrega `curriculum_sources.institution_id uuid null`, donde
+6. **Separación del contenido.** Se agrega `curriculum_sources.institution_id uuid null`, donde
    `null` significa el catálogo común (MEP).
    - La política de lectura de `curriculum_units`, `materials` e `items` pasa a ser: publicado **y**
      (fuente común **o** la persona pertenece a ese colegio).
    - Hoy todas las fuentes son comunes, así que nadie ve un cambio. Queda lista para el contenido
      propio.
-5. **`admin_audit_log`**: cada acción del equipo Eduka en la consola, con quién, qué, sobre qué
+7. **Datos que ya existen.** **Llamada mía:** los grupos y secciones sin colegio que haya en
+   producción (hoy hay 0 secciones) quedan como están, pero sus códigos dejan de aceptar estudiantes.
+8. **`admin_audit_log`**: cada acción del equipo Eduka en la consola, con quién, qué, sobre qué
    colegio y cuándo. Lo leen solo los administradores.
 
 ### Invitaciones y acceso docente
@@ -176,8 +200,14 @@ para anon ni authenticated: las escrituras pasan por funciones.
 4. **Quien entra con correo sin invitación no ve nada de ningún colegio.**
    - Al entrar a `/docente` ve: «Su colegio todavía no le dio acceso a Eduka. Si ya debería tenerlo,
      pídale a la coordinación que lo invite», y un enlace a la demostración.
-   - **Llamada mía:** crear secciones sueltas, sin colegio, queda cerrado para cuentas sin colegio.
-     En producción hay 0 secciones, así que no afecta a nadie. Ver la pregunta 2 en «Preguntas abiertas».
+   - **Decidido por el fundador:** se cierra la creación de secciones y grupos sin colegio.
+     `create_group(..., null)` y la sección suelta dejan de existir para docentes. En producción hay
+     0 secciones, así que no afecta a nadie.
+   - Un docente invitado cuyo colegio todavía no tiene ningún grado y materia aprobado ve: «Su
+     colegio está terminando de preparar Eduka». Solo puede crear secciones de grados y materias
+     aprobados.
+   - Cambian la prueba `e2e/docente-estudiante.spec.ts`, que pasa a usar el flujo con invitación, y
+     los textos de `/docentes` que hablan de crear una sección por cuenta propia.
 5. **Quitar a un docente** (desde la consola o desde coordinación):
    - revoca la invitación y borra la fila de `institution_members`;
    - sus secciones del colegio pasan a la coordinación (`sections.teacher_id`) para no perder el
@@ -248,14 +278,33 @@ materia pendiente:
 
 Al aprobar, quedan registrados quién lo hizo y cuándo.
 
-**Llamada mía: qué ven los estudiantes del colegio.**
+Después de la aprobación:
 
-- Un estudiante que se unió a un grupo o sección de un colegio ve en `/estudiar` solo los grados y
-  materias **aprobados** de ese colegio.
-- Un estudiante sin colegio sigue viendo el catálogo público, como en la demostración de hoy.
-- El docente del colegio solo puede crear secciones de materias aprobadas.
+- **Temas nuevos.** Los que publique el equipo en un grado y materia aprobados aparecen solos para
+  los estudiantes, porque ya pasaron la verificación. En la página de coordinación aparece un aviso:
+  «N temas nuevos en 8.º Matemáticas desde su última revisión», con la lista y dos acciones por tema,
+  «Ocultar» y «Entendido». Esta última mueve `seen_through`.
+- **Revertir.** La coordinación puede ocultar cualquier tema, y volver a mostrarlo, o retirar un grado
+  y materia completo. Retirar no borra secciones ni avance.
 
-Ver la pregunta 1 en «Preguntas abiertas».
+**Qué ven los estudiantes** (decidido por el fundador: no hay estudiantes sin colegio):
+
+- El estudiante entra con el código de un grupo o una sección de su colegio. Los códigos solo existen
+  dentro de un colegio, y un colegio en estado `preparando` todavía no acepta estudiantes.
+- Ve en `/estudiar` y en `/unidad` solo los grados y materias **aprobados** de su colegio, sin los
+  temas ocultos. Va como filtro en las páginas y en las acciones del servidor, y la regla se escribe
+  una vez en `packages/curriculum`. No va como regla en la base de datos para el catálogo del MEP,
+  que ya es público. El contenido **propio** de un colegio sí queda protegido en la base de datos
+  (punto 6 de «Datos»).
+- Kemo solo abre conversaciones sobre temas visibles para ese estudiante.
+
+**Llamada mía: la demostración pública.**
+
+- La landing necesita que un colegio o un inversionista pueda probar Eduka. «Probar» sigue abriendo
+  la demostración actual, que ahora dice claramente que es una demostración.
+- Quien llega sin colegio no es un estudiante: es un visitante en modo demostración.
+- Para acotar el gasto, en la demostración Kemo tiene un límite menor: 10 mensajes por día.
+- Nada de lo que hace un visitante llega a ningún docente.
 
 ### Presupuesto de IA
 
@@ -282,26 +331,11 @@ Ver la pregunta 1 en «Preguntas abiertas».
 - **De punta a punta** (`e2e/`, Supabase local y Mailpit):
   1. Un admin crea el colegio, marca 7.º Matemáticas e invita a un docente y a una coordinadora.
   2. La coordinadora entra y aprueba.
-  3. El docente entra por la invitación y crea su sección.
+  3. El admin pasa el colegio a `activo`. El docente entra por la invitación y crea su sección.
   4. Un estudiante se une y ve solo 7.º Matemáticas.
-  5. Una cuenta sin invitación no ve nada.
-
-## Preguntas abiertas (del fundador)
-
-1. **¿Qué ven los estudiantes de un colegio?**
-   - **Llamada mía:** solo los grados y materias aprobados de su colegio, como un filtro en
-     `/estudiar` y en la creación de secciones. No va como una regla de acceso en la base de datos:
-     el catálogo del MEP ya es público en la demostración.
-   - Para el contenido **propio** de un colegio, la regla de acceso sí va en la base de datos
-     (punto 4 de «Datos»).
-2. **¿Se cierra la creación de secciones y grupos para cuentas sin colegio?**
-   - Es decir, ¿se termina el registro libre de docentes?
-   - Si se cierra, cambian la creación de secciones y grupos, la prueba
-     `e2e/docente-estudiante.spec.ts` y los textos de `/docentes`.
-3. **Cuando se publican temas nuevos en un grado y materia ya aprobados, ¿aparecen solos o vuelven a
-   pedir aprobación?**
-   - Si vuelven a pedir aprobación, la aprobación se guarda por tema.
-   - En los dos casos, la coordinación puede retirar una aprobación.
+  5. La coordinadora oculta un tema y el estudiante deja de verlo.
+  6. Un código de un colegio en `preparando` no acepta estudiantes.
+  7. Una cuenta sin invitación no ve nada de ningún colegio y no puede crear secciones.
 
 ## Lo que se deja al constructor
 
