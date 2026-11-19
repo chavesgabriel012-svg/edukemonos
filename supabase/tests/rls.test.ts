@@ -2266,3 +2266,189 @@ describe("school program and approval", () => {
     expect(out.deniedUsage?.code).toBe("42501");
   });
 });
+
+// ---------------------------------------------------------------------------
+// Consola: invitations, members and replacements
+// ---------------------------------------------------------------------------
+describe("school invitations and members", () => {
+  async function failure(q: Q, sql: string, params: unknown[] = []) {
+    await db.query("savepoint f");
+    try {
+      await q(sql, params);
+      return null;
+    } catch (e) {
+      return { code: (e as { code?: string }).code, message: (e as Error).message };
+    } finally {
+      await db.query("rollback to savepoint f");
+    }
+  }
+  const invite = (q: Q, people: unknown[], institution = ids.schoolA) =>
+    q(`select public.create_invites($1, $2::jsonb) as r`, [institution, JSON.stringify(people)]).then((r) => r[0].r as {
+      created: { id: string; email: string }[]; skipped: { email: string; reason: string }[];
+    });
+
+  /** teacher1 (guide of group A, two sections) and teacher2 are members of A, with accepted invitations. */
+  async function staffA(q: Q) {
+    await q(`insert into public.institution_members (institution_id, profile_id, role) values ($1, $2, 'teacher'), ($1, $3, 'teacher')`, [ids.schoolA, ids.teacher1, ids.teacher2]);
+    await q(
+      `insert into public.institution_invites (institution_id, email, display_name, accepted_profile_id, accepted_at) values
+         ($1, 'teacher1@example.test', 'Docente Uno', $2, now()), ($1, 'teacher2@example.test', 'Docente Dos', $3, now())`,
+      [ids.schoolA, ids.teacher1, ids.teacher2],
+    );
+    await q(`update public.groups set guide_id = $2 where id = $1`, [ids.groupA, ids.teacher1]);
+    await q(
+      `insert into public.sections (teacher_id, name, grade_id, group_id, subject_id, join_code) values
+         ($1, 'Mate', 7, $2, 'matematicas', ''), ($1, 'Español', 7, $2, 'espanol', '')`,
+      [ids.teacher1, ids.groupA],
+    );
+  }
+  const sectionTeachers = async (q: Q) =>
+    (await q(`select distinct teacher_id from public.sections where group_id = $1`, [ids.groupA])).map((r) => r.teacher_id);
+
+  it("a new account with the invited email joins the school with the invited role", async () => {
+    const out = await scenario(async (q, act) => {
+      await act(user(ids.coordA));
+      const res = await invite(q, [{ email: "Ana@Colegio.cr ", name: "Ana Mora", role: "teacher" }]);
+      await act(null);
+      const uid = "00000000-0000-4000-8000-0000000000e1";
+      await q(`insert into auth.users (id, email, is_anonymous) values ($1, 'ana@colegio.cr', false)`, [uid]);
+      const member = await q(`select role from public.institution_members where institution_id = $1 and profile_id = $2`, [ids.schoolA, uid]);
+      const inv = await q(`select accepted_profile_id, accepted_at is not null as done from public.institution_invites where institution_id = $1 and email = 'ana@colegio.cr'`, [ids.schoolA]);
+      const [prof] = await q(`select display_name from public.profiles where id = $1`, [uid]);
+      const audit = await q(`select action from public.admin_audit_log where institution_id = $1 order by id`, [ids.schoolA]);
+      return { res, uid, member, inv, prof, audit };
+    });
+    expect(out.res.created.map((c) => c.email)).toEqual(["ana@colegio.cr"]);
+    expect(out.member).toEqual([{ role: "teacher" }]);
+    expect(out.inv).toEqual([{ accepted_profile_id: out.uid, done: true }]);
+    expect(out.prof.display_name).toBe("Ana Mora");
+    expect(out.audit.map((a) => a.action)).toContain("create_invites");
+  });
+
+  it("an existing account claims a new invitation on sign-in", async () => {
+    const out = await scenario(async (q, act) => {
+      await act(admin);
+      await invite(q, [{ email: "Teacher2@example.test", name: "Docente Dos", role: "admin" }]);
+      await act(user(ids.teacher2));
+      const [{ n }] = await q(`select public.claim_my_invites() as n`);
+      const [{ again }] = await q(`select public.claim_my_invites() as again`);
+      await act(null);
+      const member = await q(`select role from public.institution_members where institution_id = $1 and profile_id = $2`, [ids.schoolA, ids.teacher2]);
+      return { n, again, member };
+    });
+    expect(out.n).toBe(1);
+    expect(out.again).toBe(0);
+    expect(out.member).toEqual([{ role: "admin" }]);
+  });
+
+  it("the coordination invites in its own school only; teachers and students cannot", async () => {
+    const out = await scenario(async (q, act) => {
+      await act(user(ids.coordA));
+      const own = await invite(q, [{ email: "uno@colegio.cr", name: "Uno" }]);
+      const other = await failure(q, `select public.create_invites($1, '[{"email":"x@y.cr","name":"X"}]'::jsonb)`, [ids.schoolB]);
+      await act(t1);
+      const teacher = await failure(q, `select public.create_invites($1, '[{"email":"x@y.cr","name":"X"}]'::jsonb)`, [ids.schoolA]);
+      await act(s1);
+      const student = await failure(q, `select * from public.institution_people($1)`, [ids.schoolA]);
+      await act(user(ids.coordA));
+      const [{ n }] = await q(`select count(*)::int as n from public.institution_people($1)`, [ids.schoolA]);
+      const direct = await failure(q, `select public.add_institution_member($1, 'a@b.cr')`, [ids.schoolA]);
+      return { own, other, teacher, student, n, direct };
+    });
+    expect(out.own.created.length).toBe(1);
+    expect(out.other?.code).toBe("42501");
+    expect(out.teacher?.code).toBe("42501");
+    expect(out.student?.code).toBe("42501");
+    expect(out.n).toBe(2);   // the coordinator and the new invitation
+    expect(out.direct?.code).toBe("42501");
+  });
+
+  it("inviting the same email twice, or a current member, is skipped", async () => {
+    const out = await scenario(async (q, act) => {
+      await q(`insert into public.institution_members (institution_id, profile_id, role) values ($1, $2, 'teacher')`, [ids.schoolA, ids.teacher1]);
+      await act(user(ids.coordA));
+      const first = await invite(q, [{ email: "dup@colegio.cr", name: "Dup" }]);
+      const second = await invite(q, [{ email: " DUP@colegio.cr", name: "Dup" }, { email: "Teacher1@example.test", name: "T1" }]);
+      return { first, second };
+    });
+    expect(out.first.created.length).toBe(1);
+    expect(out.second.created).toEqual([]);
+    expect(out.second.skipped).toEqual([
+      { email: "dup@colegio.cr", reason: "already_invited" },
+      { email: "teacher1@example.test", reason: "already_member" },
+    ]);
+  });
+
+  it("revoking a pending invitation stops it from being claimed", async () => {
+    const out = await scenario(async (q, act) => {
+      await act(user(ids.coordA));
+      const res = await invite(q, [{ email: "Teacher2@example.test", name: "Dos" }]);
+      await q(`select public.revoke_invite($1)`, [res.created[0].id]);
+      await act(user(ids.teacher2));
+      const [{ n }] = await q(`select public.claim_my_invites() as n`);
+      return { n };
+    });
+    expect(out.n).toBe(0);
+  });
+
+  it("removing a teacher hands their sections to the named replacement and clears the guide seat", async () => {
+    const out = await scenario(async (q, act) => {
+      await staffA(q);
+      await act(user(ids.coordA));
+      await q(`select public.remove_institution_member($1, $2, $3)`, [ids.schoolA, ids.teacher1, ids.teacher2]);
+      await act(null);
+      const [g] = await q(`select guide_id from public.groups where id = $1`, [ids.groupA]);
+      const [inv] = await q(`select revoked_at is not null as revoked from public.institution_invites where institution_id = $1 and email = 'teacher1@example.test'`, [ids.schoolA]);
+      const members = await q(`select profile_id from public.institution_members where institution_id = $1 and profile_id = $2`, [ids.schoolA, ids.teacher1]);
+      const audit = await q(`select action from public.admin_audit_log where institution_id = $1 and action = 'remove_member'`, [ids.schoolA]);
+      return { teachers: await sectionTeachers(q), g, inv, members, audit };
+    });
+    expect(out.teachers).toEqual([ids.teacher2]);
+    expect(out.g.guide_id).toBeNull();
+    expect(out.inv.revoked).toBe(true);
+    expect(out.members).toEqual([]);
+    expect(out.audit.length).toBe(1);
+  });
+
+  it("without a replacement the sections go to the longest-standing coordinator; the only coordinator cannot be removed", async () => {
+    const out = await scenario(async (q, act) => {
+      await staffA(q);
+      await q(`update public.institution_members set created_at = now() - interval '2 days' where institution_id = $1 and profile_id = $2`, [ids.schoolA, ids.coordA]);
+      await q(`insert into public.institution_members (institution_id, profile_id, role) values ($1, $2, 'admin')`, [ids.schoolA, ids.reviewer]);
+      await act(user(ids.coordA));
+      await q(`select public.remove_institution_member($1, $2)`, [ids.schoolA, ids.teacher1]);
+      const teachers = await sectionTeachers(q);
+      const outsider = await failure(q, `select public.remove_institution_member($1, $2, $3)`, [ids.schoolA, ids.teacher2, ids.teacher1]);
+      await act(null);
+      await q(`delete from public.institution_members where institution_id = $1 and profile_id = $2`, [ids.schoolA, ids.reviewer]);
+      await act(user(ids.coordA));
+      const last = await failure(q, `select public.remove_institution_member($1, $2, $3)`, [ids.schoolA, ids.coordA, ids.teacher2]);
+      const demote = await failure(q, `select public.set_member_role($1, $2, 'teacher')`, [ids.schoolA, ids.coordA]);
+      return { teachers, outsider, last, demote };
+    });
+    expect(out.teachers).toEqual([ids.coordA]);
+    expect(out.outsider?.message).toMatch(/replacement/);   // teacher1 was removed: not an active member
+    expect(out.last?.message).toMatch(/last coordinator/);
+    expect(out.demote?.message).toMatch(/last coordinator/);
+  });
+
+  it("reassign_section requires a member of the section's school", async () => {
+    const out = await scenario(async (q, act) => {
+      await staffA(q);
+      const [{ id }] = await q(`select id from public.sections where group_id = $1 and subject_id = 'matematicas'`, [ids.groupA]);
+      await act(user(ids.coordA));
+      const notMember = await failure(q, `select public.reassign_section($1, $2)`, [id, ids.reviewer]);
+      await q(`select public.reassign_section($1, $2)`, [id, ids.teacher2]);
+      await act(t1);
+      const denied = await failure(q, `select public.reassign_section($1, $2)`, [id, ids.teacher1]);
+      await act(null);
+      const [s] = await q(`select teacher_id from public.sections where id = $1`, [id]);
+      const audit = await q(`select action from public.admin_audit_log where action = 'reassign_section'`);
+      return { notMember, s, denied, audit };
+    });
+    expect(out.notMember?.message).toMatch(/not a member/);
+    expect(out.s.teacher_id).toBe(ids.teacher2);
+    expect(out.denied?.code).toBe("42501");
+    expect(out.audit.length).toBe(1);
+  });
+});
