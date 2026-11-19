@@ -2077,7 +2077,7 @@ describe("school program and approval", () => {
       [ids.groupA, ids.student1, ids.student2],
     );
   }
-  const offer = (q: Q, institution = ids.schoolA, grade = 7, subject = "matematicas") =>
+  const offer = (q: Q, institution: string = ids.schoolA, grade = 7, subject = "matematicas") =>
     q(`select public.admin_set_offering($1, $2::smallint, $3, true)`, [institution, grade, subject]);
   const approve = (q: Q) => q(`select public.approve_offering($1, 7::smallint, 'matematicas')`, [ids.schoolA]);
   const catalog = async (q: Q) => (await q(`select public.my_catalog() as c`))[0].c as {
@@ -2545,7 +2545,7 @@ describe("school access", () => {
     }
   }
   const newSection = (subject: string | null, group: string | null, teacher: string) =>
-    [`insert into public.sections (teacher_id, name, grade_id, group_id, subject_id, join_code) values ($1, 'nueva', 7, $2, $3, '')`, [teacher, group, subject]] as const;
+    [`insert into public.sections (teacher_id, name, grade_id, group_id, subject_id, join_code) values ($1, 'nueva', 7, $2, $3, '')`, [teacher, group, subject]] as [string, unknown[]];
 
   /** teacher1 teaches in A (approved 7.º Math), teacher2 in B. */
   async function setup(q: Q) {
