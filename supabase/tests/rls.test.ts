@@ -1794,16 +1794,18 @@ describe("school console schema", () => {
       const [draft] = await q(`select published_at from public.curriculum_units where id = $1`, [id]);
       await q(`update public.curriculum_units set status = 'published' where id = $1`, [id]);
       const [first] = await q(`select published_at from public.curriculum_units where id = $1`, [id]);
-      await q(`select pg_sleep(0.01)`);
+      // now() is fixed inside a transaction, so backdate the stamp to prove a later update leaves it alone.
+      await q(`update public.curriculum_units set published_at = '2020-01-01' where id = $1`, [id]);
       await q(`update public.curriculum_units set title = 'Otro título' where id = $1`, [id]);
       const [second] = await q(`select published_at from public.curriculum_units where id = $1`, [id]);
-      // Existing published units are backfilled by the migration.
+      // unitPublished was inserted as 'published' after the migrations, so the INSERT trigger stamps it.
+      // The migration's backfill of rows that already existed cannot be exercised from here.
       const [old] = await q(`select published_at from public.curriculum_units where id = $1`, [ids.unitPublished]);
       return { draft, first, second, old };
     });
     expect(out.draft.published_at).toBeNull();
     expect(out.first.published_at).not.toBeNull();
-    expect(out.second.published_at).toEqual(out.first.published_at);
+    expect(new Date(out.second.published_at).toISOString()).toBe('2020-01-01T00:00:00.000Z');
     expect(out.old.published_at).not.toBeNull();
   });
 
@@ -1855,6 +1857,48 @@ describe("school console schema", () => {
     expect(out.visitor).toEqual({ sources: 0, units: 0, skills: 0, prereqs: 0, materials: 0, items: 0, common: 1 });
     expect(out.coordinator).toEqual({ sources: 1, units: 1, skills: 1, prereqs: 1, materials: 1, items: 1, common: 1 });
     expect(out.reviewer).toEqual({ sources: 1, units: 1, skills: 1, prereqs: 1, materials: 1, items: 1, common: 1 });
+  });
+
+  it("does not serve a school's own content through security-definer functions", async () => {
+    const out = await scenario(async (q, act) => {
+      const [{ id: src }] = await q(
+        `insert into public.curriculum_sources (source_key, kind, subject_id, cycle_id, title, url, institution_id)
+         values ('own-a2', 'program', 'matematicas', 'III', 'Fuente propia A', 'https://www.mep.go.cr/propio-a2.pdf', $1) returning id`,
+        [ids.schoolA],
+      );
+      const [{ id: unit }] = await q(
+        `insert into public.curriculum_units (cycle_id, grade_id, subject_id, title, source_id, source_page, source_excerpt, status)
+         values ('III', 7, 'matematicas', 'Tema propio A', $1, 1, 'x', 'published') returning id`,
+        [src],
+      );
+      const [{ id: item }] = await q(
+        `insert into public.items (unit_id, stem, options, correct_index, explanation, distractor_explanations, difficulty, verified, status)
+         values ($1, 'propio', array['a','b','c','d'], 2, 'e', array['x','x','x','x'], 3, true, 'published') returning id`,
+        [unit],
+      );
+      await q(`insert into public.group_members (group_id, student_id, display_name, consent_at) values ($1, $3, 'Sintético A', now()), ($2, $4, 'Sintético B', now())`, [ids.groupA, ids.groupB, ids.student1, ids.student2]);
+      const attempt = async (actor: Parameters<typeof act>[0]) => {
+        await act(actor);
+        const calls: Record<string, () => Promise<unknown>> = {
+          check: () => q(`select public.check_answer($1, 2::smallint) as r`, [item]),
+          submit: () => q(`select public.submit_attempt($1, 2::smallint) as r`, [item]),
+          game: () => q(`select public.start_game_run($1, 'ghost_race') as r`, [unit]),
+        };
+        const res: Record<string, string> = {};
+        for (const [k, call] of Object.entries(calls)) {
+          await db.query("savepoint x");
+          try { await call(); res[k] = "ok"; } catch (e) { res[k] = (e as Error).message; await db.query("rollback to savepoint x"); }
+        }
+        await act(null);
+        return res;
+      };
+      return { inside: await attempt(s1), outside: await attempt(s2), visitor: await attempt(anon) };
+    });
+    expect(out.inside.check).toBe("ok");
+    expect(out.inside.submit).toBe("ok");
+    expect(out.inside.game).toBe("ok");
+    expect(out.outside).toEqual({ check: "item not available", submit: "item not available", game: "unit not available" });
+    expect(out.visitor.check).toBe("item not available");
   });
 
   it("attributes AI usage to the student's most recent school", async () => {

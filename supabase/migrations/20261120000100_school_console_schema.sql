@@ -281,3 +281,68 @@ create policy invites_read on public.institution_invites for select to authentic
   using (private.is_school_coordinator(institution_id) or private.is_admin());
 create policy audit_log_read on public.admin_audit_log for select to authenticated
   using (private.is_admin());
+
+-- ---------------------------------------------------------------------------
+-- Funciones security definer que entregan contenido: también exigen la fuente
+-- ---------------------------------------------------------------------------
+-- Las políticas de arriba no alcanzan a las funciones que leen como dueño. Cada una de estas
+-- mantiene su versión más reciente tal cual y solo agrega private.can_read_source() sobre la fuente
+-- del tema. No se cambia private.unit_is_published(): quien no tiene auth.uid() (service_role, el
+-- cierre del torneo) dejaría de verlo todo. Se reescribe desde pg_get_functiondef() para no copiar
+-- a mano versiones largas; si algún patrón deja de encontrarse, la migración falla en vez de
+-- dejar la función sin proteger.
+--   check_answer, submit_attempt   califican un ítem y devuelven la clave y las explicaciones.
+--   start_game_run                 devuelve enunciados y opciones de un tema.
+--   tournament_questions           devuelve enunciados y opciones del torneo.
+-- Revisadas y sin cambio: review_items (solo revisores), finish_diagnostic y finish_game_run
+-- (solo leen intentos propios y no devuelven contenido), my_badges y verify_certificate (devuelven
+-- el título de lo que ya se ganó), private.tournament_pool (la llama el cierre sin auth.uid(); el
+-- filtro va en tournament_questions), tournament_topics, section_scope_skills y las demás de uso
+-- interno (private.*, no devuelven contenido a quien llama).
+do $do$
+declare
+  fn regprocedure;
+  def text;
+  patched text;
+begin
+  foreach fn in array array[
+    'public.check_answer(uuid, smallint)'::regprocedure,
+    'public.submit_attempt(uuid, smallint, text, integer, smallint, uuid, public.attempt_context, uuid)'::regprocedure,
+    'public.start_game_run(uuid, text)'::regprocedure
+  ] loop
+    def := pg_get_functiondef(fn);
+    patched := regexp_replace(
+      def,
+      'private\.unit_is_published\((i\.unit_id|p_unit)\)',
+      '(private.unit_is_published(\1) and private.can_read_source(private.unit_source_id(\1)))',
+      'g'
+    );
+    if patched = def then
+      raise exception 'no unit_is_published() call found in %', fn;
+    end if;
+    execute patched;
+  end loop;
+
+  def := pg_get_functiondef('public.tournament_questions(uuid)'::regprocedure);
+  patched := replace(
+    def,
+    'select p.id from private.tournament_pool(t.skill_ids) p(id)',
+    'select p.id from private.tournament_pool(t.skill_ids) p(id)
+      join public.items pi on pi.id = p.id
+      where private.can_read_source(private.unit_source_id(pi.unit_id))'
+  );
+  if patched = def then
+    raise exception 'tournament_questions: pool selection not found';
+  end if;
+  def := patched;
+  patched := replace(
+    def,
+    'join public.items i on i.id = q.id',
+    'join public.items i on i.id = q.id and private.can_read_source(private.unit_source_id(i.unit_id))'
+  );
+  if patched = def then
+    raise exception 'tournament_questions: question join not found';
+  end if;
+  execute patched;
+end;
+$do$;
