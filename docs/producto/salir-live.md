@@ -10,9 +10,28 @@ Eduka tiene tres partes:
 - **Colegio:** todo lo anterior, hecho con el contenido del colegio.
 
 Las dos primeras ya funcionan de punta a punta. La tercera, armar y administrar un colegio, ya tiene
-su consola en la rama `producto/eduka-v2` (filas 1, 2 y 3 de abajo). Falta la revisión del fundador y
-aplicar las migraciones en producción. Lo que sigue por scripts: subir el programa propio de un
-colegio, y generar y verificar contenido.
+su consola en la rama `producto/eduka-v2` (filas 1, 2, 3 y 12 de abajo). Falta la revisión del
+fundador y ponerla en producción con los pasos de la sección siguiente. Lo que sigue por scripts:
+subir el programa propio de un colegio, y generar y verificar contenido.
+
+## Puesta en producción de la consola
+
+En este orden, en el panel de Supabase de producción y en Vercel:
+
+1. **Migraciones antes que la web.** Aplicar en el editor SQL de Supabase, una por una y en orden,
+   `supabase/migrations/20261120000100` a `20261120000500`. Cada una corre sola como una
+   transacción. Si la web nueva se publica antes, `myCatalog()` falla en cada sesión iniciada y
+   `/estudiar` deja de funcionar.
+2. **«Confirm email» encendido** en Auth → Sign In / Providers → Email. Apagado, cualquiera podría
+   registrarse con un correo invitado y quedarse con la invitación.
+3. **Plantilla de invitación.** Pegar `supabase/templates/invite.html` en Auth → Email Templates →
+   Invite user.
+4. **Site URL** en Auth → URL Configuration: el origen de la app en producción (por ejemplo
+   `https://app.<dominio>`), para que los enlaces de los correos vuelvan a Eduka.
+5. **SMTP propio** (fila 4) y la variable `EMAIL_SMTP_CONFIGURED=true` en Vercel.
+6. **El equipo Eduka como administrador**: en el editor SQL,
+   `update public.profiles set role = 'admin' where id in (select id from auth.users where email in ('…'));`
+   con los correos del equipo, después de que cada persona haya entrado una vez.
 
 ## Lo que se revisó
 
@@ -59,7 +78,7 @@ tutor más «inteligente», porque no nos diferencia.
 | 9 | **Pruebas de punta a punta en CI.** Ya existen `revisar.spec.ts` y `consola.spec.ts`, pero se corren a mano. Faltan correrlas en CI, sumar el tutor simulado y probar al docente guía | Hoy dependen de que alguien se acuerde de correrlas |
 | 10 | **Prompts sin «colegios públicos de Costa Rica»** fijo: el nombre, el nivel y el idioma salen del colegio | Seis prompts lo dicen hoy (`packages/ai/src/prompts/`) |
 | 11 | **Grados y materias desde la base**, no desde el código; Word y presentaciones además de PDF | 7.º a 9.º y las seis materias están escritos en el código, y la ingestión solo lee PDF |
-| 12 | **Coordinación del colegio** puede agregar y quitar docentes y ver todas las secciones | Hoy depende del equipo Eduka |
+| 12 | **Coordinación del colegio** puede agregar y quitar docentes y ver todas las secciones. **Hecho en esta rama** (falta la revisión del fundador y la puesta en producción): invita y quita docentes, cambia su rol, ve la lista de secciones del colegio y las reasigna. No abre el panel de una sección ajena | Hoy depende del equipo Eduka |
 | 13 | **Política de contenido** para que una CSP completa no rompa el sitio | Ya están los encabezados básicos; una CSP con nonces necesita probarse página por página |
 
 | 14 | **Textos honestos en la landing**: «100 % personalizado» y «con los programas del MEP» describen la meta, no lo que existe hoy | `competencia.md` pide describir lo que existe |

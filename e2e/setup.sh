@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Prepares the end-to-end environment: local Supabase (Docker), demo keys in apps/web/.env.local,
 # the official Mathematics PDF in a cache, and the fixture units loaded as drafts.
-# Then: e2e/dev.sh # Then: pnpm --filter web dev --hostname 127.0.0.1 & ; pnpm test:e2e ; pnpm test:e2e
+# Then: e2e/dev.sh (in the background), then pnpm test:e2e.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 pnpm exec supabase start -x studio,imgproxy,edge-runtime,logflare,vector,realtime,postgres-meta,supavisor >/dev/null
