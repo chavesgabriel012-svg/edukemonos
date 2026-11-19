@@ -155,6 +155,7 @@ export async function saveInstitutionCalendar(institutionId: string, _prev: Sett
     return { error: "No se pudo guardar el calendario. Intente de nuevo." };
   }
   revalidatePath(`/docente/institucion/${institutionId}`);
+  revalidatePath(`/admin/colegios/${institutionId}`);
   return { saved: true };
 }
 
@@ -219,6 +220,7 @@ export async function setGroupGuide(groupId: string, _prev: SettingsState, form:
   }
   if (!data) return { error: "Esa persona todavía no ha entrado a Eduka. Pídale que entre una vez al panel docente con ese correo y vuelva a intentarlo." };
   revalidatePath(`/docente/grupo/${groupId}`);
+  revalidatePath("/admin/colegios/[id]", "page");
   return { saved: true };
 }
 

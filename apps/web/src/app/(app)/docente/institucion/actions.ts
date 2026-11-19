@@ -31,6 +31,16 @@ export interface InviteState {
   skipped?: { email: string; reason: "already_member" | "already_invited" }[];
 }
 
+/** The coordination page and the Eduka console show the same data, so both are refreshed. */
+function refresh(institutionId: string) {
+  revalidatePath(`/docente/institucion/${institutionId}`);
+  revalidatePath(`/admin/colegios/${institutionId}`);
+}
+function refreshAll() {
+  revalidatePath("/docente/institucion/[id]", "page");
+  revalidatePath("/admin/colegios/[id]", "page");
+}
+
 const INVALID = { error: "Algo no es válido. Recargue la página e intente de nuevo." };
 
 /** Turns a database error into a Spanish message, without leaking SQL text. */
@@ -52,7 +62,7 @@ async function rpc(institutionId: string, name: string, args: Record<string, unk
   const { supabase } = await requireStaff(`/docente/institucion/${institutionId}`);
   const { error } = await supabase.rpc(name, args);
   if (error) return explain(error, fallback);
-  revalidatePath(`/docente/institucion/${institutionId}`);
+  refresh(institutionId);
   return {};
 }
 
@@ -103,7 +113,7 @@ export async function invitePeople(institutionId: string, _prev: InviteState | n
 
   const toSend = parsed.people.filter((p) => created.includes(p.email.toLowerCase())).map((p) => ({ email: p.email, name: p.name }));
   const results = toSend.length ? await sendInvites(toSend, requestOrigin(await headers())) : [];
-  revalidatePath(`/docente/institucion/${institutionId}`);
+  refresh(institutionId);
   return {
     sent: results.filter((r) => r.sent).length,
     existing: results.filter((r) => r.existing).map((r) => r.email),
@@ -151,7 +161,7 @@ export async function reassignSection(sectionId: string, teacherId: string): Pro
   const { supabase } = await requireStaff("/docente");
   const { error } = await supabase.rpc("reassign_section", { p_section: sectionId, p_teacher: teacherId });
   if (error) return explain(error, "No se pudo reasignar la sección.");
-  revalidatePath("/docente/institucion/[id]", "page");
+  refreshAll();
   return {};
 }
 
@@ -172,12 +182,12 @@ export async function createGroups(institutionId: string, _prev: GroupsState | n
   for (const name of names) {
     const { error } = await supabase.rpc("create_group", { p_name: name, p_grade: grade, p_institution: institutionId });
     if (error) {
-      revalidatePath(`/docente/institucion/${institutionId}`);
+      refresh(institutionId);
       const base = explain(error, `No se pudo crear el grupo ${name}.`).error;
       return { error: created ? `${base} Se crearon ${created} grupos antes del error.` : base, created };
     }
     created += 1;
   }
-  revalidatePath(`/docente/institucion/${institutionId}`);
+  refresh(institutionId);
   return { created };
 }
