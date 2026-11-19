@@ -1993,3 +1993,242 @@ describe("school console schema", () => {
     });
   });
 });
+
+// ---------------------------------------------------------------------------
+// Consola: the school approves its program; catalog and summaries
+// ---------------------------------------------------------------------------
+describe("school program and approval", () => {
+  /** Runs `sql` and returns the error code and message instead of throwing (inside a scenario). */
+  async function failure(q: Q, sql: string, params: unknown[] = []) {
+    await db.query("savepoint f");
+    try {
+      await q(sql, params);
+      return null;
+    } catch (e) {
+      return { code: (e as { code?: string }).code, message: (e as Error).message };
+    } finally {
+      await db.query("rollback to savepoint f");
+    }
+  }
+
+  /** teacher1 is a teacher of A; student1 and student2 are in group A; the common 7.º Math unit is published. */
+  async function schoolA(q: Q) {
+    await q(`insert into public.institution_members (institution_id, profile_id, role) values ($1, $2, 'teacher')`, [ids.schoolA, ids.teacher1]);
+    await q(
+      `insert into public.group_members (group_id, student_id, display_name, consent_at) values
+         ($1, $2, 'Estudiante Sintético Uno', now()), ($1, $3, 'Estudiante Sintético Dos', now())`,
+      [ids.groupA, ids.student1, ids.student2],
+    );
+  }
+  const offer = (q: Q, institution = ids.schoolA, grade = 7, subject = "matematicas") =>
+    q(`select public.admin_set_offering($1, $2::smallint, $3, true)`, [institution, grade, subject]);
+  const approve = (q: Q) => q(`select public.approve_offering($1, 7::smallint, 'matematicas')`, [ids.schoolA]);
+  const catalog = async (q: Q) => (await q(`select public.my_catalog() as c`))[0].c as {
+    institution_id: string | null; status: string | null;
+    offerings: { grade_id: number; subject_id: string }[]; hidden_unit_ids: string[];
+  };
+  const program = async (q: Q) => (await q(`select public.institution_program($1) as p`, [ids.schoolA]))[0].p as {
+    grade_id: number; subject_id: string; status: string;
+    units: { id: string; title: string; hidden: boolean; is_new: boolean }[];
+  }[];
+
+  it("only platform admins offer, and only where there is published content", async () => {
+    const out = await scenario(async (q, act) => {
+      await act(admin);
+      const noContent = await failure(q, `select public.admin_set_offering($1, 9::smallint, 'matematicas', true)`, [ids.schoolA]);
+      await offer(q);
+      const rows = await q(`select status from public.institution_offerings where institution_id = $1`, [ids.schoolA]);
+      await act(user(ids.coordA));
+      const notAdmin = await failure(q, `select public.admin_set_offering($1, 7::smallint, 'matematicas', true)`, [ids.schoolA]);
+      const notAdminUpsert = await failure(q, `select public.admin_upsert_institution(null, 'X', 'x', 'preparando', null)`);
+      return { noContent, rows, notAdmin, notAdminUpsert };
+    });
+    expect(out.noContent?.message).toMatch(/no published content/);
+    expect(out.rows).toEqual([{ status: "pendiente" }]);
+    expect(out.notAdmin?.code).toBe("42501");
+    expect(out.notAdminUpsert?.code).toBe("42501");
+  });
+
+  it("creates and edits a school, and logs it", async () => {
+    const out = await scenario(async (q, act) => {
+      await act(admin);
+      const [{ id }] = await q(`select public.admin_upsert_institution(null, 'Colegio Nuevo (prueba)', 'nuevo', 'preparando', 25) as id`);
+      await q(`select public.admin_upsert_institution($1, 'Colegio Nuevo', 'nuevo', 'activo', null)`, [id]);
+      const inst = await q(`select name, status, ai_monthly_budget_usd from public.institutions where id = $1`, [id]);
+      const log = await q(`select action from public.admin_audit_log where institution_id = $1 order by id`, [id]);
+      return { inst, log };
+    });
+    expect(out.inst).toEqual([{ name: "Colegio Nuevo", status: "activo", ai_monthly_budget_usd: null }]);
+    expect(out.log.length).toBe(2);
+  });
+
+  it("withdraws a pending offering but not an approved one", async () => {
+    const out = await scenario(async (q, act) => {
+      await schoolA(q);
+      await act(admin);
+      await offer(q);
+      await q(`select public.admin_set_offering($1, 7::smallint, 'matematicas', false)`, [ids.schoolA]);
+      const afterDelete = await q(`select 1 from public.institution_offerings`);
+      await offer(q);
+      await act(user(ids.coordA));
+      await approve(q);
+      await act(admin);
+      const approved = await failure(q, `select public.admin_set_offering($1, 7::smallint, 'matematicas', false)`, [ids.schoolA]);
+      return { afterDelete, approved };
+    });
+    expect(out.afterDelete).toEqual([]);
+    expect(out.approved?.message).toMatch(/approved offerings are withdrawn by the school/);
+  });
+
+  it("only the school's coordination approves; platform admins and teachers get 42501", async () => {
+    const out = await scenario(async (q, act) => {
+      await schoolA(q);
+      await act(admin);
+      await offer(q);
+      const byAdmin = await failure(q, `select public.approve_offering($1, 7::smallint, 'matematicas')`, [ids.schoolA]);
+      await act(t1);
+      const byTeacher = await failure(q, `select public.approve_offering($1, 7::smallint, 'matematicas')`, [ids.schoolA]);
+      const hideByTeacher = await failure(q, `select public.set_unit_hidden($1, $2, true)`, [ids.schoolA, ids.unitPublished]);
+      await act(user(ids.coordA));
+      await approve(q);
+      await act(null);
+      const row = await q(`select status, approved_by, approved_at is not null as at, seen_through is not null as seen from public.institution_offerings`);
+      const log = await q(`select action from public.admin_audit_log where institution_id = $1`, [ids.schoolA]);
+      return { byAdmin, byTeacher, hideByTeacher, row, log };
+    });
+    expect(out.byAdmin?.code).toBe("42501");
+    expect(out.byTeacher?.code).toBe("42501");
+    expect(out.hideByTeacher?.code).toBe("42501");
+    expect(out.row).toEqual([{ status: "aprobado", approved_by: ids.coordA, at: true, seen: true }]);
+    expect(out.log.map((r) => r.action)).toContain("approve_offering");
+  });
+
+  it("the catalog: students see approved offerings, members also see pending ones, no school means none", async () => {
+    const out = await scenario(async (q, act) => {
+      await schoolA(q);
+      await act(admin);
+      await offer(q);
+      await act(s1);
+      const studentBefore = await catalog(q);
+      await act(user(ids.coordA));
+      const coordBefore = await catalog(q);
+      await approve(q);
+      await act(s1);
+      const studentAfter = await catalog(q);
+      await act(loner);
+      const none = await catalog(q);
+      return { studentBefore, coordBefore, studentAfter, none };
+    });
+    expect(out.studentBefore).toMatchObject({ institution_id: ids.schoolA, offerings: [] });
+    expect(out.coordBefore.offerings).toEqual([{ grade_id: 7, subject_id: "matematicas" }]);
+    expect(out.studentAfter.offerings).toEqual([{ grade_id: 7, subject_id: "matematicas" }]);
+    expect(out.none).toEqual({ institution_id: null, status: null, offerings: [], hidden_unit_ids: [] });
+  });
+
+  it("new topics are flagged until the coordination marks them seen", async () => {
+    const out = await scenario(async (q, act) => {
+      await schoolA(q);
+      await act(admin);
+      await offer(q);
+      await act(user(ids.coordA));
+      await approve(q);
+      await act(null);
+      await q(`update public.institution_offerings set approved_at = now() - interval '1 day', seen_through = now() - interval '1 day'`);
+      await q(`update public.curriculum_units set published_at = now() - interval '10 days' where id = $1`, [ids.unitPublished]);
+      const [{ id: fresh }] = await q(
+        `insert into public.curriculum_units (cycle_id, grade_id, subject_id, title, source_id, source_page, source_excerpt, status, published_at)
+         values ('III', 7, 'matematicas', 'Unidad nueva', $1, 20, 'x', 'published', now() - interval '1 hour') returning id`, [ids.source]);
+      await act(user(ids.coordA));
+      const before = (await program(q))[0].units.find((u) => u.id === fresh);
+      const old = (await program(q))[0].units.find((u) => u.id === ids.unitPublished);
+      await q(`select public.mark_units_seen($1, 7::smallint, 'matematicas')`, [ids.schoolA]);
+      const after = (await program(q))[0].units.find((u) => u.id === fresh);
+      const drafts = (await program(q))[0].units.map((u) => u.id);
+      return { before, old, after, drafts };
+    });
+    expect(out.before?.is_new).toBe(true);
+    expect(out.old?.is_new).toBe(false);
+    expect(out.after?.is_new).toBe(false);
+    expect(out.drafts).not.toContain(ids.unitDraft);
+  });
+
+  it("a hidden topic stays hidden through withdrawing and approving again; unoffered grades never show", async () => {
+    const out = await scenario(async (q, act) => {
+      await schoolA(q);
+      await q(
+        `insert into public.curriculum_units (cycle_id, grade_id, subject_id, title, source_id, source_page, source_excerpt, status)
+         values ('III', 8, 'matematicas', 'Unidad de 8.º', $1, 30, 'x', 'published')`, [ids.source]);
+      await act(admin);
+      await offer(q);
+      await act(user(ids.coordA));
+      await approve(q);
+      await q(`select public.set_unit_hidden($1, $2, true)`, [ids.schoolA, ids.unitPublished]);
+      await q(`select public.withdraw_offering($1, 7::smallint, 'matematicas')`, [ids.schoolA]);
+      const withdrawn = await q(`select status from public.institution_offerings`);
+      await approve(q);
+      await act(s1);
+      const c = await catalog(q);
+      await act(user(ids.coordA));
+      const hiddenFlag = (await program(q))[0].units.find((u) => u.id === ids.unitPublished)?.hidden;
+      await q(`select public.set_unit_hidden($1, $2, false)`, [ids.schoolA, ids.unitPublished]);
+      await act(s1);
+      const shown = await catalog(q);
+      return { withdrawn, c, hiddenFlag, shown };
+    });
+    expect(out.withdrawn).toEqual([{ status: "retirado" }]);
+    expect(out.c.hidden_unit_ids).toEqual([ids.unitPublished]);
+    expect(out.c.offerings).toEqual([{ grade_id: 7, subject_id: "matematicas" }]);   // never grade 8
+    expect(out.hiddenFlag).toBe(true);
+    expect(out.shown.hidden_unit_ids).toEqual([]);
+  });
+
+  it("a student in the groups of A and then B gets the catalog of B", async () => {
+    const out = await scenario(async (q, act) => {
+      await q(`insert into public.group_members (group_id, student_id, display_name, consent_at, joined_at) values ($1, $2, 'Uno', now(), now() - interval '2 days')`, [ids.groupA, ids.student1]);
+      await q(`insert into public.group_members (group_id, student_id, display_name, consent_at, joined_at) values ($1, $2, 'Uno', now(), now() - interval '1 day')`, [ids.groupB, ids.student1]);
+      await act(admin);
+      await offer(q, ids.schoolA);
+      await offer(q, ids.schoolB);
+      await q(`select public.admin_set_offering($1, 7::smallint, 'matematicas', true)`, [ids.schoolB]);
+      await act(null);
+      await q(`update public.institution_offerings set status = 'aprobado' where institution_id = $1`, [ids.schoolB]);
+      await act(s1);
+      return catalog(q);
+    });
+    expect(out.institution_id).toBe(ids.schoolB);
+    expect(out.offerings).toEqual([{ grade_id: 7, subject_id: "matematicas" }]);
+  });
+
+  it("the overview counts AI spend of the month for that school only; usage has no student data", async () => {
+    const out = await scenario(async (q, act) => {
+      await schoolA(q);
+      await q(`update public.institutions set ai_monthly_budget_usd = 40 where id = $1`, [ids.schoolA]);
+      await q(`insert into public.institution_invites (institution_id, email, display_name) values ($1, 'a@example.test', 'A'), ($1, 'b@example.test', 'B')`, [ids.schoolA]);
+      await q(
+        `insert into public.ai_usage (provider, model, purpose, success, cost_usd_estimate, institution_id, created_at) values
+           ('t', 'm', 'tutor', true, 1.5, $1, now()),
+           ('t', 'm', 'tutor', true, 2.0, $1, now()),
+           ('t', 'm', 'tutor', true, 9.0, $2, now()),
+           ('t', 'm', 'tutor', true, 7.0, $1, now() - interval '70 days')`, [ids.schoolA, ids.schoolB]);
+      await act(admin);
+      const rows = await q(`select * from public.admin_institutions_overview()`);
+      const [{ u }] = await q(`select public.admin_institution_usage($1) as u`, [ids.schoolA]);
+      await act(user(ids.coordA));
+      const denied = await failure(q, `select * from public.admin_institutions_overview()`);
+      const deniedUsage = await failure(q, `select public.admin_institution_usage($1)`, [ids.schoolA]);
+      return { rows, u, denied, deniedUsage };
+    });
+    const a = out.rows.find((r) => r.id === ids.schoolA)!;
+    const b = out.rows.find((r) => r.id === ids.schoolB)!;
+    expect(Number(a.spend_month)).toBe(3.5);
+    expect(Number(b.spend_month)).toBe(9);
+    expect(Number(a.budget)).toBe(40);
+    expect(a.students).toBe(2);
+    expect(a.teachers_invited).toBe(2);
+    expect(out.u.weeks.length).toBe(8);
+    expect(Object.keys(out.u.weeks[0]).sort()).toEqual(["active_students", "attempts", "skills_mastered", "tutor_messages", "week_start"]);
+    expect(Number(out.u.spend_month)).toBe(3.5);
+    expect(out.denied?.code).toBe("42501");
+    expect(out.deniedUsage?.code).toBe("42501");
+  });
+});
