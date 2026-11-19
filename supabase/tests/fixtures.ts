@@ -32,6 +32,12 @@ export const ids = {
   tutorSession1: "00000000-0000-4000-8000-000000000501",
   tutorSession2: "00000000-0000-4000-8000-000000000502",
   diagnostic1: "00000000-0000-4000-8000-000000000601",
+  // Two schools with an active group each, and the coordinator of school A.
+  coordA: "00000000-0000-4000-8000-0000000000c5",
+  schoolA: "00000000-0000-4000-8000-000000000701",
+  schoolB: "00000000-0000-4000-8000-000000000702",
+  groupA: "00000000-0000-4000-8000-000000000711",
+  groupB: "00000000-0000-4000-8000-000000000712",
 } as const;
 
 export interface Fixture {
@@ -59,12 +65,42 @@ export async function loadFixture(db: pg.Client): Promise<Fixture> {
     `insert into public.students (id, declared_grade_id) values ($1, 7), ($2, 7), ($3, 7), ($4, 8)`,
     [ids.student1, ids.student1b, ids.student2, ids.loner],
   );
+  await db.query(`insert into auth.users (id, email, is_anonymous) values ($1, 'coord-a@example.test', false)`, [ids.coordA]);
   await db.query(
-    `insert into public.sections (id, teacher_id, name, grade_id, current_term) values
-       ($1, $2, '7-1 (prueba)', 7, 1),
-       ($3, $4, '7-2 (prueba)', 7, 1)`,
-    [ids.section1, ids.teacher1, ids.section2, ids.teacher2],
+    `insert into public.institutions (id, name, status) values ($1, 'Colegio A (prueba)', 'activo'), ($2, 'Colegio B (prueba)', 'activo')`,
+    [ids.schoolA, ids.schoolB],
   );
+  await db.query(
+    `insert into public.institution_members (institution_id, profile_id, role) values ($1, $2, 'admin')`,
+    [ids.schoolA, ids.coordA],
+  );
+  await db.query(
+    `insert into public.groups (id, name, grade_id, institution_id, created_by, join_code, active) values
+       ($1, '7-A', 7, $3, $5, 'FIXGRPA1', true),
+       ($2, '7-B', 7, $4, $5, 'FIXGRPB1', true)`,
+    [ids.groupA, ids.groupB, ids.schoolA, ids.schoolB, ids.coordA],
+  );
+
+  // A section only exists inside a school: for its insert, teacher1 belongs to A, teacher2 to B, and each
+  // school has the approved 7.º Math offering. Both are removed right after (below), so every test
+  // starts from schools with only their coordinator and no offerings, as before.
+  await db.query(
+    `insert into public.institution_members (institution_id, profile_id, role) values ($1, $3, 'teacher'), ($2, $4, 'teacher')`,
+    [ids.schoolA, ids.schoolB, ids.teacher1, ids.teacher2],
+  );
+  await db.query(
+    `insert into public.institution_offerings (institution_id, grade_id, subject_id, status) values
+       ($1, 7, 'matematicas', 'aprobado'), ($2, 7, 'matematicas', 'aprobado')`,
+    [ids.schoolA, ids.schoolB],
+  );
+  await db.query(
+    `insert into public.sections (id, teacher_id, name, grade_id, current_term, group_id, subject_id) values
+       ($1, $2, '7-1 (prueba)', 7, 1, $5, 'matematicas'),
+       ($3, $4, '7-2 (prueba)', 7, 1, $6, 'matematicas')`,
+    [ids.section1, ids.teacher1, ids.section2, ids.teacher2, ids.groupA, ids.groupB],
+  );
+  await db.query(`delete from public.institution_members where profile_id in ($1, $2)`, [ids.teacher1, ids.teacher2]);
+  await db.query(`delete from public.institution_offerings where institution_id in ($1, $2)`, [ids.schoolA, ids.schoolB]);
   await db.query(
     `insert into public.section_members (section_id, student_id, display_name, consent_at) values
        ($1, $2, 'Estudiante Sintético Uno', now()),

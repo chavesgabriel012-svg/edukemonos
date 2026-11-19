@@ -42,7 +42,13 @@ export function JoinForm() {
           <Link href="/privacidad" className="font-medium underline underline-offset-2">aviso de privacidad</Link>.
         </span>
       </label>
-      {state.error && <p role="alert" className="text-sm text-destructive">{state.error}</p>}
+      {state.error && (
+        <p role="alert" className="text-sm text-destructive">
+          {state.error.includes("school not accepting students")
+            ? "Tu colegio todavía no abre Eduka para estudiantes. Pregúntale a tu docente."
+            : state.error}
+        </p>
+      )}
       <button disabled={pending} className={`${actionClass()} w-full`}>
         {pending ? "Uniéndote…" : "Unirme"}
       </button>

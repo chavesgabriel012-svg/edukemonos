@@ -4,7 +4,7 @@
 export const card = "rounded-[22px] border bg-card p-5 sm:p-6";
 
 /** Small label in Geist Mono: «MATEMÁTICAS · 7.º», «PASO 1». */
-export const eyebrow = "font-mono text-xs tracking-wide text-muted-foreground uppercase";
+export const eyebrow = "text-sm font-medium text-muted-foreground";
 
 const control =
   "w-full rounded-[14px] border border-input bg-card px-3.5 text-base outline-none transition placeholder:text-muted-foreground/70 focus-visible:border-violeta focus-visible:ring-3 focus-visible:ring-violeta/20 disabled:opacity-60";

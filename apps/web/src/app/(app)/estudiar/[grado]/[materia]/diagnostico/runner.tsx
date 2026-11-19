@@ -74,7 +74,7 @@ export function DiagnosticRunner({ subject, grade }: { subject: string; grade: n
         <Kemo size={72} mood={result.status === "completed" ? "happy" : "think"} background={brand.lima} />
         {result.status === "completed" && result.level !== undefined ? (
           <>
-            <p className="font-mono text-xs tracking-wide text-muted-foreground uppercase">Tu nivel estimado</p>
+            <p className="tabular-nums text-xs text-muted-foreground">Tu nivel estimado</p>
             <h2 className="font-heading text-5xl leading-none font-bold">
               {result.level.toFixed(1).replace(".", ",")} <span className="text-2xl text-muted-foreground">de 5</span>
             </h2>
@@ -116,7 +116,7 @@ export function DiagnosticRunner({ subject, grade }: { subject: string; grade: n
   const item = step.item!;
   return (
     <div className="space-y-4">
-      <div className="flex items-center gap-3 font-mono text-xs text-muted-foreground uppercase">
+      <div className="flex items-center gap-3 tabular-nums text-xs text-muted-foreground">
         <span>Pregunta {step.answered + 1} de {step.total}</span>
         <span className="h-2 flex-1 overflow-hidden rounded-full bg-secondary" aria-hidden>
           <span className="block h-full rounded-full bg-violeta transition-[width]" style={{ width: `${(step.answered / step.total) * 100}%` }} />

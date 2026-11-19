@@ -1,4 +1,5 @@
 import "server-only";
+import { type Catalog, subjectVisible, unitVisible } from "@edukemonos/curriculum";
 import { createClient } from "@/lib/supabase/server";
 
 /** Read-side helpers for the student pages. Everything here goes through RLS as the visitor. */
@@ -55,14 +56,21 @@ export async function currentUser() {
 }
 
 /** Subjects with at least one published unit in the grade; the rest show as "próximamente". */
-export async function subjectsForGrade(grade: Grade) {
+export async function subjectsForGrade(grade: Grade, catalog: Catalog) {
   const supabase = await createClient();
   const [{ data: subjects }, { data: units }] = await Promise.all([
     supabase.from("subjects").select("id, name").order("sort"),
-    supabase.from("curriculum_units").select("subject_id").eq("grade_id", grade).eq("status", "published"),
+    supabase.from("curriculum_units").select("id, subject_id").eq("grade_id", grade).eq("status", "published"),
   ]);
-  const available = new Set((units ?? []).map((u: { subject_id: string }) => u.subject_id));
-  return (subjects ?? []).map((s: Subject) => ({ ...s, available: available.has(s.id) }));
+  // Only what the school approved: other subjects are not "próximamente", they are not there.
+  const available = new Set(
+    (units ?? [])
+      .filter((u: { id: string; subject_id: string }) => unitVisible(catalog, { id: u.id, gradeId: grade, subjectId: u.subject_id }))
+      .map((u: { subject_id: string }) => u.subject_id),
+  );
+  return (subjects ?? [])
+    .filter((s: Subject) => subjectVisible(catalog, grade, s.id))
+    .map((s: Subject) => ({ ...s, available: available.has(s.id) }));
 }
 
 export async function subjectName(id: string): Promise<string | null> {
@@ -71,7 +79,8 @@ export async function subjectName(id: string): Promise<string | null> {
   return data?.name ?? null;
 }
 
-export async function unitsFor(subject: string, grade: Grade): Promise<UnitSummary[]> {
+export async function unitsFor(subject: string, grade: Grade, catalog: Catalog): Promise<UnitSummary[]> {
+  if (!subjectVisible(catalog, grade, subject)) return [];
   const supabase = await createClient();
   const { data } = await supabase
     .from("curriculum_units")
@@ -80,7 +89,9 @@ export async function unitsFor(subject: string, grade: Grade): Promise<UnitSumma
     .eq("grade_id", grade)
     .eq("status", "published")
     .order("sort_order");
-  return (data ?? []).map((u: UnitSummary & { skills: { id: string; name: string; sort_order: number }[] }) => ({
+  return (data ?? [])
+    .filter((u: { id: string }) => unitVisible(catalog, { id: u.id, gradeId: grade, subjectId: subject }))
+    .map((u: UnitSummary & { skills: { id: string; name: string; sort_order: number }[] }) => ({
     ...u,
     skills: [...u.skills].sort((a, b) => a.sort_order - b.sort_order),
   }));

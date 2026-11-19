@@ -50,7 +50,7 @@ export function SiteFooter() {
         </div>
         {COLUMNS.map((c) => (
           <nav key={c.title} aria-label={c.title} className="text-sm">
-            <p className="mb-2 font-mono text-xs tracking-wide text-papel/60 uppercase">{c.title}</p>
+            <p className="mb-2 tabular-nums text-xs text-papel/60">{c.title}</p>
             <ul>
               {c.links.map((l) => (
                 <li key={l.href}><Link href={l.href} className={linkClass}>{l.label}</Link></li>

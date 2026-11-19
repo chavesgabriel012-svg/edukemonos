@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowUp, MessageSquarePlus } from "lucide-react";
+import { ArrowUp, Check, Copy, MessageSquarePlus } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { openTutor, type TutorMessage } from "@/app/(app)/estudiar/actions";
 import { Kemo } from "@/components/brand/logo";
@@ -9,7 +9,6 @@ import { ReportButton } from "@/components/learn/report-button";
 import { action } from "@/components/ui/action";
 import { Notice } from "@/components/ui/notice";
 import { Loading, Skeleton } from "@/components/ui/skeleton";
-import { textarea } from "@/components/ui/styles";
 import { markActivity } from "@/lib/activity";
 import { brand } from "@/lib/brand";
 
@@ -86,9 +85,16 @@ export function TutorChat({ unitId, help, limits }: { unitId: string; help: Help
     });
   }, [unitId]);
 
+  // Follow the answer as it streams in, unless the student scrolled up to read.
+  const count = messages.length;
   useEffect(() => {
-    if (messages.length) bottom.current?.scrollIntoView({ block: "end" });
-  }, [messages]);
+    if (count) bottom.current?.scrollIntoView({ block: "end" });
+  }, [count]);
+  useEffect(() => {
+    if (!busy) return;
+    const nearEnd = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 160;
+    if (nearEnd) bottom.current?.scrollIntoView({ block: "end" });
+  }, [messages, busy]);
 
   const used = messages.filter((m) => m.role === "user").length;
   const full = used >= limits.perSession;
@@ -105,6 +111,7 @@ export function TutorChat({ unitId, help, limits }: { unitId: string; help: Help
     setBusy(true);
     setError(null);
     setInput("");
+    if (inputRef.current) inputRef.current.style.height = "auto";
     markActivity();
     setMessages((m) => [...m, { id: null, role: "user", content: text, flags: [] }, { id: null, role: "assistant", content: "", flags: [] }]);
     // When nothing was answered, the question goes back to the box so it is not lost.
@@ -155,61 +162,65 @@ export function TutorChat({ unitId, help, limits }: { unitId: string; help: Help
   }
 
   const showHelp = messages.some((m) => m.flags.some((f) => RISK.includes(f)));
+  const left = limits.perSession - used;
   return (
-    <section aria-labelledby="tutor-title" className="space-y-4">
-      <div className="flex flex-wrap items-start justify-between gap-3">
-        <div className="space-y-1">
-          <h2 id="tutor-title" className="font-heading text-2xl font-bold">Pregúntale a Kemo</h2>
-          <p className="max-w-2xl text-sm text-muted-foreground">
-            Kemo te guía paso a paso en este tema, con pistas antes que respuestas. Es una inteligencia artificial y puede
-            equivocarse. No compartas datos personales.
-          </p>
-        </div>
-        {messages.length > 0 && (
-          <button type="button" onClick={newConversation} disabled={busy} className={action({ variant: "soft", size: "sm" })}>
-            <MessageSquarePlus aria-hidden strokeWidth={2.5} className="size-4" />
-            Nueva conversación
-          </button>
-        )}
-      </div>
+    <section aria-labelledby="tutor-title" className="mx-auto flex max-w-3xl flex-col">
+      <h2 id="tutor-title" className="sr-only">Pregúntale a Kemo</h2>
 
-      {showHelp && <HelpCard help={help} />}
+      {showHelp && <div className="mb-4"><HelpCard help={help} /></div>}
 
-      <div className="space-y-3" aria-live="polite">
+      <div className="space-y-6 pb-4" aria-live="polite">
         {!ready && (
-          <Loading label="Abriendo tu conversación…" className="space-y-3">
-            <Skeleton className="mr-12 h-20 rounded-[20px_20px_20px_6px]" />
-            <Skeleton className="ml-24 h-14 rounded-[20px_20px_6px_20px]" />
+          <Loading label="Abriendo tu conversación…" className="space-y-6">
+            <Skeleton className="ml-auto h-12 w-2/3 rounded-[24px]" />
+            <div className="space-y-2"><Skeleton className="h-4 w-full" /><Skeleton className="h-4 w-5/6" /><Skeleton className="h-4 w-2/3" /></div>
           </Loading>
         )}
+
         {ready && messages.length === 0 && (
-          <div className="flex items-start gap-3 rounded-[22px] border border-dashed bg-card p-4 sm:p-5">
-            <Kemo size={52} mood="normal" background={brand.lima} />
-            <div className="space-y-3">
-              <p className="text-sm text-muted-foreground">
-                Cuéntale qué parte no entiendes o qué intentaste. También puedes empezar con una de estas:
+          <div className="flex flex-col items-center gap-4 px-2 pt-6 pb-2 text-center sm:pt-10">
+            <Kemo size={64} mood="normal" background={brand.lima} />
+            <div className="space-y-1.5">
+              <p className="font-heading text-2xl font-bold text-balance sm:text-3xl">¿En qué te ayudo con este tema?</p>
+              <p className="mx-auto max-w-md text-sm text-muted-foreground text-pretty">
+                Kemo te guía con pistas antes que respuestas. Es una IA y puede equivocarse; no compartas datos personales.
               </p>
-              <ul className="flex flex-wrap gap-2">
-                {STARTERS.map((q) => (
-                  <li key={q}>
-                    <button type="button" onClick={() => { setInput(q); inputRef.current?.focus(); }}
-                      className="min-h-10 rounded-full bg-secondary px-3.5 py-2 text-left text-sm font-medium transition hover:bg-lima focus-visible:outline-2">
-                      {q}
-                    </button>
-                  </li>
-                ))}
-              </ul>
             </div>
+            <ul className="grid w-full gap-2 pt-2 sm:grid-cols-3">
+              {STARTERS.map((q) => (
+                <li key={q}>
+                  <button type="button" onClick={() => { setInput(q); inputRef.current?.focus(); }}
+                    className="h-full w-full rounded-[18px] border bg-card px-4 py-3 text-left text-sm font-medium transition hover:border-violeta/40 hover:bg-secondary focus-visible:outline-2">
+                    {q}
+                  </button>
+                </li>
+              ))}
+            </ul>
           </div>
         )}
+
+        {messages.length > 0 && (
+          <div className="flex justify-end">
+            <button type="button" onClick={newConversation} disabled={busy} className={action({ variant: "soft", size: "sm" })}>
+              <MessageSquarePlus aria-hidden strokeWidth={2.5} className="size-4" />
+              Nueva conversación
+            </button>
+          </div>
+        )}
+
         {messages.map((m, i) => (
           m.role === "assistant" ? (
-            <div key={i} className="mr-2 flex items-end gap-2.5 sm:mr-12">
-              <Kemo size={40} mood={m.content ? "normal" : "think"} background={brand.lima} />
-              <div className="min-w-0 flex-1 space-y-2 rounded-[20px_20px_20px_6px] border bg-card p-4">
-                {m.content ? <Markdown>{m.content}</Markdown> : <p className="text-sm text-muted-foreground">Pensando…</p>}
+            <div key={i} className="flex gap-3">
+              <Kemo size={30} mood={m.content ? "normal" : "think"} background={brand.lima} className="mt-0.5 shrink-0" />
+              <div className="min-w-0 flex-1 space-y-2">
+                <p className="sr-only">Kemo dice:</p>
+                {m.content ? <Markdown>{m.content}</Markdown> : (
+                  <span role="status" className="typing-dots flex h-7 items-center gap-1" aria-label="Kemo está escribiendo">
+                    <i className="size-2 rounded-full bg-muted-foreground" /><i className="size-2 rounded-full bg-muted-foreground" /><i className="size-2 rounded-full bg-muted-foreground" />
+                  </span>
+                )}
                 {m.truncated && (
-                  <p className="rounded-[12px] bg-secondary px-3 py-2 text-xs text-muted-foreground">
+                  <p className="rounded-[12px] bg-secondary px-3 py-2 text-sm text-muted-foreground">
                     La respuesta se cortó porque era muy larga.{" "}
                     {i === messages.length - 1 && !busy && !full && (
                       <button type="button" onClick={() => ask("Continúa, por favor.")} className="font-semibold text-violeta underline underline-offset-2">
@@ -218,12 +229,18 @@ export function TutorChat({ unitId, help, limits }: { unitId: string; help: Help
                     )}
                   </p>
                 )}
-                {m.id && <ReportButton targetType="tutor_message" targetId={m.id} />}
+                {m.content && !(busy && i === messages.length - 1) && (
+                  <div className="flex flex-wrap items-center gap-1 text-muted-foreground">
+                    <CopyButton text={m.content} />
+                    {m.id && <ReportButton targetType="tutor_message" targetId={m.id} />}
+                  </div>
+                )}
               </div>
             </div>
           ) : (
-            <div key={i} className="ml-10 space-y-1.5 sm:ml-24">
-              <div className="rounded-[20px_20px_6px_20px] bg-violeta px-[18px] py-3.5 text-white">
+            <div key={i} className="flex flex-col items-end gap-1.5">
+              <p className="sr-only">Tú:</p>
+              <div className="max-w-[85%] rounded-[24px] bg-secondary px-4 py-2.5 sm:max-w-[75%]">
                 <p className="whitespace-pre-wrap">{m.content}</p>
               </div>
               {m.flags.some((f) => PERSONAL.includes(f)) && (
@@ -239,33 +256,53 @@ export function TutorChat({ unitId, help, limits }: { unitId: string; help: Help
         <div ref={bottom} />
       </div>
 
-      {error && <p role="alert" className="rounded-[12px] bg-destructive/10 px-3.5 py-2.5 text-sm text-destructive">{error}</p>}
-
-      {full ? (
-        <Notice className="flex flex-wrap items-center justify-between gap-3">
-          <span>Llegaste a los {limits.perSession} mensajes de esta conversación.</span>
-          <button type="button" onClick={newConversation} className={action({ size: "md" })}>Empezar una nueva</button>
-        </Notice>
-      ) : (
-        <form onSubmit={(e) => { e.preventDefault(); ask(input.trim()); }} className="space-y-1.5">
-          <div className="flex items-end gap-2">
-            <label className="flex-1">
-              <span className="sr-only">Tu mensaje</span>
-              <textarea ref={inputRef} value={input} onChange={(e) => setInput(e.target.value)} rows={2} maxLength={2000} disabled={!ready}
-                onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); e.currentTarget.form?.requestSubmit(); } }}
-                placeholder="Escribe tu pregunta…" className={textarea} />
+      <div className="sticky bottom-0 z-20 -mx-2 bg-linear-to-t from-background from-70% to-transparent px-2 pt-6 pb-[max(1rem,env(safe-area-inset-bottom))]">
+        {error && <p role="alert" className="mb-2 rounded-[12px] bg-destructive/10 px-3.5 py-2.5 text-sm text-destructive">{error}</p>}
+        {full ? (
+          <Notice className="flex flex-wrap items-center justify-between gap-3">
+            <span>Esta conversación llegó a su límite.</span>
+            <button type="button" onClick={newConversation} className={action({ size: "md" })}>Empezar una nueva</button>
+          </Notice>
+        ) : (
+          <form onSubmit={(e) => { e.preventDefault(); ask(input.trim()); }}
+            className="flex items-end gap-2 rounded-[28px] border bg-card p-2 pl-4 shadow-[0_12px_32px_-18px_rgba(23,19,42,0.35)] transition focus-within:border-violeta/50">
+            <label className="min-w-0 flex-1 py-1.5">
+              <span className="sr-only">Tu mensaje para Kemo</span>
+              <textarea ref={inputRef} value={input} rows={1} maxLength={2000} disabled={!ready}
+                onChange={(e) => { setInput(e.target.value); grow(e.currentTarget); }}
+                onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey && !e.nativeEvent.isComposing) { e.preventDefault(); e.currentTarget.form?.requestSubmit(); } }}
+                placeholder="Pregúntale a Kemo…"
+                className="block max-h-48 w-full resize-none bg-transparent text-base leading-6 outline-none placeholder:text-muted-foreground disabled:opacity-60" />
             </label>
-            <button disabled={busy || !input.trim() || !ready} aria-label="Enviar" className={`${action()} mb-px px-4`}>
-              {busy ? "…" : <ArrowUp aria-hidden strokeWidth={2.5} className="size-5" />}
-              <span className="hidden sm:inline">Enviar</span>
+            <button disabled={busy || !input.trim() || !ready} aria-label="Enviar"
+              className="flex size-10 shrink-0 items-center justify-center rounded-full bg-violeta text-white transition hover:bg-violeta/90 focus-visible:outline-2 focus-visible:outline-offset-2 disabled:bg-muted disabled:text-muted-foreground">
+              <ArrowUp aria-hidden strokeWidth={2.75} className="size-5" />
             </button>
-          </div>
-          <p className="flex flex-wrap justify-between gap-x-4 font-mono text-[11px] text-muted-foreground uppercase">
-            <span>{used > 0 ? `${used} de ${limits.perSession} mensajes en esta conversación` : `Hasta ${limits.perDay} mensajes por día`}</span>
-            <span className="hidden normal-case sm:inline">Enter para enviar · Shift + Enter para otra línea</span>
+          </form>
+        )}
+        {!full && left <= 3 && used > 0 && (
+          <p className="mt-2 text-center text-xs text-muted-foreground">
+            {left === 1 ? "Te queda 1 mensaje en esta conversación." : `Te quedan ${left} mensajes en esta conversación.`}
           </p>
-        </form>
-      )}
+        )}
+      </div>
     </section>
+  );
+}
+
+/** The box grows with what the student writes, up to its max height. */
+function grow(el: HTMLTextAreaElement) {
+  el.style.height = "auto";
+  el.style.height = `${el.scrollHeight}px`;
+}
+
+function CopyButton({ text }: { text: string }) {
+  const [copied, setCopied] = useState(false);
+  return (
+    <button type="button" aria-label={copied ? "Copiado" : "Copiar la respuesta"} title="Copiar"
+      onClick={() => navigator.clipboard?.writeText(text).then(() => { setCopied(true); setTimeout(() => setCopied(false), 1500); }, () => {})}
+      className="flex size-8 items-center justify-center rounded-[10px] transition hover:bg-secondary hover:text-foreground focus-visible:outline-2">
+      {copied ? <Check aria-hidden strokeWidth={2.5} className="size-4" /> : <Copy aria-hidden strokeWidth={2.25} className="size-4" />}
+    </button>
   );
 }

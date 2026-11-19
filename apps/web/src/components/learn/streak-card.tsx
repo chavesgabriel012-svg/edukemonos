@@ -33,7 +33,7 @@ export function StreakCard({ status }: { status: StreakStatus | null }) {
             {status.paused ? <PauseCircle aria-hidden className="size-5" /> : <CalendarCheck2 aria-hidden className="size-5" />}
           </span>
           <p>
-            <span className="block font-mono text-xs text-muted-foreground">RACHA SEMANAL</span>
+            <span className="block tabular-nums text-xs text-muted-foreground">Racha semanal</span>
             {/* A streak at zero is not shown as "0 semanas": it is a new one about to start. */}
             <span className="font-heading text-2xl leading-none font-bold">{status.current > 0 ? weeks(status.current) : "Racha nueva"}</span>
           </p>
@@ -68,7 +68,6 @@ export function StreakCard({ status }: { status: StreakStatus | null }) {
           <p className="text-sm">Tu récord es de {weeks(status.record)}. ¡Empecemos una racha nueva esta semana!</p>
         )
       )}
-      <p className="text-xs text-muted-foreground">Cuenta cada ejercicio distinto que resuelves bien. En vacaciones la racha se pausa.</p>
     </aside>
   );
 }

@@ -69,7 +69,7 @@ export function Practice({ unitId }: { unitId: string }) {
     <section aria-labelledby="practice-title" className="space-y-3">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <h2 id="practice-title" className="font-heading text-2xl font-bold">Ejercicio</h2>
-        <span className="flex items-center gap-2 font-mono text-xs text-muted-foreground uppercase">
+        <span className="flex items-center gap-2 tabular-nums text-xs text-muted-foreground">
           {count.answered > 0 && (
             <span className="rounded-full bg-lima px-2.5 py-1 font-semibold text-tinta">{count.correct} de {count.answered} correctas</span>
           )}
@@ -102,7 +102,7 @@ export function Practice({ unitId }: { unitId: string }) {
             )}
             {feedback.explanation && (
               <div className="rounded-[16px] bg-background p-4 text-sm">
-                <p className="mb-1 font-mono text-xs text-muted-foreground uppercase">Explicación</p>
+                <p className="mb-1 tabular-nums text-xs text-muted-foreground">Explicación</p>
                 <Markdown>{feedback.explanation}</Markdown>
               </div>
             )}

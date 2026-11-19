@@ -21,7 +21,7 @@ export function Heatmap({ metrics, subjectId, base }: { metrics: SectionMetrics;
             <tr>
               <th scope="col" className="sticky left-0 z-10 bg-card pr-2 text-left font-medium text-muted-foreground">Estudiante</th>
               {units.map((u, i) => (
-                <th key={u.unit.id} scope="col" title={u.unit.title} className="w-8 min-w-8 font-mono font-medium text-muted-foreground">
+                <th key={u.unit.id} scope="col" title={u.unit.title} className="w-8 min-w-8 tabular-nums font-medium text-muted-foreground">
                   T{i + 1}
                 </th>
               ))}
@@ -70,9 +70,9 @@ export function Heatmap({ metrics, subjectId, base }: { metrics: SectionMetrics;
       <ol className="grid grid-cols-1 gap-x-6 gap-y-1.5 text-sm sm:grid-cols-2">
         {units.map((u, i) => (
           <li key={u.unit.id} className="flex min-w-0 items-baseline gap-2">
-            <span className="w-7 shrink-0 font-mono text-xs text-muted-foreground">T{i + 1}</span>
+            <span className="w-7 shrink-0 tabular-nums text-xs text-muted-foreground">T{i + 1}</span>
             <Link href={`/unidad/${u.unit.id}`} className="min-w-0 flex-1 py-1 hover:underline sm:truncate">{u.unit.title}</Link>
-            <span className="shrink-0 font-mono text-xs" title={`${u.studentsWithData} estudiantes con datos`}>
+            <span className="shrink-0 tabular-nums text-xs" title={`${u.studentsWithData} estudiantes con datos`}>
               {u.mastery === null ? "—" : pct(u.mastery)}
             </span>
           </li>

@@ -1,0 +1,116 @@
+# Salir live: qué falta para el colegio fundador
+
+Revisión técnica del 18 de noviembre de 2026. La meta: que el día que firme el colegio fundador y entre
+el capital semilla, se pueda empezar esa misma semana.
+
+Eduka tiene tres partes:
+
+- **Estudiante:** material, práctica, minijuegos y Kemo, el tutor.
+- **Docente:** avance de cada estudiante, análisis y recomendaciones.
+- **Colegio:** todo lo anterior, hecho con el contenido del colegio.
+
+Las dos primeras ya funcionan de punta a punta. La tercera, armar y administrar un colegio, ya tiene
+su consola en la rama `producto/eduka-v2` (filas 1, 2, 3 y 12 de abajo). Falta la revisión del
+fundador y ponerla en producción con los pasos de la sección siguiente. Lo que sigue por scripts:
+subir el programa propio de un colegio, y generar y verificar contenido.
+
+## Puesta en producción de la consola
+
+En este orden, en el panel de Supabase de producción y en Vercel:
+
+1. **Migraciones antes que la web.** Aplicar en el editor SQL de Supabase, una por una y en orden,
+   `supabase/migrations/20261120000100` a `20261120000500`. Cada una corre sola como una
+   transacción. Si la web nueva se publica antes, `myCatalog()` falla en cada sesión iniciada y
+   `/estudiar` deja de funcionar.
+2. **«Confirm email» encendido** en Auth → Sign In / Providers → Email. Apagado, cualquiera podría
+   registrarse con un correo invitado y quedarse con la invitación.
+3. **Plantilla de invitación.** Pegar `supabase/templates/invite.html` en Auth → Email Templates →
+   Invite user.
+4. **Site URL** en Auth → URL Configuration: el origen de la app en producción (por ejemplo
+   `https://app.<dominio>`), para que los enlaces de los correos vuelvan a Eduka.
+5. **SMTP propio** (fila 4) y la variable `EMAIL_SMTP_CONFIGURED=true` en Vercel.
+6. **El equipo Eduka como administrador**: en el editor SQL,
+   `update public.profiles set role = 'admin' where id in (select id from auth.users where email in ('…'));`
+   con los correos del equipo, después de que cada persona haya entrado una vez.
+
+## Lo que se revisó
+
+- **Rutas.** Se recorrieron las 24 rutas públicas y de demostración en escritorio y en teléfono
+  (iPhone SE), contra la base de producción. Todas responden y ninguna tiene errores de JavaScript ni
+  se sale de la pantalla.
+- **Pruebas.** Typecheck, lint y las 28 pruebas de la web pasan.
+- **Chat de Kemo.** Se probó el chat nuevo con respuestas simuladas, sin gastar presupuesto de IA.
+- **Flujo docente real.** Se probó de punta a punta contra un Supabase local (Docker), con el contenido
+  publicado de 7.º Matemáticas copiado de producción. Producción solo se leyó. El recorrido fue:
+  1. El docente entra con su correo y crea una sección (9 s).
+  2. Una estudiante se une con el código desde un teléfono y responde 6 ejercicios.
+  3. El docente la ve en su panel, con sus hallazgos.
+
+  Ese recorrido ahora está dentro de la prueba automática `e2e/consola.spec.ts`, que además arma el
+  colegio desde la consola del equipo.
+- **Lo que se corrigió en el camino:**
+  - Una sección sin estudiantes ya no muestra los paneles de meta, torneo y racha vacíos.
+  - Los formularios de crear sección y crear grupo usan los estilos compartidos.
+
+## Criterio
+
+Se prioriza lo que refuerza las 5 ventajas de `docs/producto/competencia.md`: cero carga docente,
+contenido verificado, dominio sin leer chats, privacidad de menores y lo local. No se prioriza un
+tutor más «inteligente», porque no nos diferencia.
+
+## P0: sin esto no se puede salir
+
+| # | Qué | Por qué | Esfuerzo |
+|---|-----|---------|----------|
+| 1 | **Consola del equipo Eduka** (`/admin`): crear el colegio, sus grados y materias, subir el programa, generar, verificar y publicar, e invitar docentes. Incluye una vista para que el colegio apruebe su contenido antes de publicarlo. **Hecho en esta rama** (falta la revisión del fundador y las migraciones en producción): colegios, materias que ofrece cada uno, aprobación por la coordinación, personas, grupos, hoja de códigos y uso. Subir el programa propio y generar contenido siguen por scripts | Hoy un colegio se arma con SQL y scripts desde la terminal. La carga del programa propio es la ventaja que más nos separa de Flint y SchoolAI, donde el docente arma todo | 2–3 semanas |
+| 2 | **Contenido por colegio**: `institution_id` en `curriculum_sources`, `curriculum_units` e `items`, y que cada estudiante vea solo el de su colegio. **Hecho en esta rama** (falta la revisión del fundador y las migraciones en producción) | Todo el contenido es global; dos colegios verían lo mismo | 1 semana (va con la 1) |
+| 3 | **Acceso docente por invitación**: el colegio entrega la lista, Eduka invita por correo y la persona entra con enlace. **Hecho en esta rama** (falta la revisión del fundador y las migraciones en producción) | Hoy cualquiera con correo queda como docente | 3–4 días |
+| 4 | **Correo propio** (SMTP con Resend u otro, en un dominio de Eduka) | El correo que trae Supabase envía muy pocos mensajes por hora y no sirve para producción. Hay que revisar en el panel de Supabase qué está configurado hoy. Cuando el SMTP propio esté listo, se pone la variable de entorno `EMAIL_SMTP_CONFIGURED=true` en Vercel: la consola la usa para marcar ese paso en la lista «Para empezar» de cada colegio | 1 día |
+| 5 | **Planes pagos**: Vercel Pro (US$20) y Supabase Pro (US$25) | Vercel Hobby prohíbe el uso comercial, y en el plan gratis Supabase pausa el proyecto y no hace copias diarias | 1 hora, cuando entre el dinero |
+| 6 | **Presupuesto de IA por colegio** y la evaluación del prompt v12 | Noviembre ya gastó US$12,14 de un tope de US$8, y la evaluación del tutor está pendiente por eso | 2 días |
+| 7 | **Revisión legal**: Ley 8968, consentimiento de las familias para menores, contrato con el colegio como responsable de los datos | Datos de menores; tiene que verlo un abogado antes de firmar | Externo |
+
+## P1: el primer mes con el colegio
+
+| # | Qué | Por qué |
+|---|-----|---------|
+| 8 | **Monitoreo de errores** (Sentry o similar) y alertas de gasto de IA | Hoy un error en producción solo se ve si alguien lo reporta |
+| 9 | **Pruebas de punta a punta en CI.** Ya existen `revisar.spec.ts` y `consola.spec.ts`, pero se corren a mano. Faltan correrlas en CI, sumar el tutor simulado y probar al docente guía | Hoy dependen de que alguien se acuerde de correrlas |
+| 10 | **Prompts sin «colegios públicos de Costa Rica»** fijo: el nombre, el nivel y el idioma salen del colegio | Seis prompts lo dicen hoy (`packages/ai/src/prompts/`) |
+| 11 | **Grados y materias desde la base**, no desde el código; Word y presentaciones además de PDF | 7.º a 9.º y las seis materias están escritos en el código, y la ingestión solo lee PDF |
+| 12 | **Coordinación del colegio** puede agregar y quitar docentes y ver todas las secciones. **Hecho en esta rama** (falta la revisión del fundador y la puesta en producción): invita y quita docentes, cambia su rol, ve la lista de secciones del colegio y las reasigna. No abre el panel de una sección ajena | Hoy depende del equipo Eduka |
+| 13 | **Política de contenido** para que una CSP completa no rompa el sitio | Ya están los encabezados básicos; una CSP con nonces necesita probarse página por página |
+
+| 14 | **Textos honestos en la landing**: «100 % personalizado» y «con los programas del MEP» describen la meta, no lo que existe hoy | `competencia.md` pide describir lo que existe |
+
+## P2: cuando haya un segundo colegio
+
+- Colegios en inglés (AP, IB): necesitan sus propias protecciones (filtro de género, tuteo y
+  detección de malestar están escritos para el español) y sus propias evaluaciones.
+- «Entrar con Google» o Microsoft limitado al dominio del colegio.
+- Una dirección propia por colegio (`institutions.slug` ya está reservado para eso).
+- Reportes para dirección: uso por grado y materia, sin datos individuales.
+
+## Hecho en esta revisión
+
+- Etiquetas y números con la tipografía de Eduka, sin la mono en mayúsculas; los códigos de sección
+  y de certificado la conservan para que 0 y O no se confundan.
+- Menos textos al pie: sin «Hasta 60 mensajes por día» ni los atajos de teclado en el chat. Tampoco
+  queda la nota de la racha, y la explicación de puntos del torneo pasó a un desplegable.
+- El chat de Kemo se lee como un chat de IA común:
+  - los mensajes del estudiante a la derecha;
+  - las respuestas de Kemo a todo el ancho, con botón para copiar;
+  - puntos animados mientras escribe;
+  - una caja que crece con el texto y queda fija abajo;
+  - el conteo de mensajes aparece solo cuando quedan 3 o menos.
+- Encabezados de seguridad en todas las páginas:
+  - bloquea que otra página meta a Eduka en un marco;
+  - el navegador no adivina el tipo de los archivos;
+  - no se comparten rutas con otros sitios;
+  - obliga a usar HTTPS;
+  - bloquea cámara, micrófono y ubicación.
+
+## Referencias
+
+- `docs/producto/competencia.md`: el estudio competitivo del 14 de noviembre de 2026 (Flint, SchoolAI,
+  Khanmigo, MagicSchool, Brisk, Gemini y otros).

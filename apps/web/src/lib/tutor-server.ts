@@ -18,6 +18,9 @@ export const TUTOR_LIMITS = {
   maxOutputTokens: TUTOR_MAX_OUTPUT_TOKENS,
 };
 
+/** Kemo's daily limit for visitors in the public demo (no school): it bounds the spend. */
+export const DEMO_TUTOR_PER_DAY = 10;
+
 let cached: AI | null = null;
 
 /** AI client for the web server: usage goes to ai_usage and the spend fuse reads it back. */

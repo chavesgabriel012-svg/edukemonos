@@ -161,7 +161,7 @@ export function StudentDetail({ source, metrics, studentId, actions }: {
               <li key={i} className="flex gap-3 text-sm">
                 <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-secondary"><e.icon aria-hidden className="size-4" /></span>
                 <span>
-                  <span className="block font-mono text-xs text-muted-foreground">{fmtDate(e.at)}</span>
+                  <span className="block tabular-nums text-xs text-muted-foreground">{fmtDate(e.at)}</span>
                   {e.text}
                 </span>
               </li>

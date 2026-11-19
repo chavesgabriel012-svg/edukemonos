@@ -30,7 +30,7 @@ export function SectionHeader({ source }: { source: PanelSource }) {
       )}
       <div className="grid gap-4 lg:grid-cols-[1fr_auto]">
         <div className="space-y-1.5">
-          <p className="font-mono text-xs text-muted-foreground uppercase">
+          <p className="tabular-nums text-xs text-muted-foreground">
             {s.gradeId}.º año{s.subjectName ? ` · ${s.subjectName}` : source.kind === "group" ? " · todas las materias" : ""}
             {s.term ? ` · ${TERM[s.term as 1 | 2 | 3]}` : ""}{s.institution ? ` · ${s.institution}` : ""}
           </p>

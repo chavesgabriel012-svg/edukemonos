@@ -19,9 +19,9 @@ export function TournamentCard({ sectionId, data }: { sectionId: string; data: S
 
   return (
     <div className="space-y-3">
-      <p className="flex items-center gap-2 font-mono text-xs text-muted-foreground">
+      <p className="flex items-center gap-2 tabular-nums text-xs text-muted-foreground">
         <Trophy aria-hidden strokeWidth={2.5} className="size-4" />
-        TORNEO DE LOS VIERNES
+        Torneo de los viernes
       </p>
 
       {data.status === "upcoming" && (
@@ -76,7 +76,7 @@ export function TournamentCard({ sectionId, data }: { sectionId: string; data: S
               {t.teams.map((team) => (
                 <li key={team.name} className={`flex min-h-11 items-center justify-between gap-3 px-3 py-2 ${team.me ? "bg-secondary font-semibold" : ""}`}>
                   <span>{team.me ? `Tu equipo · ${team.name}` : team.name}</span>
-                  <span className="font-mono text-sm">{fmtPoints(team.score)}</span>
+                  <span className="tabular-nums text-sm">{fmtPoints(team.score)}</span>
                 </li>
               ))}
             </ol>
@@ -102,10 +102,13 @@ export function TournamentCard({ sectionId, data }: { sectionId: string; data: S
             </div>
           )}
 
-          <p className="text-xs text-muted-foreground">
-            Puntos: 1 por cada acierto (hasta 10) y 1 por cada 5 puntos que sube tu dominio en los temas esta semana. El
-            equipo suma el promedio de sus integrantes. No hay reloj.
-          </p>
+          <details className="text-sm">
+            <summary className="cursor-pointer font-medium">Cómo se suman los puntos</summary>
+            <p className="mt-2 text-muted-foreground">
+              1 por cada acierto (hasta 10) y 1 por cada 5 puntos que sube tu dominio en los temas esta semana. El equipo
+              suma el promedio de sus integrantes. No hay reloj.
+            </p>
+          </details>
         </div>
       )}
     </div>

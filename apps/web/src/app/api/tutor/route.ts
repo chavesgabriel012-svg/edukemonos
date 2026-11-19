@@ -8,9 +8,11 @@ import {
   tutorOutputStream,
   tutorSystemPrompt,
 } from "@edukemonos/ai/tutor";
+import { isDemo } from "@edukemonos/curriculum";
+import { UNIT_UNAVAILABLE, unitAccess } from "@/lib/catalog";
 import { adminClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
-import { consumeQuota, helpResources, serverAI, TUTOR_LIMITS, tutorUnit } from "@/lib/tutor-server";
+import { consumeQuota, DEMO_TUTOR_PER_DAY, helpResources, serverAI, TUTOR_LIMITS, tutorUnit } from "@/lib/tutor-server";
 
 /**
  * One tutor turn, streamed as NDJSON:
@@ -47,6 +49,11 @@ export async function POST(request: Request) {
   if (!message) return errorResponse("Escribe tu pregunta.");
   if (message.length > 2_000) return errorResponse("Tu mensaje es muy largo. Intenta resumirlo.");
 
+  // The unit must be visible in the student's school (or the demo) before anything is read or spent.
+  const access = await unitAccess(unitId);
+  if (!access.visible) return errorResponse(UNIT_UNAVAILABLE, 404);
+  const perDay = isDemo(access.catalog) ? DEMO_TUTOR_PER_DAY : TUTOR_LIMITS.perDay;
+
   const admin = adminClient();
   const found = await tutorUnit(unitId);
   if (!found) return errorResponse("Esta unidad no está disponible.", 404);
@@ -62,7 +69,7 @@ export async function POST(request: Request) {
     }
     previousCount = s.message_count;
   }
-  if (!(await consumeQuota(`tutor:day:${user.id}`, TUTOR_LIMITS.perDay, 86_400))) {
+  if (!(await consumeQuota(`tutor:day:${user.id}`, perDay, 86_400))) {
     return errorResponse("Por hoy ya usaste todos tus mensajes con el tutor. Mañana puedes seguir; mientras tanto, practica con los ejercicios.", 429);
   }
   if (!sid) {

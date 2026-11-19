@@ -36,7 +36,7 @@ export function ActivityBars({ activity, label = "Ejercicios respondidos por dí
     <figure className="space-y-2">
       <figcaption className="flex items-baseline justify-between gap-2 text-sm">
         <span className="font-medium">{label}</span>
-        <span className="font-mono text-xs text-muted-foreground">{total} en 4 semanas</span>
+        <span className="tabular-nums text-xs text-muted-foreground">{total} en 4 semanas</span>
       </figcaption>
       <div className="flex h-28 items-end gap-[2px] border-b border-border" aria-hidden>
         {activity.map((d) => (
@@ -47,7 +47,7 @@ export function ActivityBars({ activity, label = "Ejercicios respondidos por dí
           </div>
         ))}
       </div>
-      <div className="flex justify-between font-mono text-[11px] text-muted-foreground">
+      <div className="flex justify-between tabular-nums text-xs text-muted-foreground">
         <span>{dayLabel(activity[0].day)}</span>
         <span>Hoy</span>
       </div>
@@ -69,7 +69,7 @@ export function BarList({ rows, unit = "", empty }: { rows: { key: string; label
         <li key={r.key} className="space-y-1">
           <div className="flex items-baseline justify-between gap-3 text-sm">
             <span className="min-w-0 truncate">{r.label}</span>
-            <span className="shrink-0 font-mono text-xs">{r.value}{unit}{r.note ? <span className="text-muted-foreground"> · {r.note}</span> : null}</span>
+            <span className="shrink-0 tabular-nums text-xs">{r.value}{unit}{r.note ? <span className="text-muted-foreground"> · {r.note}</span> : null}</span>
           </div>
           <div className="h-2 rounded-full bg-secondary">
             <div className="h-full rounded-full bg-violeta" style={{ width: `${(r.value / max) * 100}%` }} />
@@ -88,7 +88,7 @@ export function MasteryBar({ value }: { value: number | null }) {
       <span className="h-2 w-20 overflow-hidden rounded-full bg-secondary">
         <span className="block h-full rounded-full bg-violeta" style={{ width: `${Math.round(value * 100)}%` }} />
       </span>
-      <span className="font-mono text-xs">{Math.round(value * 100)} %</span>
+      <span className="tabular-nums text-xs">{Math.round(value * 100)} %</span>
     </span>
   );
 }

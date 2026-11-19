@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { isDemo, subjectVisible } from "@edukemonos/curriculum";
+import { DemoBanner } from "@/components/learn/demo-banner";
 import { BackLink } from "@/components/ui/back-link";
 import { eyebrow } from "@/components/ui/styles";
+import { myCatalog } from "@/lib/catalog";
 import { GRADE_LABEL, parseGrade, subjectName } from "@/lib/learn";
 import { DiagnosticRunner } from "./runner";
 
@@ -12,8 +15,11 @@ export default async function DiagnosticPage({ params }: PageProps<"/estudiar/[g
   const grade = parseGrade(grado);
   const name = grade ? await subjectName(materia) : null;
   if (!grade || !name) notFound();
+  const catalog = await myCatalog();
+  if (!subjectVisible(catalog, grade, materia)) notFound();
   return (
     <section className="mx-auto max-w-3xl space-y-6">
+      {isDemo(catalog) && <DemoBanner />}
       <div className="space-y-2">
         <BackLink href={`/estudiar/${grade}/${materia}`}>{name} · {GRADE_LABEL[grade].toLowerCase()}</BackLink>
         <p className={eyebrow}>{name} · {grade}.º</p>

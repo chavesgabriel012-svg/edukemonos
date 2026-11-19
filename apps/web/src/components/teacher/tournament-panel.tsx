@@ -47,13 +47,13 @@ export function TournamentPanel({ data, demo }: { data: TournamentReport | null;
                     {t.closed && t.winners?.includes(team.name) && <Trophy aria-label="Ganador" strokeWidth={2.5} className="size-4 text-violeta" />}
                     {team.name}
                   </span>
-                  <span className="font-mono text-sm">{fmt(team.score)}</span>
+                  <span className="tabular-nums text-sm">{fmt(team.score)}</span>
                 </p>
                 <ul className="space-y-1 text-sm">
                   {team.members.map((m) => (
                     <li key={m.student_id} className="flex justify-between gap-3">
                       <span className={m.played ? "" : "text-muted-foreground"}>{m.name}{m.late ? " (se sumó tarde)" : ""}</span>
-                      <span className="shrink-0 font-mono text-xs" title="Lo que subió su dominio en los temas esta semana">
+                      <span className="shrink-0 tabular-nums text-xs" title="Lo que subió su dominio en los temas esta semana">
                         {m.improvement > 0 ? `+${m.improvement}` : m.played ? "0" : "sin jugar"}
                       </span>
                     </li>

@@ -47,7 +47,7 @@ export default async function GroupPage({ params }: PageProps<"/docente/grupo/[i
     <div className="space-y-6">
       <div className="space-y-1">
         <BackLink href="/docente">Mis secciones</BackLink>
-        <p className="font-mono text-xs text-muted-foreground uppercase">{g.grade_id}.º año · grupo{g.institution ? ` · ${g.institution}` : ""}</p>
+        <p className="tabular-nums text-xs text-muted-foreground">{g.grade_id}.º año · grupo{g.institution ? ` · ${g.institution}` : ""}</p>
         <h1 className="font-heading text-4xl leading-none font-bold sm:text-5xl">{g.name}</h1>
         <p className="text-sm text-muted-foreground">{g.students} {g.students === 1 ? "estudiante" : "estudiantes"}</p>
       </div>
