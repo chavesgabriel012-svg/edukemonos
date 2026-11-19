@@ -23,6 +23,12 @@ export async function GET(request: NextRequest) {
       ? await supabase.auth.verifyOtp({ token_hash: tokenHash, type })
       : { error: new Error("missing code") };
 
+  if (!error) {
+    // The only path that accepts an invitation: links the confirmed e-mail to pending invites.
+    const { error: claimError } = await supabase.rpc("claim_my_invites");
+    if (claimError) console.error("claim_my_invites failed", claimError.message);
+  }
+
   const target = error ? `/entrar?error=enlace&next=${encodeURIComponent(next)}` : next;
   return NextResponse.redirect(new URL(target, requestOrigin(request.headers)));
 }

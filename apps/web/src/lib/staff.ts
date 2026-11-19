@@ -1,5 +1,5 @@
 import "server-only";
-import { redirect } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 
 export type StaffRole = "teacher" | "reviewer" | "admin";
@@ -20,4 +20,14 @@ export async function requireStaff(next: string) {
 export async function requireReviewer(next: string) {
   const staff = await requireStaff(next);
   return { ...staff, allowed: staff.role === "reviewer" || staff.role === "admin" };
+}
+
+/** Admins only. Anyone else (no session, anonymous student, other role) gets a 404, not a hint that /admin exists. */
+export async function requireAdmin() {
+  const supabase = await createClient();
+  const { data } = await supabase.auth.getUser();
+  if (!data.user || data.user.is_anonymous) notFound();
+  const { data: profile } = await supabase.from("profiles").select("role").eq("id", data.user.id).single();
+  if (profile?.role !== "admin") notFound();
+  return { supabase, user: data.user };
 }
