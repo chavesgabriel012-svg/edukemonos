@@ -31,17 +31,23 @@ $$;
 -- ---------------------------------------------------------------------------
 -- Vincular invitaciones
 -- ---------------------------------------------------------------------------
--- Vincula todas las invitaciones abiertas de ese correo a ese perfil. Devuelve cuántas vinculó ahora.
+-- Vincula todas las invitaciones abiertas del correo de ese perfil. Devuelve cuántas vinculó ahora.
+-- El correo sale de auth.users (p_email se ignora) y solo cuenta si está confirmado: quien se registra
+-- con un correo ajeno, o quien recibió la invitación y todavía no entra, no queda vinculado.
 create function private.claim_invites(p_profile uuid, p_email text)
 returns int
 language plpgsql security definer set search_path = ''
 as $$
 declare
-  em text := lower(btrim(coalesce(p_email, '')));
+  em text;
+  confirmed timestamptz;
   inv record;
   n int := 0;
 begin
-  if em = '' or not exists (select 1 from public.profiles where id = p_profile) then
+  select lower(btrim(u.email)), u.email_confirmed_at into em, confirmed
+  from auth.users u where u.id = p_profile and coalesce(u.is_anonymous, false) = false;
+  if em is null or em = '' or confirmed is null
+     or not exists (select 1 from public.profiles where id = p_profile) then
     return 0;
   end if;
   for inv in

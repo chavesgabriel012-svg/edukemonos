@@ -2312,13 +2312,22 @@ describe("school invitations and members", () => {
       await act(null);
       const uid = "00000000-0000-4000-8000-0000000000e1";
       await q(`insert into auth.users (id, email, is_anonymous) values ($1, 'ana@colegio.cr', false)`, [uid]);
+      const unconfirmed = await q(`select 1 from public.institution_members where profile_id = $1`, [uid]);
+      const unconfirmedInv = await q(`select accepted_at from public.institution_invites where email = 'ana@colegio.cr'`);
+      await q(`update auth.users set email_confirmed_at = now() where id = $1`, [uid]);
+      await act(user(uid));
+      const [{ n }] = await q(`select public.claim_my_invites() as n`);
+      await act(null);
       const member = await q(`select role from public.institution_members where institution_id = $1 and profile_id = $2`, [ids.schoolA, uid]);
       const inv = await q(`select accepted_profile_id, accepted_at is not null as done from public.institution_invites where institution_id = $1 and email = 'ana@colegio.cr'`, [ids.schoolA]);
       const [prof] = await q(`select display_name from public.profiles where id = $1`, [uid]);
       const audit = await q(`select action from public.admin_audit_log where institution_id = $1 order by id`, [ids.schoolA]);
-      return { res, uid, member, inv, prof, audit };
+      return { res, uid, member, inv, prof, audit, unconfirmed, unconfirmedInv, n };
     });
     expect(out.res.created.map((c) => c.email)).toEqual(["ana@colegio.cr"]);
+    expect(out.unconfirmed).toEqual([]);                       // not linked while the email is unconfirmed
+    expect(out.unconfirmedInv).toEqual([{ accepted_at: null }]);
+    expect(out.n).toBe(1);
     expect(out.member).toEqual([{ role: "teacher" }]);
     expect(out.inv).toEqual([{ accepted_profile_id: out.uid, done: true }]);
     expect(out.prof.display_name).toBe("Ana Mora");
@@ -2330,12 +2339,17 @@ describe("school invitations and members", () => {
       await act(admin);
       await invite(q, [{ email: "Teacher2@example.test", name: "Docente Dos", role: "admin" }]);
       await act(user(ids.teacher2));
+      const [{ early }] = await q(`select public.claim_my_invites() as early`);   // email not confirmed yet
+      await act(null);
+      await q(`update auth.users set email_confirmed_at = now() where id = $1`, [ids.teacher2]);
+      await act(user(ids.teacher2));
       const [{ n }] = await q(`select public.claim_my_invites() as n`);
       const [{ again }] = await q(`select public.claim_my_invites() as again`);
       await act(null);
       const member = await q(`select role from public.institution_members where institution_id = $1 and profile_id = $2`, [ids.schoolA, ids.teacher2]);
-      return { n, again, member };
+      return { early, n, again, member };
     });
+    expect(out.early).toBe(0);
     expect(out.n).toBe(1);
     expect(out.again).toBe(0);
     expect(out.member).toEqual([{ role: "admin" }]);
