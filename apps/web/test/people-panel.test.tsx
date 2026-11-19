@@ -43,6 +43,30 @@ describe("PeoplePanel", () => {
     expect(html).toContain("Repetido: ana@c.cr");
   });
 
+  it("marks who is already a member or already invited", () => {
+    const html2 = renderToStaticMarkup(
+      <PeoplePanel
+        institutionId="i"
+        people={people}
+        members={members}
+        initialState={{
+          list,
+          preview: {
+            people: [
+              { email: "Luis@C.cr", name: "Luis", role: "teacher" },
+              { email: "ana@c.cr", name: "Ana", role: "teacher" },
+              { email: "bea@c.cr", name: "Bea", role: "teacher" },
+            ],
+            errors: [],
+            duplicates: [],
+          },
+        }}
+      />,
+    );
+    expect(html2).toContain("ya tenía una invitación");
+    expect(html2.match(/ya es parte del colegio/g)).toHaveLength(1);
+  });
+
   it("lets the coordination send the invitations", () => {
     const button = html.match(/<button[^>]*>Enviar invitaciones<\/button>/)?.[0] ?? "";
     expect(button).not.toBe("");

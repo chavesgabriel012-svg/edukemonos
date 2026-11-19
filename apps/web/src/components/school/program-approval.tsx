@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { approveOffering, markUnitsSeen, setUnitHidden, withdrawOffering } from "@/app/(app)/docente/institucion/actions";
 import { action } from "@/components/ui/action";
 import { Notice } from "@/components/ui/notice";
@@ -70,16 +71,25 @@ function Offering({ institutionId, offering: o }: { institutionId: string; offer
         </Notice>
       )}
 
-      {o.units.length > 0 && (
-        <details>
-          <summary className="cursor-pointer text-sm font-medium">Ver los temas</summary>
-          <ul className="mt-2 space-y-1">
-            {o.units.map((u) => <UnitRow key={u.id} institutionId={institutionId} unit={u} />)}
-          </ul>
-        </details>
-      )}
+      {o.units.length > 0 &&
+        (o.status === "aprobado" ? (
+          <details>
+            <summary className="cursor-pointer text-sm font-medium">Ver los temas</summary>
+            <UnitList institutionId={institutionId} units={o.units} />
+          </details>
+        ) : (
+          <UnitList institutionId={institutionId} units={o.units} />
+        ))}
       {error && <p role="alert" className="text-sm text-destructive">{error}</p>}
     </li>
+  );
+}
+
+function UnitList({ institutionId, units }: { institutionId: string; units: ProgramUnit[] }) {
+  return (
+    <ul className="mt-2 space-y-1">
+      {units.map((u) => <UnitRow key={u.id} institutionId={institutionId} unit={u} />)}
+    </ul>
   );
 }
 
@@ -87,8 +97,12 @@ function UnitRow({ institutionId, unit }: { institutionId: string; unit: Program
   const { pending, error, run } = useRun();
   return (
     <li className="flex flex-wrap items-center justify-between gap-2 text-sm">
-      <span className={unit.hidden ? "text-muted-foreground line-through" : undefined}>{unit.title}</span>
+      <span className={unit.hidden ? "text-muted-foreground line-through" : undefined}>
+        {unit.title}
+        {unit.source_page !== null && <span className="tabular-nums text-xs text-muted-foreground"> · p. {unit.source_page}</span>}
+      </span>
       <span className="flex items-center gap-2">
+        <Link href={`/unidad/${unit.id}`} className="text-xs underline underline-offset-2">Ver como estudiante</Link>
         {unit.hidden && <span className="text-xs text-muted-foreground">Oculto para Kemo</span>}
         <button type="button" disabled={pending} onClick={() => run(() => setUnitHidden(institutionId, unit.id, !unit.hidden))} className={action({ variant: "soft", size: "sm" })}>
           {unit.hidden ? "Mostrar" : "Ocultar"}

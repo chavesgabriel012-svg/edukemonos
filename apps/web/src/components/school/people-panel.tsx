@@ -37,6 +37,12 @@ export function PeoplePanel({ institutionId, people, members, initialState }: { 
   // What gets sent is the text in the box, so the preview must be of that same text.
   const previewed = preview !== undefined && state.list === text;
   const sent = state.sent !== undefined;
+  // Marks, from the list already loaded, who is in the school or already invited (the server still decides).
+  const known = new Map<string, string>();
+  for (const p of people) {
+    if (p.status === "activo") known.set(p.email.toLowerCase(), "ya es parte del colegio");
+    else if (p.status === "invitado") known.set(p.email.toLowerCase(), "ya tenía una invitación");
+  }
 
   return (
     <div className="space-y-5">
@@ -53,7 +59,10 @@ export function PeoplePanel({ institutionId, people, members, initialState }: { 
             {preview.people.length > 0 && (
               <ul className="space-y-0.5 text-muted-foreground">
                 {preview.people.map((p) => (
-                  <li key={p.email}>{p.name} · {p.email} · {ROLE[p.role]}</li>
+                  <li key={p.email}>
+                    {p.name} · {p.email} · {ROLE[p.role]}
+                    {known.get(p.email.toLowerCase()) && <span className="text-foreground"> · {known.get(p.email.toLowerCase())}</span>}
+                  </li>
                 ))}
               </ul>
             )}
