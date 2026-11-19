@@ -15,6 +15,11 @@ alter table public.institutions
   add column ai_monthly_budget_usd numeric check (ai_monthly_budget_usd >= 0),   -- null = sin tope
   add column language text not null default 'es' check (language ~ '^[a-z]{2}$');
 
+-- Los colegios que ya existen siguen funcionando: cuando los códigos de grupo pasen a exigir un
+-- colegio activo, los que ya están en producción no deben dejar de aceptar estudiantes. Los nuevos
+-- nacen en 'preparando' (el default).
+update public.institutions set status = 'activo';
+
 -- ---------------------------------------------------------------------------
 -- Funciones de identidad: a qué colegio pertenece una persona
 -- ---------------------------------------------------------------------------
@@ -121,6 +126,28 @@ create policy items_read on public.items for select to anon, authenticated
   using (
     (status = 'published' and private.unit_is_published(unit_id)
       and private.can_read_source(private.unit_source_id(unit_id)))
+    or private.is_reviewer()
+  );
+
+create function private.skill_source_id(p_skill uuid)
+returns uuid
+language sql stable security definer set search_path = ''
+as $$
+  select u.source_id from public.skills k join public.curriculum_units u on u.id = k.unit_id where k.id = p_skill
+$$;
+
+drop policy skills_read on public.skills;
+create policy skills_read on public.skills for select to anon, authenticated
+  using (
+    (private.unit_is_published(unit_id) and private.can_read_source(private.unit_source_id(unit_id)))
+    or private.is_reviewer()
+  );
+
+drop policy skill_prereq_read on public.skill_prerequisites;
+create policy skill_prereq_read on public.skill_prerequisites for select to anon, authenticated
+  using (
+    (private.can_read_source(private.skill_source_id(skill_id))
+      and private.can_read_source(private.skill_source_id(prerequisite_id)))
     or private.is_reviewer()
   );
 

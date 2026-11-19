@@ -1819,6 +1819,8 @@ describe("school console schema", () => {
          values ('III', 7, 'matematicas', 'Tema propio A', $1, 1, 'x', 'published') returning id`,
         [src],
       );
+      const [{ id: skill }] = await q(`insert into public.skills (unit_id, subject_id, grade_id, code, name) values ($1, 'matematicas', 7, 'P.1', 'Habilidad propia A') returning id`, [unit]);
+      await q(`insert into public.skill_prerequisites (skill_id, prerequisite_id) values ($1, $2)`, [skill, ids.skillPublished]);
       await q(`insert into public.materials (unit_id, kind, content, status) values ($1, 'summary', 'propio', 'published')`, [unit]);
       await q(
         `insert into public.items (unit_id, stem, options, correct_index, explanation, distractor_explanations, difficulty, verified, status)
@@ -1831,6 +1833,8 @@ describe("school console schema", () => {
         const r = {
           sources: (await q(`select id from public.curriculum_sources where id = $1`, [src])).length,
           units: (await q(`select id from public.curriculum_units where id = $1`, [unit])).length,
+          skills: (await q(`select id from public.skills where unit_id = $1`, [unit])).length,
+          prereqs: (await q(`select 1 from public.skill_prerequisites where skill_id = $1`, [skill])).length,
           materials: (await q(`select id from public.materials where unit_id = $1`, [unit])).length,
           items: (await q(`select id from public.items where unit_id = $1`, [unit])).length,
           common: (await q(`select id from public.curriculum_units where id = $1`, [ids.unitPublished])).length,
@@ -1846,11 +1850,11 @@ describe("school console schema", () => {
         reviewer: await read(reviewer),
       };
     });
-    expect(out.inside).toEqual({ sources: 1, units: 1, materials: 1, items: 1, common: 1 });
-    expect(out.outside).toEqual({ sources: 0, units: 0, materials: 0, items: 0, common: 1 });
-    expect(out.visitor).toEqual({ sources: 0, units: 0, materials: 0, items: 0, common: 1 });
-    expect(out.coordinator).toEqual({ sources: 1, units: 1, materials: 1, items: 1, common: 1 });
-    expect(out.reviewer).toEqual({ sources: 1, units: 1, materials: 1, items: 1, common: 1 });
+    expect(out.inside).toEqual({ sources: 1, units: 1, skills: 1, prereqs: 1, materials: 1, items: 1, common: 1 });
+    expect(out.outside).toEqual({ sources: 0, units: 0, skills: 0, prereqs: 0, materials: 0, items: 0, common: 1 });
+    expect(out.visitor).toEqual({ sources: 0, units: 0, skills: 0, prereqs: 0, materials: 0, items: 0, common: 1 });
+    expect(out.coordinator).toEqual({ sources: 1, units: 1, skills: 1, prereqs: 1, materials: 1, items: 1, common: 1 });
+    expect(out.reviewer).toEqual({ sources: 1, units: 1, skills: 1, prereqs: 1, materials: 1, items: 1, common: 1 });
   });
 
   it("attributes AI usage to the student's most recent school", async () => {
