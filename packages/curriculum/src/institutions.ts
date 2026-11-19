@@ -79,7 +79,7 @@ export function parseInviteList(text: string): {
     const cols = raw.split(sep).map((c) => c.trim());
     const isFirst = first;
     first = false;
-    if (isFirst && HEADER.test(fold(cols[0]))) return;
+    if (isFirst && !EMAIL.test(cols[0].toLowerCase()) && HEADER.test(fold(cols[0]))) return;
 
     const fail = (reason: "email" | "name" | "role") => errors.push({ line: i + 1, text: raw, reason });
     const email = cols[0].toLowerCase();

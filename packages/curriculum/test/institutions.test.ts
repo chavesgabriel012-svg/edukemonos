@@ -60,6 +60,13 @@ describe("parseInviteList", () => {
       expect(r.people).toHaveLength(1);
     }
   });
+  it("never drops a first-line address that starts with email or correo", () => {
+    for (const text of ["email@colegio.cr, Ana", "correo@colegio.cr, Secretaría"]) {
+      const r = parseInviteList(text);
+      expect(r.errors).toEqual([]);
+      expect(r.people).toHaveLength(1);
+    }
+  });
   it("reports errors with original line numbers and duplicates once", () => {
     const text = "no-es-correo, X\nana@c.cr, Ana\nANA@c.cr; Ana B; docente\nbeto@c.cr, Beto, rector";
     const r = parseInviteList(text);
