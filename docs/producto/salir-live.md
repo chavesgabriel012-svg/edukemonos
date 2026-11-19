@@ -9,8 +9,10 @@ Eduka tiene tres partes:
 - **Docente:** avance de cada estudiante, análisis y recomendaciones.
 - **Colegio:** todo lo anterior, hecho con el contenido del colegio.
 
-Las dos primeras ya funcionan de punta a punta. La tercera, armar y administrar un colegio, todavía
-se hace a mano con SQL y scripts. Ahí está lo que falta.
+Las dos primeras ya funcionan de punta a punta. La tercera, armar y administrar un colegio, ya tiene
+su consola en la rama `producto/eduka-v2` (filas 1, 2 y 3 de abajo). Falta la revisión del fundador y
+aplicar las migraciones en producción. Lo que sigue por scripts: subir el programa propio de un
+colegio, y generar y verificar contenido.
 
 ## Lo que se revisó
 
@@ -25,7 +27,8 @@ se hace a mano con SQL y scripts. Ahí está lo que falta.
   2. Una estudiante se une con el código desde un teléfono y responde 6 ejercicios.
   3. El docente la ve en su panel, con sus hallazgos.
 
-  Ahora es una prueba automática: `e2e/docente-estudiante.spec.ts`.
+  Ese recorrido ahora está dentro de la prueba automática `e2e/consola.spec.ts`, que además arma el
+  colegio desde la consola del equipo.
 - **Lo que se corrigió en el camino:**
   - Una sección sin estudiantes ya no muestra los paneles de meta, torneo y racha vacíos.
   - Los formularios de crear sección y crear grupo usan los estilos compartidos.
@@ -40,10 +43,10 @@ tutor más «inteligente», porque no nos diferencia.
 
 | # | Qué | Por qué | Esfuerzo |
 |---|-----|---------|----------|
-| 1 | **Consola del equipo Eduka** (`/admin`): crear el colegio, sus grados y materias, subir el programa, generar, verificar y publicar, e invitar docentes. Incluye una vista para que el colegio apruebe su contenido antes de publicarlo | Hoy un colegio se arma con SQL y scripts desde la terminal. La carga del programa propio es la ventaja que más nos separa de Flint y SchoolAI, donde el docente arma todo | 2–3 semanas |
-| 2 | **Contenido por colegio**: `institution_id` en `curriculum_sources`, `curriculum_units` e `items`, y que cada estudiante vea solo el de su colegio | Todo el contenido es global; dos colegios verían lo mismo | 1 semana (va con la 1) |
-| 3 | **Acceso docente por invitación**: el colegio entrega la lista, Eduka invita por correo y la persona entra con enlace | Hoy cualquiera con correo queda como docente | 3–4 días |
-| 4 | **Correo propio** (SMTP con Resend u otro, en un dominio de Eduka) | El correo que trae Supabase envía muy pocos mensajes por hora y no sirve para producción. Hay que revisar en el panel de Supabase qué está configurado hoy | 1 día |
+| 1 | **Consola del equipo Eduka** (`/admin`): crear el colegio, sus grados y materias, subir el programa, generar, verificar y publicar, e invitar docentes. Incluye una vista para que el colegio apruebe su contenido antes de publicarlo. **Hecho en esta rama** (falta la revisión del fundador y las migraciones en producción): colegios, materias que ofrece cada uno, aprobación por la coordinación, personas, grupos, hoja de códigos y uso. Subir el programa propio y generar contenido siguen por scripts | Hoy un colegio se arma con SQL y scripts desde la terminal. La carga del programa propio es la ventaja que más nos separa de Flint y SchoolAI, donde el docente arma todo | 2–3 semanas |
+| 2 | **Contenido por colegio**: `institution_id` en `curriculum_sources`, `curriculum_units` e `items`, y que cada estudiante vea solo el de su colegio. **Hecho en esta rama** (falta la revisión del fundador y las migraciones en producción) | Todo el contenido es global; dos colegios verían lo mismo | 1 semana (va con la 1) |
+| 3 | **Acceso docente por invitación**: el colegio entrega la lista, Eduka invita por correo y la persona entra con enlace. **Hecho en esta rama** (falta la revisión del fundador y las migraciones en producción) | Hoy cualquiera con correo queda como docente | 3–4 días |
+| 4 | **Correo propio** (SMTP con Resend u otro, en un dominio de Eduka) | El correo que trae Supabase envía muy pocos mensajes por hora y no sirve para producción. Hay que revisar en el panel de Supabase qué está configurado hoy. Cuando el SMTP propio esté listo, se pone la variable de entorno `EMAIL_SMTP_CONFIGURED=true` en Vercel: la consola la usa para marcar ese paso en la lista «Para empezar» de cada colegio | 1 día |
 | 5 | **Planes pagos**: Vercel Pro (US$20) y Supabase Pro (US$25) | Vercel Hobby prohíbe el uso comercial, y en el plan gratis Supabase pausa el proyecto y no hace copias diarias | 1 hora, cuando entre el dinero |
 | 6 | **Presupuesto de IA por colegio** y la evaluación del prompt v12 | Noviembre ya gastó US$12,14 de un tope de US$8, y la evaluación del tutor está pendiente por eso | 2 días |
 | 7 | **Revisión legal**: Ley 8968, consentimiento de las familias para menores, contrato con el colegio como responsable de los datos | Datos de menores; tiene que verlo un abogado antes de firmar | Externo |
@@ -53,7 +56,7 @@ tutor más «inteligente», porque no nos diferencia.
 | # | Qué | Por qué |
 |---|-----|---------|
 | 8 | **Monitoreo de errores** (Sentry o similar) y alertas de gasto de IA | Hoy un error en producción solo se ve si alguien lo reporta |
-| 9 | **Pruebas de punta a punta en CI.** Ya existen `revisar.spec.ts` y `docente-estudiante.spec.ts`, pero se corren a mano. Faltan correrlas en CI, sumar el tutor simulado y probar al docente guía | Hoy dependen de que alguien se acuerde de correrlas |
+| 9 | **Pruebas de punta a punta en CI.** Ya existen `revisar.spec.ts` y `consola.spec.ts`, pero se corren a mano. Faltan correrlas en CI, sumar el tutor simulado y probar al docente guía | Hoy dependen de que alguien se acuerde de correrlas |
 | 10 | **Prompts sin «colegios públicos de Costa Rica»** fijo: el nombre, el nivel y el idioma salen del colegio | Seis prompts lo dicen hoy (`packages/ai/src/prompts/`) |
 | 11 | **Grados y materias desde la base**, no desde el código; Word y presentaciones además de PDF | 7.º a 9.º y las seis materias están escritos en el código, y la ingestión solo lee PDF |
 | 12 | **Coordinación del colegio** puede agregar y quitar docentes y ver todas las secciones | Hoy depende del equipo Eduka |

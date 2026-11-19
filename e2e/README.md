@@ -4,12 +4,33 @@ Corren contra un Supabase **local** (Docker) y `next dev`. Nunca tocan el proyec
 
 ```bash
 e2e/setup.sh                                          # Supabase local + datos de prueba
-pnpm --filter web dev --hostname 127.0.0.1 &          # la app en http://127.0.0.1:3000
+pnpm --filter web dev --hostname 127.0.0.1 &          # la app en http://127.0.0.1:3000 (con claves locales, ver abajo)
 pnpm test:e2e
 ```
 
-`docente-estudiante.spec.ts` cubre el ciclo central: el docente entra con su correo y crea una sección, un estudiante
-se une con el código y practica, y el docente lo ve en su panel. No llama a la IA.
+`consola.spec.ts` recorre el ciclo completo de la consola, por la interfaz y sin llamar a la IA. SQL se usa solo para
+hacer `admin` a la cuenta del equipo y publicar un tema de 7.º con 4 ejercicios verificados:
+
+1. El equipo entra con enlace mágico (Mailpit), crea «Colegio Prueba», marca 7.º Matemáticas e invita a una docente y a
+   una coordinadora pegando la lista.
+2. La coordinadora abre su invitación, aprueba 7.º Matemáticas y crea el grupo 7-1.
+3. El equipo pasa el colegio a Activo; la docente abre su invitación y crea su sección en 7-1.
+4. Una estudiante se une con el código del grupo, ve solo 7.º y Matemáticas, practica, y la docente la ve en su panel.
+5. La coordinadora oculta un tema y la estudiante recibe el 404 en ese tema.
+6. Con el colegio en Preparando, el código de grupo muestra el texto de colegio no activo.
+7. Una cuenta sin invitación ve el texto de docente sin colegio y no tiene el formulario de sección.
+
+La app debe correr en `127.0.0.1:3000` (el `site_url` del Supabase local, que usan los enlaces de invitación) con las
+claves **locales**; si la terminal exporta las de producción, páselas en la línea de comandos:
+
+```bash
+eval "$(pnpm exec supabase status -o env | grep -E '^(API_URL|ANON_KEY|SERVICE_ROLE_KEY)=')"
+NEXT_PUBLIC_SUPABASE_URL=$API_URL NEXT_PUBLIC_SUPABASE_ANON_KEY=$ANON_KEY SUPABASE_SERVICE_ROLE_KEY=$SERVICE_ROLE_KEY \
+  OPENAI_API_KEY= ANTHROPIC_API_KEY= pnpm --filter web dev --hostname 127.0.0.1 --port 3000 &
+```
+
+La plantilla de invitación (`supabase/templates/invite.html`) se carga con `supabase/config.toml`; si la cambia,
+reinicie el stack (`pnpm exec supabase stop` y `e2e/setup.sh`).
 
 `revisar.spec.ts` cubre: enlace mágico (vía Mailpit local), que una cuenta nueva no vea nada sin rol de revisor,
 que una habilidad inventada bloquee la publicación, que guardar vuelva a verificar textualmente (incluida una
