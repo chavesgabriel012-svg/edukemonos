@@ -6,7 +6,8 @@ import pg from "pg";
  * e2e/setup.sh: the team creates a school and offers 7.º Matemáticas and invites two people; the
  * coordination approves the subject and creates a group; the team opens the school; a teacher
  * creates a section; a student joins with the group's code and practises; the coordination hides a
- * topic; a school that is not active refuses its code; and an account nobody invited sees nothing.
+ * topic; a school that is not active refuses its code; an account nobody invited sees nothing, and
+ * once invited it is linked on its next visit to /docente, with the session it already had.
  * SQL is used only to make the team account an admin and to publish a 7.º unit with verified items.
  * No AI calls.
  */
@@ -121,11 +122,15 @@ test("the console loop: a new school, its people, its program, a section, a stud
   await admin.getByRole("button", { name: "Enviar invitaciones" }).click();
   await expect(admin.getByRole("status").filter({ hasText: "2 invitaciones enviadas." })).toBeVisible();
 
-  // 2. Cora opens her invitation, approves 7.º Matemáticas and creates the group 7-1.
+  // 2. Cora opens her invitation, lands on /docente, follows the call to review the program, approves
+  //    7.º Matemáticas and creates the group 7-1.
   const cora = await (await browser.newContext()).newPage();
   cora.setDefaultTimeout(120_000);
   await cora.goto(await mailLink(COORD));
-  await cora.goto(`/docente/institucion/${schoolId}`);
+  await cora.waitForURL(/\/docente$/);
+  await expect(cora.getByText("Su colegio está terminando de preparar Eduka.")).toHaveCount(0);
+  await cora.getByRole("link", { name: /Revise y apruebe el programa de su colegio/ }).click();
+  await cora.waitForURL(new RegExp(`/docente/institucion/${schoolId}$`));
   await expect(cora.getByRole("heading", { name: "Colegio Prueba" })).toBeVisible();
   const offering = cora.getByRole("listitem").filter({ has: cora.getByRole("heading", { name: "7.º Matemáticas" }) });
   await expect(offering).toContainText("Pendiente de aprobación");
@@ -195,4 +200,15 @@ test("the console loop: a new school, its people, its program, a section, a stud
   await expect(nobody.getByText("Su colegio todavía no le dio acceso a Eduka. Si ya debería tenerlo, pídale a la coordinación que lo invite.")).toBeVisible();
   await expect(nobody.getByRole("button", { name: "Crear sección" })).toHaveCount(0);
   await expect(nobody.locator('select[name="subject_id"]')).toHaveCount(0);
+
+  // 8. Invited afterwards, with the session already open: /docente links them without a new sign-in.
+  await admin.goto(`${schoolUrl}?tab=personas`);
+  await admin.getByLabel("Personas que va a invitar").fill(`${SIN_INVITACION}, Nico Tarde`);
+  await admin.getByRole("button", { name: "Revisar lista" }).click();
+  await expect(admin.getByText("1 persona lista")).toBeVisible();
+  await admin.getByRole("button", { name: "Enviar invitaciones" }).click();
+  await expect(admin.getByRole("status").filter({ hasText: "Ya tiene cuenta en Eduka" })).toBeVisible();
+  await nobody.goto("/docente");
+  await expect(nobody.getByText("Su colegio todavía no le dio acceso a Eduka")).toHaveCount(0);
+  await expect(nobody.getByRole("link", { name: /Colegio Prueba/ })).toBeVisible();
 });

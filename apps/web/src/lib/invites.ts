@@ -8,8 +8,9 @@ const ALREADY_EXISTS_MESSAGE = /already (been )?(registered|exists)/i;
 /**
  * Sends each new person a Supabase invite e-mail that lands on /auth/confirm (token_hash flow),
  * where the pending invitation is claimed. People who already have an account get no e-mail:
- * they are reported as `existing` and join the school the next time they sign in, because
- * /auth/confirm runs claim_my_invites. Only the e-mail and the name go to Supabase Auth, never
+ * they are reported as `existing` and join the school the next time they sign in (/auth/confirm
+ * runs claim_my_invites) or open /docente with a session they already had (it runs it too when
+ * they have no school yet). Only the e-mail and the name go to Supabase Auth, never
  * to the AI. The caller must have checked that the user is an admin.
  */
 export async function sendInvites(people: { email: string; name: string }[], origin: string): Promise<InviteResult[]> {

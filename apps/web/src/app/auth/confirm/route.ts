@@ -24,7 +24,7 @@ export async function GET(request: NextRequest) {
       : { error: new Error("missing code") };
 
   if (!error) {
-    // The only path that accepts an invitation: links the confirmed e-mail to pending invites.
+    // Links the confirmed e-mail to pending invites (/docente does it too for an open session without a school).
     const { error: claimError } = await supabase.rpc("claim_my_invites");
     if (claimError) console.error("claim_my_invites failed", claimError.message);
   }

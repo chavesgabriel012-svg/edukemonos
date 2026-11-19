@@ -60,19 +60,49 @@ function Landing() {
   );
 }
 
+type Supabase = Awaited<ReturnType<typeof createClient>>;
+
+/** The schools of the signed-in person, with whether they coordinate each one. */
+async function myInstitutions(supabase: Supabase, uid: string) {
+  const { data: memberships } = await supabase
+    .from("institution_members")
+    .select("role, institutions(id, name)")
+    .eq("profile_id", uid);
+  return (memberships ?? []).flatMap((m) => {
+    const i = m.institutions as unknown as { id: string; name: string } | null;
+    return i ? [{ ...i, admin: m.role === "admin" }] : [];
+  });
+}
+
+/** The way into the coordination page, for each school whose program is still waiting for the coordinator. */
+function ReviewProgram({ schools }: { schools: { id: string; name: string }[] }) {
+  if (!schools.length) return null;
+  return (
+    <ul className="grid gap-3 sm:grid-cols-2">
+      {schools.map((s) => (
+        <li key={s.id}>
+          <Link href={`/docente/institucion/${s.id}`} className="flex h-full flex-col gap-1 rounded-[22px] bg-violeta p-5 text-white transition hover:bg-violeta/90">
+            <span className="text-sm text-white/80">Coordinación · {s.name}</span>
+            <span className="font-heading text-2xl leading-tight font-bold">Revise y apruebe el programa de su colegio</span>
+          </Link>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 export default async function TeacherHomePage() {
   const supabase = await createClient();
   const { data: auth } = await supabase.auth.getUser();
   if (!auth.user || auth.user.is_anonymous) return <Landing />;
 
-  const { data: memberships } = await supabase
-    .from("institution_members")
-    .select("role, institutions(id, name)")
-    .eq("profile_id", auth.user.id);
-  const institutions = (memberships ?? []).flatMap((m) => {
-    const i = m.institutions as unknown as { id: string; name: string } | null;
-    return i ? [{ ...i, admin: m.role === "admin" }] : [];
-  });
+  let institutions = await myInstitutions(supabase, auth.user.id);
+  if (institutions.length === 0) {
+    // Someone invited who already had a session never goes through /auth/confirm: link them here.
+    const { data: claimed, error } = await supabase.rpc("claim_my_invites");
+    if (error) console.error("claim_my_invites failed", error.message);
+    else if (claimed) institutions = await myInstitutions(supabase, auth.user.id);
+  }
 
   // A teacher without a school has nothing to do here: the school invites them (spec «Invitaciones y acceso docente»).
   if (institutions.length === 0) {
@@ -87,7 +117,7 @@ export default async function TeacherHomePage() {
     );
   }
 
-  const [{ data: sections }, { data: groups }, { data: subjects }, { data: offerings }] = await Promise.all([
+  const [{ data: sections }, { data: groups }, { data: subjects }, { data: programs }] = await Promise.all([
     supabase
       .from("sections")
       .select("id, name, grade_id, join_code, active, current_term, subject_id, subjects(name), groups(name, join_code), section_members(count)")
@@ -97,13 +127,21 @@ export default async function TeacherHomePage() {
     supabase.from("groups").select("id, name, grade_id, institution_id, guide_id, created_by, sections(teacher_id)").order("name"),
     supabase.from("subjects").select("id, name").order("sort"),
     // Readable by the school's members (RLS); only approved subjects can have sections.
-    supabase.from("institution_offerings").select("institution_id, grade_id, subject_id").eq("status", "aprobado"),
+    supabase.from("institution_offerings").select("institution_id, grade_id, subject_id, status").in("status", ["aprobado", "pendiente"]),
   ]);
-  if (!offerings?.length) {
+  const offerings = (programs ?? []).filter((o) => o.status === "aprobado");
+  // Coordinators whose school still has subjects to approve, or none approved yet, are sent to approve them.
+  const toReview = institutions.filter(
+    (i) => i.admin && ((programs ?? []).some((o) => o.institution_id === i.id && o.status === "pendiente") || !offerings.some((o) => o.institution_id === i.id)),
+  );
+  if (!offerings.length && !sections?.length && !groups?.length) {
     return (
       <div className="space-y-4">
         <h1 className="font-heading text-4xl font-bold">Panel docente</h1>
-        <p className="rounded-[22px] border border-dashed p-5 text-muted-foreground">Su colegio está terminando de preparar Eduka.</p>
+        <ReviewProgram schools={toReview} />
+        {institutions.some((i) => !i.admin) && (
+          <p className="rounded-[22px] border border-dashed p-5 text-muted-foreground">Su colegio está terminando de preparar Eduka.</p>
+        )}
         <Link href="/docente/demo" className="text-sm font-medium underline underline-offset-2">Ver la demostración</Link>
       </div>
     );
@@ -141,6 +179,7 @@ export default async function TeacherHomePage() {
 
   return (
     <div className="space-y-8">
+      <ReviewProgram schools={toReview} />
       <section className="space-y-4">
         <div className="flex flex-wrap items-baseline justify-between gap-2">
           <h1 className="font-heading text-4xl font-bold">Mis secciones</h1>
@@ -148,7 +187,9 @@ export default async function TeacherHomePage() {
         </div>
         {!sections?.length ? (
           <p className="rounded-[22px] border border-dashed p-5 text-muted-foreground">
-            Todavía no tiene secciones. Cree la primera abajo: Eduka le da un código para que sus estudiantes se unan.
+            {offerings.length
+              ? "Todavía no tiene secciones. Cree la primera abajo: Eduka le da un código para que sus estudiantes se unan."
+              : "Todavía no tiene secciones."}
           </p>
         ) : (
           <Suspense fallback={simple}>
@@ -187,19 +228,26 @@ export default async function TeacherHomePage() {
           </ul>
         </section>
       )}
-      <section className="space-y-4 rounded-[22px] border bg-card p-5 sm:p-6">
-        <h2 className="font-heading text-2xl font-bold">Agregar mi materia a un grupo</h2>
-        <NewSectionForm
-          groups={schoolGroups.map((g) => ({
-            id: g.id,
-            name: `${g.name} (${g.grade_id}.º)`,
-            subjectIds: (offerings ?? [])
-              .filter((o) => o.institution_id === g.institution_id && o.grade_id === g.grade_id)
-              .map((o) => o.subject_id),
-          }))}
-          subjects={subjects ?? []}
-        />
-      </section>
+      {/* Withdrawn subjects keep their sections and progress (spec): only a new section needs an approved one. */}
+      {offerings.length > 0 ? (
+        <section className="space-y-4 rounded-[22px] border bg-card p-5 sm:p-6">
+          <h2 className="font-heading text-2xl font-bold">Agregar mi materia a un grupo</h2>
+          <NewSectionForm
+            groups={schoolGroups.map((g) => ({
+              id: g.id,
+              name: `${g.name} (${g.grade_id}.º)`,
+              subjectIds: offerings
+                .filter((o) => o.institution_id === g.institution_id && o.grade_id === g.grade_id)
+                .map((o) => o.subject_id),
+            }))}
+            subjects={subjects ?? []}
+          />
+        </section>
+      ) : (
+        institutions.some((i) => !i.admin) && (
+          <p className="rounded-[22px] border border-dashed p-5 text-muted-foreground">Su colegio está terminando de preparar Eduka.</p>
+        )
+      )}
     </div>
   );
 }
