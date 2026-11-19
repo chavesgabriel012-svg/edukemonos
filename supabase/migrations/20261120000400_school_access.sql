@@ -5,7 +5,7 @@
 -- sin colegio que ya existan se quedan, pero sus códigos dejan de aceptar estudiantes.
 
 -- ---------------------------------------------------------------------------
--- Secciones: grupo del colegio, docente del colegio, oferta aprobada (al insertar)
+-- Secciones: grupo del colegio, docente del colegio, oferta aprobada (al insertar y al cambiar grupo, materia o colegio)
 -- ---------------------------------------------------------------------------
 create or replace function private.sections_group_check()
 returns trigger
@@ -15,7 +15,8 @@ declare
   g public.groups;
 begin
   if new.group_id is null then
-    if tg_op = 'INSERT' then
+    -- A legacy school-less section stays as it is, but cannot be attached to a school by an update.
+    if tg_op = 'INSERT' or (new.institution_id is not null and new.institution_id is distinct from old.institution_id) then
       raise exception 'sections need a school group' using errcode = '23514';
     end if;
     return new;
@@ -28,7 +29,11 @@ begin
      and (select auth.uid()) is not null and not private.can_teach_in_group(new.group_id) then
     raise exception 'you cannot add sections to this group' using errcode = '42501';
   end if;
-  if tg_op = 'INSERT' then
+  -- On update the rules run only when the group, subject or school actually change, so renames,
+  -- teacher reassignments and edits to sections of retired subjects keep working.
+  if tg_op = 'INSERT' or new.group_id is distinct from old.group_id
+     or new.subject_id is distinct from old.subject_id
+     or new.institution_id is distinct from old.institution_id then
     if g.institution_id is null then
       raise exception 'groups belong to a school' using errcode = '23514';
     end if;
@@ -51,6 +56,12 @@ begin
   return new;
 end;
 $$;
+
+-- El disparador también debe verse cuando cambia institution_id.
+drop trigger sections_group_check on public.sections;
+create trigger sections_group_check
+  before insert or update of group_id, grade_id, subject_id, institution_id on public.sections
+  for each row execute function private.sections_group_check();
 
 -- ---------------------------------------------------------------------------
 -- Grupos: solo dentro de un colegio, y solo la coordinación o el equipo Eduka
@@ -152,3 +163,9 @@ begin
   return jsonb_build_object('kind', 'section', 'id', sec.id, 'name', sec.name, 'grade_id', sec.grade_id, 'subjects', '[]'::jsonb);
 end;
 $$;
+
+-- ---------------------------------------------------------------------------
+-- join_section (RPC heredada) entraba a una sección sin mirar el colegio ni su estado: ya no se llama
+-- (la web usa join_with_code), así que se cierra para no dejar una puerta lateral.
+-- ---------------------------------------------------------------------------
+revoke execute on function public.join_section(text, text, boolean) from public, anon, authenticated;

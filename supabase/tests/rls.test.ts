@@ -108,17 +108,18 @@ describe("students only see their own data", () => {
 });
 
 describe("joining a section", () => {
-  const join = `select * from public.join_section($1, $2, $3)`;
+  // Section 7-1 lives in group A, so its code puts the student in the whole group (kind "group").
+  const join = `select public.join_with_code($1, $2, $3) as joined`;
 
   it("works with code, name and consent", async () => {
-    const rows = await as<{ section_id: string }>(db, loner, join, [fx.joinCode1, "Nuevo Sintético", true]);
-    expect(rows[0].section_id).toBe(ids.section1);
+    const rows = await as<{ joined: { kind: string; id: string } }>(db, loner, join, [fx.joinCode1, "Nuevo Sintético", true]);
+    expect(rows[0].joined).toMatchObject({ kind: "group", id: ids.groupA });
   });
 
   it("accepts the code with dashes and lowercase", async () => {
     const pretty = `${fx.joinCode1.slice(0, 3)}-${fx.joinCode1.slice(3)}`.toLowerCase();
-    const rows = await as<{ section_id: string }>(db, loner, join, [pretty, "Nuevo", true]);
-    expect(rows[0].section_id).toBe(ids.section1);
+    const rows = await as<{ joined: { id: string } }>(db, loner, join, [pretty, "Nuevo", true]);
+    expect(rows[0].joined.id).toBe(ids.groupA);
   });
 
   it("requires consent", async () => {
@@ -142,6 +143,10 @@ describe("joining a section", () => {
   it("is not available to anonymous visitors without a session or to staff", async () => {
     await expectDenied(db, anon, join, [fx.joinCode1, "Nuevo", true], /permission denied/);
     await expectDenied(db, t2, join, [fx.joinCode1, "Nuevo", true], /staff accounts/);
+  });
+
+  it("the legacy join_section is closed: it skipped the school's status", async () => {
+    await expectDenied(db, loner, `select * from public.join_section($1, 'Nuevo', true)`, [fx.joinCode1], /permission denied/);
   });
 });
 
@@ -739,6 +744,10 @@ describe("institutions and school calendars", () => {
       try { await q(save, [id, breaks, trimesters]); } catch (e) { teacherError = (e as Error).message; await q("rollback to savepoint s"); }
       await act(user(ids.teacher1));
       const [{ cal }] = await q(save, [id, breaks, trimesters]);
+      // Section 7-1 now belongs to this school: its group moves here and the school approves 7.º Math.
+      await act(null);
+      await q(`update public.groups set institution_id = $1 where id = $2`, [id, ids.groupA]);
+      await q(`insert into public.institution_offerings (institution_id, grade_id, subject_id, status) values ($1, 7, 'matematicas', 'aprobado')`, [id]);
       await q(`update public.sections set institution_id = $1 where id = $2`, [id, ids.section1]);
       await act(null);
       const periods = await q(`select label from public.school_calendar_periods where calendar_id = $1 order by sort_order`, [cal]);
@@ -776,7 +785,7 @@ describe("institutions and school calendars", () => {
       await act(user(ids.teacher1));
       try { await q(`update public.sections set institution_id = $1 where id = $2`, [id, ids.section1]); return ""; } catch (e) { return (e as Error).message; }
     });
-    expect(err).toMatch(/not a member/);
+    expect(err).toMatch(/not a member|the teacher must belong to the school/);
   });
 
   it("calendars are public school dates; nobody writes them through the API", async () => {
@@ -2526,14 +2535,39 @@ describe("school access", () => {
       const noSubject = await failure(q, ...newSection(null, g, ids.teacher1));
       const [ok] = await q(`insert into public.sections (teacher_id, name, grade_id, group_id, subject_id, join_code) values ($1, '7-9 Mate', 7, $2, 'matematicas', '') returning institution_id, grade_id`, [ids.teacher1, g]);
       await act(user(ids.teacher2));
-      const otherSchool = await failure(q, ...newSection("matematicas", g, ids.teacher2));
+      const otherSchool = await failure(q, ...newSection("ciencias", g, ids.teacher2));
       return { loose, notApproved, noSubject, ok, otherSchool };
     });
     expect(out.loose?.message).toMatch(/sections need a school group/);
     expect(out.notApproved?.message).toMatch(/subject not approved for this school/);
     expect(out.noSubject?.message).toMatch(/subject not approved for this school/);
     expect(out.ok).toEqual({ institution_id: ids.schoolA, grade_id: 7 });
-    expect(out.otherSchool).not.toBeNull();
+    expect(out.otherSchool?.message).toMatch(/cannot add sections to this group/);
+  });
+
+  it("changing a section's subject or group is checked again; other edits are not", async () => {
+    const out = await scenario(async (q, act) => {
+      await setup(q);
+      await q(`insert into public.groups (id, name, grade_id, institution_id, created_by, join_code) values (gen_random_uuid(), '8-A', 8, $1, $2, 'FIXGRP8A')`, [ids.schoolA, ids.coordA]);
+      await act(t1);
+      const subject = await failure(q, `update public.sections set subject_id = 'ciencias' where id = $1`, [ids.section1]);
+      const [{ g8 }] = await q(`select id as g8 from public.groups where join_code = 'FIXGRP8A'`);
+      const regrade = await failure(q, `update public.sections set group_id = $2 where id = $1`, [ids.section1, g8]);
+      const [moved] = await q(`update public.sections set institution_id = $2 where id = $1 returning institution_id`, [ids.section1, ids.schoolB]);
+      await act(null);
+      await q(`update public.institution_offerings set status = 'retirado' where institution_id = $1 and subject_id = 'matematicas'`, [ids.schoolA]);
+      await act(t1);
+      const rename = await q(`update public.sections set name = 'renombrada' where id = $1 returning name`, [ids.section1]);
+      await act(null);
+      await q(`update public.sections set institution_id = null, group_id = null where id = $1`, [ids.section2]);
+      const attach = await failure(q, `update public.sections set institution_id = $2 where id = $1`, [ids.section2, ids.schoolA]);
+      return { subject, regrade, moved, rename, attach };
+    });
+    expect(out.subject?.message).toMatch(/subject not approved for this school/);
+    expect(out.regrade?.message).toMatch(/subject not approved for this school/);
+    expect(out.moved).toEqual({ institution_id: ids.schoolA });   // the school is always the group's
+    expect(out.rename).toEqual([{ name: "renombrada" }]);
+    expect(out.attach?.message).toMatch(/sections need a school group/);
   });
 
   it("a teacher who is not a member of the group's school cannot be given a section there", async () => {
