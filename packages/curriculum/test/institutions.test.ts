@@ -53,6 +53,13 @@ describe("parseInviteList", () => {
       duplicates: [],
     });
   });
+  it("understands realistic spreadsheet headers", () => {
+    for (const h of ["Correo electrónico", "Correo institucional", "Email del docente", "E-mail address"]) {
+      const r = parseInviteList(`${h}\tNombre\tRol\na@c.cr\tAna\tdocente`);
+      expect(r.errors).toEqual([]);
+      expect(r.people).toHaveLength(1);
+    }
+  });
   it("reports errors with original line numbers and duplicates once", () => {
     const text = "no-es-correo, X\nana@c.cr, Ana\nANA@c.cr; Ana B; docente\nbeto@c.cr, Beto, rector";
     const r = parseInviteList(text);

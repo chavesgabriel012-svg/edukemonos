@@ -47,6 +47,7 @@ export interface InvitePerson {
 }
 
 const EMAIL = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+const HEADER = /^(correo|e-?mail)\b/;
 const TEACHER_WORDS = ["docente", "profesor", "profesora", "teacher"];
 const ADMIN_WORDS = ["coordinacion", "coordinador", "coordinadora", "admin"];
 
@@ -57,7 +58,7 @@ function fold(s: string): string {
 /**
  * Parses a pasted list: one person per line as "email, name[, role]". Columns are separated by a
  * tab, `;` or `,` (first one found in the line, in that order). Blank lines and a header line
- * (first column "correo" or "email") are ignored. Role defaults to teacher. Invalid lines go to
+ * (first column starting with the word "correo" or "email", e.g. "Correo electrónico") are ignored. Role defaults to teacher. Invalid lines go to
  * `errors` with their 1-based line number; a repeated email goes once into `duplicates` and only
  * its first row is kept.
  */
@@ -78,7 +79,7 @@ export function parseInviteList(text: string): {
     const cols = raw.split(sep).map((c) => c.trim());
     const isFirst = first;
     first = false;
-    if (isFirst && ["correo", "email", "e-mail"].includes(fold(cols[0]))) return;
+    if (isFirst && HEADER.test(fold(cols[0]))) return;
 
     const fail = (reason: "email" | "name" | "role") => errors.push({ line: i + 1, text: raw, reason });
     const email = cols[0].toLowerCase();
